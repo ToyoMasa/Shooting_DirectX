@@ -1,0 +1,14 @@
+#ifndef _ENEMY_ANIM_H_
+#define _ENEMY_ANIM_H_
+
+typedef enum
+{
+	ENEMY_DEATH,
+	ENEMY_ATTACK,
+	ENEMY_WALKING,
+	ENEMY_RUNNING,
+	ENEMY_IDLE,
+	ENEMY_ANIM_MAX
+}ENEMY_ANIM_LIST;
+
+#endif // !_ENEMY_ANIM_H_

@@ -1,0 +1,5 @@
+﻿  game.cpp
+d:\old ファイル\school\school\3年\gm31\shooting\trunk\directx_frame\billboard.h(18): warning C4091: 'typedef ': 変数が何も宣言されていないときは、'DRAW_TYPE' の左辺を無視します。
+d:\old ファイル\school\school\3年\gm31\shooting\trunk\directx_frame\game.cpp(80): warning C4101: 'hr': ローカル変数は 1 度も使われていません。
+  FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\Shooting\trunk\DirectX_Frame\Debug\FrameWork.exe
+  FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\Shooting\trunk\DirectX_Frame\Debug\FrameWork.pdb (Full PDB)
