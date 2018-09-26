@@ -117,8 +117,8 @@ void CModeGame::Init()
 	// ‹È‚ð•ÏX
 	BGM->Release();
 
-	g_test = CSceneModel::Create("data/models/gun03.x");
-	g_test->Move(D3DXVECTOR3(0.0f, 1.3f, 0.0f));
+	g_test = CSceneModel::Create("data/models/rifle.x");
+	g_test->Move(D3DXVECTOR3(0.0f, 1.35f, 0.0f));
 }
 
 void CModeGame::Uninit()
