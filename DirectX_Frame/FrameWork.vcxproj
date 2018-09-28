@@ -218,6 +218,7 @@
     <ClInclude Include="wait.h" />
     <ClInclude Include="waitTime.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="action.cpp" />
@@ -272,6 +273,7 @@
     <ClCompile Include="wait.cpp" />
     <ClCompile Include="waitTime.cpp" />
     <ClCompile Include="wall.cpp" />
+    <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.fx">

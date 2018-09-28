@@ -36,6 +36,8 @@ void CBillBoard::Init()
 
 	HRESULT hr;
 
+	CTexture::Load(TEX_ID_CIRCLE);
+
 	// 頂点バッファ							↓大きい分には問題ない
 	hr = pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &m_VertexBuffer, NULL);
 	
@@ -85,7 +87,7 @@ void CBillBoard::Init()
 
 void CBillBoard::Uninit()
 {
-	CTexture::Release(TEX_ID_TREE);
+	CTexture::Release(TEX_ID_CIRCLE);
 	CBillBoard::ReleaseAll();
 
 	//頂点バッファの解放

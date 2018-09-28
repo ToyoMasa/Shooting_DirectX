@@ -119,7 +119,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		{
 			//60fpsでループするようにする。
 			dwCurrentTime = timeGetTime();
-			if ((dwCurrentTime - dwExecLastTime) * 60 >= 1000)
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
 			{
 				//ゲーム処理
 				CManager::Update();
@@ -158,6 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				DestroyWindow(hWnd);
 			}
+
 			break;
 
 		default:

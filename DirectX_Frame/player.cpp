@@ -21,6 +21,7 @@
 #include "game.h"
 #include "PlayerAnim.h"
 #include "wall.h"
+#include "bullet.h"
 
 static const float VALUE_ROTATE_MOUSE = 0.003f;
 
@@ -184,7 +185,7 @@ void CPlayer::Update()
 		// 当たり判定の移動
 		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.25f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.25f);
 
-		// 攻撃
+		// ADS
 		if (inputMouse->GetRightPress())
 		{
 			m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
@@ -197,13 +198,10 @@ void CPlayer::Update()
 		// 攻撃
 		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			if (!m_isPreAttack)
-			{
-				Attack();
-			}
+			CBullet::Create(m_Camera->GetPos(), m_Camera->GetFront(), 1.0f, 100.0f, 50);
 		}
 
-
+		// エリア外に出るとゲームオーバー
 		D3DXVECTOR3 len = D3DXVECTOR3(0, 0, 0) - m_Pos;
 		if (D3DXVec3Length(&len) > 40 && !m_isGameOver)
 		{
@@ -222,17 +220,12 @@ void CPlayer::Update()
 		}
 
 		// カメラの更新
-		//m_Camera->SetAt(D3DXVECTOR3(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z));
 		m_Camera->Rotation(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 		m_Camera->Update();
 
 		// モデルの回転
 		Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 	}
-
-	ImGui::Begin("PlayerRight", 0);
-	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
-	ImGui::End();
 }
 
 void CPlayer::Draw()
@@ -320,60 +313,6 @@ void CPlayer::Rotate(D3DXVECTOR3 vec)
 	}
 
 	D3DXVECTOR3 right = m_Camera->GetRight();
-
-	//*********************************************************
-	//	上下回転
-	//*********************************************************
-//	v1 = m_Forward;
-//	v2 = vec;
-//	v1.x = 0;
-//	v2.x = 0;
-//
-//	D3DXVec3Normalize(&v1, &v1);
-//	D3DXVec3Normalize(&v2, &v2);
-//
-//	D3DXMatrixIdentity(&mtxRot);
-//	D3DXMatrixIdentity(&mtxIdentity);
-//
-//	// 今向いている方角と入力された方角の内積を取る
-//	fInner = D3DXVec3Dot(&v2, &v1);
-//
-//	if (fInner != 1)
-//	{
-//		float sita = fInner / (D3DXVec3Length(&v1) * D3DXVec3Length(&v2));
-//		float rad = acosf(fInner);
-//		float rot = D3DXToDegree(rad);
-//
-//		D3DXMatrixRotationAxis(&mtxRot, &right, D3DXToRadian(rot));
-///*
-//		D3DXVECTOR3 cross;
-//		D3DXVec3Cross(&cross, &v2, &v1);
-//
-//		if (cross.x < 0.0f)
-//		{
-//			if (!isnan(rot))
-//			{
-//				D3DXMatrixRotationAxis(&mtxRot, &m_Right, D3DXToRadian(rot));
-//			}
-//		}
-//		else
-//		{
-//			if (!isnan(rot))
-//			{
-//				D3DXMatrixRotationAxis(&mtxRot, &m_Right, D3DXToRadian(rot));
-//			}
-//		}*/
-//
-//		//mtxIdentity = m_Rotate;
-//		m_Rotate *= mtxRot;
-//		m_Model->Rotate(m_Rotate);
-//
-//		D3DXVec3TransformNormal(&m_Forward, &m_Forward, &mtxRot);	// ベクトルの座標変換(出力, 入力, 変換行列)
-//		D3DXVec3TransformNormal(&m_Right, &m_Right, &mtxRot);	// ベクトルの座標変換(出力, 入力, 変換行列)
-//		D3DXVec3Normalize(&m_Forward, &m_Forward);
-//
-//		D3DXVec3Normalize(&m_Right, &m_Right);
-//	}
 }
 
 void CPlayer::Rotate(float horizontal, float vertical)
@@ -434,9 +373,9 @@ void CPlayer::Rotate(float horizontal, float vertical)
 			D3DXVec3TransformNormal(&m_Right, &m_Right, &mtxRotation);	// ベクトルの座標変換(出力, 入力, 変換行列)
 			D3DXVec3Normalize(&m_Forward, &m_Forward);
 			D3DXVec3Normalize(&m_Right, &m_Right);
-		}
 
-		m_Rotate *= mtxRotation;
-		m_Model->Rotate(m_Rotate);
+			m_Rotate *= mtxRotation;
+			m_Model->Rotate(m_Rotate);
+		}
 	}
 }

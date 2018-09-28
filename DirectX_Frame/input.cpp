@@ -4,6 +4,7 @@
 //======================================================================
 
 #include "common.h"
+#include "main.h"
 #include "input.h"
 
 //*****************************************************************************
@@ -40,6 +41,22 @@ HRESULT CInput::Init(HINSTANCE hInst, HWND hWnd)
 			IID_IDirectInput8, (void**)&m_pDInput, NULL);
 	}
 
+	int WinWidth = SCREEN_WIDTH + 16;
+	int WinHeight = SCREEN_HEIGHT + 39;
+
+	int WinX = 1536 < WinWidth ? 0 : (1536 - WinWidth) / 2;
+	int WinY = 864 < WinHeight ? 0 : (864 - WinHeight) / 2;
+
+	// マウス移動範囲
+	RECT rc;
+	rc.left = WinX + 16;
+	rc.top = WinY + 39;
+	rc.right = WinX + (WinWidth) - 16;
+	rc.bottom = WinY + (WinHeight) - 39;
+
+	ClipCursor(&rc);
+	ShowCursor(false);
+
 	return hr;
 }
 
@@ -61,6 +78,10 @@ void CInput::Uninit(void)
 		m_pDInput->Release();
 		m_pDInput = NULL;
 	}
+
+	// マウス移動範囲の解除
+	ClipCursor(NULL);
+	ShowCursor(true);
 }
 
 //=============================================================================

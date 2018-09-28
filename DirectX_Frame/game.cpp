@@ -32,6 +32,7 @@
 #include "Effekseer.h"
 #include "wall.h"
 #include "shader.h"
+#include "bullet.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -93,6 +94,8 @@ void CModeGame::Init()
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
+	enemy[0] = CEnemy::Create(SM_ID_ENEMY01, D3DXVECTOR3(7.0f, 0.0f, 5.0f), 1, field);
+
 	// ‹ó
 	CSkyBox::Create(player);
 
@@ -123,6 +126,8 @@ void CModeGame::Init()
 
 void CModeGame::Uninit()
 {
+	CBullet::ReleaseAll();
+
 	CCharacter::ReleaseAll();
 
 	CScene::ReleaseAll();
@@ -190,6 +195,7 @@ void CModeGame::Update()
 		{
 			CCharacter::UpdateAll();
 			CScene::UpdateAll();
+			CBullet::UpdateAll();
 			CParticle::UpdateAll();
 			CBillBoard::UpdateAll();
 
