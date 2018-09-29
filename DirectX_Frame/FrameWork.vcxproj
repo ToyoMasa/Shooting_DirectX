@@ -170,6 +170,7 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="controller.h" />
+    <ClInclude Include="debug.h" />
     <ClInclude Include="Effekseer.h" />
     <ClInclude Include="emitter.h" />
     <ClInclude Include="enemy.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="PlayerAnim.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="rifle.h" />
     <ClInclude Include="root.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene2D.h" />
@@ -231,6 +233,7 @@
     <ClCompile Include="class.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="debug.cpp" />
     <ClCompile Include="Effekseer.cpp" />
     <ClCompile Include="emitter.cpp" />
     <ClCompile Include="enemy.cpp" />
@@ -254,6 +257,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="rifle.cpp" />
     <ClCompile Include="root.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene2D.cpp" />

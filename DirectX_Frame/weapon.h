@@ -8,24 +8,21 @@
 class CWeapon
 {
 public:
-	CWeapon()
-	{
-
-	}
-	~CWeapon()
-	{
-
-	}
+	CWeapon() {}
+	~CWeapon() {}
 
 	virtual void Init() {}
+	virtual void Update() = 0;
 	virtual void Shoot() = 0;
 
 private:
 	CSceneModel *m_Model;
-	D3DXVECTOR3 m_LocalPos;
-	D3DXVECTOR3 m_LocalRot;
+	D3DXVECTOR3 m_Pos;
+	D3DXVECTOR3 m_MuzzlePos;
+	D3DXVECTOR3 m_Rot;
 	float		m_Damage;
-	float		m_Rate;
+	int 		m_Rate;
+	int			m_CoolDown;
 };
 
 #endif // !_WEAPON_H_

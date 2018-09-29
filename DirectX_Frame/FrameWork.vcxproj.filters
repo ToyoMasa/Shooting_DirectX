@@ -40,6 +40,12 @@
     <Filter Include="ヘッダー ファイル\SkinMesh\AnimationList">
       <UniqueIdentifier>{1b9a0e70-ba1c-452d-8e33-382f2e18f8fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\weapon">
+      <UniqueIdentifier>{678603b7-c9ec-4929-83f9-99cdc060f2d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\weapon">
+      <UniqueIdentifier>{24a3fa03-d452-4e28-952a-9fc50510e7d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -100,9 +106,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="controller.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="field.h">
@@ -220,6 +223,15 @@
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="weapon.h">
+      <Filter>ヘッダー ファイル\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="rifle.h">
+      <Filter>ヘッダー ファイル\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>ヘッダー ファイル\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -270,9 +282,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="controller.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="field.cpp">
@@ -380,7 +389,16 @@
     <ClCompile Include="sceneShadow.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>ソース ファイル\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="rifle.cpp">
+      <Filter>ソース ファイル\weapon</Filter>
+    </ClCompile>
     <ClCompile Include="weapon.cpp">
+      <Filter>ソース ファイル\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

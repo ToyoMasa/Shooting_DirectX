@@ -20,7 +20,7 @@ public:
 	//======================================================================
 	//	コンストラクタ
 	//======================================================================
-	CScene2D::CScene2D(int prioriy) :CScene(prioriy)
+	CScene2D::CScene2D(int priority) :CScene(priority)
 	{
 		m_Pos = D3DXVECTOR3(0.0f,0.0f, 0.0f);
 		m_TexCoordX1 = 0.0f;
