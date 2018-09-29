@@ -36,6 +36,9 @@ public:
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
 
+	// ボーンのマトリックス取得（ボーンの名前）
+	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
+
 	// アニメーション関連
 	SkinMeshFile* GetSkinMeshFile() { return m_SkinMeshFile; }
 	void ChangeAnim(UINT animID, float shiftTime);

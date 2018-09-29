@@ -42,6 +42,7 @@ public:
 	void Death();
 	void Rotate(D3DXVECTOR3 vec);
 	void Rotate(float horizontal, float vertical);
+	D3DXMATRIX GetMatrix();
 
 private:
 	D3DXMATRIX m_LocalLocation;

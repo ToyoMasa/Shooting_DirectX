@@ -1,4 +1,3 @@
-#include <map>
 #include "common.h"
 #include "main.h"
 #include "SkinMeshFile.h"
@@ -60,6 +59,45 @@ bool SkinMeshFile::Load(std::string file_name)
 	m_AnimController->GetTrackDesc(0, &m_CurrentTrackDesc);
 
 	m_bPlayMontage = false;
+
+
+	// 全てのフレーム参照変数の生成
+	m_FrameArray.clear();
+	m_IntoMeshFrameArray.clear();
+	CreateFrameArray(m_RootFrame);
+
+	// フレーム配列にオフセット情報作成
+	for (DWORD i = 0; i < m_IntoMeshFrameArray.size(); i++)
+	{
+		MeshContainer* pMyMeshContainer = (MeshContainer*)m_IntoMeshFrameArray[i]->pMeshContainer;
+
+		while (pMyMeshContainer)
+		{
+			// スキン情報
+			if (pMyMeshContainer->pSkinInfo)
+			{
+				DWORD cBones = pMyMeshContainer->pSkinInfo->GetNumBones();
+				for (DWORD iBone = 0; iBone < cBones; iBone++)
+				{
+					// フレーム内から同じ名前のフレームを検索
+					for (DWORD Idx = 0; Idx < m_FrameArray.size(); Idx++)
+					{
+						if (strcmp(pMyMeshContainer->pSkinInfo->GetBoneName(iBone), m_FrameArray[Idx]->Name) == 0)
+						{
+							pMyMeshContainer->m_BoneFrameArray.push_back(m_FrameArray[Idx]);
+
+							// オフセット行列
+							m_FrameArray[Idx]->m_OffsetMat = *(pMyMeshContainer->pSkinInfo->GetBoneOffsetMatrix(iBone));
+							m_FrameArray[Idx]->m_OffsetID = Idx;
+							break;
+						}
+					}
+				}
+			}
+			// 次へ
+			pMyMeshContainer = (MeshContainer*)pMyMeshContainer->pNextMeshContainer;
+		}
+	}
 
 	return true;
 }
@@ -126,7 +164,7 @@ HRESULT SkinMeshFile::AllocateAllBoneMatrix(LPD3DXFRAME frame)
 void SkinMeshFile::Draw(LPD3DXMATRIX matrix)
 {
 	// フレームの行列を更新
-	UpdateFrame(m_RootFrame, matrix);
+	//UpdateFrame(m_RootFrame, matrix);
 	// フレーム描画
 	DrawFrame(m_RootFrame);
 }
@@ -353,5 +391,82 @@ void SkinMeshFile::PlayMontage(UINT animID, float shiftTime, float playTime, UIN
 			m_MontageTime = playTime;
 			m_NextAnim = nextAnimID;
 		}
+	}
+}
+
+// 全てのフレームポインタ格納処理関数
+void SkinMeshFile::CreateFrameArray(LPD3DXFRAME _pFrame)
+{
+	if (_pFrame == NULL)
+	{
+		return;
+	}
+
+	// フレームアドレス格納
+	FrameData* pMyFrame = (FrameData*)_pFrame;
+
+	// メッシュコンテナがある場合はintoMeshFrameArrayにアドレスを格納
+	if (pMyFrame->pMeshContainer != NULL)
+	{
+		m_IntoMeshFrameArray.push_back(pMyFrame);
+	}
+
+	// 子フレーム検索
+	if (pMyFrame->pFrameFirstChild != NULL)
+	{
+		CreateFrameArray(pMyFrame->pFrameFirstChild);
+	}
+
+	// 兄弟フレーム検索
+	if (pMyFrame->pFrameSibling != NULL)
+	{
+		CreateFrameArray(pMyFrame->pFrameSibling);
+	}
+}
+
+FrameData* SkinMeshFile::SearchBoneFrame(LPSTR _BoneName, D3DXFRAME* _pFrame)
+{
+	FrameData* pFrame = (FrameData*)_pFrame;
+
+	if (strcmp(pFrame->Name, _BoneName) == 0)
+	{
+		return pFrame;
+	}
+
+	if (pFrame->pFrameFirstChild != NULL)
+	{
+		pFrame = SearchBoneFrame(_BoneName, _pFrame->pFrameFirstChild);
+		if (pFrame != NULL)
+		{
+			return pFrame;
+		}
+	}
+
+	if (pFrame->pFrameSibling != NULL)
+	{
+		pFrame = SearchBoneFrame(_BoneName, _pFrame->pFrameSibling);
+		if (pFrame != NULL)
+		{
+			return pFrame;
+		}
+	}
+}
+
+// ボーンのマトリックス取得（ボーンの名前）
+D3DXMATRIX SkinMeshFile::GetBoneMatrix(LPSTR _BoneName)
+{
+	FrameData* pFrame = SearchBoneFrame(_BoneName, m_RootFrame);
+
+	// ボーンが見つかれば
+	if (pFrame != NULL)
+	{
+		return pFrame->m_CombinedTransformationMatrix;
+	}
+	// ボーンが見つからなければ
+	else
+	{
+		D3DXMATRIX TmpMatrix;
+		D3DXMatrixIdentity(&TmpMatrix);
+		return TmpMatrix;
 	}
 }

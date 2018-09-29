@@ -44,7 +44,6 @@ public:
 
 private:
 	D3DXVECTOR3 m_Pos, m_At, m_Rot;			// カメラ座標, 注視点座標, 回転座標
-	D3DXVECTOR3 m_OldPos;					// 1フレーム前のカメラ座標
 	D3DXVECTOR3 m_Front, m_Right, m_Up;		// 単位ベクトル
 	D3DXMATRIX m_Projection;				// プロジェクション変換行列
 	D3DXMATRIX m_View;						// ビュー変換行列

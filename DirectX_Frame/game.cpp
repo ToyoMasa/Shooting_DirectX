@@ -69,10 +69,10 @@ void CModeGame::Init()
 {
 	// テクスチャの初期化
 	CTexture::Init();
-
+/*
 	BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
 	BGM->Play();
-
+*/
 	Black = CScene2D::Create(TEX_ID_BLACK, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Black->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
 	Black->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
@@ -118,7 +118,7 @@ void CModeGame::Init()
 	GameEnd_SE = NULL;
 
 	// 曲を変更
-	BGM->Release();
+	//BGM->Release();
 
 	g_test = CSceneModel::Create("data/models/rifle.x");
 	g_test->Move(D3DXVECTOR3(0.0f, 1.35f, 0.0f));
@@ -165,8 +165,8 @@ void CModeGame::Update()
 	{
 		if (!m_PlayBGM)
 		{
-			BGM = CSound::Create(SOUND_LABEL_BGM_GAME);
-			BGM->Play();
+			//BGM = CSound::Create(SOUND_LABEL_BGM_GAME);
+			//BGM->Play();
 			m_PlayBGM = true;
 		}
 	}
@@ -248,16 +248,27 @@ void CModeGame::Update()
 			{
 				CallPause();
 			}
+/*
+			D3DXVECTOR3 m;
+			m.x = player->GetMatrix()._41;
+			m.y = player->GetMatrix()._42;
+			m.z = player->GetMatrix()._43;
+
+			g_test->Move(m);
+
+			ImGui::Begin("Weapon", 0);
+			ImGui::Text("X = %.2f Y = %.2f Z = %.2f", g_test->GetPos().x, g_test->GetPos().y, g_test->GetPos().z);
+			ImGui::End();*/
 		}
 	}
 }
 
 void CModeGame::Draw()
 {
+	player->GetMatrix();
+
 	CScene::DrawAll();
 	CBillBoard::DrawAll(player->GetCamera());
-
-	D3DXVECTOR3 pos = player->GetPos();
 
 	CImGui::EndDraw();
 }

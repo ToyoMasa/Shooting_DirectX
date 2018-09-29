@@ -1,6 +1,5 @@
 #include "common.h"
 #include "main.h"
-#include <map>
 #include "SkinMeshData.h"
 
 HRESULT SkinMeshData::CreateFrame(THIS_ LPCSTR name, LPD3DXFRAME *new_frame)
@@ -19,6 +18,26 @@ HRESULT SkinMeshData::CreateFrame(THIS_ LPCSTR name, LPD3DXFRAME *new_frame)
 	else {
 		frame->Name = NULL;
 	}
+
+	// 行列の初期化
+	D3DXMatrixIdentity(&frame->TransformationMatrix);
+	D3DXMatrixIdentity(&frame->m_CombinedTransformationMatrix);
+
+	// オフセット行列の初期化
+	frame->m_OffsetID = 0xFFFFFFFF;
+	D3DXMatrixIdentity(&frame->m_OffsetMat);
+
+	//新規フレームのメッシュコンテナ初期化
+	frame->pMeshContainer = NULL;
+
+	// 新規フレームの兄弟フレームアドレス格納用変数初期化
+	frame->pFrameSibling = NULL;
+
+	// 新規フレームの子フレームアドレス格納用変数初期化
+	frame->pFrameFirstChild = NULL;
+
+	// 外部の新規フレームアドレス格納用変数に、作成したフレームのアドレスを格納
+	*new_frame = frame;
 
 	return S_OK;
 }

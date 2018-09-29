@@ -25,6 +25,8 @@
 
 static const float VALUE_ROTATE_MOUSE = 0.003f;
 
+CSceneModel* test;
+
 void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
@@ -63,8 +65,11 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 	D3DXMatrixTranslation(&m_LocalLocation, m_LocalCameraPos.x, -m_LocalCameraPos.y, m_LocalCameraPos.z);
 	m_Rotate = m_LocalLocation;
 
-	// モデルとカメラの向きをそろえる
 	Rotate(m_Camera->GetFront());
+
+	test = CSceneModel::Create("data/models/rifle.x");
+	test->Move(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	test->Scale(D3DXVECTOR3(5.0f, 5.0f, 5.0f));
 }
 
 void CPlayer::Uninit()
@@ -178,7 +183,6 @@ void CPlayer::Update()
 			}
 		}
 
-		//m_Model->Move(m_Pos);
 		m_Model->Move(m_Pos + m_LocalCameraPos);
 		m_Shadow->Move(m_Pos);
 
@@ -219,13 +223,13 @@ void CPlayer::Update()
 			m_Caution->SetVisible(false);
 		}
 
-		// カメラの更新
+		// カメラの回転
 		m_Camera->Rotation(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-		m_Camera->Update();
 
 		// モデルの回転
 		Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 	}
+
 }
 
 void CPlayer::Draw()
@@ -378,4 +382,31 @@ void CPlayer::Rotate(float horizontal, float vertical)
 			m_Model->Rotate(m_Rotate);
 		}
 	}
+}
+
+D3DXMATRIX CPlayer::GetMatrix()
+{
+	D3DXMATRIX target = m_Model->GetBoneMatrix("root_hand_l");
+
+	D3DXMATRIX target2 = m_Model->GetBoneMatrix("root_hand_l");
+
+	ImGui::Begin("Matrix2", 0);
+	ImGui::Text("m11 = %.2f m12 = %.2f m13 = %.2f m14 = %.2f", target2._11, target2._12, target2._13, target2._14);
+	ImGui::Text("m21 = %.2f m22 = %.2f m23 = %.2f m24 = %.2f", target2._21, target2._22, target2._23, target2._24);
+	ImGui::Text("m31 = %.2f m32 = %.2f m33 = %.2f m34 = %.2f", target2._31, target2._32, target2._33, target2._34);
+	ImGui::Text("m41 = %.2f m42 = %.2f m43 = %.2f m44 = %.2f", target2._41, target2._42, target2._43, target2._44);
+	ImGui::End();
+
+	//test->Rotate(D3DXVECTOR3(target2._41, target2._42, target2._43));
+	test->Scale(D3DXVECTOR3(100.0f, 100.0f, 100.0f));
+	test->SetWorld(target2);
+	ImGui::Begin("Weapon", 0);
+	ImGui::Text("m11 = %.2f m12 = %.2f m13 = %.2f m14 = %.2f", test->GetWorld()._11, test->GetWorld()._12, test->GetWorld()._13, test->GetWorld()._14);
+	ImGui::Text("m21 = %.2f m22 = %.2f m23 = %.2f m24 = %.2f", test->GetWorld()._21, test->GetWorld()._22, test->GetWorld()._23, test->GetWorld()._24);
+	ImGui::Text("m31 = %.2f m32 = %.2f m33 = %.2f m34 = %.2f", test->GetWorld()._31, test->GetWorld()._32, test->GetWorld()._33, test->GetWorld()._34);
+	ImGui::Text("m41 = %.2f m42 = %.2f m43 = %.2f m44 = %.2f", test->GetWorld()._41, test->GetWorld()._42, test->GetWorld()._43, test->GetWorld()._44);
+	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", test->GetPos().x, test->GetPos().y, test->GetPos().z);
+	ImGui::End();
+
+	return target;
 }

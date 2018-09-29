@@ -40,7 +40,6 @@ void CCamera::Init()
 void CCamera::Init(D3DXVECTOR3 pos, D3DXVECTOR3 at)
 {
 	m_Pos = pos;
-	m_OldPos = m_Pos;
 	m_At = at;
 
 	m_Front = at - pos;
@@ -67,6 +66,16 @@ void CCamera::Update()
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 
 	//	--カメラの処理--
+	// 現在の座標を保存
+
+	ImGui::Begin("CameraFront", 0);
+	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
+	ImGui::End();
+
+	ImGui::Begin("CameraRight", 0);
+	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
+	ImGui::End();
+
 	// ビュー行列の作成
 	D3DXMatrixLookAtLH(&m_View, &m_Pos, &m_At, &m_Up);	//ビュー行列を作ってくれる便利関数
 
@@ -78,16 +87,6 @@ void CCamera::Update()
 	pDevice->SetTransform(D3DTS_VIEW, &m_View);
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_Projection);
 
-	// 現在の座標を保存
-	m_OldPos = m_Pos;
-
-	ImGui::Begin("CameraFront", 0);
-	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
-	ImGui::End();
-
-	ImGui::Begin("CameraRight", 0);
-	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
-	ImGui::End();
 }
 
 void CCamera::SetPos(D3DXVECTOR3 pos)

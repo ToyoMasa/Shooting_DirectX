@@ -27,6 +27,8 @@ void CSceneSkinMesh::Update()
 	if (m_SkinMeshFile != NULL)
 	{
 		m_SkinMeshFile->UpdateAnim(m_AnimPlaySpeed);
+
+		m_SkinMeshFile->UpdateFrame(m_SkinMeshFile->GetRootFrame(), &m_World);
 	}
 }
 
@@ -58,7 +60,7 @@ void CSceneSkinMesh::Move(D3DXVECTOR3 pos)
 {
 	D3DXMatrixTranslation(&m_Move, pos.x, pos.y, pos.z);
 
-	m_World = m_Rotate * m_Scale * m_Move;
+	m_World = m_Scale * m_Rotate * m_Move;
 }
 
 void CSceneSkinMesh::Rotate(D3DXVECTOR3 rot)
@@ -68,20 +70,20 @@ void CSceneSkinMesh::Rotate(D3DXVECTOR3 rot)
 	D3DXMatrixRotationZ(&m_RotZ, rot.z);
 
 	m_Rotate = m_RotX * m_RotY * m_RotZ;
-	m_World = m_Rotate * m_Scale * m_Move;
+	m_World = m_Scale * m_Rotate * m_Move;
 }
 
 void CSceneSkinMesh::Rotate(D3DXMATRIX rot)
 {
 	m_Rotate = rot;
-	m_World = m_Rotate * m_Scale * m_Move;
+	m_World = m_Scale * m_Rotate * m_Move;
 }
 
 void CSceneSkinMesh::Scale(D3DXVECTOR3 scale)
 {
 	D3DXMatrixScaling(&m_Scale, scale.x, scale.y, scale.z);
 
-	m_World = m_Rotate * m_Scale * m_Move;
+	m_World = m_Scale * m_Rotate * m_Move;
 }
 
 CSceneSkinMesh* CSceneSkinMesh::Create(const std::string& modelName)
@@ -112,4 +114,10 @@ void CSceneSkinMesh::PlayMontage(UINT animID, float shiftTime, float playTime, U
 {
 	m_SkinMeshFile->PlayMontage(animID, shiftTime, playTime, nextAnimID);
 	SetAnimPlaySpeed(playSpeed);
+}
+
+
+D3DXMATRIX CSceneSkinMesh::GetBoneMatrix(LPSTR _BoneName)
+{
+	return m_SkinMeshFile->GetBoneMatrix(_BoneName);
 }

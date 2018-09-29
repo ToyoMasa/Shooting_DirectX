@@ -152,6 +152,8 @@ void CSceneModel::Draw()
 		return;
 	}
 
+	m_Rotate = m_RotX * m_RotY * m_RotZ;
+	m_World = m_Scale * m_Rotate * m_Move * m_Target;
 	pDevice->SetTransform(D3DTS_WORLD, &m_World);
 
 	LPD3DXMATERIAL pMaterials = (LPD3DXMATERIAL)m_Material->GetBufferPointer();
@@ -193,14 +195,13 @@ void CSceneModel::Draw()
 
 void CSceneModel::SetWorld(D3DXMATRIX move)
 {
-	m_World = move;
+	m_Target = move;
 }
 
 void CSceneModel::Move(D3DXVECTOR3 pos)
 {
+	m_Pos = pos;
 	D3DXMatrixTranslation(&m_Move, pos.x, pos.y, pos.z);
-
-	m_World = m_Rotate * m_Scale * m_Move;
 }
 
 void CSceneModel::Rotate(D3DXVECTOR3 rot)
@@ -208,22 +209,16 @@ void CSceneModel::Rotate(D3DXVECTOR3 rot)
 	D3DXMatrixRotationX(&m_RotX, rot.x);
 	D3DXMatrixRotationY(&m_RotY, rot.y);
 	D3DXMatrixRotationZ(&m_RotZ, rot.z);
-
-	m_Rotate = m_RotX * m_RotY * m_RotZ;
-	m_World = m_Rotate * m_Scale * m_Move;
 }
 
 void CSceneModel::Rotate(D3DXMATRIX rot)
 {
 	m_Rotate = rot;
-	m_World = m_Rotate * m_Scale * m_Move;
 }
 
 void CSceneModel::Scale(D3DXVECTOR3 scale)
 {
 	D3DXMatrixScaling(&m_Scale, scale.x, scale.y, scale.z);
-
-	m_World = m_Rotate * m_Scale * m_Move;
 }
 
 CSceneModel* CSceneModel::Create(const std::string& modelName)

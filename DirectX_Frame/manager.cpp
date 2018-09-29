@@ -120,6 +120,7 @@ void CManager::Update()
 
 	m_Mode->Update();
 
+	m_UsingCamera->Update();
 }
 
 void CManager::Draw()

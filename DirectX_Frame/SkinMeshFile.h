@@ -4,7 +4,7 @@
 #include <string>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <map>
+#include <vector>
 
 #include "SkinMeshData.h"
 
@@ -184,6 +184,14 @@ public:
 	bool GetPlayMontage() { return m_bPlayMontage; }
 	// アニメーションの再生時間を取得
 	float GetWeightTime() { return m_CurrentWeightTime; }
+private:
+	// 対象のボーンを検索
+	FrameData* SearchBoneFrame(LPSTR _BoneName, D3DXFRAME* _pFrame);
+public:
+	// ボーンのマトリックス取得（ボーンの名前）
+	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
+
+	LPD3DXFRAME GetRootFrame() { return m_RootFrame; }
 
 private:
 	// 階層データ
@@ -212,8 +220,24 @@ private:
 	DWORD m_NextAnim;
 	bool m_bPlayMontage;
 	float m_MontageTime;
-};
 
-static std::map<std::string, SkinMeshFile*> MAP_SKINMESH_FILE;
+	// 全フレーム参照配列
+	std::vector<FrameData*> m_FrameArray;
+	// メッシュコンテナありのフレーム参照記録
+	std::vector<FrameData*> m_IntoMeshFrameArray;
+
+	// 進行方向
+	D3DXMATRIX m_World;
+	
+	// マテリアル変更フラグ
+	BOOL m_MaterialFlg;
+
+	// マテリアルデータ
+	D3DMATERIAL9 m_Material;
+
+	// 全てのフレームポインタ格納処理関数
+	void CreateFrameArray(LPD3DXFRAME _pFrame);
+
+};
 
 #endif

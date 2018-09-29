@@ -44,6 +44,7 @@ public:
 	//======================================================================
 	CSceneModel::CSceneModel(int priority) : CScene(priority)
 	{
+		D3DXMatrixIdentity(&m_Target);
 		D3DXMatrixIdentity(&m_World);
 		D3DXMatrixIdentity(&m_Move);
 		D3DXMatrixIdentity(&m_Rotate);
@@ -74,10 +75,12 @@ public:
 	void Rotate(D3DXVECTOR3 rot);
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
+	D3DXMATRIX GetWorld() { return m_World; }
 	static CSceneModel* Create(const std::string& modelName);
 	static CSceneModel* Create(const std::string& modelName, bool isIgnore);
 
 private:
+	D3DXMATRIX			m_Target;
 	D3DXMATRIX			m_World;		// ワールド変換行列
 	D3DXMATRIX			m_Move;			// 平行移動行列
 	D3DXMATRIX			m_Rotate;		// 回転行列

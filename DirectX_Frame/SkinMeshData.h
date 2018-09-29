@@ -4,12 +4,18 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <map>
+#include <vector>
 
 // 自作フレームデータ
 struct FrameData : public D3DXFRAME
 {
 	// 合成行列
 	D3DXMATRIXA16 m_CombinedTransformationMatrix;
+
+	// オフセット行列
+	D3DXMATRIX	  m_OffsetMat;
+	// 行列テーブルのインデックス番号(インデックス付用)
+	DWORD		  m_OffsetID;
 };
 
 // 自作メッシュコンテナ
@@ -32,6 +38,24 @@ struct MeshContainer : public D3DXMESHCONTAINER
 
 	// ボーンのオフセット行列
 	D3DXMATRIX *m_BoneOffsetMatrix;
+
+	// オリジナルメッシュ用
+	LPD3DXMESH m_pOriMesh;
+
+	// パレットサイズ
+	DWORD m_NumPaletteEntries;
+
+	// 全てのボーン行列を順番に格納する配列
+	std::vector<D3DXMATRIX> m_WorkBoneMatArray;
+
+	// 影響するフレームへの参照配列
+	std::vector<FrameData*> m_BoneFrameArray;
+
+	MeshContainer()
+	{
+		m_BoneMatrix = nullptr;
+		m_BoneOffsetMatrix = nullptr;
+	}
 };
 
 // 階層クラス(ID3DXAllocateHierarchyで使う仮想関数のみ定義)

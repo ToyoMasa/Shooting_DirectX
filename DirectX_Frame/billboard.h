@@ -11,7 +11,7 @@ class CCamera;
 
 static const int BILLBOARD_MAX = 10000;
 
-typedef enum DRAW_TYPE
+enum DRAW_TYPE
 {
 	NORMAL = 0,
 	FIXED_Y,
