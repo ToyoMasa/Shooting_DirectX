@@ -13,6 +13,7 @@
 static const float PLAYER_MOVE_SPEED = 0.08f;
 
 class CScene2D;
+class CWeapon;
 
 class CPlayer : public CCharacter
 {
@@ -42,22 +43,22 @@ public:
 	void Death();
 	void Rotate(D3DXVECTOR3 vec);
 	void Rotate(float horizontal, float vertical);
-	D3DXMATRIX GetMatrix();
 
 private:
-	D3DXMATRIX m_LocalLocation;
-	CCamera* m_Camera;
+	D3DXMATRIX	m_LocalLocation;
+	CCamera*	m_Camera;
 	D3DXVECTOR3 m_LocalCameraPos;
-	float m_CameraLength;
-	CScene2D* m_Text_Attack;
-	CScene2D* m_Caution;
-	Capsule m_AttackingCollsion;
-	CSound* m_Knife;
-	CSound* m_Hit;
-	bool m_isPreDeath;
-	bool m_isPreAttack;
-	bool m_isGameOver;
+	float		m_CameraLength;
+	CScene2D*	m_Text_Attack;
+	CScene2D*	m_Caution;
+	Capsule		m_AttackingCollsion;
+	CSound*		m_Knife;
+	CSound*		m_Hit;
+	bool		m_isPreDeath;
+	bool		m_isPreAttack;
+	bool		m_isGameOver;
 
+	CWeapon*	m_Weapon;
 	CEffekseer* m_BloodEffect;
 };
 

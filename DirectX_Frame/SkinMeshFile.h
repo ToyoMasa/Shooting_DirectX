@@ -226,15 +226,6 @@ private:
 	// メッシュコンテナありのフレーム参照記録
 	std::vector<FrameData*> m_IntoMeshFrameArray;
 
-	// 進行方向
-	D3DXMATRIX m_World;
-	
-	// マテリアル変更フラグ
-	BOOL m_MaterialFlg;
-
-	// マテリアルデータ
-	D3DMATERIAL9 m_Material;
-
 	// 全てのフレームポインタ格納処理関数
 	void CreateFrameArray(LPD3DXFRAME _pFrame);
 

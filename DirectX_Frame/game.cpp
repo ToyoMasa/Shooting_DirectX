@@ -33,6 +33,7 @@
 #include "wall.h"
 #include "shader.h"
 #include "bullet.h"
+#include "weapon.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -63,8 +64,6 @@ int CModeGame::m_NumSneak = 0;
 int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 
-CSceneModel *g_test;
-
 void CModeGame::Init()
 {
 	// テクスチャの初期化
@@ -94,7 +93,7 @@ void CModeGame::Init()
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
-	enemy[0] = CEnemy::Create(SM_ID_ENEMY01, D3DXVECTOR3(7.0f, 0.0f, 5.0f), 1, field);
+	//enemy[0] = CEnemy::Create(SM_ID_ENEMY01, D3DXVECTOR3(7.0f, 0.0f, 5.0f), 1, field);
 
 	// 空
 	CSkyBox::Create(player);
@@ -119,14 +118,13 @@ void CModeGame::Init()
 
 	// 曲を変更
 	//BGM->Release();
-
-	g_test = CSceneModel::Create("data/models/rifle.x");
-	g_test->Move(D3DXVECTOR3(0.0f, 1.35f, 0.0f));
 }
 
 void CModeGame::Uninit()
 {
 	CBullet::ReleaseAll();
+
+	CWeapon::ReleaseAll();
 
 	CCharacter::ReleaseAll();
 
@@ -198,6 +196,7 @@ void CModeGame::Update()
 			CBullet::UpdateAll();
 			CParticle::UpdateAll();
 			CBillBoard::UpdateAll();
+			CWeapon::UpdateAll();
 
 			if (m_TargetDied)
 			{
@@ -265,8 +264,6 @@ void CModeGame::Update()
 
 void CModeGame::Draw()
 {
-	player->GetMatrix();
-
 	CScene::DrawAll();
 	CBillBoard::DrawAll(player->GetCamera());
 

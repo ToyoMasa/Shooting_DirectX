@@ -39,17 +39,8 @@ struct MeshContainer : public D3DXMESHCONTAINER
 	// ボーンのオフセット行列
 	D3DXMATRIX *m_BoneOffsetMatrix;
 
-	// オリジナルメッシュ用
-	LPD3DXMESH m_pOriMesh;
-
 	// パレットサイズ
 	DWORD m_NumPaletteEntries;
-
-	// 全てのボーン行列を順番に格納する配列
-	std::vector<D3DXMATRIX> m_WorkBoneMatArray;
-
-	// 影響するフレームへの参照配列
-	std::vector<FrameData*> m_BoneFrameArray;
 
 	MeshContainer()
 	{

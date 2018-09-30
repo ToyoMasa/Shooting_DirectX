@@ -5,16 +5,17 @@
 #ifndef _RIFLE_H_
 #define _RIFLE_H_
 
-class CRifle : CWeapon
+class CRifle : public CWeapon
 {
 public:
-	CRifle() {}
+	CRifle() : CWeapon() {}
 	~CRifle() {}
 
-	void Init()override;
+	void Init(CSceneSkinMesh *parent);
+	void Uninit()override;
 	void Update()override;
 	void Shoot()override;
-	static CRifle* Create();
+	static CRifle* Create(CSceneSkinMesh *parent);
 
 private:
 

@@ -54,8 +54,10 @@ HRESULT SkinMeshData::CreateMeshContainer(
 {
 	// メッシュの取得
 	LPD3DXMESH mesh = mesh_data->pMesh;
+
 	// 自作メッシュコンテナの作成
 	MeshContainer *container = new MeshContainer;
+
 	// デバイス
 	LPDIRECT3DDEVICE9 device = NULL;
 	// ポリゴンの数
@@ -139,6 +141,7 @@ HRESULT SkinMeshData::CreateMeshContainer(
 		skin_info->AddRef();
 		// ボーンの数を取得
 		DWORD bone_num = container->m_BoneNum = skin_info->GetNumBones();
+
 		container->m_BoneOffsetMatrix = new D3DXMATRIX[bone_num];
 
 		for (DWORD i = 0; i < bone_num; i++)
@@ -163,6 +166,7 @@ HRESULT SkinMeshData::CreateMeshContainer(
 		{
 			return E_FAIL;
 		}
+
 	}
 
 	*new_mesh_container = container;

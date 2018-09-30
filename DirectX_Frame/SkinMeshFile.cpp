@@ -60,7 +60,6 @@ bool SkinMeshFile::Load(std::string file_name)
 
 	m_bPlayMontage = false;
 
-
 	// 全てのフレーム参照変数の生成
 	m_FrameArray.clear();
 	m_IntoMeshFrameArray.clear();
@@ -84,8 +83,6 @@ bool SkinMeshFile::Load(std::string file_name)
 					{
 						if (strcmp(pMyMeshContainer->pSkinInfo->GetBoneName(iBone), m_FrameArray[Idx]->Name) == 0)
 						{
-							pMyMeshContainer->m_BoneFrameArray.push_back(m_FrameArray[Idx]);
-
 							// オフセット行列
 							m_FrameArray[Idx]->m_OffsetMat = *(pMyMeshContainer->pSkinInfo->GetBoneOffsetMatrix(iBone));
 							m_FrameArray[Idx]->m_OffsetID = Idx;
@@ -98,7 +95,6 @@ bool SkinMeshFile::Load(std::string file_name)
 			pMyMeshContainer = (MeshContainer*)pMyMeshContainer->pNextMeshContainer;
 		}
 	}
-
 	return true;
 }
 
@@ -116,7 +112,7 @@ HRESULT SkinMeshFile::AllocateBoneMatrix(LPD3DXMESHCONTAINER container)
 	bone_num = original_container->pSkinInfo->GetNumBones();
 	// ボーンのマトリクス分の領域を確保してデータを保存する
     original_container->m_BoneMatrix = new D3DXMATRIX*[bone_num];
-    for (DWORD i = 0; i < bone_num; i++)
+	for (DWORD i = 0; i < bone_num; i++)
     {
 		pFrame = (FrameData*)D3DXFrameFind( m_RootFrame, container->pSkinInfo->GetBoneName(i) );
         if (pFrame == NULL)

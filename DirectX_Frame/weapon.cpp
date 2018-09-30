@@ -9,3 +9,42 @@
 #include "sceneSkinMesh.h"
 #include "player.h"
 #include "weapon.h"
+
+CWeapon *CWeapon::m_Weapons[WEAPON_MAX] = { NULL };
+
+void CWeapon::Release()
+{
+	for (int i = 0; i < WEAPON_MAX; i++)
+	{
+		if (m_Weapons[i] == this)
+		{
+			Uninit();
+			m_Weapons[i] = NULL;
+			delete this;
+			break;
+		}
+	}
+}
+
+void CWeapon::UpdateAll()
+{
+	for (int i = 0; i < WEAPON_MAX; i++)
+	{
+		if (m_Weapons[i] != NULL)
+		{
+			m_Weapons[i]->Update();
+		}
+	}
+}
+
+void CWeapon::ReleaseAll()
+{
+	for (int i = 0; i < WEAPON_MAX; i++)
+	{
+		if (m_Weapons[i] != NULL)
+		{
+			m_Weapons[i]->Release();
+			m_Weapons[i] = NULL;
+		}
+	}
+}
