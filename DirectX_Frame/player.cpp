@@ -27,6 +27,9 @@
 
 static const float VALUE_ROTATE_MOUSE = 0.003f;
 
+bool debug;
+bool debugMouse;
+
 void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
@@ -34,8 +37,8 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 	m_Pos = spawnPos;
 	D3DXVECTOR3 pos = m_Pos;
 	m_LocalCameraPos.x = 0.0f;
-	m_LocalCameraPos.y = 1.6f;
-	m_LocalCameraPos.z = 0.25f;
+	m_LocalCameraPos.y = 1.65f;
+	m_LocalCameraPos.z = 0.35f;
 	pos += m_LocalCameraPos;
 	D3DXVECTOR3 at = m_LocalCameraPos;
 	at.z += 1.0f;
@@ -68,6 +71,9 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 
 	// •Ší‚ð‘•”õ
 	m_Weapon = CRifle::Create(m_Model);
+
+	debug = false;
+	debugMouse = false;
 }
 
 void CPlayer::Uninit()
@@ -177,7 +183,11 @@ void CPlayer::Update()
 				newPos = HitWall(newPos);
 
 				m_Camera->Move(newPos - m_Pos);
-				SetPos(newPos);
+
+				if (!debug)
+				{
+					SetPos(newPos);
+				}
 			}
 		}
 
@@ -191,10 +201,12 @@ void CPlayer::Update()
 		if (inputMouse->GetRightPress())
 		{
 			m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
+			m_Camera->SetFov(70.0f);
 		}
 		else
 		{
 			m_Model->ChangeAnim(PLAYER_IDLE, 0.3f);
+			m_Camera->SetFov(90.0f);
 		}
 
 		// UŒ‚
@@ -222,10 +234,24 @@ void CPlayer::Update()
 		}
 
 		// ƒJƒƒ‰‚Ì‰ñ“]
-		m_Camera->Rotation(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-
+		if (!debugMouse)
+		{
+			m_Camera->Rotation(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
+		}
 		// ƒ‚ƒfƒ‹‚Ì‰ñ“]
-		Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
+		if (!debug)
+		{
+			Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
+		}
+
+		if (inputKeyboard->GetKeyTrigger(DIK_T))
+		{
+			debug = !debug;
+		}
+		if (inputKeyboard->GetKeyTrigger(DIK_M))
+		{
+			debugMouse = !debugMouse;
+		}
 	}
 }
 

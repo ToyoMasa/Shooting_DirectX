@@ -22,6 +22,7 @@ public:
 		}
 
 		m_Model = NULL;
+		m_Crosshair = NULL;
 		m_Parent = NULL;
 		m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -40,12 +41,14 @@ public:
 
 protected:
 	CSceneModel		*m_Model;
+	CScene2D		*m_Crosshair;
 	CSceneSkinMesh	*m_Parent;
 	D3DXVECTOR3		m_Pos;
 	D3DXVECTOR3		m_Rot;
 	D3DXVECTOR3		m_Scale;
 	D3DXVECTOR3		m_MuzzlePos;
 	D3DXMATRIX		m_ParentMatrix;
+	D3DXMATRIX		m_LocalMatrix;
 	float			m_Damage;
 	int 			m_Rate;
 	int				m_CoolDown;

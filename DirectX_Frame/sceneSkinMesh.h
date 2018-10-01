@@ -36,6 +36,8 @@ public:
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
 
+	D3DXMATRIX GetMtxRotate() { return m_Rotate; }
+
 	// ボーンのマトリックス取得（ボーンの名前）
 	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
 

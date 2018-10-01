@@ -21,7 +21,7 @@ typedef enum
 
 static const std::string SKINMESH_SOURCE[] =
 {
-	"data/models/fps_idle.x",
+	"data/models/player_hand.x",
 	"data/models/enemy_01.x",
 	"data/models/enemy_02.x",
 };

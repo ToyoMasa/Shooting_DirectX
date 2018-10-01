@@ -206,9 +206,9 @@ void CSceneModel::Move(D3DXVECTOR3 pos)
 
 void CSceneModel::Rotate(D3DXVECTOR3 rot)
 {
-	D3DXMatrixRotationX(&m_RotX, rot.x);
-	D3DXMatrixRotationY(&m_RotY, rot.y);
-	D3DXMatrixRotationZ(&m_RotZ, rot.z);
+	D3DXMatrixRotationX(&m_RotX, D3DXToRadian(rot.x));
+	D3DXMatrixRotationY(&m_RotY, D3DXToRadian(rot.y));
+	D3DXMatrixRotationZ(&m_RotZ, D3DXToRadian(rot.z));
 }
 
 void CSceneModel::Rotate(D3DXMATRIX rot)

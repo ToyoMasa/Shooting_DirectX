@@ -41,6 +41,7 @@ typedef enum
 	TEX_ID_PAUSE,					// pause
 	TEX_ID_TURORIAL_PAUSE,			// pauseのチュートリアル
 	TEX_ID_HOWTOUSE,				// 操作確認
+	TEX_ID_CROSSHAIR_CIRCLE,		// 操作確認
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -77,6 +78,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/pause.png",
 	"data/textures/tutorial_pause.png",
 	"data/textures/howtouse.png",
+	"data/textures/crosshair_circle.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

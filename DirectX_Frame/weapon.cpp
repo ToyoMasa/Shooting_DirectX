@@ -4,6 +4,7 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "scene2D.h"
 #include "collision.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
