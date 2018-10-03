@@ -1,4 +1,4 @@
 ﻿  rifle.cpp
-d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(63): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(97): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.exe
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.pdb (Full PDB)

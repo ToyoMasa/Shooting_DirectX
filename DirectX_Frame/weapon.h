@@ -28,6 +28,7 @@ public:
 		m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 		D3DXMatrixIdentity(&m_ParentMatrix);
+		D3DXMatrixIdentity(&m_MuzzleMatrix);
 	}
 	~CWeapon() {}
 
@@ -48,10 +49,10 @@ protected:
 	D3DXVECTOR3		m_Scale;
 	D3DXVECTOR3		m_MuzzlePos;
 	D3DXMATRIX		m_ParentMatrix;
-	D3DXMATRIX		m_LocalMatrix;
+	D3DXMATRIX		m_MuzzleMatrix;
 	float			m_Damage;
-	int 			m_Rate;
-	int				m_CoolDown;
+	float 			m_Rate;
+	float			m_CoolDown;
 
 	static CWeapon	*m_Weapons[WEAPON_MAX];
 };

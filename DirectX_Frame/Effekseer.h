@@ -1,7 +1,5 @@
-#pragma once
 #ifndef _EFFEKSEER_H
 #define _EFFEKSEER_H
-
 
 #include <Effekseer.h>
 #include <EffekseerRendererDX9.h>

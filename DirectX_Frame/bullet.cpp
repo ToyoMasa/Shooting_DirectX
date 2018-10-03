@@ -13,8 +13,11 @@
 #include "collision.h"
 #include "bullet.h"
 #include "particle.h"
+#include "debug.h"
 
 CBullet *CBullet::m_Bullets[BULLET_MAX] = { NULL };
+
+static const float BULLET_RADIUS = 0.05;
 
 void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, int damage)
 {
@@ -25,6 +28,7 @@ void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float ran
 	m_Speed = speed;
 	m_Range = range;
 	m_Damage = damage;
+	m_Debug = CDebugSphere::Create(m_Pos, BULLET_RADIUS);
 }
 
 void CBullet ::Uninit()
@@ -32,6 +36,11 @@ void CBullet ::Uninit()
 	if (m_Billboard != NULL)
 	{
 		m_Billboard->Release();
+	}
+
+	if (m_Debug != NULL)
+	{
+		m_Debug->Release();
 	}
 }
 
@@ -49,7 +58,7 @@ void CBullet::Update()
 	m_Pos += m_Forward * m_Speed;
 	m_Move += m_Speed;
 
-	CParticle::Create(TEX_ID_CIRCLE, 2, 0.2f, m_Pos);
+	//CParticle::Create(TEX_ID_CIRCLE, 2, 0.2f, m_Pos);
 
 	// “–‚½‚è”»’è
 	Capsule capsule;
@@ -60,23 +69,25 @@ void CBullet::Update()
 	now.x = m_Pos.x;
 	now.y = m_Pos.y;
 	now.z = m_Pos.z;
-	capsule.Set(old, now, 0.05f);
+	capsule.Set(old, now, BULLET_RADIUS);
 
-	for (int i = 0; i < CHARACTER_MAX; i++)
-	{
-		CCharacter* obj = CCharacter::GetCharacter(i);
-		if (obj != NULL)
-		{
-			if (obj->GetType() == CHARACTER_ENEMY)
-			{
-				CEnemy* enemy = (CEnemy*)obj;
-				if (isCollisionCapsule(capsule, enemy->GetCapsule()))
-				{
-					CParticle::Create(TEX_ID_CIRCLE, 30, 2.0f, m_Pos);
-				}
-			}
-		}
-	}
+	//for (int i = 0; i < CHARACTER_MAX; i++)
+	//{
+	//	CCharacter* obj = CCharacter::GetCharacter(i);
+	//	if (obj != NULL)
+	//	{
+	//		if (obj->GetType() == CHARACTER_ENEMY)
+	//		{
+	//			CEnemy* enemy = (CEnemy*)obj;
+	//			if (isCollisionCapsule(capsule, enemy->GetCapsule()))
+	//			{
+	//				CParticle::Create(TEX_ID_CIRCLE, 30, 2.0f, m_Pos);
+	//			}
+	//		}
+	//	}
+	//}
+
+	m_Debug->Set(m_Pos);
 }
 
 void CBullet::Release()

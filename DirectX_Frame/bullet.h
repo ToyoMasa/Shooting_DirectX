@@ -2,6 +2,7 @@
 #define _BULLET_H_
 
 #include "billboard.h"
+#include "debug.h"
 
 static const int BULLET_MAX = 1000;
 
@@ -40,15 +41,16 @@ public:
 	static void ReleaseAll();
 	static CBullet* Create(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, int damage);
 private:
-	D3DXVECTOR3 m_Pos;
-	D3DXVECTOR3 m_OldPos;
-	D3DXVECTOR3 m_Forward;
-	D3DXVECTOR3 m_Right;
-	CBillBoard* m_Billboard;
-	float m_Speed;
-	float m_Move;
-	float m_Range;
-	int m_Damage;
+	D3DXVECTOR3		m_Pos;
+	D3DXVECTOR3		m_OldPos;
+	D3DXVECTOR3		m_Forward;
+	D3DXVECTOR3		m_Right;
+	CBillBoard		*m_Billboard;
+	CDebugSphere	*m_Debug;
+	float			m_Speed;
+	float			m_Move;
+	float			m_Range;
+	int				m_Damage;
 
 	static CBullet *m_Bullets[BULLET_MAX];
 };

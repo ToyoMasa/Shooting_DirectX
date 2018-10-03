@@ -34,11 +34,12 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
 	m_Model->ChangeAnim(PLAYER_IDLE, 0.0f);
+	//m_Model->SetVisible(false);
 	m_Pos = spawnPos;
 	D3DXVECTOR3 pos = m_Pos;
 	m_LocalCameraPos.x = 0.0f;
-	m_LocalCameraPos.y = 1.65f;
-	m_LocalCameraPos.z = 0.35f;
+	m_LocalCameraPos.y = 1.715f;
+	m_LocalCameraPos.z = 0.375f;
 	pos += m_LocalCameraPos;
 	D3DXVECTOR3 at = m_LocalCameraPos;
 	at.z += 1.0f;
@@ -210,9 +211,9 @@ void CPlayer::Update()
 		}
 
 		// 攻撃
-		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
+		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			CBullet::Create(m_Camera->GetPos(), m_Camera->GetFront(), 1.0f, 100.0f, 50);
+			m_Weapon->Shoot();
 		}
 
 		// エリア外に出るとゲームオーバー

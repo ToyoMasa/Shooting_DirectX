@@ -10,6 +10,13 @@
 
 static const int ENEMY_NUM = 8;
 
+class CPlayer;
+class CEnemy;
+class CBillBoard;
+class CScene2D;
+class CLight;
+class CSound;
+
 class CModeGame : public CMode
 {
 public:
@@ -24,7 +31,7 @@ public:
 	static CPlayer* GetPlayer() { return player; }
 	static void PlayerDied();
 	static void TargetKilled();
-	static CCamera* GetCamera() { return player->GetCamera(); }
+	static CCamera* GetCamera();
 	static void MakeMap();
 	static void IncrementNumKill() { m_NumKill++; }
 	static void IncrementNumSneak() { m_NumSneak++; }

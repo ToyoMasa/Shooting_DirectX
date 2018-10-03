@@ -34,6 +34,7 @@
 #include "shader.h"
 #include "bullet.h"
 #include "weapon.h"
+#include "debug.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -118,6 +119,7 @@ void CModeGame::Init()
 
 	// ‹È‚ð•ÏX
 	//BGM->Release();
+
 }
 
 void CModeGame::Uninit()
@@ -329,4 +331,9 @@ void CModeGame::CallPause()
 		Pause->SetVisible(true);
 		Tutorial->SetVisible(true);
 	}
+}
+
+CCamera* CModeGame::GetCamera()
+{
+	return player->GetCamera(); 
 }
