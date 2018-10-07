@@ -11,6 +11,7 @@
 #include "sound.h"
 
 static const float PLAYER_MOVE_SPEED = 0.08f;
+static const int HAVE_WEAPON = 2;
 
 class CScene2D;
 class CWeapon;
@@ -43,6 +44,7 @@ public:
 	void Death();
 	void Rotate(D3DXVECTOR3 vec);
 	void Rotate(float horizontal, float vertical);
+	void ChangeWeapon(CWeapon* next);
 
 private:
 	D3DXMATRIX	m_LocalLocation;
@@ -57,8 +59,8 @@ private:
 	bool		m_isPreDeath;
 	bool		m_isPreAttack;
 	bool		m_isGameOver;
-
-	CWeapon*	m_Weapon;
+	CWeapon*	m_UsingWeapon;
+	CWeapon*	m_Weapon[HAVE_WEAPON];
 	CEffekseer* m_BloodEffect;
 };
 

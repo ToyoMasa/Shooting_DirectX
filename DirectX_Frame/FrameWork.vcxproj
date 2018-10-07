@@ -208,6 +208,7 @@
     <ClInclude Include="sceneShadow.h" />
     <ClInclude Include="sceneSkinMesh.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="shotgun.h" />
     <ClInclude Include="SkinMeshData.h" />
     <ClInclude Include="SkinMeshFile.h" />
     <ClInclude Include="skybox.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="sceneShadow.cpp" />
     <ClCompile Include="sceneSkinMesh.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shotgun.cpp" />
     <ClCompile Include="SkinMeshData.cpp" />
     <ClCompile Include="SkinMeshFile.cpp" />
     <ClCompile Include="skybox.cpp" />

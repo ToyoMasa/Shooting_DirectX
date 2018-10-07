@@ -4,7 +4,7 @@
 #include "billboard.h"
 #include "debug.h"
 
-static const int BULLET_MAX = 1000;
+static const int BULLET_MAX = 50;
 
 class CBullet
 {

@@ -1,4 +1,22 @@
-﻿  rifle.cpp
-d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(97): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+﻿  player.cpp
+  コードを生成中...
+  スキップ中... (関連する変更は検出されませんでした)
+  weapon.cpp
+  waitTime.cpp
+  wait.cpp
+  title.cpp
+  skybox.cpp
+  sceneShadow.cpp
+  result.cpp
+  moveToRandom.cpp
+  moveToPos.cpp
+  moveToPlayer.cpp
+  manager.cpp
+  game.cpp
+  fade.cpp
+  enemy.cpp
+  character.cpp
+  actionBase.cpp
+  action.cpp
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.exe
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.pdb (Full PDB)

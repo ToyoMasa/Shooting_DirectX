@@ -15,10 +15,6 @@
 #include "game.h"
 #include "debug.h"
 
-int scale = 0;
-int xx1 = 0, xx2 = 0, yy1 = 0, yy2 = 0, zz1 = 0, zz2 = 0;
-CDebug* debug;
-
 void CRifle::Init(CSceneSkinMesh *parent)
 {
 	m_Parent = parent;
@@ -27,7 +23,7 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
 	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Scale = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Scale = D3DXVECTOR3(90.0f, 90.0f, 90.0f);
 
 	m_MuzzlePos = D3DXVECTOR3(-4.6f, 6.1f, -24.6f);
 	D3DXMatrixTranslation(&m_MuzzleMatrix, m_MuzzlePos.x, m_MuzzlePos.y, m_MuzzlePos.z);
@@ -39,7 +35,7 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rate = 60.0f / (600.0f / 60.0f);
 	m_CoolDown = 0.0f;
 
-	debug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
+	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
 }
 
 void CRifle::Uninit()
@@ -92,10 +88,6 @@ void CRifle::Update()
 		m_Rot.y = 141.5f;
 		m_Rot.z = 33.75f;
 
-		scale = 90;
-
-		m_Scale = D3DXVECTOR3(scale, scale, scale);
-
 		D3DXMATRIX mtxMove, mtxX, mtxY,mtxZ, mtxRot;
 		D3DXMatrixTranslation(&mtxMove, m_Pos.x, m_Pos.y, m_Pos.z);
 		D3DXMatrixRotationX(&mtxX, D3DXToRadian(m_Rot.x));
@@ -117,20 +109,16 @@ void CRifle::Update()
 		D3DXMATRIX mtxMuzzle;
 		mtxMuzzle = m_MuzzleMatrix * (mtxRot * m_ParentMatrix);
 		m_MuzzlePos = D3DXVECTOR3(mtxMuzzle._41, mtxMuzzle._42, mtxMuzzle._43);
-		debug->Set(m_MuzzlePos);
-	}
 
-	ImGui::Begin("Weapon", 0);
-	ImGui::Text("%.2f", m_CoolDown);
-	ImGui::Text("%.2f", m_Rate);
-	ImGui::End();
+		m_BulletDebug->Set(m_MuzzlePos);
+	}
 }
 
 void CRifle::Shoot()
 {
 	if (m_CoolDown <= 0)
 	{
-		CBullet::Create(m_MuzzlePos, CModeGame::GetCamera()->GetFront(), 1.0f, 100.0f, 50);
+		CBullet::Create(m_MuzzlePos, CModeGame::GetCamera()->GetFront(), 15.0f, 100.0f, 15);
 		m_CoolDown = m_Rate;
 		int i = 0;
 	}

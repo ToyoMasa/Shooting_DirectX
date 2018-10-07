@@ -31,6 +31,19 @@ void CSceneModel::Init(const std::string& modelName)
 		return;
 	}
 
+	//Xファイルに法線がない場合は、法線を書き込む
+	if (!(m_Mesh->GetFVF() & D3DFVF_NORMAL)) {
+
+		ID3DXMesh* pTempMesh = NULL;
+
+		m_Mesh->CloneMeshFVF(m_Mesh->GetOptions(),
+			m_Mesh->GetFVF() | D3DFVF_NORMAL, pDevice, &pTempMesh);
+
+		D3DXComputeNormals(pTempMesh, NULL);
+		m_Mesh->Release();
+		m_Mesh = pTempMesh;
+	}
+
 	// メッシュの最適化
 	hr = m_Mesh->OptimizeInplace(
 		D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
@@ -167,6 +180,7 @@ void CSceneModel::Draw()
 		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	}
 
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	pDevice->SetMaterial(&pMaterials->MatD3D);
 
 	int texnum = 0;
@@ -191,6 +205,8 @@ void CSceneModel::Draw()
 	{
 		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	}
+
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CSceneModel::SetWorld(D3DXMATRIX move)

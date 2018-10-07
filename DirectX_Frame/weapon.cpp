@@ -10,6 +10,7 @@
 #include "sceneSkinMesh.h"
 #include "player.h"
 #include "weapon.h"
+#include "debug.h"
 
 CWeapon *CWeapon::m_Weapons[WEAPON_MAX] = { NULL };
 
@@ -48,4 +49,11 @@ void CWeapon::ReleaseAll()
 			m_Weapons[i] = NULL;
 		}
 	}
+}
+
+void CWeapon::SetActive(bool active) 
+{
+	m_Model->SetVisible(active);
+	m_BulletDebug->SetVisible(active);
+	m_isActive = active;
 }

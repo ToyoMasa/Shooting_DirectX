@@ -7,6 +7,8 @@
 
 static const int WEAPON_MAX = 5;
 
+class CDebug;
+
 class CWeapon
 {
 public:
@@ -29,6 +31,8 @@ public:
 		m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 		D3DXMatrixIdentity(&m_ParentMatrix);
 		D3DXMatrixIdentity(&m_MuzzleMatrix);
+		m_BulletDebug = NULL;
+		m_isActive = false;
 	}
 	~CWeapon() {}
 
@@ -39,6 +43,7 @@ public:
 	void Release();
 	static void UpdateAll();
 	static void ReleaseAll();
+	void SetActive(bool active);
 
 protected:
 	CSceneModel		*m_Model;
@@ -50,9 +55,11 @@ protected:
 	D3DXVECTOR3		m_MuzzlePos;
 	D3DXMATRIX		m_ParentMatrix;
 	D3DXMATRIX		m_MuzzleMatrix;
+	CDebug*			m_BulletDebug;
 	float			m_Damage;
 	float 			m_Rate;
 	float			m_CoolDown;
+	bool			m_isActive;
 
 	static CWeapon	*m_Weapons[WEAPON_MAX];
 };

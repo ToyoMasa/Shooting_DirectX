@@ -24,6 +24,7 @@
 #include "bullet.h"
 #include "weapon.h"
 #include "rifle.h"
+#include "shotgun.h"
 
 static const float VALUE_ROTATE_MOUSE = 0.003f;
 
@@ -71,7 +72,22 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 	Rotate(m_Camera->GetFront());
 
 	// 武器を装備
-	m_Weapon = CRifle::Create(m_Model);
+	m_Weapon[0] = CRifle::Create(m_Model);
+	m_Weapon[1] = CShotgun::Create(m_Model);
+
+	m_UsingWeapon = m_Weapon[0];
+
+	for (int i = 0; i < HAVE_WEAPON; i++)
+	{
+		if (m_Weapon[i] != m_UsingWeapon)
+		{
+			m_Weapon[i]->SetActive(false);
+		}
+		else
+		{
+			m_Weapon[i]->SetActive(true);
+		}
+	}
 
 	debug = false;
 	debugMouse = false;
@@ -213,7 +229,7 @@ void CPlayer::Update()
 		// 攻撃
 		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			m_Weapon->Shoot();
+			m_UsingWeapon->Shoot();
 		}
 
 		// エリア外に出るとゲームオーバー
@@ -252,6 +268,17 @@ void CPlayer::Update()
 		if (inputKeyboard->GetKeyTrigger(DIK_M))
 		{
 			debugMouse = !debugMouse;
+		}
+
+		// 武器チェンジ
+		if (inputKeyboard->GetKeyTrigger(DIK_1))
+		{
+			ChangeWeapon(m_Weapon[0]);
+		}
+
+		if (inputKeyboard->GetKeyTrigger(DIK_2))
+		{
+			ChangeWeapon(m_Weapon[1]);
 		}
 	}
 }
@@ -404,6 +431,23 @@ void CPlayer::Rotate(float horizontal, float vertical)
 
 			m_Rotate *= mtxRotation;
 			m_Model->Rotate(m_Rotate);
+		}
+	}
+}
+
+void CPlayer::ChangeWeapon(CWeapon* next)
+{
+	m_UsingWeapon = next;
+
+	for (int i = 0; i < HAVE_WEAPON; i++)
+	{
+		if (m_Weapon[i] != m_UsingWeapon)
+		{
+			m_Weapon[i]->SetActive(false);
+		}
+		else
+		{
+			m_Weapon[i]->SetActive(true);
 		}
 	}
 }

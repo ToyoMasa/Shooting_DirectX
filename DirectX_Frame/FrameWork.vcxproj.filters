@@ -234,6 +234,9 @@
     <ClInclude Include="debug.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="shotgun.h">
+      <Filter>ヘッダー ファイル\weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -400,6 +403,9 @@
     </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="shotgun.cpp">
+      <Filter>ソース ファイル\weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
