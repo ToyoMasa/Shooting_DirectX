@@ -1,26 +1,3 @@
-﻿  player.cpp
-  コードを生成中...
-  コンパイル中...
-  weapon.cpp
-  waitTime.cpp
-  wait.cpp
-  title.cpp
-  skybox.cpp
-  sceneShadow.cpp
-  result.cpp
-  playerPatternIdle.cpp
-d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\playerpatternidle.cpp(67): warning C4800: 'BOOL': ブール値を 'true' または 'false' に強制的に設定します (警告の処理)
-  moveToRandom.cpp
-  moveToPos.cpp
-  moveToPlayer.cpp
-  manager.cpp
-  game.cpp
-d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\game.cpp(81): warning C4101: 'hr': ローカル変数は 1 度も使われていません。
-  fade.cpp
-  enemy.cpp
-  character.cpp
-  actionBase.cpp
-  action.cpp
-  コードを生成中...
+﻿  rifle.cpp
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.exe
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.pdb (Full PDB)

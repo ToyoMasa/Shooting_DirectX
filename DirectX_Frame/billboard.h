@@ -58,7 +58,7 @@ public:
 				this->SetId(i);
 				m_BillBoards[i] = this;
 				m_BillBoards[i]->m_DrawType = 0;
-
+				m_BillBoards[i]->m_Color = D3DCOLOR_RGBA(255, 255, 255, 255);
 				break;
 			}
 		}
@@ -75,6 +75,7 @@ public:
 	static void DrawAll(CCamera* camera);
 	static void Set(int id, int texId, D3DXVECTOR3 pos, float scale, int drawtype);
 	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype);
+	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DCOLOR color);
 	void SetId(int Id) { m_Id = Id; }
 	void Release();
 	static void ReleaseAll();
@@ -85,6 +86,7 @@ private:
 	int								m_DrawType;				// ビルボードの描画タイプ
 	int								m_TextureId;			// テクスチャ番号
 	D3DXVECTOR3						m_Pos;					// 場所
+	D3DCOLOR						m_Color;				// 色
 	float							m_ScaleX;				// サイズ
 	float							m_ScaleY;				// サイズ
 	float							m_ScaleZ;				// サイズ

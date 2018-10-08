@@ -39,6 +39,14 @@ public:
 		int lifeSpan,
 		float size,
 		D3DXVECTOR3 pos);
+
+	void Init(
+		int texId,
+		int lifeSpan,
+		float size,
+		D3DXVECTOR3 pos,
+		D3DCOLOR color);
+
 	void Uninit();
 	void Update();
 
@@ -47,6 +55,13 @@ public:
 		int lifeSpan,
 		float size,
 		D3DXVECTOR3 pos);
+	static CParticle* Create(
+		int texId,
+		int lifeSpan,
+		float size,
+		D3DXVECTOR3 pos,
+		D3DCOLOR color);
+
 	void Release();
 	
 	static void ReleaseAll();

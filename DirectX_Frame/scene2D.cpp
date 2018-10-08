@@ -74,10 +74,12 @@ void CScene2D::Draw()
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);			// αテストのON
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);					// 第2引数は0～255の好きな値
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);	// 第2引数は不等号(GREATERは大なり)、上の値より大きければ合格
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, &vertex[0], sizeof(VERTEX_2D));
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);			// αテストのOFF
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void CScene2D::SetTexCoord(float texCoordx1, float texCoordx2, float texCoordy1, float texCoordy2)

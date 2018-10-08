@@ -29,6 +29,22 @@ void CParticle::Init(
 	m_Billboard->Set(m_TextureID ,m_Pos, m_Size, NORMAL);
 }
 
+void CParticle::Init(
+	int texId,
+	int lifeSpan,
+	float size,
+	D3DXVECTOR3 pos,
+	D3DCOLOR color)
+{
+	m_TextureID = texId;
+	m_LifeSpan = lifeSpan;
+	m_Size = size;
+	m_Pos = pos;
+
+	m_Billboard = CBillBoard::Create(texId);
+	m_Billboard->Set(m_TextureID, m_Pos, m_Size, NORMAL, color);
+}
+
 void CParticle::Uninit()
 {
 	if (m_Billboard != NULL)
@@ -73,6 +89,19 @@ CParticle* CParticle::Create(
 {
 	CParticle* particle = new CParticle();
 	particle->Init(texId, lifeSpan, size, pos);
+
+	return particle;
+}
+
+CParticle* CParticle::Create(
+	int texId,
+	int lifeSpan,
+	float size,
+	D3DXVECTOR3 pos,
+	D3DCOLOR color)
+{
+	CParticle* particle = new CParticle();
+	particle->Init(texId, lifeSpan, size, pos, color);
 
 	return particle;
 }

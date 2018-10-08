@@ -14,6 +14,9 @@
 #include "rifle.h"
 #include "game.h"
 #include "debug.h"
+#include "emitter.h"
+
+static const int DIFFUSSION = 200;
 
 void CRifle::Init(CSceneSkinMesh *parent)
 {
@@ -118,7 +121,18 @@ void CRifle::Shoot()
 {
 	if (m_CoolDown <= 0)
 	{
+		D3DXVECTOR3 startVec = CModeGame::GetCamera()->GetFront();
+		startVec = startVec + CModeGame::GetCamera()->GetUp() * -1.0f;
+		startVec = startVec + CModeGame::GetCamera()->GetRight() * -1.0f;
+		startVec *= 0.03f;
+
+		D3DXVECTOR3 endVec = CModeGame::GetCamera()->GetFront();
+		endVec = endVec + CModeGame::GetCamera()->GetUp() * 1.0f;
+		endVec = endVec + CModeGame::GetCamera()->GetRight() * 1.0f;
+		endVec *= 0.03f;
+
 		CBullet::Create(m_MuzzlePos, CModeGame::GetCamera()->GetFront(), 15.0f, 100.0f, 15);
+		CParticleEmitter::Create(TEX_ID_CIRCLE, 4, 1, 10, 0.1f, -0.1f, m_MuzzlePos, startVec, endVec, D3DXVECTOR3(0.0f, 0.0f, 0.0f), false);
 		m_CoolDown = m_Rate;
 		int i = 0;
 	}

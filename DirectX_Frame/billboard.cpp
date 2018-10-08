@@ -182,7 +182,22 @@ void CBillBoard::DrawOne(CCamera* camera)
 		break;
 	}
 
+	VERTEX_3D* pV;
+
+	m_VertexBuffer->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
+	
+	pV[0] = { D3DXVECTOR3(-0.5,  0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(0.0f, 0.0f) };
+	pV[1] = { D3DXVECTOR3( 0.5,  0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(1.0f, 0.0f) };
+	pV[2] = { D3DXVECTOR3(-0.5, -0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(0.0f, 1.0f) };
+	pV[3] = { D3DXVECTOR3( 0.5, -0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(1.0f, 1.0f) };
+	
+	m_VertexBuffer->Unlock();
+
 	D3DXMatrixTranspose(&mtxViewRotInv, &mtxViewRotInv);
+
+	// 頂点バッファとインデックスバッファの設定
+	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
+	pDevice->SetIndices(m_IndexBuffer);
 
 	m_World = mtxViewRotInv * m_World;
 
@@ -245,14 +260,14 @@ void CBillBoard::DrawBegin()
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);			// αテストのON/OFF
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 128);					// 第2引数は0～255の好きな値
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);	// 第2引数は不等号(GREATERは大なり)、上の値より大きければ合格
-	
+
+	// 加算合成
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	// FVF(今から使用する頂点情報)の設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
-	// 頂点バッファとインデックスバッファの設定
-	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
-	pDevice->SetIndices(m_IndexBuffer);
-
 	pDevice->SetFVF(FVF_VERTEX_3D);
 }
 
@@ -266,6 +281,9 @@ void CBillBoard::DrawEnd()
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);		// αテストのON/OFF
+
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void CBillBoard::DrawAll(CCamera* camera)
@@ -305,6 +323,22 @@ void CBillBoard::Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype)
 	m_ScaleY = scale;
 	m_ScaleZ = scale;
 	m_DrawType = drawtype;
+
+	if (drawtype == FIXED_Y)
+	{
+		m_Pos.y += 0.5f * scale;
+	}
+}
+
+void CBillBoard::Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DCOLOR color)
+{
+	m_TextureId = texId;
+	m_Pos = pos;
+	m_ScaleX = scale;
+	m_ScaleY = scale;
+	m_ScaleZ = scale;
+	m_DrawType = drawtype;
+	m_Color = color;
 
 	if (drawtype == FIXED_Y)
 	{

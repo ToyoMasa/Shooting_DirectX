@@ -28,7 +28,7 @@ void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float ran
 	m_Speed = speed;
 	m_Range = range;
 	m_Damage = damage;
-	m_Debug = CDebugSphere::Create(m_Pos, BULLET_RADIUS);
+	//m_Debug = CDebugSphere::Create(m_Pos, BULLET_RADIUS);
 }
 
 void CBullet ::Uninit()
@@ -58,7 +58,7 @@ void CBullet::Update()
 	m_Pos += m_Forward * m_Speed;
 	m_Move += m_Speed;
 
-	//CParticle::Create(TEX_ID_CIRCLE, 2, 0.2f, m_Pos);
+	CParticle::Create(TEX_ID_CIRCLE, 2, 0.2f, m_Pos, D3DCOLOR_RGBA(255, 255, 0, 255));
 
 	// “–‚½‚è”»’è
 	Capsule capsule;
@@ -87,7 +87,7 @@ void CBullet::Update()
 	//	}
 	//}
 
-	m_Debug->Set(m_Pos);
+	//m_Debug->Set(m_Pos);
 }
 
 void CBullet::Release()

@@ -136,6 +136,8 @@ void CModeGame::Uninit()
 
 	CActionBase::ReleaseAll();
 
+	CParticleEmitter::ReleaseAll();
+
 	CParticle::ReleaseAll();
 
 	m_Light->Release();
@@ -196,6 +198,7 @@ void CModeGame::Update()
 			CCharacter::UpdateAll();
 			CScene::UpdateAll();
 			CBullet::UpdateAll();
+			CParticleEmitter::UpdateAll();
 			CParticle::UpdateAll();
 			CBillBoard::UpdateAll();
 			CWeapon::UpdateAll();

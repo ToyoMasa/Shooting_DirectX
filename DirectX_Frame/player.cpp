@@ -27,9 +27,6 @@
 #include "shotgun.h"
 #include "playerPatternIdle.h"
 
-bool debug;
-bool debugMouse;
-
 void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
@@ -80,9 +77,6 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 			m_Weapon[i]->SetActive(true);
 		}
 	}
-
-	debug = false;
-	debugMouse = false;
 
 	m_Pattern = new CPlayerPatternIdle();
 }
@@ -327,10 +321,7 @@ void CPlayer::Move(float moveX, float moveZ)
 
 	m_Camera->Move(newPos - m_Pos);
 
-	if (!debug)
-	{
-		SetPos(newPos);
-	}
+	SetPos(newPos);
 
 	m_Model->Move(m_Pos + m_LocalCameraPos);
 	m_Shadow->Move(m_Pos);

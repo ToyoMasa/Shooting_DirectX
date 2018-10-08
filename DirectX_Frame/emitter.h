@@ -7,11 +7,22 @@
 
 #include "billboard.h"
 
+static const int EMITTER_MAX = 10000;
+
 class CParticleEmitter
 {
 public:
 	CParticleEmitter()
 	{
+		for (int i = 0; i < EMITTER_MAX; i++)
+		{
+			if (m_Emitters[i] == NULL)
+			{
+				m_Emitters[i] = this;
+				break;
+			}
+		}
+
 		m_LifeSpan = 0;
 		m_SpawnSpan = 0;
 		m_SpawnCount = 0;
@@ -41,6 +52,23 @@ public:
 		bool loop);
 	void Uninit();
 	void Update();
+	void Release();
+
+	static void UpdateAll();
+	static void ReleaseAll();
+	static void DrawAll();
+	static CParticleEmitter* Create(
+		int texId,
+		int lifeSpan,
+		int spawnSpan,
+		int numParticle,
+		float size,
+		float sizechange,
+		D3DXVECTOR3 pos,
+		D3DXVECTOR3 velocityStart,
+		D3DXVECTOR3 velocityEnd,
+		D3DXVECTOR3 Accelerate,
+		bool loop);
 
 private:
 
@@ -57,6 +85,7 @@ private:
 	D3DXVECTOR3 m_VelocityRangeStart;
 	D3DXVECTOR3 m_VelocityRanegeEnd;
 	D3DXVECTOR3 m_VelocityAcceleration;
+	static CParticleEmitter* m_Emitters[EMITTER_MAX];
 };
 
 #endif // !_EMITTER_H_
