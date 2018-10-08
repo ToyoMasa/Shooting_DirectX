@@ -194,8 +194,10 @@
     <ClInclude Include="moveToRandom.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="playerPatternBase.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerAnim.h" />
+    <ClInclude Include="playerPatternIdle.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="rifle.h" />
@@ -257,6 +259,7 @@
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerPatternIdle.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="rifle.cpp" />

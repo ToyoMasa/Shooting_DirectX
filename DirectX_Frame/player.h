@@ -11,10 +11,13 @@
 #include "sound.h"
 
 static const float PLAYER_MOVE_SPEED = 0.08f;
+static const float VALUE_ROTATE_MOUSE = 0.003f;
+
 static const int HAVE_WEAPON = 2;
 
 class CScene2D;
 class CWeapon;
+class CPlayerPatternBase;
 
 class CPlayer : public CCharacter
 {
@@ -24,12 +27,10 @@ public:
 		m_Type = CHARACTER_PLAYER;
 		m_CameraLength = 2.0f;
 		m_Camera = NULL;
-		m_Text_Attack = NULL;
 		m_Knife = NULL;
 		m_Hit = NULL;
 		m_isPreDeath  = false;
-		m_isPreAttack = false;
-		m_isGameOver = false;
+		m_Pattern = NULL;
 	}
 	~CPlayer(){}
 
@@ -40,28 +41,27 @@ public:
 	CCamera* GetCamera() { return m_Camera; }
 	bool GetPlayerDeath() { return m_isPreDeath; }
 	static CPlayer* Create(int modelId, D3DXVECTOR3 spawnPos);
-	void Attack();
+	void Shoot();
 	void Death();
 	void Rotate(D3DXVECTOR3 vec);
 	void Rotate(float horizontal, float vertical);
-	void ChangeWeapon(CWeapon* next);
+	void ChangeWeapon(int id);
+	void Move(float moveX, float moveZ);
+	void ADS(bool ads);
+	void ChangePattern(CPlayerPatternBase* next);
 
 private:
 	D3DXMATRIX	m_LocalLocation;
 	CCamera*	m_Camera;
 	D3DXVECTOR3 m_LocalCameraPos;
 	float		m_CameraLength;
-	CScene2D*	m_Text_Attack;
-	CScene2D*	m_Caution;
-	Capsule		m_AttackingCollsion;
 	CSound*		m_Knife;
 	CSound*		m_Hit;
 	bool		m_isPreDeath;
-	bool		m_isPreAttack;
-	bool		m_isGameOver;
 	CWeapon*	m_UsingWeapon;
 	CWeapon*	m_Weapon[HAVE_WEAPON];
 	CEffekseer* m_BloodEffect;
+	CPlayerPatternBase* m_Pattern;
 };
 
 #endif // !_PLAYER_H_

@@ -25,8 +25,7 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-
-static const float VALUE_ROTATE_MOUSE = 0.003f;
+#include "playerPatternIdle.h"
 
 bool debug;
 bool debugMouse;
@@ -49,13 +48,6 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 	m_Camera = CCamera::Create(pos, at);
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 	m_Right = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
-
-	m_Text_Attack = CScene2D::Create(TEX_ID_ATTACK, 128, 64);
-	m_Text_Attack->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200.0f, 0.0f));
-	m_Caution = CScene2D::Create(TEX_ID_CAUTION, 440, 80);
-	m_Caution->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	m_Caution->SetColor(D3DCOLOR_RGBA(255, 0, 0, 255));
-	m_Caution->SetVisible(false);
 
 	m_BloodEffect = CEffekseer::Create(CEffekseer::Effect_BloodLoss, m_Camera);
 	m_BloodEffect->RepeatEffect(false);
@@ -91,10 +83,16 @@ void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 
 	debug = false;
 	debugMouse = false;
+
+	m_Pattern = new CPlayerPatternIdle();
 }
 
 void CPlayer::Uninit()
 {
+	if (m_Pattern != NULL)
+	{
+		delete m_Pattern;
+	}
 	if (m_Camera)
 	{
 		m_Camera->Release();
@@ -111,176 +109,7 @@ void CPlayer::Uninit()
 
 void CPlayer::Update()
 {
-	CInputKeyboard *inputKeyboard;
-	CInputMouse *inputMouse;
-	float mouseX, mouseY, mouseZ;
-
-	if (m_isPreDeath)
-	{
-		if (m_Model->GetWeightTime() >= 5.0f)
-		{
-			CModeGame::PlayerDied();
-		}
-	}
-	else
-	{
-		// 攻撃可能か表示を一旦リセット
-		m_Text_Attack->SetVisible(false);
-
-		// キーボード取得
-		inputKeyboard = CManager::GetInputKeyboard();
-
-		// マウス取得
-		inputMouse = CManager::GetInputMouse();
-		mouseX = (float)inputMouse->GetAxisX();
-		mouseY = (float)inputMouse->GetAxisY();
-		mouseZ = (float)inputMouse->GetAxisZ();
-
-		float moveX = 0.0f, moveZ = 0.0f;
-		if (inputKeyboard->GetKeyPress(DIK_A))
-		{
-			moveX = -1.0f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_D))
-		{
-			moveX = 1.0f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_W))
-		{
-			moveZ = 1.0f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_S))
-		{
-			moveZ = -1.0f;
-		}
-
-		if (!m_Model->GetPlayMontage())
-		{
-			{// 移動・回転
-				D3DXVECTOR3 cameraFront = m_Camera->GetFront();
-				D3DXVECTOR3 cameraRight = m_Camera->GetRight();
-				D3DXVECTOR3 newPos = m_Pos;
-				D3DXVECTOR3 moveVec = { moveX, 0.0f, moveZ };
-
-				D3DXVec3Normalize(&moveVec, &moveVec);
-
-				// 前方向ベクトルを地面と平行に正規化
-				cameraFront.y = 0;
-				D3DXVec3Normalize(&cameraFront, &cameraFront);
-
-				newPos += cameraFront * PLAYER_MOVE_SPEED * moveZ;
-				newPos += cameraRight * PLAYER_MOVE_SPEED * moveX;
-				newPos.y = m_Field->GetHeight(newPos);
-
-				// コリジョンの計算
-				m_CapsuleCollision.Set(Point(newPos.x, newPos.y + 0.25f, newPos.z), Point(newPos.x, newPos.y + 1.0f, newPos.z), 0.25f);
-
-				// キャラクターとの当たり判定
-				for (int i = 0; i < CHARACTER_MAX; i++)
-				{
-					CCharacter* obj = CCharacter::GetCharacter(i);
-					if (obj != NULL)
-					{
-						if (obj->GetType() == CHARACTER_ENEMY)
-						{
-							CEnemy* enemy = (CEnemy*)obj;
-							if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
-							{
-								D3DXVECTOR3 vec = newPos - enemy->GetPos();
-								D3DXVec3Normalize(&vec, &vec);
-
-								newPos = enemy->GetPos();
-								newPos += vec * 0.5f;
-							}
-						}
-					}
-				}
-
-				// 壁との当たり判定
-				newPos = HitWall(newPos);
-
-				m_Camera->Move(newPos - m_Pos);
-
-				if (!debug)
-				{
-					SetPos(newPos);
-				}
-			}
-		}
-
-		m_Model->Move(m_Pos + m_LocalCameraPos);
-		m_Shadow->Move(m_Pos);
-
-		// 当たり判定の移動
-		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.25f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.25f);
-
-		// ADS
-		if (inputMouse->GetRightPress())
-		{
-			m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
-			m_Camera->SetFov(70.0f);
-		}
-		else
-		{
-			m_Model->ChangeAnim(PLAYER_IDLE, 0.3f);
-			m_Camera->SetFov(90.0f);
-		}
-
-		// 攻撃
-		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
-		{
-			m_UsingWeapon->Shoot();
-		}
-
-		// エリア外に出るとゲームオーバー
-		D3DXVECTOR3 len = D3DXVECTOR3(0, 0, 0) - m_Pos;
-		if (D3DXVec3Length(&len) > 40 && !m_isGameOver)
-		{
-			m_Caution->SetVisible(true);
-
-			if (D3DXVec3Length(&len) > 50)
-			{
-				CModeGame::PlayerDied();
-				m_Caution->SetVisible(false);
-				m_isGameOver = true;
-			}
-		}
-		else
-		{
-			m_Caution->SetVisible(false);
-		}
-
-		// カメラの回転
-		if (!debugMouse)
-		{
-			m_Camera->Rotation(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-		}
-		// モデルの回転
-		if (!debug)
-		{
-			Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-		}
-
-		if (inputKeyboard->GetKeyTrigger(DIK_T))
-		{
-			debug = !debug;
-		}
-		if (inputKeyboard->GetKeyTrigger(DIK_M))
-		{
-			debugMouse = !debugMouse;
-		}
-
-		// 武器チェンジ
-		if (inputKeyboard->GetKeyTrigger(DIK_1))
-		{
-			ChangeWeapon(m_Weapon[0]);
-		}
-
-		if (inputKeyboard->GetKeyTrigger(DIK_2))
-		{
-			ChangeWeapon(m_Weapon[1]);
-		}
-	}
+	m_Pattern->Update(this);
 }
 
 void CPlayer::Draw()
@@ -295,12 +124,9 @@ CPlayer* CPlayer::Create(int modelId, D3DXVECTOR3 spawnPos)
 	return player;
 }
 
-void CPlayer::Attack()
+void CPlayer::Shoot()
 {
-	//m_Model->PlayMontage(PLAYER_STAB, 0.2f, 3.4f, PLAYER_IDLE, 2.0f);
-	m_Knife->Play();
-
-	m_isPreAttack = true;
+	m_UsingWeapon->Shoot();
 }
 
 void CPlayer::Death()
@@ -372,6 +198,8 @@ void CPlayer::Rotate(D3DXVECTOR3 vec)
 
 void CPlayer::Rotate(float horizontal, float vertical)
 {
+	m_Camera->Rotation(horizontal, vertical);
+
 	//*********************************************************
 	//	左右回転
 	//*********************************************************
@@ -435,9 +263,9 @@ void CPlayer::Rotate(float horizontal, float vertical)
 	}
 }
 
-void CPlayer::ChangeWeapon(CWeapon* next)
+void CPlayer::ChangeWeapon(int id)
 {
-	m_UsingWeapon = next;
+	m_UsingWeapon = m_Weapon[id];
 
 	for (int i = 0; i < HAVE_WEAPON; i++)
 	{
@@ -450,4 +278,87 @@ void CPlayer::ChangeWeapon(CWeapon* next)
 			m_Weapon[i]->SetActive(true);
 		}
 	}
+}
+
+void CPlayer::Move(float moveX, float moveZ)
+{	
+	// 移動・回転
+	D3DXVECTOR3 cameraFront = m_Camera->GetFront();
+	D3DXVECTOR3 cameraRight = m_Camera->GetRight();
+	D3DXVECTOR3 newPos = m_Pos;
+	D3DXVECTOR3 moveVec = { moveX, 0.0f, moveZ };
+
+	D3DXVec3Normalize(&moveVec, &moveVec);
+
+	// 前方向ベクトルを地面と平行に正規化
+	cameraFront.y = 0;
+	D3DXVec3Normalize(&cameraFront, &cameraFront);
+
+	newPos += cameraFront * PLAYER_MOVE_SPEED * moveZ;
+	newPos += cameraRight * PLAYER_MOVE_SPEED * moveX;
+	newPos.y = m_Field->GetHeight(newPos);
+
+	// コリジョンの計算
+	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + 0.25f, newPos.z), Point(newPos.x, newPos.y + 1.0f, newPos.z), 0.25f);
+
+	// キャラクターとの当たり判定
+	for (int i = 0; i < CHARACTER_MAX; i++)
+	{
+		CCharacter* obj = CCharacter::GetCharacter(i);
+		if (obj != NULL)
+		{
+			if (obj->GetType() == CHARACTER_ENEMY)
+			{
+				CEnemy* enemy = (CEnemy*)obj;
+				if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
+				{
+					D3DXVECTOR3 vec = newPos - enemy->GetPos();
+					D3DXVec3Normalize(&vec, &vec);
+
+					newPos = enemy->GetPos();
+					newPos += vec * 0.5f;
+				}
+			}
+		}
+	}
+
+	// 壁との当たり判定
+	newPos = HitWall(newPos);
+
+	m_Camera->Move(newPos - m_Pos);
+
+	if (!debug)
+	{
+		SetPos(newPos);
+	}
+
+	m_Model->Move(m_Pos + m_LocalCameraPos);
+	m_Shadow->Move(m_Pos);
+
+	// 当たり判定の移動
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.25f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.25f);
+}
+
+void CPlayer::ADS(bool ads)
+{
+	if (ads)
+	{
+		m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
+		m_Camera->SetFov(70.0f);
+	}
+	else
+	{
+		m_Model->ChangeAnim(PLAYER_IDLE, 0.3f);
+		m_Camera->SetFov(90.0f);
+	}
+}
+
+void CPlayer::ChangePattern(CPlayerPatternBase* next)
+{
+	if (m_Pattern != NULL)
+	{
+		delete m_Pattern;
+	}
+
+	m_Pattern = next;
 }
