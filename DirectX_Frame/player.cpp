@@ -27,6 +27,8 @@
 #include "shotgun.h"
 #include "playerPatternIdle.h"
 
+bool g_test = false;
+
 void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
@@ -103,6 +105,14 @@ void CPlayer::Uninit()
 
 void CPlayer::Update()
 {
+	CInputKeyboard *inputKeyboard;
+	inputKeyboard = CManager::GetInputKeyboard();
+
+	if (inputKeyboard->GetKeyPress(DIK_T))
+	{
+		g_test = !g_test;
+	}
+
 	m_Pattern->Update(this);
 }
 
@@ -252,7 +262,12 @@ void CPlayer::Rotate(float horizontal, float vertical)
 			D3DXVec3Normalize(&m_Right, &m_Right);
 
 			m_Rotate *= mtxRotation;
-			m_Model->Rotate(m_Rotate);
+
+			if (!g_test)
+			{
+				m_Model->Rotate(m_Rotate);
+
+			}
 		}
 	}
 }
@@ -321,13 +336,16 @@ void CPlayer::Move(float moveX, float moveZ)
 
 	m_Camera->Move(newPos - m_Pos);
 
-	SetPos(newPos);
+	if (!g_test)
+	{
+		SetPos(newPos);
 
-	m_Model->Move(m_Pos + m_LocalCameraPos);
-	m_Shadow->Move(m_Pos);
+		m_Model->Move(m_Pos + m_LocalCameraPos);
+		m_Shadow->Move(m_Pos);
 
-	// “–‚½‚è”»’è‚ÌˆÚ“®
-	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.25f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.25f);
+		// “–‚½‚è”»’è‚ÌˆÚ“®
+		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.25f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.25f);
+	}
 }
 
 void CPlayer::ADS(bool ads)
@@ -336,11 +354,13 @@ void CPlayer::ADS(bool ads)
 	{
 		m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
 		m_Camera->SetFov(70.0f);
+		m_UsingWeapon->SetADS(ads);
 	}
 	else
 	{
 		m_Model->ChangeAnim(PLAYER_IDLE, 0.3f);
 		m_Camera->SetFov(90.0f);
+		m_UsingWeapon->SetADS(ads);
 	}
 }
 

@@ -59,6 +59,7 @@ public:
 				m_BillBoards[i] = this;
 				m_BillBoards[i]->m_DrawType = 0;
 				m_BillBoards[i]->m_Color = D3DCOLOR_RGBA(255, 255, 255, 255);
+				m_BillBoards[i]->m_isVisible = true;
 				break;
 			}
 		}
@@ -77,6 +78,7 @@ public:
 	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype);
 	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DCOLOR color);
 	void SetId(int Id) { m_Id = Id; }
+	void SetVisible(bool visible) { m_isVisible = visible; }
 	void Release();
 	static void ReleaseAll();
 	static CBillBoard* Create(int texId);
@@ -90,6 +92,7 @@ private:
 	float							m_ScaleX;				// サイズ
 	float							m_ScaleY;				// サイズ
 	float							m_ScaleZ;				// サイズ
+	bool							m_isVisible;			// 描画が有効かどうか
 	static D3DMATERIAL9				m_Mat;					// モデル1部分につき1個
 	static LPDIRECT3DVERTEXBUFFER9	m_VertexBuffer;			// 頂点バッファ
 	static LPDIRECT3DINDEXBUFFER9	m_IndexBuffer;			// インデックスバッファ

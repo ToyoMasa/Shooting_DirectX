@@ -54,6 +54,22 @@ void CWeapon::ReleaseAll()
 void CWeapon::SetActive(bool active) 
 {
 	m_Model->SetVisible(active);
+	m_Crosshair->SetVisible(active);
 	m_BulletDebug->SetVisible(active);
 	m_isActive = active;
+}
+
+void CWeapon::SetADS(bool ads)
+{
+	m_Crosshair->SetVisible(ads);
+	m_isADS = ads;
+}
+
+void CWeapon::ChangeCrosshair(int nextTex)
+{
+	if (m_Crosshair != NULL)
+	{
+		m_Crosshair->Release();
+		m_Crosshair = CScene2D::Create(nextTex, 32, 32);
+	}
 }

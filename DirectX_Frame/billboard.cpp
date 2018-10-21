@@ -117,23 +117,23 @@ void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* cam
 	{
 		return;
 	}
-	
+
 	// ワールド座標行列をセット
 	D3DXMatrixTranslation(&m_Move, vPos.x, vPos.y, vPos.z);
 	D3DXMatrixScaling(&m_Scale, scale, scale, scale);
-	
+
 	m_World = m_Scale * m_Move;
-	
+
 	D3DXMATRIX mtxViewRotInv = camera->GetView();
-	
+
 	// ビュー行列の逆行列を作成
 	// 平行移動を無効にする
 	mtxViewRotInv._41 = 0.0f;
 	mtxViewRotInv._42 = 0.0f;
 	mtxViewRotInv._43 = 0.0f;
-	
+
 	D3DXMatrixTranspose(&mtxViewRotInv, &mtxViewRotInv);
-	
+
 	m_World = mtxViewRotInv * m_World;
 
 	pDevice->SetTexture(0, CTexture::GetTexture(textureId));
@@ -145,67 +145,70 @@ void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* cam
 
 void CBillBoard::DrawOne(CCamera* camera)
 {
-	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-	if (pDevice == NULL)
+	if (m_isVisible)
 	{
-		return;
+		LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+		if (pDevice == NULL)
+		{
+			return;
+		}
+
+		// ワールド座標行列をセット
+		D3DXMatrixTranslation(&m_Move, m_Pos.x, m_Pos.y, m_Pos.z);
+		D3DXMatrixScaling(&m_Scale, m_ScaleX, m_ScaleY, m_ScaleZ);
+
+		m_World = m_Scale * m_Move;
+
+		D3DXMATRIX mtxViewRotInv = camera->GetView();
+
+		// ビュー行列の逆行列を作成
+		// m_DrawTypeで切替
+		switch (m_DrawType)
+		{
+		case 0:
+			mtxViewRotInv._41 = 0.0f;
+			mtxViewRotInv._42 = 0.0f;
+			mtxViewRotInv._43 = 0.0f;
+			break;
+
+		case 1:
+			mtxViewRotInv._21 = 0.0f;
+			mtxViewRotInv._32 = 0.0f;
+			mtxViewRotInv._12 = 0.0f;
+			mtxViewRotInv._23 = 0.0f;
+			mtxViewRotInv._41 = 0.0f;
+			mtxViewRotInv._42 = 0.0f;
+			mtxViewRotInv._43 = 0.0f;
+
+		default:
+			break;
+		}
+
+		VERTEX_3D* pV;
+
+		m_VertexBuffer->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
+
+		pV[0] = { D3DXVECTOR3(-0.5,  0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(0.0f, 0.0f) };
+		pV[1] = { D3DXVECTOR3(0.5,  0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(1.0f, 0.0f) };
+		pV[2] = { D3DXVECTOR3(-0.5, -0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(0.0f, 1.0f) };
+		pV[3] = { D3DXVECTOR3(0.5, -0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(1.0f, 1.0f) };
+
+		m_VertexBuffer->Unlock();
+
+		D3DXMatrixTranspose(&mtxViewRotInv, &mtxViewRotInv);
+
+		// 頂点バッファとインデックスバッファの設定
+		pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
+		pDevice->SetIndices(m_IndexBuffer);
+
+		m_World = mtxViewRotInv * m_World;
+
+		pDevice->SetTexture(0, CTexture::GetTexture(m_TextureId));
+
+		//各種行列の設定(自分のやりたいところでやる)
+		pDevice->SetTransform(D3DTS_WORLD, &m_World);
+		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
 	}
-
-	// ワールド座標行列をセット
-	D3DXMatrixTranslation(&m_Move, m_Pos.x, m_Pos.y, m_Pos.z);
-	D3DXMatrixScaling(&m_Scale, m_ScaleX, m_ScaleY, m_ScaleZ);
-
-	m_World = m_Scale * m_Move;
-
-	D3DXMATRIX mtxViewRotInv = camera->GetView();
-
-	// ビュー行列の逆行列を作成
-	// m_DrawTypeで切替
-	switch (m_DrawType)
-	{
-	case 0:
-		mtxViewRotInv._41 = 0.0f;
-		mtxViewRotInv._42 = 0.0f;
-		mtxViewRotInv._43 = 0.0f;
-		break;
-
-	case 1:
-		mtxViewRotInv._21 = 0.0f;
-		mtxViewRotInv._32 = 0.0f;
-		mtxViewRotInv._12 = 0.0f;
-		mtxViewRotInv._23 = 0.0f;
-		mtxViewRotInv._41 = 0.0f;
-		mtxViewRotInv._42 = 0.0f;
-		mtxViewRotInv._43 = 0.0f;
-
-	default:
-		break;
-	}
-
-	VERTEX_3D* pV;
-
-	m_VertexBuffer->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
-	
-	pV[0] = { D3DXVECTOR3(-0.5,  0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(0.0f, 0.0f) };
-	pV[1] = { D3DXVECTOR3( 0.5,  0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(1.0f, 0.0f) };
-	pV[2] = { D3DXVECTOR3(-0.5, -0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(0.0f, 1.0f) };
-	pV[3] = { D3DXVECTOR3( 0.5, -0.5, 0), D3DXVECTOR3(0.0f, 0.0f, -1.0f), m_Color, D3DXVECTOR2(1.0f, 1.0f) };
-	
-	m_VertexBuffer->Unlock();
-
-	D3DXMatrixTranspose(&mtxViewRotInv, &mtxViewRotInv);
-
-	// 頂点バッファとインデックスバッファの設定
-	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
-	pDevice->SetIndices(m_IndexBuffer);
-
-	m_World = mtxViewRotInv * m_World;
-
-	pDevice->SetTexture(0, CTexture::GetTexture(m_TextureId));
-
-	//各種行列の設定(自分のやりたいところでやる)
-	pDevice->SetTransform(D3DTS_WORLD, &m_World);
-	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
 }
 
 void CBillBoard::DrawFixedY(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* camera)
@@ -280,8 +283,9 @@ void CBillBoard::DrawEnd()
 	}
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);		// αテストのON/OFF
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }

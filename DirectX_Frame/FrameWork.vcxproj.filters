@@ -46,11 +46,11 @@
     <Filter Include="ソース ファイル\weapon">
       <UniqueIdentifier>{24a3fa03-d452-4e28-952a-9fc50510e7d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\PlayerPattern">
-      <UniqueIdentifier>{c14cfea4-04df-4020-88ea-e065535063b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\playerPattern">
       <UniqueIdentifier>{b7208867-6b88-42c9-b414-6dc66749c37e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\playerPattern">
+      <UniqueIdentifier>{c14cfea4-04df-4020-88ea-e065535063b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,10 +244,13 @@
       <Filter>ヘッダー ファイル\weapon</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternIdle.h">
-      <Filter>ヘッダー ファイル\PlayerPattern</Filter>
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternBase.h">
-      <Filter>ヘッダー ファイル\PlayerPattern</Filter>
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="playerPatternDash.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
