@@ -39,6 +39,11 @@ public:
 
 		m_Flash = NULL;
 		m_isFlash = false;
+
+		m_RecoilCount = 0; 
+		m_CountFire = 0;
+		m_TotalRecoilX = 0.0f;
+		m_TotalRecoilY = 0.0f;
 	}
 	~CWeapon() {}
 
@@ -51,8 +56,10 @@ public:
 	static void ReleaseAll();
 	void SetActive(bool active);
 	void SetADS(bool ads);
-
 	void ChangeCrosshair(int nextTex);
+	void Recoil(float recoilX, float recoilY);
+	void RecoilUpdate();
+	void ReleaseTrigger();
 
 	CSceneModel*	GetModel() { return m_Model; }
 	CScene2D*		GetCrosshair() { return m_Crosshair; }
@@ -85,9 +92,15 @@ protected:
 	CDebug*			m_BulletDebug;
 	CBillBoard*		m_Flash;
 	int				m_FlashAlpha;
+	int				m_RecoilCount;
+	int				m_CountFire;
 	float			m_Damage;
 	float 			m_Rate;
 	float			m_CoolDown;
+	float			m_RecoilX;
+	float			m_RecoilY;
+	float			m_TotalRecoilX;
+	float			m_TotalRecoilY;
 	bool			m_isActive;
 	bool			m_isADS;
 	bool			m_isFlash;

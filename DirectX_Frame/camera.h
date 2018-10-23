@@ -27,6 +27,7 @@ public:
 	D3DXVECTOR3 GetRot() { return m_Rot; }
 	void SetRot(D3DXVECTOR3 rot);
 	void SetFov(float fov);
+	float GetFov() { return m_Fov; }
 	float GetArmLength() { return m_ArmLength; }
 	void SetArmLength(float value) { m_ArmLength = value; }
 	float GetArmLength2D() { return m_ArmLength2D; }

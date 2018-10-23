@@ -252,6 +252,9 @@
     <ClInclude Include="playerPatternDash.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
+    <ClInclude Include="playerPatternCrouch.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -423,6 +426,9 @@
       <Filter>ソース ファイル\weapon</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternIdle.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternCrouch.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
   </ItemGroup>

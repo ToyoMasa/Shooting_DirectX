@@ -166,6 +166,9 @@ void CRifle::Shoot()
 		m_FlashAlpha = 200;
 		m_isFlash = true;
 		m_Flash->SetVisible(m_isFlash);
+
+		// ƒŠƒRƒCƒ‹
+		Recoil(0.03f, 0.07f);
 	}
 }
 

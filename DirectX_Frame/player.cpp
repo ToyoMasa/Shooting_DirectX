@@ -29,6 +29,9 @@
 
 bool g_test = false;
 
+static const float DEFAULT_FOV = 90.0f;
+static const float ADS_FOV = 70.0f;
+
 void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
@@ -133,6 +136,11 @@ void CPlayer::Shoot()
 	m_UsingWeapon->Shoot();
 }
 
+void CPlayer::TriggerRelease()
+{
+	m_UsingWeapon->ReleaseTrigger();
+}
+
 void CPlayer::Death()
 {
 	//m_Model->PlayMontage(PLAYER_DEATH, 0.3f, 8.0f, PLAYER_DEATH, 0.75f);
@@ -224,7 +232,11 @@ void CPlayer::Rotate(float horizontal, float vertical)
 		D3DXVec3Normalize(&m_Right, &m_Right);
 
 		m_Rotate *= mtxRotation;
-		m_Model->Rotate(m_Rotate);
+
+		if (!g_test)
+		{
+			m_Model->Rotate(m_Rotate);
+		}
 	}
 
 	//*********************************************************
@@ -348,19 +360,34 @@ void CPlayer::Move(float moveX, float moveZ)
 	}
 }
 
-void CPlayer::ADS(bool ads)
+void CPlayer::ADS(BOOL ads)
 {
 	if (ads)
 	{
 		m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
-		m_Camera->SetFov(70.0f);
-		m_UsingWeapon->SetADS(ads);
+		if (m_Camera->GetFov() > ADS_FOV)
+		{
+			m_Camera->SetFov(m_Camera->GetFov() - (DEFAULT_FOV - ADS_FOV) / 10.0f);
+		}
+		else
+		{
+			m_Camera->SetFov(ADS_FOV);
+			m_UsingWeapon->SetADS(true);
+		}
 	}
 	else
 	{
 		m_Model->ChangeAnim(PLAYER_IDLE, 0.3f);
-		m_Camera->SetFov(90.0f);
-		m_UsingWeapon->SetADS(ads);
+		if (m_Camera->GetFov() < DEFAULT_FOV)
+		{
+			m_Camera->SetFov(m_Camera->GetFov() + (DEFAULT_FOV - ADS_FOV) / 10.0f);
+			m_UsingWeapon->SetADS(false);
+		}
+		else
+		{
+			m_Camera->SetFov(DEFAULT_FOV);
+			m_UsingWeapon->SetADS(false);
+		}
 	}
 }
 
@@ -372,4 +399,5 @@ void CPlayer::ChangePattern(CPlayerPatternBase* next)
 	}
 
 	m_Pattern = next;
+	next->Init();
 }

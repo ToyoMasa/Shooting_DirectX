@@ -258,6 +258,7 @@ CInputMouse::CInputMouse()
 {
 	ZeroMemory(&m_mouseState, sizeof(m_mouseState));
 	ZeroMemory(&m_mouseStateTrigger, sizeof(m_mouseStateTrigger));
+	ZeroMemory(&m_mouseStateRelease, sizeof(m_mouseStateTrigger));
 }
 
 //=============================================================================
@@ -346,6 +347,7 @@ HRESULT CInputMouse::Update(void)
 	hr = m_pDIDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 	if (SUCCEEDED(hr))
 	{
+		// トリガーの状態を取得
 		m_mouseStateTrigger.lX = ((m_mouseState.lX ^ mouseState.lX) & mouseState.lX);
 		m_mouseStateTrigger.lY = ((m_mouseState.lY ^ mouseState.lY) & mouseState.lY);
 		m_mouseStateTrigger.lZ = ((m_mouseState.lZ ^ mouseState.lZ) & mouseState.lZ);
@@ -355,6 +357,17 @@ HRESULT CInputMouse::Update(void)
 				= ((m_mouseState.rgbButtons[nCntKey] ^ mouseState.rgbButtons[nCntKey]) & mouseState.rgbButtons[nCntKey]);
 		}
 
+		// リリースを取得
+		m_mouseStateRelease.lX = ((m_mouseState.lX ^ mouseState.lX) & m_mouseState.lX);
+		m_mouseStateRelease.lY = ((m_mouseState.lY ^ mouseState.lY) & m_mouseState.lY);
+		m_mouseStateRelease.lZ = ((m_mouseState.lZ ^ mouseState.lZ) & m_mouseState.lZ);
+		for (int nCntKey = 0; nCntKey < 8; nCntKey++)
+		{
+			m_mouseStateRelease.rgbButtons[nCntKey]
+				= ((m_mouseState.rgbButtons[nCntKey] ^ mouseState.rgbButtons[nCntKey]) & m_mouseState.rgbButtons[nCntKey]);
+		}
+
+		// 現在のマウスの入力を取得
 		m_mouseState = mouseState;
 
 		// スクリーン座標を取得
@@ -385,6 +398,14 @@ BOOL CInputMouse::GetLeftTrigger(void)
 }
 
 //=============================================================================
+// マウスデータ取得(左トリガーリリース)
+//=============================================================================
+BOOL CInputMouse::GetLeftRelease(void)
+{
+	return (m_mouseStateRelease.rgbButtons[0] & 0x80) ? TRUE : FALSE;
+}
+
+//=============================================================================
 // マウスデータ取得(右プレス)
 //=============================================================================
 BOOL CInputMouse::GetRightPress(void)
@@ -398,6 +419,14 @@ BOOL CInputMouse::GetRightPress(void)
 BOOL CInputMouse::GetRightTrigger(void)
 {
 	return (m_mouseStateTrigger.rgbButtons[1] & 0x80) ? TRUE : FALSE;
+}
+
+//=============================================================================
+// マウスデータ取得(右トリガーリリース)
+//=============================================================================
+BOOL CInputMouse::GetRightRelease(void)
+{
+	return (m_mouseStateRelease.rgbButtons[1] & 0x80) ? TRUE : FALSE;
 }
 
 //=============================================================================

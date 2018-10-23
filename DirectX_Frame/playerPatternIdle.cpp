@@ -27,6 +27,11 @@
 #include "shotgun.h"
 #include "playerPatternIdle.h"
 
+void CPlayerPatternIdle::Init()
+{
+
+}
+
 void CPlayerPatternIdle::Update(CPlayer* player)
 {
 	CInputKeyboard *inputKeyboard;
@@ -70,6 +75,10 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
 			player->Shoot();
+		}
+		if (inputMouse->GetLeftRelease() || inputKeyboard->GetKeyRelease(DIK_SPACE))
+		{
+			player->TriggerRelease();
 		}
 
 		// ‰ñ“]

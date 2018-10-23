@@ -199,6 +199,7 @@
     <ClInclude Include="PlayerAnim.h" />
     <ClInclude Include="playerPatternDash.h" />
     <ClInclude Include="playerPatternIdle.h" />
+    <ClInclude Include="playerPatternCrouch.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="rifle.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerPatternIdle.cpp" />
+    <ClCompile Include="playerPatternCrouch.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="rifle.cpp" />

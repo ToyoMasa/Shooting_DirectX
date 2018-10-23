@@ -42,12 +42,13 @@ public:
 	bool GetPlayerDeath() { return m_isPreDeath; }
 	static CPlayer* Create(int modelId, D3DXVECTOR3 spawnPos);
 	void Shoot();
+	void TriggerRelease();
 	void Death();
 	void Rotate(D3DXVECTOR3 vec);
 	void Rotate(float horizontal, float vertical);
 	void ChangeWeapon(int id);
 	void Move(float moveX, float moveZ);
-	void ADS(bool ads);
+	void ADS(BOOL ads);
 	void ChangePattern(CPlayerPatternBase* next);
 
 private:

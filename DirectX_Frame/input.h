@@ -72,8 +72,10 @@ public:
 
 	BOOL GetLeftPress(void);
 	BOOL GetLeftTrigger(void);
+	BOOL GetLeftRelease(void);
 	BOOL GetRightPress(void);
 	BOOL GetRightTrigger(void);
+	BOOL GetRightRelease(void);
 	BOOL GetCenterPress(void);
 	BOOL GetCenterTrigger(void);
 	LONG GetAxisX(void);
@@ -84,6 +86,7 @@ public:
 private:
 	DIMOUSESTATE2	m_mouseState;				// マウスの状態を受け取るワーク
 	DIMOUSESTATE2	m_mouseStateTrigger;		// トリガーワーク
+	DIMOUSESTATE2	m_mouseStateRelease;		// トリガーリリースワーク
 	POINT			m_posMouseWorld;			// マウスのスクリーン座標
 };
 
