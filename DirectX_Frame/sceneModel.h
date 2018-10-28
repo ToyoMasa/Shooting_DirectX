@@ -75,6 +75,7 @@ public:
 	void Rotate(D3DXVECTOR3 rot);
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
+	D3DXMATRIX GetScale() { return m_Scale; }
 	D3DXMATRIX GetWorld() { return m_World; }
 	static CSceneModel* Create(const std::string& modelName);
 	static CSceneModel* Create(const std::string& modelName, bool isIgnore);

@@ -4,6 +4,7 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "texture.h"
 #include "camera.h"
 #include "scene2D.h"
@@ -17,6 +18,7 @@
 #include "emitter.h"
 #include "billboard.h"
 #include "PlayerAnim.h"
+#include "shader.h"
 
 static const int DIFFUSSION = 160;
 bool once = false;
@@ -43,6 +45,8 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_CoolDown = 0.0f;
 
 	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
+
+	//m_Model->SetShader(CShader::GetShader(SHADER_FILE_BASIC));
 }
 
 void CRifle::Uninit()

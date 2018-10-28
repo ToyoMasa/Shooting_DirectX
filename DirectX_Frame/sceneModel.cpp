@@ -198,7 +198,16 @@ void CSceneModel::Draw()
 			pDevice->SetTexture(0, NULL);
 		}
 
-		m_Mesh->DrawSubset(i);
+		if (m_Shader != NULL)
+		{
+			m_Shader->SetWorld(m_World);
+			m_Shader->SetTexture(m_Texture[i]);
+			m_Shader->Draw(this, m_Mesh, i);
+		}
+		else
+		{
+			m_Mesh->DrawSubset(i);
+		}
 	}
 
 	if (m_isIgnoreLight)

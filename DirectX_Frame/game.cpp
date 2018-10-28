@@ -120,6 +120,7 @@ void CModeGame::Init()
 	// ‹È‚ð•ÏX
 	//BGM->Release();
 
+	CShader::SetCamera(CManager::GetCamera());
 }
 
 void CModeGame::Uninit()

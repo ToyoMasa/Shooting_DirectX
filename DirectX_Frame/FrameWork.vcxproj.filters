@@ -255,6 +255,9 @@
     <ClInclude Include="playerPatternCrouch.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
+    <ClInclude Include="ZombieAAnim.h">
+      <Filter>ヘッダー ファイル\SkinMesh\AnimationList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -433,6 +436,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shader.fx" />
+    <FxCompile Include="data\shaders\shader.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="data\shaders\phong.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="data\shaders\basic.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

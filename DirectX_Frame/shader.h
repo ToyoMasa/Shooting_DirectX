@@ -6,18 +6,23 @@
 class CCamera;
 class CScene;
 
-static const DWORD FVF_SHADER = (D3DFVF_XYZ | D3DFVF_DIFFUSE);
-
-typedef enum
+enum SHADERFILE_LIST
 {
 	SHADER_FILE_001,
-} SHADERFILE_LIST;
+	SHADER_FILE_PHONG,
+	SHADER_FILE_BASIC,
+	SHADER_FILE_MAX,
+};
 
 // シェーダーファイルリスト
 static const std::string SHADER_FILE[] =
 {
-	"shader.fx",
+	"data/shaders/shader.fx",
+	"data/shaders/phong.fx",
+	"data/shaders/basic.fx",
 };
+
+static const DWORD FVF_SHADER = (D3DFVF_XYZ | D3DFVF_DIFFUSE);
 
 class CShader
 {
@@ -29,18 +34,26 @@ public:
 	}
 	~CShader(){}
 
-	void Init();
+	void Init(int id);
 	void Uninit();
 	void Draw(CScene* scene);
+	void Draw(CScene* scene, LPD3DXMESH mesh, DWORD id);
+	void SetWorld(D3DXMATRIX world);
+	void SetTexture(LPDIRECT3DTEXTURE9 texture);
+	static void LoadShader();
+	static void ReleaseShader();
+	static void SetCamera(CCamera* camera) { m_pCamera = camera; }
+	static CShader* GetShader(int id) { return m_Shaders[id]; }
 
 private:
 	D3DXMATRIX m_World;	// 描画に使う変換行列
 
-	CCamera* m_pCamera;
+	static CCamera* m_pCamera;
 
 	LPD3DXEFFECT m_pEffect;
 	D3DXHANDLE m_hTech;			// 現在のテクニックのハンドル
 	D3DXHANDLE m_hTechNext;		// 次のテクニックのハンドル
+	static CShader			*m_Shaders[SHADER_FILE_MAX];
 };
 
 #endif // !_SHADER_H_

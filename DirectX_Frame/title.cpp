@@ -40,7 +40,6 @@ CScene2D *CModeTitle::LoadFrame = NULL;
 CScene2D *CModeTitle::LoadGage = NULL;
 
 CWall* wall;
-CShader test;
 
 void CModeTitle::Init()
 {
@@ -130,7 +129,6 @@ void CModeTitle::Init()
 	LoadFrame->Release();
 	LoadGage->Release();
 
-	test.Init();
 	//wall = CWall::Create(D3DXVECTOR3(0, 0, 0), 1, 1, 1, 0);
 	//wall->SetShader(&test);
 	//m_Mesh->SetShader(&test);
@@ -146,8 +144,6 @@ void CModeTitle::Uninit()
 	m_Camera->Release();
 
 	CSound::ReleaseAll();
-
-	test.Uninit();
 }
 
 void CModeTitle::Update()

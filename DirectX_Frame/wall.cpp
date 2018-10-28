@@ -35,6 +35,8 @@ void CWall::Init(D3DXVECTOR3 pos, float x, float y, float z, int texID)
 	m_NormalPos[5].z -= m_OBB.GetLen(2);
 
 	m_Type = SCENE_TYPE_WALL;
+
+	SetShader(CShader::GetShader(SHADER_FILE_001));
 }
 
 void CWall::Uninit()
