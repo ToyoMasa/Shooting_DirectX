@@ -39,12 +39,13 @@ public:
 		D3DXMatrixIdentity(&m_RotZ);
 		D3DXMatrixIdentity(&m_Scale);
 
+		m_ModelID = SM_ID_MAX;
 		m_SkinMeshFile = NULL;
 		m_DefAnimSpeed = 0.025f;
 		m_AnimPlaySpeed = m_DefAnimSpeed;
 	}
 
-	void Init(const std::string& modelName);
+	void Init(const SKINMESH_MODEL_ID& id);
 	void Uninit();
 	void Update();
 	void Draw();
@@ -72,7 +73,10 @@ public:
 	// アニメーションの再生時間を取得
 	float GetWeightTime() { return m_Animation->GetWeightTime(); }
 
-	static CSceneSkinMesh* Create(const std::string& modelName);
+	static CSceneSkinMesh* Create(const SKINMESH_MODEL_ID& id);
+	static void LoadFile(const SKINMESH_MODEL_ID& id);
+	static void ReleaseFile(const SKINMESH_MODEL_ID& id);
+	static void ReleaseFileAll();
 
 private:
 	D3DXMATRIX				m_World;		// ワールド変換行列
@@ -84,8 +88,11 @@ private:
 	D3DXMATRIX				m_Scale;		// 拡大縮小行列
 	SkinMeshFile*			m_SkinMeshFile;
 	SkinMeshFileAnimation*	m_Animation;
+	SKINMESH_MODEL_ID		m_ModelID;
 	float					m_AnimPlaySpeed;
 	float					m_DefAnimSpeed;
+	static SkinMeshFile*			m_SkinMeshFiles[SM_ID_MAX];
+	static SkinMeshFileAnimation*	m_Animations[SM_ID_MAX];
 };
 
 #endif

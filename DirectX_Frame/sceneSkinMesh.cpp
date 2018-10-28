@@ -8,11 +8,30 @@
 
 static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL); 
 
-void CSceneSkinMesh::Init(const std::string& modelName)
+SkinMeshFile *CSceneSkinMesh::m_SkinMeshFiles[SM_ID_MAX] = { NULL };
+SkinMeshFileAnimation *CSceneSkinMesh::m_Animations[SM_ID_MAX] = { NULL };
+
+void CSceneSkinMesh::Init(const SKINMESH_MODEL_ID& id)
 {
-	m_SkinMeshFile = new SkinMeshFile();
+	//m_SkinMeshFile = new SkinMeshFile();
+	//m_Animation = new SkinMeshFileAnimation();
+	//m_SkinMeshFile->Load(SKINMESH_SOURCE[id], m_Animation);
+	if (m_SkinMeshFiles[id] == NULL)
+	{
+		LoadFile(id);
+	}
+
 	m_Animation = new SkinMeshFileAnimation();
-	m_SkinMeshFile->Load(modelName, m_Animation);
+	m_Animations[id]->GetAnimController()->CloneAnimationController(
+		m_Animations[id]->GetAnimController()->GetMaxNumAnimationOutputs(),
+		m_Animations[id]->GetAnimController()->GetMaxNumAnimationSets(),
+		m_Animations[id]->GetAnimController()->GetMaxNumTracks(),
+		m_Animations[id]->GetAnimController()->GetMaxNumEvents(),
+		&m_Animation->GetAnimController()
+	);
+	m_Animation->Init();
+
+	m_ModelID = id;
 }
 
 void CSceneSkinMesh::Uninit()
@@ -21,25 +40,20 @@ void CSceneSkinMesh::Uninit()
 	{
 		delete m_Animation;
 	}
-	if (m_SkinMeshFile != NULL)
-	{
-		delete m_SkinMeshFile;
-	}
+	//if (m_SkinMeshFile != NULL)
+	//{
+	//	delete m_SkinMeshFile;
+	//}
 }
 
 void CSceneSkinMesh::Update()
 {
-	if (m_SkinMeshFile != NULL)
-	{
-		m_Animation->UpdateAnim(m_AnimPlaySpeed);
 
-		m_SkinMeshFile->UpdateFrame(m_SkinMeshFile->GetRootFrame(), &m_World);
-	}
 }
 
 void CSceneSkinMesh::Draw()
 {
-	if (m_SkinMeshFile != NULL)
+	if (m_SkinMeshFiles[m_ModelID] != NULL)
 	{
 		LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 		if (pDevice == NULL)
@@ -47,12 +61,15 @@ void CSceneSkinMesh::Draw()
 			return;
 		}
 
+		m_Animation->UpdateAnim(m_AnimPlaySpeed);
+		m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
+
 		pDevice->SetTransform(D3DTS_WORLD, &m_World);
 
 		// FVF(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)‚ÌÝ’è
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
-		m_SkinMeshFile->Draw(&m_World);
+		m_SkinMeshFiles[m_ModelID]->Draw(&m_World);
 	}
 }
 
@@ -91,10 +108,10 @@ void CSceneSkinMesh::Scale(D3DXVECTOR3 scale)
 	m_World = m_Scale * m_Rotate * m_Move;
 }
 
-CSceneSkinMesh* CSceneSkinMesh::Create(const std::string& modelName)
+CSceneSkinMesh* CSceneSkinMesh::Create(const SKINMESH_MODEL_ID& id)
 {
 	CSceneSkinMesh* skinMesh = new CSceneSkinMesh(LAYER_OBJECT3D);
-	skinMesh->Init(modelName);
+	skinMesh->Init(id);
 
 	return skinMesh;
 }
@@ -124,5 +141,32 @@ void CSceneSkinMesh::PlayMontage(UINT animID, float shiftTime, float playTime, U
 
 D3DXMATRIX CSceneSkinMesh::GetBoneMatrix(LPSTR _BoneName)
 {
-	return m_SkinMeshFile->GetBoneMatrix(_BoneName);
+	m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
+	return m_SkinMeshFiles[m_ModelID]->GetBoneMatrix(_BoneName);
+}
+void CSceneSkinMesh::LoadFile(const SKINMESH_MODEL_ID& id)
+{
+	if (m_SkinMeshFiles[id] == NULL)
+	{
+		m_SkinMeshFiles[id] = new SkinMeshFile();
+		m_Animations[id] = new SkinMeshFileAnimation();
+		m_SkinMeshFiles[id]->Load(SKINMESH_SOURCE[id], m_Animations[id]);
+	}
+}
+
+void CSceneSkinMesh::ReleaseFile(const SKINMESH_MODEL_ID& id)
+{
+	if (m_SkinMeshFiles[id] != NULL)
+	{
+		delete m_SkinMeshFiles[id];
+		delete m_Animations[id];
+	}
+}
+
+void CSceneSkinMesh::ReleaseFileAll()
+{
+	for (int i = 0; i < SM_ID_MAX; i++)
+	{
+		ReleaseFile((SKINMESH_MODEL_ID)i);
+	}
 }

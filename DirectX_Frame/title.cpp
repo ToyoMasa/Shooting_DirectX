@@ -96,7 +96,7 @@ void CModeTitle::Init()
 		}
 	}
 
-	m_Mesh = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
+	m_Mesh = CSceneSkinMesh::Create(SM_ID_PLAYER);
 	m_Mesh->ChangeAnim(PLAYER_IDLE, 0.0f);
 
 	{

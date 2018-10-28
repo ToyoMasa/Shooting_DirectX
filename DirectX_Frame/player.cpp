@@ -35,9 +35,9 @@ static const float LOCAL_CAMERA_X = 0.0f;
 static const float LOCAL_CAMERA_Y = 1.715f;
 static const float LOCAL_CAMERA_Z = 0.375f;
 
-void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
+void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 {
-	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[SM_ID_PLAYER]);
+	m_Model = CSceneSkinMesh::Create(modelId);
 	m_Model->ChangeAnim(PLAYER_IDLE, 0.0f);
 	//m_Model->SetVisible(false);
 	m_Pos = spawnPos;
@@ -126,7 +126,7 @@ void CPlayer::Draw()
 {
 }
 
-CPlayer* CPlayer::Create(int modelId, D3DXVECTOR3 spawnPos)
+CPlayer* CPlayer::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 {
 	CPlayer* player = new CPlayer();
 	player->Init(modelId, spawnPos);

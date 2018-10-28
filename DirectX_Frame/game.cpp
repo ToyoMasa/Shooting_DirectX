@@ -35,6 +35,7 @@
 #include "bullet.h"
 #include "weapon.h"
 #include "debug.h"
+#include "EnemyAnim.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -65,6 +66,8 @@ int CModeGame::m_NumSneak = 0;
 int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 
+CSceneSkinMesh* testModel[10] = { NULL };
+
 void CModeGame::Init()
 {
 	// テクスチャの初期化
@@ -90,11 +93,18 @@ void CModeGame::Init()
 	CField* field = CField::Create(NULL, 10.0f, 20, 20, true);
 
 	// プレイヤー
-	player = CPlayer::Create(MODEL_ID_PLAYER, D3DXVECTOR3(0.0f, 0.0f, -30.0f));
+	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(0.0f, 0.0f, -30.0f));
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
 	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), 1, field);
+
+	for (int i = 0; i < 10; i++)
+	{
+		testModel[i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
+		testModel[i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, 0.0f));
+		testModel[i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
+	}
 
 	// 空
 	CSkyBox::Create(player);
@@ -130,6 +140,8 @@ void CModeGame::Uninit()
 	CWeapon::ReleaseAll();
 
 	CCharacter::ReleaseAll();
+
+	CSceneSkinMesh::ReleaseFileAll();
 
 	CScene::ReleaseAll();
 

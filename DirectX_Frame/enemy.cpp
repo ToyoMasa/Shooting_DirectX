@@ -25,9 +25,9 @@
 #include "EnemyAnim.h"
 #include "Effekseer.h"
 
-void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
+void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
 {
-	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[modelId]);
+	m_Model = CSceneSkinMesh::Create(modelId);
 	m_Pos = spawnPos;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
@@ -40,9 +40,9 @@ void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 }
 
-void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type)
+void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type)
 {
-	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[modelId]);
+	m_Model = CSceneSkinMesh::Create(modelId);
 	m_Pos = spawnPos;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
@@ -53,9 +53,9 @@ void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, 
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 }
 
-void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type)
+void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type)
 {
-	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[modelId]);
+	m_Model = CSceneSkinMesh::Create(modelId);
 	m_Pos = spawnPos;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
@@ -175,7 +175,7 @@ void CEnemy::Update()
 	}
 }
 
-CEnemy* CEnemy::Create(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
+CEnemy* CEnemy::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
 {
 	CEnemy* enemy = new CEnemy();
 	enemy->Init(modelId, spawnPos, rootId, field);
@@ -183,7 +183,7 @@ CEnemy* CEnemy::Create(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* fi
 	return enemy;
 }
 
-CEnemy* CEnemy::Create(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type)
+CEnemy* CEnemy::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type)
 {
 	CEnemy* enemy = new CEnemy();
 	enemy->Init(modelId, spawnPos, rootId, field, type);
@@ -191,7 +191,7 @@ CEnemy* CEnemy::Create(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* fi
 	return enemy;
 }
 
-CEnemy* CEnemy::Create(int modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type)
+CEnemy* CEnemy::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type)
 {
 	CEnemy* enemy = new CEnemy();
 	enemy->Init(modelId, spawnPos, action, field, type);

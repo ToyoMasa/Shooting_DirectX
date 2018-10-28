@@ -35,13 +35,13 @@ public:
 	}
 	~CPlayer(){}
 
-	void Init(int modelId, D3DXVECTOR3 spawnPos);
+	void Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos);
 	void Uninit()override;
 	void Update()override;
 	void Draw();
 	CCamera* GetCamera() { return m_Camera; }
 	bool GetPlayerDeath() { return m_isPreDeath; }
-	static CPlayer* Create(int modelId, D3DXVECTOR3 spawnPos);
+	static CPlayer* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos);
 	void Shoot();
 	void TriggerRelease();
 	void Death();
