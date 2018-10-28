@@ -8,6 +8,24 @@
 #include <string>
 #include "SkinMeshFile.h"
 
+// モデル管理用ID
+typedef enum
+{
+	SM_ID_PLAYER,
+	SM_ID_ENEMY01,
+	SM_ID_ENEMY02,
+	SM_ID_ZOMBIE_A,
+	SM_ID_MAX
+} SKINMESH_MODEL_ID;
+
+static const std::string SKINMESH_SOURCE[] =
+{
+	"data/models/player_hand.x",
+	"data/models/enemy_01.x",
+	"data/models/enemy_02.x",
+	"data/models/zombieA.x",
+};
+
 class CSceneSkinMesh : public CScene
 {
 public:
@@ -50,23 +68,24 @@ public:
 	// 1回再生のアニメ―ション
 	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID);
 	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID, float playSpeed);
-	bool GetPlayMontage() { return m_SkinMeshFile->GetPlayMontage(); }
+	bool GetPlayMontage() { return m_Animation->GetPlayMontage(); }
 	// アニメーションの再生時間を取得
-	float GetWeightTime() { return m_SkinMeshFile->GetWeightTime(); }
+	float GetWeightTime() { return m_Animation->GetWeightTime(); }
 
 	static CSceneSkinMesh* Create(const std::string& modelName);
 
 private:
-	D3DXMATRIX			m_World;		// ワールド変換行列
-	D3DXMATRIX			m_Move;			// 平行移動行列
-	D3DXMATRIX			m_Rotate;		// 回転行列
-	D3DXMATRIX			m_RotX;			// X軸回転行列
-	D3DXMATRIX			m_RotY;			// Y軸回転行列
-	D3DXMATRIX			m_RotZ;			// Z軸回転行列
-	D3DXMATRIX			m_Scale;		// 拡大縮小行列
-	SkinMeshFile*		m_SkinMeshFile;
-	float				m_AnimPlaySpeed;
-	float				m_DefAnimSpeed;
+	D3DXMATRIX				m_World;		// ワールド変換行列
+	D3DXMATRIX				m_Move;			// 平行移動行列
+	D3DXMATRIX				m_Rotate;		// 回転行列
+	D3DXMATRIX				m_RotX;			// X軸回転行列
+	D3DXMATRIX				m_RotY;			// Y軸回転行列
+	D3DXMATRIX				m_RotZ;			// Z軸回転行列
+	D3DXMATRIX				m_Scale;		// 拡大縮小行列
+	SkinMeshFile*			m_SkinMeshFile;
+	SkinMeshFileAnimation*	m_Animation;
+	float					m_AnimPlaySpeed;
+	float					m_DefAnimSpeed;
 };
 
 #endif

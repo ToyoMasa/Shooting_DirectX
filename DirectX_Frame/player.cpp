@@ -31,6 +31,9 @@ bool g_test = false;
 
 static const float DEFAULT_FOV = 90.0f;
 static const float ADS_FOV = 70.0f;
+static const float LOCAL_CAMERA_X = 0.0f;
+static const float LOCAL_CAMERA_Y = 1.715f;
+static const float LOCAL_CAMERA_Z = 0.375f;
 
 void CPlayer::Init(int modelId, D3DXVECTOR3 spawnPos)
 {
@@ -320,7 +323,9 @@ void CPlayer::Move(float moveX, float moveZ)
 	newPos.y = m_Field->GetHeight(newPos);
 
 	// コリジョンの計算
-	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + 0.25f, newPos.z), Point(newPos.x, newPos.y + 1.0f, newPos.z), 0.25f);
+	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + PLAYER_CUPSULE_RAD, newPos.z),
+		Point(newPos.x, newPos.y + 1.2f, newPos.z),
+		PLAYER_CUPSULE_RAD);
 
 	// キャラクターとの当たり判定
 	for (int i = 0; i < CHARACTER_MAX; i++)
@@ -337,7 +342,7 @@ void CPlayer::Move(float moveX, float moveZ)
 					D3DXVec3Normalize(&vec, &vec);
 
 					newPos = enemy->GetPos();
-					newPos += vec * 0.5f;
+					newPos += vec * (ENEMY_CUPSULE_RAD + ENEMY_CUPSULE_RAD);
 				}
 			}
 		}
@@ -353,10 +358,10 @@ void CPlayer::Move(float moveX, float moveZ)
 		SetPos(newPos);
 
 		m_Model->Move(m_Pos + m_LocalCameraPos);
-		m_Shadow->Move(m_Pos);
+		m_Shadow->Move(m_Pos + m_LocalCameraPos);
 
 		// 当たり判定の移動
-		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.25f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.25f);
+		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
 	}
 }
 

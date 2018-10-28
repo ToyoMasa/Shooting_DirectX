@@ -10,6 +10,7 @@
 #include "sound.h"
 
 static const float ENEMY_MOVE_SPEED = 0.03f;
+static const float ENEMY_CUPSULE_RAD = 0.4f;
 
 typedef enum
 {

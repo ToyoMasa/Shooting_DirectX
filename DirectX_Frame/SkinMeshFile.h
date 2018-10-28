@@ -10,20 +10,51 @@
 
 static const int MAX_ANIMATION = 20;
 
-// モデル管理用ID
-typedef enum
+class SkinMeshFileAnimation
 {
-	SM_ID_PLAYER,
-	SM_ID_ENEMY01,
-	SM_ID_ENEMY02,
-	SM_ID_MAX
-} SKINMESH_MODEL_ID;
+public:
+	SkinMeshFileAnimation() : m_AnimController(NULL) {}
+	~SkinMeshFileAnimation();
 
-static const std::string SKINMESH_SOURCE[] =
-{
-	"data/models/player_hand.x",
-	"data/models/enemy_01.x",
-	"data/models/enemy_02.x",
+	LPD3DXANIMATIONCONTROLLER& GetAnimController() { return m_AnimController; }
+	LPD3DXANIMATIONSET GetAnimSet(int id) { return m_AnimSet[id]; }
+
+	void Init();
+	void UpdateAnim(float time);
+
+	// 追加
+	DWORD GetCurrentAnim() { return m_CurrentAnim; }
+	// アニメーション切替
+	void ChangeAnim(UINT animID, float shiftTime);
+	// アニメーションの速度設定
+	bool SetLoopTime(UINT animID, FLOAT time);
+	// アニメ移行時間セット
+	void SetShiftTime(float time) { m_ShiftTime = time; }
+	// 1回再生のアニメ―ション
+	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID);
+	bool GetPlayMontage() { return m_bPlayMontage; }
+	// アニメーションの再生時間を取得
+	float GetWeightTime() { return m_CurrentWeightTime; }
+
+private:
+	// アニメーション管理
+	LPD3DXANIMATIONCONTROLLER m_AnimController;
+
+	// アニメーション
+	LPD3DXANIMATIONSET m_AnimSet[MAX_ANIMATION];
+	//現在のアニメーション
+	DWORD m_CurrentAnim;
+	//現在のアニメーションデータトラック
+	D3DXTRACK_DESC m_CurrentTrackDesc;
+	float m_TrackSpeed;             // トラックスピード調節値
+	float m_ShiftTime;              // シフトするのにかかる時間
+	float m_CurrentWeightTime;      // 現在のウェイト時間
+
+									// 1度きりアニメーション
+	DWORD m_NextAnim;
+	bool m_bPlayMontage;
+	float m_MontageTime;
+
 };
 
 // 階層付きXFile
@@ -52,7 +83,7 @@ public:
 			内容：
 				XFileの読み込みを行う
 	*/
-	bool Load(std::string file_name);
+	bool Load(std::string file_name, SkinMeshFileAnimation* anim);
 
 
 	/*
@@ -160,30 +191,6 @@ public:
 	*/
 	void UpdateFrame(LPD3DXFRAME base, LPD3DXMATRIX parent_matrix);
 
-	/*
-		アニメーションの更新
-			戻り値：
-				なし
-			引数：
-				なし
-			内容：
-				アニメーションを更新させる
-	*/
-	void UpdateAnim(float time);
-
-	// 追加
-	DWORD GetCurrentAnim() { return m_CurrentAnim; }
-	// アニメーション切替
-	void ChangeAnim(UINT animID, float shiftTime);
-	// アニメーションの速度設定
-	bool SetLoopTime(UINT animID, FLOAT time);
-	// アニメ移行時間セット
-	void SetShiftTime(float time) { m_ShiftTime = time; }
-	// 1回再生のアニメ―ション
-	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID);
-	bool GetPlayMontage() { return m_bPlayMontage; }
-	// アニメーションの再生時間を取得
-	float GetWeightTime() { return m_CurrentWeightTime; }
 private:
 	// 対象のボーンを検索
 	FrameData* SearchBoneFrame(LPSTR _BoneName, D3DXFRAME* _pFrame);
@@ -204,23 +211,6 @@ private:
     LPD3DXANIMATIONCONTROLLER m_AnimController;
 
 	// 追加
-	// 現在のトラック
-
-	// アニメーション
-	LPD3DXANIMATIONSET m_AnimSet[MAX_ANIMATION];
-	//現在のアニメーション
-	DWORD m_CurrentAnim;
-	//現在のアニメーションデータトラック
-	D3DXTRACK_DESC m_CurrentTrackDesc;
-	float m_TrackSpeed;             // トラックスピード調節値
-	float m_ShiftTime;              // シフトするのにかかる時間
-	float m_CurrentWeightTime;      // 現在のウェイト時間
-
-	// 1度きりアニメーション
-	DWORD m_NextAnim;
-	bool m_bPlayMontage;
-	float m_MontageTime;
-
 	// 全フレーム参照配列
 	std::vector<FrameData*> m_FrameArray;
 	// メッシュコンテナありのフレーム参照記録

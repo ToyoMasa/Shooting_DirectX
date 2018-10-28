@@ -12,6 +12,7 @@
 
 static const float PLAYER_MOVE_SPEED = 0.08f;
 static const float VALUE_ROTATE_MOUSE = 0.003f;
+static const float PLAYER_CUPSULE_RAD = 0.5f;
 
 static const int HAVE_WEAPON = 2;
 

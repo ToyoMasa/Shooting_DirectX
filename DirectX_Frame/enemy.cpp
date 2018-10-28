@@ -29,7 +29,7 @@ void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[modelId]);
 	m_Pos = spawnPos;
-	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.4f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), 0.4f);
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
 	m_Field = field;
 	m_EnemyType = ENEMY_TYPE_PATROL;
@@ -44,7 +44,7 @@ void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, 
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[modelId]);
 	m_Pos = spawnPos;
-	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.4f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), 0.4f);
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
 	m_Field = field;
 	m_EnemyType = type;
@@ -57,7 +57,7 @@ void CEnemy::Init(int modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField
 {
 	m_Model = CSceneSkinMesh::Create(SKINMESH_SOURCE[modelId]);
 	m_Pos = spawnPos;
-	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.4f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), 0.4f);
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
 	m_Field = field;
 	m_Action = action;
@@ -127,7 +127,7 @@ void CEnemy::Update()
 			m_Pos.y = m_Field->GetHeight(m_Pos);
 
 			// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ
-			m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.4f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), 0.4f);
+			m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ENEMY_CUPSULE_RAD);
 			for (int i = 0; i < CHARACTER_MAX; i++)
 			{
 				CCharacter* obj = CCharacter::GetCharacter(i);
@@ -142,7 +142,7 @@ void CEnemy::Update()
 							D3DXVec3Normalize(&vec, &vec);
 
 							m_Pos = enemy->GetPos();
-							m_Pos += vec * 0.5f;
+							m_Pos += vec * (ENEMY_CUPSULE_RAD * 2 + 0.05f);
 						}
 					}
 				}
@@ -151,9 +151,9 @@ void CEnemy::Update()
 			m_Shadow->Move(m_Pos);
 
 			// “–‚½‚è”»’è‚ÌˆÚ“®
-			m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.4f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), 0.40f);
+			m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ENEMY_CUPSULE_RAD);
 			D3DXVECTOR3 attackPos = m_Pos + m_Forward * 1.0f;
-			m_AttackingCollsion.Set(Point(attackPos.x, attackPos.y + 0.25f, attackPos.z), Point(attackPos.x, attackPos.y + 1.65f, attackPos.z), 0.5f);
+			m_AttackingCollsion.Set(Point(attackPos.x, attackPos.y + 0.25f, attackPos.z), Point(attackPos.x, attackPos.y + 1.65f, attackPos.z), PLAYER_CUPSULE_RAD);
 		}
 	}
 
@@ -269,7 +269,7 @@ void CEnemy::Death()
 
 void CEnemy::Attack()
 {
-	m_Model->PlayMontage(ENEMY_ATTACK, 0.2f, 6.0f, ENEMY_IDLE, 1.5f);
+	m_Model->PlayMontage(ENEMY_ATTACK, 0.2f, 2.5f, ENEMY_IDLE, 1.5f);
 
 	m_isPreAttack = true;
 }

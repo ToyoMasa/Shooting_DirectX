@@ -13,16 +13,9 @@ SkinMeshFile::~SkinMeshFile()
 	{
 		m_AnimController->Release();
 	}
-	for (int i = 0; i < MAX_ANIMATION; i++)
-	{
-		if (m_AnimSet[i] != NULL)
-		{
-			m_AnimSet[i]->Release();
-		}
-	}
 }
 
-bool SkinMeshFile::Load(std::string file_name)
+bool SkinMeshFile::Load(std::string file_name, SkinMeshFileAnimation* anim)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -39,26 +32,16 @@ bool SkinMeshFile::Load(std::string file_name)
 		m_SkinMeshData,
 		NULL,
 		&m_RootFrame,
-		&m_AnimController) ) )
+		&anim->GetAnimController()) ) )
 	{
 		return false;
 	}
 
+	// アニメーションの初期化
+	anim->Init();
+
 	// ボーンの行列領域を確保
 	AllocateAllBoneMatrix(m_RootFrame);
-	m_AnimController->SetTrackSpeed(0, 0.5f);
-
-	// 追加
-	//アニメーショントラックの取得
-	for (int i = 0; i < m_AnimController->GetNumAnimationSets(); i++)
-	{
-		//アニメーション取得
-		m_AnimController->GetAnimationSet(i, &(m_AnimSet[i]));
-	}
-	m_CurrentAnim = 0;
-	m_AnimController->GetTrackDesc(0, &m_CurrentTrackDesc);
-
-	m_bPlayMontage = false;
 
 	// 全てのフレーム参照変数の生成
 	m_FrameArray.clear();
@@ -289,107 +272,6 @@ void SkinMeshFile::UpdateFrame(LPD3DXFRAME base, LPD3DXMATRIX parent_matrix)
     }
 }
 
-void SkinMeshFile::UpdateAnim(float time)
-{
-	if (m_AnimController != NULL)
-	{
-		// 合成中か否かを判定
-		m_CurrentWeightTime += time;
-		if (m_CurrentWeightTime <= m_ShiftTime)
-		{
-			// 合成中。ウェイトを算出
-			float Weight = m_CurrentWeightTime / m_ShiftTime;
-			// ウェイトを登録
-			m_AnimController->SetTrackWeight(0, Weight);       // 現在のアニメーション
-			m_AnimController->SetTrackWeight(1, 1 - Weight);   // 前のアニメーション
-		}
-		else
-		{
-			// 合成終了中。通常アニメーションをするTrack0のウェイトを最大値に
-			m_AnimController->SetTrackWeight(0, 1.0f);       // 現在のアニメーション
-			m_AnimController->SetTrackEnable(1, false);      // 前のアニメーションを無効にする
-		}
-
-		if (m_bPlayMontage)
-		{
-			if (m_CurrentWeightTime >= m_MontageTime)
-			{
-				ChangeAnim(m_NextAnim, 0.3f);
-				m_bPlayMontage = false;
-			}
-		}
-
-		// 0.016秒ずつアニメーションを進める
-		m_AnimController->AdvanceTime(time, NULL);
-	}
-}
-
-// 追加
-void SkinMeshFile::ChangeAnim(UINT animID, float shiftTime)
-{
-	// 存在するアニメーション番号か
-	if (animID < m_AnimController->GetNumAnimationSets())
-	{
-		// 今のアニメーションと違うか
-		if (animID != m_CurrentAnim)
-		{
-			// 現在のアニメーションセットの設定値を取得
-			D3DXTRACK_DESC TD;   // トラックの能力
-			m_AnimController->GetTrackDesc(0, &TD);
-
-			// 今のアニメーションをトラック1に移行し
-			// トラックの設定値も移行
-			m_AnimController->SetTrackAnimationSet(1, m_AnimSet[m_CurrentAnim]);
-			m_AnimController->SetTrackDesc(1, &TD);
-
-			m_CurrentAnim = animID;
-			m_AnimController->SetTrackAnimationSet(0, m_AnimSet[m_CurrentAnim]);
-
-			// トラックの合成を許可
-			m_AnimController->SetTrackEnable(0, true);
-			m_AnimController->SetTrackEnable(1, true);
-
-			m_CurrentWeightTime = 0.0f;
-
-			SetShiftTime(shiftTime);
-
-			D3DXTRACK_DESC CurrentTrackDesc;
-			m_AnimController->GetTrackDesc(0, &CurrentTrackDesc);
-			CurrentTrackDesc.Position = 0;
-			m_AnimController->SetTrackDesc(0, &CurrentTrackDesc);
-		}
-	}
-}
-
-bool SkinMeshFile::SetLoopTime(UINT animID, FLOAT time)
-{
-	// 指定のアニメーションIDの存在をチェック
-	if (animID < m_AnimController->GetNumAnimationSets())
-		return false;
-
-	// トラックスピード調節値を算出
-	FLOAT DefTime = m_AnimSet[animID]->GetPeriod();
-	m_AnimController->SetTrackSpeed(0, DefTime * time);
-
-	return true;
-}
-
-void SkinMeshFile::PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID)
-{
-	// 存在するアニメーション番号か
-	if (animID < m_AnimController->GetNumAnimationSets())
-	{
-		if (nextAnimID < m_AnimController->GetNumAnimationSets())
-		{
-			ChangeAnim(animID, shiftTime);
-
-			m_bPlayMontage = true;
-			m_MontageTime = playTime;
-			m_NextAnim = nextAnimID;
-		}
-	}
-}
-
 // 全てのフレームポインタ格納処理関数
 void SkinMeshFile::CreateFrameArray(LPD3DXFRAME _pFrame)
 {
@@ -464,5 +346,137 @@ D3DXMATRIX SkinMeshFile::GetBoneMatrix(LPSTR _BoneName)
 		D3DXMATRIX TmpMatrix;
 		D3DXMatrixIdentity(&TmpMatrix);
 		return TmpMatrix;
+	}
+}
+
+// アニメーションコントローラクラス
+SkinMeshFileAnimation::~SkinMeshFileAnimation()
+{
+	for (int i = 0; i < MAX_ANIMATION; i++)
+	{
+		if (m_AnimSet[i] != NULL)
+		{
+			m_AnimSet[i]->Release();
+		}
+	}
+	if (m_AnimController != NULL)
+	{
+		m_AnimController->Release();
+	}
+}
+
+void SkinMeshFileAnimation::Init()
+{
+	m_AnimController->SetTrackSpeed(0, 0.5f);
+
+	//アニメーショントラックの取得
+	for (int i = 0; i < m_AnimController->GetNumAnimationSets(); i++)
+	{
+		//アニメーション取得
+		m_AnimController->GetAnimationSet(i, &(m_AnimSet[i]));
+	}
+	m_CurrentAnim = 0;
+	m_AnimController->GetTrackDesc(0, &m_CurrentTrackDesc);
+
+	m_bPlayMontage = false;
+}
+
+void SkinMeshFileAnimation::UpdateAnim(float time)
+{
+	if (m_AnimController != NULL)
+	{
+		// 合成中か否かを判定
+		m_CurrentWeightTime += time;
+		if (m_CurrentWeightTime <= m_ShiftTime)
+		{
+			// 合成中。ウェイトを算出
+			float Weight = m_CurrentWeightTime / m_ShiftTime;
+			// ウェイトを登録
+			m_AnimController->SetTrackWeight(0, Weight);       // 現在のアニメーション
+			m_AnimController->SetTrackWeight(1, 1 - Weight);   // 前のアニメーション
+		}
+		else
+		{
+			// 合成終了中。通常アニメーションをするTrack0のウェイトを最大値に
+			m_AnimController->SetTrackWeight(0, 1.0f);       // 現在のアニメーション
+			m_AnimController->SetTrackEnable(1, false);      // 前のアニメーションを無効にする
+		}
+
+		if (m_bPlayMontage)
+		{
+			if (m_CurrentWeightTime >= m_MontageTime)
+			{
+				ChangeAnim(m_NextAnim, 0.3f);
+				m_bPlayMontage = false;
+			}
+		}
+
+		// 0.016秒ずつアニメーションを進める
+		m_AnimController->AdvanceTime(time, NULL);
+	}
+}
+
+void SkinMeshFileAnimation::ChangeAnim(UINT animID, float shiftTime)
+{
+	// 存在するアニメーション番号か
+	if (animID < m_AnimController->GetNumAnimationSets())
+	{
+		// 今のアニメーションと違うか
+		if (animID != m_CurrentAnim)
+		{
+			// 現在のアニメーションセットの設定値を取得
+			D3DXTRACK_DESC TD;   // トラックの能力
+			m_AnimController->GetTrackDesc(0, &TD);
+
+			// 今のアニメーションをトラック1に移行し
+			// トラックの設定値も移行
+			m_AnimController->SetTrackAnimationSet(1, m_AnimSet[m_CurrentAnim]);
+			m_AnimController->SetTrackDesc(1, &TD);
+
+			m_CurrentAnim = animID;
+			m_AnimController->SetTrackAnimationSet(0, m_AnimSet[m_CurrentAnim]);
+
+			// トラックの合成を許可
+			m_AnimController->SetTrackEnable(0, true);
+			m_AnimController->SetTrackEnable(1, true);
+
+			m_CurrentWeightTime = 0.0f;
+
+			SetShiftTime(shiftTime);
+
+			D3DXTRACK_DESC CurrentTrackDesc;
+			m_AnimController->GetTrackDesc(0, &CurrentTrackDesc);
+			CurrentTrackDesc.Position = 0;
+			m_AnimController->SetTrackDesc(0, &CurrentTrackDesc);
+		}
+	}
+}
+
+bool SkinMeshFileAnimation::SetLoopTime(UINT animID, FLOAT time)
+{
+	// 指定のアニメーションIDの存在をチェック
+	if (animID < m_AnimController->GetNumAnimationSets())
+		return false;
+
+	// トラックスピード調節値を算出
+	FLOAT DefTime = m_AnimSet[animID]->GetPeriod();
+	m_AnimController->SetTrackSpeed(0, DefTime * time);
+
+	return true;
+}
+
+void SkinMeshFileAnimation::PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID)
+{
+	// 存在するアニメーション番号か
+	if (animID < m_AnimController->GetNumAnimationSets())
+	{
+		if (nextAnimID < m_AnimController->GetNumAnimationSets())
+		{
+			ChangeAnim(animID, shiftTime);
+
+			m_bPlayMontage = true;
+			m_MontageTime = playTime;
+			m_NextAnim = nextAnimID;
+		}
 	}
 }

@@ -6,16 +6,21 @@
 #include "main.h"
 #include "sceneSkinMesh.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL);
+static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL); 
 
 void CSceneSkinMesh::Init(const std::string& modelName)
 {
 	m_SkinMeshFile = new SkinMeshFile();
-	m_SkinMeshFile->Load(modelName);
+	m_Animation = new SkinMeshFileAnimation();
+	m_SkinMeshFile->Load(modelName, m_Animation);
 }
 
 void CSceneSkinMesh::Uninit()
 {
+	if (m_Animation != NULL)
+	{
+		delete m_Animation;
+	}
 	if (m_SkinMeshFile != NULL)
 	{
 		delete m_SkinMeshFile;
@@ -26,7 +31,7 @@ void CSceneSkinMesh::Update()
 {
 	if (m_SkinMeshFile != NULL)
 	{
-		m_SkinMeshFile->UpdateAnim(m_AnimPlaySpeed);
+		m_Animation->UpdateAnim(m_AnimPlaySpeed);
 
 		m_SkinMeshFile->UpdateFrame(m_SkinMeshFile->GetRootFrame(), &m_World);
 	}
@@ -96,23 +101,23 @@ CSceneSkinMesh* CSceneSkinMesh::Create(const std::string& modelName)
 
 void CSceneSkinMesh::ChangeAnim(UINT animID, float shiftTime)
 {
-	m_SkinMeshFile->ChangeAnim(animID, shiftTime);
+	m_Animation->ChangeAnim(animID, shiftTime);
 	m_AnimPlaySpeed = m_DefAnimSpeed;
 }
 
 bool CSceneSkinMesh::SetLoopTime(FLOAT time)
 {
-	return m_SkinMeshFile->SetLoopTime(m_SkinMeshFile->GetCurrentAnim(), time);
+	return m_Animation->SetLoopTime(m_Animation->GetCurrentAnim(), time);
 }
 
 void CSceneSkinMesh::PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID)
 {
-	m_SkinMeshFile->PlayMontage(animID, shiftTime, playTime, nextAnimID);
+	m_Animation->PlayMontage(animID, shiftTime, playTime, nextAnimID);
 }
 
 void CSceneSkinMesh::PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID, float playSpeed)
 {
-	m_SkinMeshFile->PlayMontage(animID, shiftTime, playTime, nextAnimID);
+	m_Animation->PlayMontage(animID, shiftTime, playTime, nextAnimID);
 	SetAnimPlaySpeed(playSpeed);
 }
 
