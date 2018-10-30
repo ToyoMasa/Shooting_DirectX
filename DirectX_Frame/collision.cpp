@@ -493,3 +493,212 @@ bool isCollisionCapsule(const Capsule &c1, const Capsule &c2) {
 	float d = calcSegmentSegmentDist(c1.s, c2.s, p1, p2, t1, t2);
 	return (d <= c1.r + c2.r);
 }
+
+// lx, ly, lz : レイの始点
+// vx, vy, vz : レイの方向ベクトル
+// px, py, pz : 球の中心点の座標
+// r : 球の半径
+// q1x, q1y, q1z: 衝突開始点（戻り値）
+// q2x, q2y, q2z: 衝突終了点（戻り値）
+bool calcRaySphere(
+	D3DXVECTOR3 ray,
+	D3DXVECTOR3 vec,
+	D3DXVECTOR3 pos,
+	float r,
+	D3DXVECTOR3& q1,
+	D3DXVECTOR3& q2)
+{
+	pos = pos - ray;
+
+	float A = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+	float B = vec.x * pos.x + vec.y * pos.y + vec.z * pos.z;
+	float C = pos.x * pos.x + pos.y * pos.y + pos.z * pos.z - r * r;
+
+	if (A == 0.0f)
+		return false; // レイの長さが0
+
+	float s = B * B - A * C;
+	if (s < 0.0f)
+		return false; // 衝突していない
+
+	s = sqrtf(s);
+	float a1 = (B - s) / A;
+	float a2 = (B + s) / A;
+
+	if (a1 < 0.0f || a2 < 0.0f)
+		return false; // レイの反対で衝突
+
+	q1.x = ray.x + a1 * vec.x;
+	q1.y = ray.y + a1 * vec.y;
+	q1.z = ray.z + a1 * vec.z;
+	q2.x = ray.x + a2 * vec.x;
+	q2.y = ray.y + a2 * vec.y;
+	q2.z = ray.z + a2 * vec.z;
+
+	return true;
+}
+
+//	lx, ly, lz : レイの始点
+//	vx, vy, vz : レイの方向ベクトル
+//	p1x, p1y, p1z: 円柱軸の1点
+//	p2x, p2y, p2z: 円柱軸のもう1点
+//	r : 円柱の半径
+//	q1x, q1y, q1z: 貫通開始点（戻り値）
+//	q2x, q2y, q2z: 貫通終了点（戻り値）
+bool calcRayInfCilinder(
+	D3DXVECTOR3 ray,
+	D3DXVECTOR3 vec,
+	D3DXVECTOR3 pos1,
+	D3DXVECTOR3 pos2,
+	float r,
+	D3DXVECTOR3& q1,
+	D3DXVECTOR3& q2)
+{
+	float px = pos1.x - ray.x;
+	float py = pos1.y - ray.y;
+	float pz = pos1.z - ray.z;
+	pos2.x = pos2.x - ray.x;
+	pos2.y = pos2.y - ray.y;
+	pos2.z = pos2.z - ray.z;
+	float sx = pos2.x - px;
+	float sy = pos2.y - py;
+	float sz = pos2.z - pz;
+
+	// 各種内積値
+	float Dvv = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+	float Dsv = sx * vec.x + sy * vec.y + sz * vec.z;
+	float Dpv = px * vec.x + py * vec.y + pz * vec.z;
+	float Dss = sx * sx + sy * sy + sz * sz;
+	float Dps = px * sx + py * sy + pz * sz;
+	float Dpp = px * px + py * py + pz * pz;
+	float rr = r * r;
+
+	if (Dss == 0.0f)
+		return false; // 円柱が定義されない
+
+	float A = Dvv - Dsv * Dsv / Dss;
+	float B = Dpv - Dps * Dsv / Dss;
+	float C = Dpp - Dps * Dps / Dss - rr;
+
+	if (A == 0.0f)
+		return false;
+
+	float s = B * B - A * C;
+	if (s < 0.0f)
+		return false; // レイが円柱と衝突していない
+	s = sqrtf(s);
+
+	float a1 = (B - s) / A;
+	float a2 = (B + s) / A;
+
+	q1.x = ray.x + a1 * vec.x;
+	q1.y = ray.y + a1 * vec.y;
+	q1.z = ray.z + a1 * vec.z;
+	q2.x = ray.x + a2 * vec.x;
+	q2.y = ray.y + a2 * vec.y;
+	q2.z = ray.z + a2 * vec.z;
+
+	return true;
+}
+
+// ∠P1P2P3の内積を算出
+// x1, y1, z1: 点P1
+// x2, y2, z2: 点P2
+// x3, y3, z3: 点P3
+float checkDot(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
+	return (x1 - x2) * (x3 - x2) + (y1 - y2) * (y3 - y2) + (z1 - z2) * (z3 - z2);
+}
+float checkDot(D3DXVECTOR3 vec1, D3DXVECTOR3 vec2, D3DXVECTOR3 vec3) {
+	return (vec1.x - vec2.x) * (vec3.x - vec2.x) + (vec1.y - vec2.y) * (vec3.y - vec2.y) + (vec1.z - vec2.z) * (vec3.z - vec2.z);
+}
+
+// レイとカプセルの貫通点を算出
+//	lx, ly, lz : レイの始点
+//	vx, vy, vz : レイの方向ベクトル
+//	p1x, p1y, p1z: カプセル軸の端点P1
+//	p2x, p2y, p2z: カプセル軸の端点P2
+//	r : カプセルの半径
+//	q1x, q1y, q1z: 貫通開始点（戻り値）
+//	q2x, q2y, q2z: 貫通終了点（戻り値）
+bool calcRayCapsule(
+	D3DXVECTOR3 ray,
+	D3DXVECTOR3 vec,
+	D3DXVECTOR3 pos1,
+	D3DXVECTOR3 pos2,
+	float r,
+	D3DXVECTOR3& q1,
+	D3DXVECTOR3& q2)
+{
+	bool Q1inP1 = false;
+	bool Q1inP2 = false;
+	bool Q1inCld = false;
+
+	// Q1の検査
+	if (
+		calcRaySphere(ray, vec, pos1, r, q1, q2) == true &&
+		checkDot(pos2, pos1, q1) <= 0.0f
+		) {
+		Q1inP1 = true; // Q1は球面P1上にある
+
+	}
+	else if (
+		calcRaySphere(ray, vec, pos2, r, q1, q2) == true &&
+		checkDot(pos1, pos2, q1) <= 0.0f
+		) {
+		Q1inP2 = true; // Q1は球面P2上にある
+
+	}
+	else if (
+		calcRayInfCilinder(ray, vec, pos1, pos2, r, q1, q2) == true &&
+		checkDot(pos1, pos2, q1) > 0.0f &&
+		checkDot(pos2, pos1, q1) > 0.0f
+		) {
+		Q1inCld = true; // Q1は円柱面にある
+
+	}
+	else
+		return false; // レイは衝突していない
+
+					  // Q2の検査
+	D3DXVECTOR3 t; // ダミー
+	if (Q1inP1 && checkDot(pos2, pos1, q2) <= 0.0f) {
+		// Q1、Q2共球P1上にある
+		return true;
+
+	}
+	else if (Q1inP2 && checkDot(pos1, pos2, q2) <= 0.0f) {
+		// Q1、Q2共球P2上にある
+		return true;
+
+	}
+	else if (
+		Q1inCld &&
+		checkDot(pos1, pos2, q2) > 0.0f &&
+		checkDot(pos2, pos1, q2) > 0.0f
+		) {
+		// Q1、Q2共球円柱面にある
+		return true;
+
+	}
+	else if (
+		calcRaySphere(ray, vec, pos1, r, t, q2) == true &&
+		checkDot(pos2, pos1, q2) <= 0.0f
+		) {
+		// Q2は球P1上にある
+		return true;
+
+	}
+	else if (
+		calcRaySphere(ray, vec, pos2, r, t, q2) == true &&
+		checkDot(pos1, pos2, q2) <= 0.0f
+		) {
+		// Q2は球P2上にある
+		return true;
+
+	}
+
+	// Q2が円柱上にある事が確定
+	calcRayInfCilinder(ray, vec, pos1, pos2, r, t, q2);
+
+	return true;
+}

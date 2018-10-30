@@ -66,7 +66,7 @@ int CModeGame::m_NumSneak = 0;
 int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 
-CSceneSkinMesh* testModel[10] = { NULL };
+CSceneSkinMesh* testModel[100] = { NULL };
 
 void CModeGame::Init()
 {
@@ -99,11 +99,14 @@ void CModeGame::Init()
 
 	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), 1, field);
 
-	for (int i = 0; i < 10; i++)
+	for (int j = 0; j < 10; j++)
 	{
-		testModel[i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
-		testModel[i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, 0.0f));
-		testModel[i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
+		for (int i = 0; i < 10; i++)
+		{
+			testModel[10 * j + i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
+			testModel[10 * j + i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, -5.0f + j));
+			testModel[10 * j + i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
+		}
 	}
 
 	// 空
@@ -116,7 +119,7 @@ void CModeGame::Init()
 	CBillBoard::Init();
 
 	// マップの生成
-	MakeMap();
+	//MakeMap();
 
 	// スコア等のリセット
 	m_PlayerDied = false;

@@ -81,6 +81,19 @@ void CBullet::Update()
 				CEnemy* enemy = (CEnemy*)obj;
 				if (isCollisionCapsule(capsule, enemy->GetCapsule()))
 				{
+					D3DXVECTOR3 pos1, pos2;
+					float r;
+					enemy->GetCapsule(pos1, pos2, r);
+
+					D3DXVECTOR3 ray;
+					ray = m_Forward;
+					D3DXVec3Normalize(&ray, &ray);
+
+					D3DXVECTOR3 getPoint1, getPoint2;
+					calcRayCapsule(m_OldPos, ray, pos1, pos2, r, getPoint1, getPoint2);
+
+					CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
+
 					if (enemy->Damaged(m_Damage) <= 0)
 					{
 						enemy->Death();

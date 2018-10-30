@@ -25,6 +25,8 @@
 #include "EnemyAnim.h"
 #include "Effekseer.h"
 
+static const float ENEMY_LIFE = 100000.0f;
+
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field)
 {
 	m_Model = CSceneSkinMesh::Create(modelId);
@@ -40,7 +42,7 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, C
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	// ライフを設定
-	m_Life = 100.0f;
+	m_Life = ENEMY_LIFE;
 }
 
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type)
@@ -56,7 +58,7 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, C
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	// ライフを設定
-	m_Life = 100.0f;
+	m_Life = ENEMY_LIFE;
 }
 
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type)
@@ -72,7 +74,7 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* 
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	// ライフを設定
-	m_Life = 100.0f;
+	m_Life = ENEMY_LIFE;
 }
 
 void CEnemy::Uninit()
@@ -206,6 +208,13 @@ CEnemy* CEnemy::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionB
 	enemy->Init(modelId, spawnPos, action, field, type);
 
 	return enemy;
+}
+
+void CEnemy::GetCapsule(D3DXVECTOR3& pos1, D3DXVECTOR3& pos2, float& r)
+{
+	pos1 = D3DXVECTOR3(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z);
+	pos2 = D3DXVECTOR3(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z);
+	r = ENEMY_CUPSULE_RAD;
 }
 
 void CEnemy::Search()

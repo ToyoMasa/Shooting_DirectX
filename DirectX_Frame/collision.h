@@ -359,4 +359,45 @@ float distancePointToPlane(D3DXVECTOR3 &vn, D3DXVECTOR3 &p1, D3DXVECTOR3 &p2);
 //************************************************************************
 bool onPolygon(D3DXVECTOR3 &target, D3DXVECTOR3 &p1, D3DXVECTOR3 &p2, D3DXVECTOR3 &p3);
 
+//************************************************************************
+//	レイと球の衝突判定
+//************************************************************************
+bool calcRaySphere(
+	D3DXVECTOR3 ray,
+	D3DXVECTOR3 vec,
+	D3DXVECTOR3 pos,
+	float r,
+	D3DXVECTOR3& q1,
+	D3DXVECTOR3& q2);
+
+//************************************************************************
+//	レイと円柱の衝突判定
+//************************************************************************
+bool calcRayInfCilinder(
+	D3DXVECTOR3 ray,
+	D3DXVECTOR3 vec,
+	D3DXVECTOR3 pos1,
+	D3DXVECTOR3 pos2,
+	float r,
+	D3DXVECTOR3& q1,
+	D3DXVECTOR3& q2);
+
+//************************************************************************
+//	// ∠P1P2P3の内積を算出
+//************************************************************************
+float checkDot(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
+float checkDot(D3DXVECTOR3 vec1, D3DXVECTOR3 vec2, D3DXVECTOR3 vec3);
+
+//************************************************************************
+//	レイとカプセルの衝突判定
+//************************************************************************
+bool calcRayCapsule(
+	D3DXVECTOR3 ray,	// レイの始点
+	D3DXVECTOR3 vec,	// レイの方向ベクトル
+	D3DXVECTOR3 pos1,	// カプセル軸の端点P1
+	D3DXVECTOR3 pos2,	// カプセル軸の端点P2
+	float r,			// カプセルの半径
+	D3DXVECTOR3& q1,	// 貫通開始点（戻り値）
+	D3DXVECTOR3& q2);	// 貫通終了点（戻り値）
+
 #endif // !_COLLISION_H_

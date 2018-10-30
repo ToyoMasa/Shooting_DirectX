@@ -50,6 +50,7 @@ public:
 	static CEnemy* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type);
 	static CEnemy* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type);
 	Capsule GetCapsule() { return m_CapsuleCollision; }
+	void GetCapsule(D3DXVECTOR3& pos1, D3DXVECTOR3& pos2, float& r);
 	ENEMY_TYPE GetEnemyType() { return m_EnemyType; }
 	void Search();
 	void Death();
