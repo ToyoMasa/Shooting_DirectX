@@ -16,6 +16,11 @@ public:
 	void Update()override;
 	void Shoot()override;
 	static CRifle* Create(CSceneSkinMesh *parent);
+	void SetADS(bool ads)override;
+	void ChangeCrosshair(int nextTex)override;
+	void Recoil(float recoilX, float recoilY)override;
+	void RecoilUpdate()override;
+	void ReleaseTrigger()override;
 
 private:
 

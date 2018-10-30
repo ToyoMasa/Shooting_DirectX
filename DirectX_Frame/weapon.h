@@ -55,11 +55,11 @@ public:
 	static void UpdateAll();
 	static void ReleaseAll();
 	void SetActive(bool active);
-	void SetADS(bool ads);
-	void ChangeCrosshair(int nextTex);
-	void Recoil(float recoilX, float recoilY);
-	void RecoilUpdate();
-	void ReleaseTrigger();
+	virtual void SetADS(bool ads) = 0;
+	virtual void ChangeCrosshair(int nextTex) = 0;
+	virtual void Recoil(float recoilX, float recoilY) = 0;
+	virtual void RecoilUpdate() = 0;
+	virtual void ReleaseTrigger() = 0;
 
 	CSceneModel*	GetModel() { return m_Model; }
 	CScene2D*		GetCrosshair() { return m_Crosshair; }

@@ -10,6 +10,7 @@
 #include "scene2D.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
+#include "player.h"
 #include "bullet.h"
 #include "weapon.h"
 #include "rifle.h"
@@ -20,8 +21,10 @@
 #include "PlayerAnim.h"
 #include "shader.h"
 
+#define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
+#define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
+
 static const int DIFFUSSION = 160;
-bool once = false;
 
 void CRifle::Init(CSceneSkinMesh *parent)
 {
@@ -47,6 +50,21 @@ void CRifle::Init(CSceneSkinMesh *parent)
 
 	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
 
+	// マズルフラッシュの初期化
+	m_Flash = CBillBoard::Create(TEX_ID_FLASH);
+	m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, NORMAL, D3DCOLOR_RGBA(255, 255, 0, 255));
+	m_FlashAlpha = 0;
+	m_isFlash = false;
+	m_Flash->SetVisible(m_isFlash);
+
+	m_Pos.x = -5.0f + 0.537f;
+	m_Pos.y = -7.0f + 0.213f;
+	m_Pos.z = 28.0f;
+
+	m_Rot.x = 344.0f;
+	m_Rot.y = 141.5f;
+	m_Rot.z = 33.75f;
+
 	//m_Model->SetShader(CShader::GetShader(SHADER_FILE_BASIC));
 }
 
@@ -61,24 +79,6 @@ void CRifle::Uninit()
 
 void CRifle::Update()
 {
-	// 最初の一度だけ実行　※initではカメラを取得できない場合があるため
-	if (!once)
-	{
-		m_Flash = CBillBoard::Create(TEX_ID_FLASH);
-
-		D3DXVECTOR3 flashPos = m_MuzzlePos;
-		flashPos += CModeGame::GetCamera()->GetUp() * ((-500 + (rand() % 1000)) / 1000.0f);
-		flashPos += CModeGame::GetCamera()->GetRight() * ((-500 + (rand() % 1000)) / 1000.0f);
-
-		m_Flash->Set(TEX_ID_FLASH, flashPos, 0.3f, NORMAL, D3DCOLOR_RGBA(255, 255, 0, 255));
-
-		m_FlashAlpha = 0;
-		m_isFlash = false;
-		m_Flash->SetVisible(m_isFlash);
-
-		once = true;
-	}
-
 	if (m_Parent != NULL)
 	{
 		// 射撃間隔を減らす
@@ -87,17 +87,8 @@ void CRifle::Update()
 		// 位置の更新
 		m_ParentMatrix = m_Parent->GetBoneMatrix("hand_r");
 
-		m_Pos.x = -5.0f + 0.537f;
-		m_Pos.y = -7.0f + 0.213f;
-		m_Pos.z = 28.0f;
-
-		m_Rot.x = 344.0f;
-		m_Rot.y = 141.5f;
-		m_Rot.z = 33.75f;
-
 		// ポジションの更新
-		D3DXMATRIX mtxMove, mtxX, mtxY, mtxZ, mtxRot;
-		D3DXMatrixTranslation(&mtxMove, m_Pos.x, m_Pos.y, m_Pos.z);
+		D3DXMATRIX mtxX, mtxY, mtxZ, mtxRot;
 		D3DXMatrixRotationX(&mtxX, D3DXToRadian(m_Rot.x));
 		D3DXMatrixRotationY(&mtxY, D3DXToRadian(m_Rot.y));
 		D3DXMatrixRotationZ(&mtxZ, D3DXToRadian(m_Rot.z));
@@ -116,9 +107,9 @@ void CRifle::Update()
 		if (m_isFlash)
 		{
 			// マズルフラッシュの更新
-			D3DXVECTOR3 flashPos = m_MuzzlePos;
-			flashPos += CModeGame::GetCamera()->GetUp() * ((-500 + (rand() % 1000)) / 1000000.0f);
-			flashPos += CModeGame::GetCamera()->GetRight() * ((-500 + (rand() % 1000)) / 5000.0f);
+			//D3DXVECTOR3 flashPos = m_MuzzlePos;
+			//flashPos += CModeGame::GetCamera()->GetUp() * ((-500 + (rand() % 1000)) / 1000000.0f);
+			//flashPos += CModeGame::GetCamera()->GetRight() * ((-500 + (rand() % 1000)) / 5000.0f);
 			m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, NORMAL, D3DCOLOR_RGBA(255, 255, 0, m_FlashAlpha));
 
 			if (m_FlashAlpha > 0)
@@ -139,16 +130,6 @@ void CRifle::Shoot()
 {
 	if (m_CoolDown <= 0)
 	{
-		D3DXVECTOR3 startVec = CModeGame::GetCamera()->GetFront();
-		startVec = startVec + CModeGame::GetCamera()->GetUp() * -0.5f;
-		startVec = startVec + CModeGame::GetCamera()->GetRight() * -0.5f;
-		startVec *= 0.05f;
-
-		D3DXVECTOR3 endVec = CModeGame::GetCamera()->GetFront();
-		endVec = endVec + CModeGame::GetCamera()->GetUp() * 0.5f;
-		endVec = endVec + CModeGame::GetCamera()->GetRight() * 0.5f;
-		endVec *= 0.05f;
-
 		if (m_isADS)
 		{
 			CBullet::Create(m_MuzzlePos, CModeGame::GetCamera()->GetFront(), 15.0f, 100.0f, m_Damage);
@@ -159,7 +140,7 @@ void CRifle::Shoot()
 			bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
 			bulletVec = bulletVec + CModeGame::GetCamera()->GetRight() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
 
-			CBullet::Create(m_MuzzlePos, bulletVec, 10.0f, 20.0f, 15);
+			CBullet::Create(m_MuzzlePos, bulletVec, 15.0f, 100.0f, m_Damage);
 
 			m_Parent->PlayMontage(PLAYER_FIRE, 0.0f, 0.13f, PLAYER_IDLE);
 		}
@@ -183,4 +164,78 @@ CRifle* CRifle::Create(CSceneSkinMesh *parent)
 	rifle->Init(parent);
 
 	return rifle;
+}
+
+void CRifle::SetADS(bool ads)
+{
+	m_Crosshair->SetVisible(ads);
+	m_isADS = ads;
+}
+
+void CRifle::ChangeCrosshair(int nextTex)
+{
+	if (m_Crosshair != NULL)
+	{
+		m_Crosshair->Release();
+		m_Crosshair = CScene2D::Create(nextTex, 32, 32);
+	}
+}
+
+void CRifle::Recoil(float recoilX, float recoilY)
+{
+	if (m_CountFire < 10)
+	{
+		m_CountFire++;
+
+		CModeGame::GetPlayer()->Rotate(recoilX * RECOILE_PATTERN_X, -recoilY * RECOILE_PATTERN_Y);
+		m_TotalRecoilX += recoilX * RECOILE_PATTERN_X;
+		m_TotalRecoilY += recoilY * RECOILE_PATTERN_Y;
+	}
+	else
+	{
+		CModeGame::GetPlayer()->Rotate(recoilX * RECOILE_PATTERN_X, -recoilY * 0.1f);
+		m_TotalRecoilX += recoilX * RECOILE_PATTERN_X;
+		m_TotalRecoilY += recoilY * 0.1f;
+	}
+}
+
+void CRifle::RecoilUpdate()
+{
+	if (m_CountFire == 0)
+	{
+		if (m_RecoilCount > 0)
+		{
+			CModeGame::GetPlayer()->Rotate(-m_RecoilX, m_RecoilY);
+			m_RecoilCount--;
+		}
+		else
+		{
+			m_RecoilX = 0.0f;
+			m_RecoilY = 0.0f;
+			m_TotalRecoilX = 0.0f;
+			m_TotalRecoilY = 0.0f;
+		}
+	}
+
+	ImGui::Begin("FireCount", 0);
+	ImGui::Text("%d", m_CountFire);
+	ImGui::End();
+}
+
+void CRifle::ReleaseTrigger()
+{
+	if (m_CountFire < 3)
+	{
+		m_CountFire = 0;
+		m_RecoilCount = 1;
+		m_RecoilX = m_TotalRecoilX;
+		m_RecoilY = m_TotalRecoilY;
+	}
+	else
+	{
+		m_CountFire = 0;
+		m_RecoilCount = 5;
+		m_RecoilX = m_TotalRecoilX / 5.0f;
+		m_RecoilY = m_TotalRecoilY / 5.0f;
+	}
 }

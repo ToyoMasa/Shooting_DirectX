@@ -5,7 +5,7 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-static const int OBJECT_MAX = 100;
+static const int OBJECT_MAX = 200;
 #include "shader.h"
 
 enum SCENE_TYPE

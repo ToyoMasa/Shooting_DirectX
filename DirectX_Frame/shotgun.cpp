@@ -9,13 +9,19 @@
 #include "scene2D.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
+#include "player.h"
 #include "bullet.h"
 #include "weapon.h"
 #include "shotgun.h"
 #include "game.h"
 #include "debug.h"
+#include "PlayerAnim.h"
+
+#define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
+#define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
 
 static const int DIFFUSSION = 200;
+static const int ADS_DIFFUSSION = 80;
 
 CSceneModel *model;
 
@@ -43,6 +49,15 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	model = CSceneModel::Create("data/models/shotgun.x");
 	model->Move(D3DXVECTOR3(0.0f, 1.7f, 0.0f));
+
+	// マズルフラッシュの初期化
+	m_Flash = CBillBoard::Create(TEX_ID_FLASH);
+	m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, NORMAL, D3DCOLOR_RGBA(255, 255, 0, 255));
+	m_FlashAlpha = 0;
+	m_isFlash = false;
+	m_Flash->SetVisible(m_isFlash);
+
+	m_isReleaseTrigger = true;
 }
 
 void CShotgun::Uninit()
@@ -84,23 +99,75 @@ void CShotgun::Update()
 		mtxMuzzle = m_MuzzleMatrix * (mtxRot * m_ParentMatrix);
 		m_MuzzlePos = D3DXVECTOR3(mtxMuzzle._41, mtxMuzzle._42, mtxMuzzle._43);
 		m_BulletDebug->Set(m_MuzzlePos);
+
+		if (m_isFlash)
+		{
+			// マズルフラッシュの更新
+			//D3DXVECTOR3 flashPos = m_MuzzlePos;
+			//flashPos += CModeGame::GetCamera()->GetUp() * ((-500 + (rand() % 1000)) / 1000000.0f);
+			//flashPos += CModeGame::GetCamera()->GetRight() * ((-500 + (rand() % 1000)) / 5000.0f);
+			m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, NORMAL, D3DCOLOR_RGBA(255, 255, 0, m_FlashAlpha));
+
+			if (m_FlashAlpha > 0)
+			{
+				m_FlashAlpha -= 20;
+			}
+			else
+			{
+				m_FlashAlpha = 0;
+				m_isFlash = false;
+				m_Flash->SetVisible(m_isFlash);
+			}
+		}
 	}
 }
 
 void CShotgun::Shoot()
 {
-	if (m_CoolDown <= 0)
+	if (m_CoolDown <= 0 && m_isReleaseTrigger)
 	{
-		for (int i = 0; i < 12; i++)
+		if (m_isADS)
 		{
-			D3DXVECTOR3 bulletVec = CModeGame::GetCamera()->GetFront();
-			bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
-			bulletVec = bulletVec + CModeGame::GetCamera()->GetRight() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
+			for (int i = 0; i < 12; i++)
+			{
+				D3DXVECTOR3 bulletVec = CModeGame::GetCamera()->GetFront();
+				bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-ADS_DIFFUSSION / 2.0f + rand() % ADS_DIFFUSSION) / 1000.0f;
+				bulletVec = bulletVec + CModeGame::GetCamera()->GetRight() * (-ADS_DIFFUSSION / 2.0f + rand() % ADS_DIFFUSSION) / 1000.0f;
 
-			CBullet::Create(m_MuzzlePos, bulletVec, 10.0f, 20.0f, 15);
+				CBullet::Create(m_MuzzlePos, bulletVec, 10.0f, 20.0f, 15);
+			}
 		}
+		else
+		{
+			for (int i = 0; i < 12; i++)
+			{
+				D3DXVECTOR3 bulletVec = CModeGame::GetCamera()->GetFront();
+				bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
+				bulletVec = bulletVec + CModeGame::GetCamera()->GetRight() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
+
+				CBullet::Create(m_MuzzlePos, bulletVec, 10.0f, 20.0f, 15);
+			}
+
+			m_Parent->PlayMontage(PLAYER_FIRE, 0.0f, 0.13f, PLAYER_IDLE);
+		}
+
 		m_CoolDown = m_Rate;
 		int i = 0;
+
+		// マズルフラッシュの描画を有効化
+		m_FlashAlpha = 200;
+		m_isFlash = true;
+		m_Flash->SetVisible(m_isFlash);
+
+		// トリガーを押したままにする
+		m_isReleaseTrigger = false;
+
+		// リコイル
+		Recoil(0.07f, 0.2f);
+		m_CountFire = 0;
+		m_RecoilCount = 5;
+		m_RecoilX = m_TotalRecoilX / 5.0f;
+		m_RecoilY = m_TotalRecoilY / 5.0f;
 	}
 }
 
@@ -110,4 +177,48 @@ CShotgun* CShotgun::Create(CSceneSkinMesh *parent)
 	Shotgun->Init(parent);
 
 	return Shotgun;
+}
+
+void CShotgun::SetADS(bool ads)
+{
+	m_Crosshair->SetVisible(false);
+	m_isADS = ads;
+}
+
+void CShotgun::ChangeCrosshair(int nextTex)
+{
+
+}
+
+void CShotgun::Recoil(float recoilX, float recoilY)
+{
+	CModeGame::GetPlayer()->Rotate(recoilX * RECOILE_PATTERN_X, -recoilY);
+	m_TotalRecoilX = recoilX * RECOILE_PATTERN_X;
+	m_TotalRecoilY = recoilY;
+}
+
+void CShotgun::RecoilUpdate()
+{
+	if (m_RecoilCount > 0)
+	{
+		CModeGame::GetPlayer()->Rotate(-m_RecoilX, m_RecoilY);
+		m_RecoilCount--;
+	}
+	else
+	{
+		m_RecoilX = 0.0f;
+		m_RecoilY = 0.0f;
+		m_TotalRecoilX = 0.0f;
+		m_TotalRecoilY = 0.0f;
+	}
+	
+	ImGui::Begin("FireCount", 0);
+	ImGui::Text("%d", m_CountFire);
+	ImGui::End();
+}
+
+void CShotgun::ReleaseTrigger()
+{
+	// トリガーを離した判定
+	m_isReleaseTrigger = true;
 }
