@@ -26,8 +26,9 @@
 #include "rifle.h"
 #include "shotgun.h"
 #include "playerPatternIdle.h"
+#include "playerPatternJump.h"
 
-void CPlayerPatternIdle::Init()
+void CPlayerPatternIdle::Init(CPlayer* player)
 {
 
 }
@@ -72,13 +73,20 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 		player->ADS(inputMouse->GetRightPress());
 
 		// UŒ‚
-		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
+		if (inputMouse->GetLeftPress())
 		{
 			player->Shoot();
 		}
-		if (inputMouse->GetLeftRelease() || inputKeyboard->GetKeyRelease(DIK_SPACE))
+		if (inputMouse->GetLeftRelease())
 		{
 			player->TriggerRelease();
+		}
+
+		// ƒWƒƒƒ“ƒv
+		if (inputKeyboard->GetKeyRelease(DIK_SPACE))
+		{
+			player->ChangePattern(new CPlayerPatternJump());
+
 		}
 
 		// ‰ñ“]

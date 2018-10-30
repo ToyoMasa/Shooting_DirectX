@@ -258,6 +258,12 @@
     <ClInclude Include="ZombieAAnim.h">
       <Filter>ヘッダー ファイル\SkinMesh\AnimationList</Filter>
     </ClInclude>
+    <ClInclude Include="playerPatternJump.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="playerPatternAir.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -432,6 +438,12 @@
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternCrouch.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternJump.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternAir.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
   </ItemGroup>

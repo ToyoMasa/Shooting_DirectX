@@ -26,6 +26,7 @@
 #include "rifle.h"
 #include "shotgun.h"
 #include "playerPatternIdle.h"
+#include "playerPatternJump.h"
 
 bool g_test = false;
 
@@ -365,6 +366,73 @@ void CPlayer::Move(float moveX, float moveZ)
 	}
 }
 
+void CPlayer::MoveAir(float moveX, float moveY, float moveZ)
+{
+	// 移動・回転
+	D3DXVECTOR3 cameraFront = m_Camera->GetFront();
+	D3DXVECTOR3 cameraRight = m_Camera->GetRight();
+	D3DXVECTOR3 newPos = m_Pos;
+	D3DXVECTOR3 moveVec = { moveX, 0.0f, moveZ };
+
+	D3DXVec3Normalize(&moveVec, &moveVec);
+
+	// 前方向ベクトルを地面と平行に正規化
+	cameraFront.y = 0;
+	D3DXVec3Normalize(&cameraFront, &cameraFront);
+
+	newPos += cameraFront * PLAYER_MOVE_SPEED * moveZ;
+	newPos += cameraRight * PLAYER_MOVE_SPEED * moveX;
+	newPos += m_Up * moveY;
+
+	if (newPos.y < m_Field->GetHeight(newPos))
+	{
+		newPos.y = m_Field->GetHeight(newPos);
+		ChangePattern(new CPlayerPatternIdle());
+	}
+
+	// コリジョンの計算
+	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + PLAYER_CUPSULE_RAD, newPos.z),
+		Point(newPos.x, newPos.y + 1.2f, newPos.z),
+		PLAYER_CUPSULE_RAD);
+
+	// キャラクターとの当たり判定
+	for (int i = 0; i < CHARACTER_MAX; i++)
+	{
+		CCharacter* obj = CCharacter::GetCharacter(i);
+		if (obj != NULL)
+		{
+			if (obj->GetType() == CHARACTER_ENEMY)
+			{
+				CEnemy* enemy = (CEnemy*)obj;
+				if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
+				{
+					D3DXVECTOR3 vec = newPos - enemy->GetPos();
+					D3DXVec3Normalize(&vec, &vec);
+
+					newPos = enemy->GetPos();
+					newPos += vec * (ENEMY_CUPSULE_RAD + ENEMY_CUPSULE_RAD);
+				}
+			}
+		}
+	}
+
+	// 壁との当たり判定
+	newPos = HitWall(newPos);
+
+	m_Camera->Move(newPos - m_Pos);
+
+	if (!g_test)
+	{
+		SetPos(newPos);
+
+		m_Model->Move(m_Pos + m_LocalCameraPos);
+		m_Shadow->Move(m_Pos + m_LocalCameraPos);
+
+		// 当たり判定の移動
+		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
+	}
+}
+
 void CPlayer::ADS(BOOL ads)
 {
 	if (ads)
@@ -404,5 +472,5 @@ void CPlayer::ChangePattern(CPlayerPatternBase* next)
 	}
 
 	m_Pattern = next;
-	next->Init();
+	next->Init(this);
 }

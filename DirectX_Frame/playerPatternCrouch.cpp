@@ -1,5 +1,5 @@
 //======================================================================
-//	プレイヤー歩行パターン [playerPatternWalk.cpp]　（2018/10/23）
+//	プレイヤー歩行パターン [playerPatternCrouch.cpp]　（2018/10/23）
 //	Author : 豊村 昌俊
 //======================================================================
 #include "common.h"
@@ -27,7 +27,7 @@
 #include "shotgun.h"
 #include "playerPatternCrouch.h"
 
-void CPlayerPatternCrouch::Init()
+void CPlayerPatternCrouch::Init(CPlayer* player)
 {
 
 }

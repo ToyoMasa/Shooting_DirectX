@@ -11,7 +11,7 @@ public:
 	CPlayerPatternBase() {}
 	~CPlayerPatternBase() {}
 
-	virtual void Init() = 0;
+	virtual void Init(CPlayer* player) = 0;
 	virtual void Update(CPlayer* player) = 0;
 };
 

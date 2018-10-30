@@ -32,14 +32,14 @@ public:
 	}
 	~CBullet(){}
 
-	void Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, int damage);
+	void Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage);
 	void Uninit();
 	void Update();
 	void Draw();
 	void Release();
 	static void UpdateAll();
 	static void ReleaseAll();
-	static CBullet* Create(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, int damage);
+	static CBullet* Create(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage);
 private:
 	D3DXVECTOR3		m_Pos;
 	D3DXVECTOR3		m_OldPos;
@@ -50,7 +50,7 @@ private:
 	float			m_Speed;
 	float			m_Move;
 	float			m_Range;
-	int				m_Damage;
+	float			m_Damage;
 
 	static CBullet *m_Bullets[BULLET_MAX];
 };

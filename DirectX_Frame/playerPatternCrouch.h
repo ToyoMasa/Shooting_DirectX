@@ -13,7 +13,7 @@ public:
 	CPlayerPatternCrouch() {}
 	~CPlayerPatternCrouch() {}
 
-	void Init();
+	void Init(CPlayer* player);
 	void Update(CPlayer* player)override;
 };
 

@@ -43,6 +43,7 @@ void CRifle::Init(CSceneSkinMesh *parent)
 
 	m_Rate = 60.0f / (600.0f / 60.0f);
 	m_CoolDown = 0.0f;
+	m_Damage = 28.0f;
 
 	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
 
@@ -150,7 +151,7 @@ void CRifle::Shoot()
 
 		if (m_isADS)
 		{
-			CBullet::Create(m_MuzzlePos, CModeGame::GetCamera()->GetFront(), 15.0f, 100.0f, 15);
+			CBullet::Create(m_MuzzlePos, CModeGame::GetCamera()->GetFront(), 15.0f, 100.0f, m_Damage);
 		}
 		else
 		{

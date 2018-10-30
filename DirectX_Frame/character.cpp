@@ -260,3 +260,9 @@ D3DXVECTOR3 CCharacter::HitWall(D3DXVECTOR3 newPos)
 
 	return rePos;
 }
+
+float CCharacter::Damaged(float damage)
+{
+	m_Life -= damage;
+	return m_Life;
+}

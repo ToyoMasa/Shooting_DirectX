@@ -41,6 +41,8 @@ public:
 	void Release();
 	CSceneSkinMesh* GetModel() { return m_Model; }
 
+	float Damaged(float damage);
+
 	D3DXVECTOR3 PushOut(D3DXVECTOR3 newPos, D3DXVECTOR3 oldPos, D3DXVECTOR3 normal);
 	D3DXVECTOR3 HitWall(D3DXVECTOR3 newPos);
 
@@ -50,17 +52,20 @@ public:
 protected:
 	//CSceneModel *m_Model;
 	CSceneSkinMesh *m_Model;
-	D3DXVECTOR3 m_Pos;
-	D3DXVECTOR3 m_OldPos;
-	D3DXVECTOR3 m_Forward;
-	D3DXVECTOR3 m_Right;
-	D3DXVECTOR3 m_Up;
-	D3DXMATRIX	m_Rotate;		// 回転行列
-	CField *m_Field;
-	Capsule m_CapsuleCollision;
-	float m_WalkSpeed;
-	CHARACTER_TYPE m_Type;
-	CSceneShadow *m_Shadow;
+	D3DXVECTOR3		m_Pos;
+	D3DXVECTOR3		m_OldPos;
+	D3DXVECTOR3		m_Forward;
+	D3DXVECTOR3		m_Right;
+	D3DXVECTOR3		m_Up;
+	D3DXMATRIX		m_Rotate;		// 回転行列
+	CField			*m_Field;
+	Capsule			m_CapsuleCollision;
+	float			m_WalkSpeed;
+	CHARACTER_TYPE	m_Type;
+	CSceneShadow	*m_Shadow;
+
+	// ステータス
+	float			m_Life;
 private:
 	static CCharacter* m_Characters[CHARACTER_MAX];
 };

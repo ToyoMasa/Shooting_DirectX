@@ -19,7 +19,7 @@ CBullet *CBullet::m_Bullets[BULLET_MAX] = { NULL };
 
 static const float BULLET_RADIUS = 0.05;
 
-void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, int damage)
+void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage)
 {
 	m_Pos = spawnPos;
 	m_OldPos = m_Pos;
@@ -71,23 +71,24 @@ void CBullet::Update()
 	now.z = m_Pos.z;
 	capsule.Set(old, now, BULLET_RADIUS);
 
-	//for (int i = 0; i < CHARACTER_MAX; i++)
-	//{
-	//	CCharacter* obj = CCharacter::GetCharacter(i);
-	//	if (obj != NULL)
-	//	{
-	//		if (obj->GetType() == CHARACTER_ENEMY)
-	//		{
-	//			CEnemy* enemy = (CEnemy*)obj;
-	//			if (isCollisionCapsule(capsule, enemy->GetCapsule()))
-	//			{
-	//				CParticle::Create(TEX_ID_CIRCLE, 30, 2.0f, m_Pos);
-	//			}
-	//		}
-	//	}
-	//}
-
-	//m_Debug->Set(m_Pos);
+	for (int i = 0; i < CHARACTER_MAX; i++)
+	{
+		CCharacter* obj = CCharacter::GetCharacter(i);
+		if (obj != NULL)
+		{
+			if (obj->GetType() == CHARACTER_ENEMY)
+			{
+				CEnemy* enemy = (CEnemy*)obj;
+				if (isCollisionCapsule(capsule, enemy->GetCapsule()))
+				{
+					if (enemy->Damaged(m_Damage) <= 0)
+					{
+						enemy->Death();
+					}
+				}
+			}
+		}
+	}
 }
 
 void CBullet::Release()
@@ -134,7 +135,7 @@ void CBullet::ReleaseAll()
 	}
 }
 
-CBullet* CBullet::Create(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, int damage)
+CBullet* CBullet::Create(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage)
 {
 	CBullet* bullet = new CBullet();
 	bullet->Init(spawnPos, vec, speed, range, damage);

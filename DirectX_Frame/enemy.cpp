@@ -38,6 +38,9 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, C
 	m_Count = 0;
 
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	// ライフを設定
+	m_Life = 100.0f;
 }
 
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type)
@@ -51,6 +54,9 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, C
 	m_Action = CActionMoveToPos::Create(this, rootId, 0.02f);
 
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	// ライフを設定
+	m_Life = 100.0f;
 }
 
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type)
@@ -64,6 +70,9 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* 
 	m_EnemyType = type;
 
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	// ライフを設定
+	m_Life = 100.0f;
 }
 
 void CEnemy::Uninit()
@@ -257,12 +266,6 @@ void CEnemy::Death()
 	m_Model->PlayMontage(ENEMY_DEATH, 0.3f, 8.0f, ENEMY_DEATH);
 	m_Model->SetAnimPlaySpeed(1.5f);
 	m_StabSE->Play();
-
-	CModeGame::IncrementNumKill();
-	if (!m_FindPlayer)
-	{
-		CModeGame::IncrementNumSneak();
-	}
 
 	m_isPreDeath = true;
 }
