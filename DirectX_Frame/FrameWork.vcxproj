@@ -176,6 +176,10 @@
     <ClInclude Include="emitter.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="EnemyAnim.h" />
+    <ClInclude Include="enemyPatternAttack.h" />
+    <ClInclude Include="enemyPatternBase.h" />
+    <ClInclude Include="enemyPatternChase.h" />
+    <ClInclude Include="enemyPatternDeath.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="game.h" />
@@ -246,6 +250,9 @@
     <ClCompile Include="Effekseer.cpp" />
     <ClCompile Include="emitter.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemyPatternAttack.cpp" />
+    <ClCompile Include="enemyPatternChase.cpp" />
+    <ClCompile Include="enemyPatternDeath.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="game.cpp" />

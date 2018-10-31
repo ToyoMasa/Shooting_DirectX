@@ -23,8 +23,6 @@
 static const int DIFFUSSION = 200;
 static const int ADS_DIFFUSSION = 80;
 
-CSceneModel *model;
-
 void CShotgun::Init(CSceneSkinMesh *parent)
 {
 	m_Parent = parent;
@@ -44,11 +42,9 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_Rate = 60.0f / (200.0f / 60.0f);
 	m_CoolDown = 0.0f;
+	m_Damage = 4.0f;
 
 	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
-
-	model = CSceneModel::Create("data/models/shotgun.x");
-	model->Move(D3DXVECTOR3(0.0f, 1.7f, 0.0f));
 
 	// マズルフラッシュの初期化
 	m_Flash = CBillBoard::Create(TEX_ID_FLASH);
@@ -145,7 +141,7 @@ void CShotgun::Shoot()
 				bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
 				bulletVec = bulletVec + CModeGame::GetCamera()->GetRight() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
 
-				CBullet::Create(m_MuzzlePos, bulletVec, 10.0f, 20.0f, 15);
+				CBullet::Create(m_MuzzlePos, bulletVec, 10.0f, 20.0f, m_Damage);
 			}
 
 			m_Parent->PlayMontage(PLAYER_FIRE, 0.0f, 0.13f, PLAYER_IDLE);
@@ -163,7 +159,7 @@ void CShotgun::Shoot()
 		m_isReleaseTrigger = false;
 
 		// リコイル
-		Recoil(0.07f, 0.2f);
+		Recoil(0.1f, 0.25f);
 		m_CountFire = 0;
 		m_RecoilCount = 5;
 		m_RecoilX = m_TotalRecoilX / 5.0f;

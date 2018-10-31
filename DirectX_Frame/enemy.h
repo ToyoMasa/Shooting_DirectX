@@ -7,6 +7,7 @@
 
 #include "character.h"
 #include "actionBase.h"
+#include "enemyPatternBase.h"
 #include "sound.h"
 
 static const float ENEMY_MOVE_SPEED = 0.03f;
@@ -23,52 +24,36 @@ class CEnemy : public CCharacter
 public:
 	CEnemy::CEnemy() : CCharacter() 
 	{
+		m_Speed = ENEMY_MOVE_SPEED;
 		m_Type = CHARACTER_ENEMY;
-		m_Exclamation = NULL;
-		m_FindPlayer = false;
-		m_Action = NULL;
-		m_isPreDeath = false;
-		m_isPreAttack = false;
-		m_isPlaySE = false;
-		m_StabSE = CSound::Create(SOUND_LABEL_SE_STAB);
-		m_AttackSE = CSound::Create(SOUND_LABEL_SE_ENEMY_ATTACK);
-		m_FindSE = CSound::Create(SOUND_LABEL_SE_FIND);
 
 		m_Count = 0;
 	}
 	~CEnemy() {}
 
-	void Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field);
-	void Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type);
-	void Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type);
+	void Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field);
 	void Uninit();
 	void Update();
 	void SetField(CField* field) { m_Field = field; }
-	void SetAction(CActionBase* action);
-	void ReleaseAction() { delete m_Action; }
-	static CEnemy* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field);
-	static CEnemy* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, int rootId, CField* field, ENEMY_TYPE type);
-	static CEnemy* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CActionBase* action, CField* field, ENEMY_TYPE type);
-	Capsule GetCapsule() { return m_CapsuleCollision; }
+	static CEnemy* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field);
+	Capsule& GetCapsule() { return m_CapsuleCollision; }
 	void GetCapsule(D3DXVECTOR3& pos1, D3DXVECTOR3& pos2, float& r);
-	ENEMY_TYPE GetEnemyType() { return m_EnemyType; }
+	Capsule& GetAttackCollision() { return m_AttackingCollsion; }
+
+	float GetSpeed() { return m_Speed; }
+	void SetSpeed(float speed) { m_Speed = speed; }
+
+	void ChangePattern(CEnemyPatternBase* next);
+	void Move(D3DXVECTOR3 newPos);
 	void Search();
 	void Death();
 	void Attack();
 
 private:
-	CActionBase* m_Action;
-	CBillBoard* m_Exclamation;
-	ENEMY_TYPE m_EnemyType;
+	CEnemyPatternBase *m_Pattern;
 	Capsule m_AttackingCollsion;
-	CSound* m_AttackSE;
-	CSound* m_FindSE;
-	CSound* m_StabSE;
-	bool m_FindPlayer;
-	bool m_isPreDeath;
-	bool m_isPreAttack;
-	bool m_isPlaySE;
 	int m_Count;
+	float m_Speed;
 };
 
 #endif // !_ENEMY_H_

@@ -13,7 +13,7 @@ public:
 	CPlayerPatternIdle() {}
 	~CPlayerPatternIdle() {}
 
-	void Init(CPlayer* player);
+	void Init(CPlayer* player)override;
 	void Update(CPlayer* player)override;
 };
 

@@ -36,6 +36,7 @@
 #include "weapon.h"
 #include "debug.h"
 #include "EnemyAnim.h"
+#include "enemyPatternChase.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -97,8 +98,8 @@ void CModeGame::Init()
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
-	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), 1, field);
-
+	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), new CEnemyPatternChase(), field);
+/*
 	for (int j = 0; j < 10; j++)
 	{
 		for (int i = 0; i < 10; i++)
@@ -108,7 +109,7 @@ void CModeGame::Init()
 			testModel[10 * j + i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
 		}
 	}
-
+*/
 	// ‹ó
 	CSkyBox::Create(player);
 

@@ -107,9 +107,6 @@ void CRifle::Update()
 		if (m_isFlash)
 		{
 			// マズルフラッシュの更新
-			//D3DXVECTOR3 flashPos = m_MuzzlePos;
-			//flashPos += CModeGame::GetCamera()->GetUp() * ((-500 + (rand() % 1000)) / 1000000.0f);
-			//flashPos += CModeGame::GetCamera()->GetRight() * ((-500 + (rand() % 1000)) / 5000.0f);
 			m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, NORMAL, D3DCOLOR_RGBA(255, 255, 0, m_FlashAlpha));
 
 			if (m_FlashAlpha > 0)

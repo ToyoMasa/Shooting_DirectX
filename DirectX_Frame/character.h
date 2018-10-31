@@ -32,7 +32,9 @@ public:
 	static void UpdateAll();
 	Capsule GetCapsule() { return m_CapsuleCollision; }
 	CHARACTER_TYPE GetType() { return m_Type; }
+	void SetType(CHARACTER_TYPE type) { m_Type = type; }
 	void SetField(CField* field) { m_Field = field; }
+	CField* GetField() { return m_Field; }
 	void SetPos(D3DXVECTOR3 pos) { m_Pos = pos; }
 	D3DXVECTOR3 GetPos() { return m_Pos; }
 	D3DXVECTOR3 GetForward() { return m_Forward; }
@@ -51,7 +53,7 @@ public:
 
 protected:
 	//CSceneModel *m_Model;
-	CSceneSkinMesh *m_Model;
+	CSceneSkinMesh	*m_Model;
 	D3DXVECTOR3		m_Pos;
 	D3DXVECTOR3		m_OldPos;
 	D3DXVECTOR3		m_Forward;

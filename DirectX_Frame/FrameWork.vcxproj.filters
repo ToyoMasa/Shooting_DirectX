@@ -52,6 +52,12 @@
     <Filter Include="ヘッダー ファイル\playerPattern">
       <UniqueIdentifier>{c14cfea4-04df-4020-88ea-e065535063b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\enemyPattern">
+      <UniqueIdentifier>{ce760528-9fa4-48c7-ab20-9c6c973b52c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\enemyPattern">
+      <UniqueIdentifier>{40f4e9e9-b60b-4ff8-9eaf-6a99fc6c693c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -264,6 +270,18 @@
     <ClInclude Include="playerPatternAir.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
+    <ClInclude Include="enemyPatternBase.h">
+      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyPatternChase.h">
+      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyPatternDeath.h">
+      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyPatternAttack.h">
+      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -445,6 +463,15 @@
     </ClCompile>
     <ClCompile Include="playerPatternAir.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyPatternChase.cpp">
+      <Filter>ソース ファイル\enemyPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyPatternDeath.cpp">
+      <Filter>ソース ファイル\enemyPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyPatternAttack.cpp">
+      <Filter>ソース ファイル\enemyPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
