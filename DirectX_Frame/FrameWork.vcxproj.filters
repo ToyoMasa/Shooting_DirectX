@@ -282,6 +282,12 @@
     <ClInclude Include="enemyPatternAttack.h">
       <Filter>ヘッダー ファイル\enemyPattern</Filter>
     </ClInclude>
+    <ClInclude Include="astar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="sh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -472,6 +478,12 @@
     </ClCompile>
     <ClCompile Include="enemyPatternAttack.cpp">
       <Filter>ソース ファイル\enemyPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="astar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="sh.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

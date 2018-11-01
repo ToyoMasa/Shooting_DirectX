@@ -68,15 +68,16 @@ int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 
 CSceneSkinMesh* testModel[100] = { NULL };
+CSceneModel* testbox;
 
 void CModeGame::Init()
 {
 	// テクスチャの初期化
 	CTexture::Init();
-/*
-	BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
-	BGM->Play();
-*/
+	/*
+		BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
+		BGM->Play();
+	*/
 	Black = CScene2D::Create(TEX_ID_BLACK, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Black->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
 	Black->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
@@ -99,17 +100,17 @@ void CModeGame::Init()
 	CManager::SetCamera(player->GetCamera());
 
 	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), new CEnemyPatternChase(), field);
-/*
-	for (int j = 0; j < 10; j++)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			testModel[10 * j + i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
-			testModel[10 * j + i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, -5.0f + j));
-			testModel[10 * j + i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
-		}
-	}
-*/
+	
+	//for (int j = 0; j < 10; j++)
+	//{
+	//	for (int i = 0; i < 10; i++)
+	//	{
+	//		testModel[10 * j + i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
+	//		testModel[10 * j + i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, -5.0f + j));
+	//		testModel[10 * j + i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
+	//	}
+	//}
+	
 	// 空
 	CSkyBox::Create(player);
 
@@ -135,6 +136,8 @@ void CModeGame::Init()
 	//BGM->Release();
 
 	CShader::SetCamera(CManager::GetCamera());
+
+	testbox = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_BOX], true);
 }
 
 void CModeGame::Uninit()
@@ -280,6 +283,26 @@ void CModeGame::Update()
 			ImGui::Begin("Weapon", 0);
 			ImGui::Text("X = %.2f Y = %.2f Z = %.2f", g_test->GetPos().x, g_test->GetPos().y, g_test->GetPos().z);
 			ImGui::End();*/
+
+			BOOL raytest = FALSE; 
+			DWORD pFaceIndex;
+			FLOAT pU;
+			FLOAT pV;
+			FLOAT pDist;
+			LPD3DXBUFFER ppAllHits = NULL;
+			DWORD pCountOfHits;
+			D3DXVECTOR3 raypos = CModeGame::GetCamera()->GetPos();
+			D3DXVECTOR3 raydir = CModeGame::GetCamera()->GetFront();
+
+			D3DXIntersect(testbox->GetMesh(), &raypos, &raydir,
+				&raytest, &pFaceIndex, &pU, &pV, &pDist, &ppAllHits, &pCountOfHits);
+
+			ImGui::Begin("test", 0);
+			if (raytest == TRUE)
+			{
+				ImGui::Text("true");
+			}
+			ImGui::End();
 		}
 	}
 }

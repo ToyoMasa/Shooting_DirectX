@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="action.h" />
     <ClInclude Include="actionBase.h" />
+    <ClInclude Include="astar.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
@@ -217,6 +218,7 @@
     <ClInclude Include="sceneModelFBX.h" />
     <ClInclude Include="sceneShadow.h" />
     <ClInclude Include="sceneSkinMesh.h" />
+    <ClInclude Include="sh.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shotgun.h" />
     <ClInclude Include="SkinMeshData.h" />
@@ -238,6 +240,7 @@
   <ItemGroup>
     <ClCompile Include="action.cpp" />
     <ClCompile Include="actionBase.cpp" />
+    <ClCompile Include="astar.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
@@ -286,6 +289,7 @@
     <ClCompile Include="sceneModelFBX.cpp" />
     <ClCompile Include="sceneShadow.cpp" />
     <ClCompile Include="sceneSkinMesh.cpp" />
+    <ClCompile Include="sh.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shotgun.cpp" />
     <ClCompile Include="SkinMeshData.cpp" />

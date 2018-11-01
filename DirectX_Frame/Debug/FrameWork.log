@@ -1,3 +1,4 @@
-﻿  enemyPatternAttack.cpp
+﻿  game.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\game.cpp(86): warning C4101: 'hr': ローカル変数は 1 度も使われていません。
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.exe
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.pdb (Full PDB)
