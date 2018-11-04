@@ -200,3 +200,83 @@ void CBox::Draw(D3DXMATRIX mtxWorld)
 	pDevice->SetMaterial(&m_mat);
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, NUM_VERTEX, 0, NUM_PRIMITIVE);
 }
+
+void CBox::DrawWithShader(D3DXMATRIX mtxWorld, Shader* shader)
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+
+	// FVF(今から使用する頂点情報)の設定
+	pDevice->SetFVF(FVF_VERTEX_SHADER);
+
+	D3DXVECTOR4  tempcolor;
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	shader->ShaderSet(mtxWorld);
+
+	// 環境光用のマテリアルをセット
+	tempcolor.x = m_mat.Ambient.r;
+	tempcolor.y = m_mat.Ambient.g;
+	tempcolor.z = m_mat.Ambient.b;
+	tempcolor.w = m_mat.Ambient.a;
+	shader->GetVSTable()->SetVector(pDevice, "g_ambient_mat", &tempcolor);
+
+	// ディフューズ光用のマテリアルをセット
+	tempcolor.x = m_mat.Diffuse.r;
+	tempcolor.y = m_mat.Diffuse.g;
+	tempcolor.z = m_mat.Diffuse.b;
+	tempcolor.w = m_mat.Diffuse.a;
+	shader->GetVSTable()->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
+
+	// エミッシブ光用のマテリアルをセット
+	tempcolor.x = m_mat.Emissive.r;
+	tempcolor.y = m_mat.Emissive.g;
+	tempcolor.z = m_mat.Emissive.b;
+	tempcolor.w = m_mat.Emissive.a;
+	shader->GetVSTable()->SetVector(pDevice, "g_emissive_mat", &tempcolor);
+
+//	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	// スペキュラー光用のマテリアルをセット
+	tempcolor.x = m_mat.Specular.r;
+	tempcolor.y = m_mat.Specular.g;
+	tempcolor.z = m_mat.Specular.b;
+	tempcolor.w = m_mat.Specular.a;
+	shader->GetVSTable()->SetVector(pDevice, "g_specular_mat", &tempcolor);
+
+	// パワー値をセット
+	shader->GetVSTable()->SetFloat(pDevice, "g_power", m_mat.Power);
+
+	// テクスチャを使用するか否かをセット
+	if (CTexture::GetTexture(m_TexID)) {
+		shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
+	}
+	else {
+		shader->GetPSTable()->SetBool(pDevice, "g_tex", FALSE);
+	}
+	// テクスチャをサンプラーへセット
+	int index = shader->GetPSTable()->GetSamplerIndex("Sampler1");
+	pDevice->SetTexture(index, CTexture::GetTexture(m_TexID));
+
+	// 頂点バッファとインデックスバッファの設定
+	pDevice->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX3D_BOX));
+	pDevice->SetIndices(m_pIndexBuffer);
+
+	//各種行列の設定(自分のやりたいところでやる)
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	pDevice->SetMaterial(&m_mat);
+	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, NUM_VERTEX, 0, NUM_PRIMITIVE);
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	// 頂点シェーダーとピクセルシェーダーをセット
+	pDevice->SetVertexShader(NULL);
+	pDevice->SetPixelShader(NULL);
+//	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+}
+

@@ -86,7 +86,6 @@ void CCamera::Update()
 	//ŠeŽís—ñ‚ÌÝ’è
 	pDevice->SetTransform(D3DTS_VIEW, &m_View);
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_Projection);
-
 }
 
 void CCamera::SetPos(D3DXVECTOR3 pos)

@@ -71,7 +71,7 @@ bool CRenderer::Init(HWND hWnd, BOOL bWindow)
 	CRenderer::m_D3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	CRenderer::m_D3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	CRenderer::m_D3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	CRenderer::m_D3DDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_MATERIAL);
+	//CRenderer::m_D3DDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_MATERIAL);
 	// Æ–¾
 	CRenderer::m_D3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 

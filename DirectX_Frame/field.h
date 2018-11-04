@@ -28,6 +28,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawWithShader()override {}
 	float GetHeight(D3DXVECTOR3& pos);
 	VERTEX_3D* GetVertex() { return m_Scene3D->GetVertex(); }
 	static CField* Create(int texId, float meshSize, int sizeX, int sizeY);

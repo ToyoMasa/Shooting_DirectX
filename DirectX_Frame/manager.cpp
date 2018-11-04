@@ -44,7 +44,7 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	CSound::Init();
 
 	// シェーダーの読み込み
-	CShader::LoadShader();
+	//CShader::LoadShader();
 
 	// imguiの初期化と設定
 	CImGui::Init(hWnd, CRenderer::GetDevice());
@@ -97,7 +97,7 @@ void CManager::Uninit()
 	CSound::Uninit();
 
 	// シェーダーの解放
-	CShader::ReleaseShader();
+	//CShader::ReleaseShader();
 
 	// imguiの終了処理
 	CImGui::Uninit();

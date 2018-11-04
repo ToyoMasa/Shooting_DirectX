@@ -71,7 +71,8 @@ public:
 	void Init(CCamera* camera);
 	void Uninit() override;
 	void Update()override;
-	void Draw()override;
+	void Draw()override; 
+	void DrawWithShader()override {}
 
 	static CEffekseer *Create(Effect EffectType, CCamera* camera);
 	static void  CreateScene(Effect EffectType);

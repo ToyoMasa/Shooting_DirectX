@@ -7,6 +7,8 @@
 
 #define BOX_TYPE_NUM (1)
 
+class Shader;
+
 typedef struct
 {
 	D3DXVECTOR3 pos;
@@ -25,6 +27,7 @@ public:
 	void Uninit(void);
 
 	void Draw(D3DXMATRIX mtxWorld);
+	void DrawWithShader(D3DXMATRIX mtxWorld, Shader* shader);
 
 private:
 	VERTEX3D_BOX m_v[24];

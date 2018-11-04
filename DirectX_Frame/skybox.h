@@ -24,6 +24,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawWithShader()override {}
 	static CSkyBox* Create(CPlayer* player);
 
 private:

@@ -20,6 +20,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawWithShader()override {}
 	static CSceneShadow* Create();
 
 	void Move(D3DXVECTOR3 pos);

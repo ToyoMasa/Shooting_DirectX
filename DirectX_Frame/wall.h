@@ -30,6 +30,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawWithShader()override;
 
 	D3DXVECTOR3 GetNormal(int n);
 	D3DXVECTOR3 GetNormalPos(int n);

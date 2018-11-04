@@ -169,7 +169,7 @@ float CField::GetHeight(D3DXVECTOR3& pos)
 			V0P = pos - P0;
 			V1P = pos - P1;
 			V2P = pos - P2;
-
+			
 			cross1 = V01.x * V0P.z - V01.z * V0P.x;
 			cross2 = V12.x * V1P.z - V12.z * V1P.x;
 			cross3 = V20.x * V2P.z - V20.z * V2P.x;

@@ -40,6 +40,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawWithShader()override {}
 
 	void SetColor(D3DCOLOR color) { m_Color = color; }
 	void SetTexCoord(float texCoordx1, float texCoordx2, float texCoordy1, float texCoordy2);

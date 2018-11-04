@@ -41,13 +41,13 @@ void CTexture::Load(int id)
 
 void CTexture::Release(int id)
 {
-	// このテクスチャの使用者をインクリメント
+	// このテクスチャの使用者をデクリメント
 	MAP_TEXTURE_USE_NUM[id]--;
 
 	if (MAP_TEXTURE_USE_NUM[id] <= 0)
 	{
 		TEXTURES[id].ReleaseTexture();
-		MAP_LOADING_TEXTURES[MAP_TEXTURES[id]] = true;
+		MAP_LOADING_TEXTURES[MAP_TEXTURES[id]] = false;
 	}
 }
 

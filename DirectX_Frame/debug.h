@@ -25,6 +25,8 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
+	void DrawWithShader()override {}
+
 	static CDebugSphere* Create(D3DXVECTOR3 pos, float r);
 
 private:

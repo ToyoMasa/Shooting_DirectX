@@ -6,7 +6,7 @@
 #define _SCENE_H_
 
 static const int OBJECT_MAX = 200;
-#include "shader.h"
+#include "sh.h"
 
 enum SCENE_TYPE
 {
@@ -35,7 +35,7 @@ protected:
 	D3DXVECTOR3 m_Pos;
 	SCENE_TYPE m_Type;
 	bool m_Visible;
-	CShader *m_Shader;
+	Shader *m_Shader;
 public:
 	CScene(int priority);
 	virtual ~CScene() {}
@@ -43,6 +43,7 @@ public:
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+	virtual void DrawWithShader() = 0;
 	virtual void SetWorld(D3DXMATRIX move) {}
 	virtual void Move(D3DXVECTOR3 pos) {}
 	virtual void Rotate(D3DXVECTOR3 rot) {}
@@ -50,7 +51,7 @@ public:
 	void Set(D3DXVECTOR3& pos);
 	void SetVisible(bool visible) { m_Visible = visible; }
 	bool GetVisible() { return m_Visible; }
-	void SetShader(CShader* shader) { m_Shader = shader; }
+	void SetShader(Shader* shader) { m_Shader = shader; }
 	D3DXVECTOR3 GetPos() { return m_Pos; }
 	void Release();
 	static void UpdateAll();

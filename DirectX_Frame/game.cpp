@@ -37,6 +37,7 @@
 #include "debug.h"
 #include "EnemyAnim.h"
 #include "enemyPatternChase.h"
+#include "sh.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -68,7 +69,9 @@ int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 
 CSceneSkinMesh* testModel[100] = { NULL };
-CSceneModel* testbox;
+CBox* testbox;
+CSceneModel* testufo;
+Shader* testshader;
 
 void CModeGame::Init()
 {
@@ -99,8 +102,8 @@ void CModeGame::Init()
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
-	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), new CEnemyPatternChase(), field);
-	
+	//enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), new CEnemyPatternChase(), field);
+	//
 	//for (int j = 0; j < 10; j++)
 	//{
 	//	for (int i = 0; i < 10; i++)
@@ -137,7 +140,33 @@ void CModeGame::Init()
 
 	CShader::SetCamera(CManager::GetCamera());
 
-	testbox = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_BOX], true);
+	bool sts;
+
+	testshader = new Shader();
+	sts = testshader->VertexShaderCompile(
+		"basic.fx",						// シェーダーファイル名
+		"main",							// エントリー関数名
+		"vs_3_0");						// バージョン
+
+	if (!sts) {
+		MessageBox(NULL, "エラー", "エラー", MB_OK);
+	}
+
+	// ピクセルシェーダーコンパイル
+	sts = testshader->PixelShaderCompile(
+		"basic.fx",						// シェーダーファイル名
+		"PS",							// エントリー関数名
+		"ps_3_0");						// バージョン
+
+	if (!sts) {
+		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
+	}
+
+	testbox = new CBox();
+	testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
+	testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_UFO]);
+	testufo->Move(D3DXVECTOR3(0.0f, 1.0f, -15.0f));
+	testufo->SetShader(testshader);
 }
 
 void CModeGame::Uninit()
@@ -166,6 +195,8 @@ void CModeGame::Uninit()
 
 	// 全てのテクスチャの解放
 	CTexture::ReleaseAll();
+
+	delete testshader;
 }
 
 void CModeGame::Update()
@@ -284,33 +315,44 @@ void CModeGame::Update()
 			ImGui::Text("X = %.2f Y = %.2f Z = %.2f", g_test->GetPos().x, g_test->GetPos().y, g_test->GetPos().z);
 			ImGui::End();*/
 
-			BOOL raytest = FALSE; 
-			DWORD pFaceIndex;
-			FLOAT pU;
-			FLOAT pV;
-			FLOAT pDist;
-			LPD3DXBUFFER ppAllHits = NULL;
-			DWORD pCountOfHits;
-			D3DXVECTOR3 raypos = CModeGame::GetCamera()->GetPos();
-			D3DXVECTOR3 raydir = CModeGame::GetCamera()->GetFront();
+			//BOOL raytest = FALSE; 
+			//DWORD pFaceIndex;
+			//FLOAT pU;
+			//FLOAT pV;
+			//FLOAT pDist;
+			//LPD3DXBUFFER ppAllHits = NULL;
+			//DWORD pCountOfHits;
+			//D3DXVECTOR3 raypos = CModeGame::GetCamera()->GetPos();
+			//D3DXVECTOR3 raydir = CModeGame::GetCamera()->GetFront();
 
-			D3DXIntersect(testbox->GetMesh(), &raypos, &raydir,
-				&raytest, &pFaceIndex, &pU, &pV, &pDist, &ppAllHits, &pCountOfHits);
+			//D3DXIntersect(testbox->GetMesh(), &raypos, &raydir,
+			//	&raytest, &pFaceIndex, &pU, &pV, &pDist, &ppAllHits, &pCountOfHits);
 
-			ImGui::Begin("test", 0);
-			if (raytest == TRUE)
-			{
-				ImGui::Text("true");
-			}
-			ImGui::End();
+			//ImGui::Begin("test", 0);
+			//if (raytest == TRUE)
+			//{
+			//	ImGui::Text("true");
+			//}
+			//ImGui::End();
 		}
 	}
 }
 
 void CModeGame::Draw()
 {
+	//LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	//if (pDevice == NULL)
+	//{
+	//	return;
+	//}
+	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CScene::DrawAll();
 	CBillBoard::DrawAll(player->GetCamera());
+
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	//testbox->Draw(mat);
+	testbox->DrawWithShader(mat, testshader);
 
 	CImGui::EndDraw();
 }

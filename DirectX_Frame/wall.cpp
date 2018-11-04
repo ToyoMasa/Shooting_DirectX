@@ -36,7 +36,6 @@ void CWall::Init(D3DXVECTOR3 pos, float x, float y, float z, int texID)
 
 	m_Type = SCENE_TYPE_WALL;
 
-	SetShader(CShader::GetShader(SHADER_FILE_001));
 }
 
 void CWall::Uninit()
@@ -61,6 +60,21 @@ void CWall::Draw()
 	pDevice->SetFVF(FVF_VERTEX_3D);
 	
 	m_Box->Draw(m_World);
+}
+
+void CWall::DrawWithShader()
+{
+	if (m_Shader == NULL)
+	{
+		return;
+	}
+
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
 }
 
 D3DXVECTOR3 CWall::GetNormal(int n)
