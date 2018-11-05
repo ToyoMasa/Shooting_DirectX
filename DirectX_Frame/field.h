@@ -5,6 +5,8 @@
 #ifndef _FIELD_H_
 #define _FIELD_H_
 
+#include <string>
+
 class CScene3D;
 
 class CField : public CScene
@@ -25,14 +27,22 @@ public:
 
 	void Init(int texId, float meshSize, int sizeX, int sizeY);
 	void Init(int texId, float meshSize, int sizeX, int sizeY, bool isHeight);
+	void Init(int texId, float meshSize, int sizeX, int sizeY, float** heights);
 	void Uninit();
 	void Update();
 	void Draw();
 	void DrawWithShader()override {}
 	float GetHeight(D3DXVECTOR3& pos);
+	int GetBlockSize() { return m_SizeX; }
+	void Change();
 	VERTEX_3D* GetVertex() { return m_Scene3D->GetVertex(); }
+	void SetVertex(VERTEX_3D* v) { m_Vertex = v; }
+	void Save(std::string textname);
+	void Load(std::string textname);
+	static CField* Create(std::string textname);
 	static CField* Create(int texId, float meshSize, int sizeX, int sizeY);
 	static CField* Create(int texId, float meshSize, int sizeX, int sizeY, bool isHeight);
+	static CField* Create(int texId, float meshSize, int sizeX, int sizeY, float** heights);
 
 private:
 	float m_MeshSize;
@@ -43,6 +53,8 @@ private:
 	int m_NumVertex;
 	int m_NumIndex;
 	float m_FieldHeight[5][5];
+	VERTEX_3D* m_Vertex;
+	WORD* m_Index;
 	CScene3D* m_Scene3D;
 };
 

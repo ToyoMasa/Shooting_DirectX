@@ -22,6 +22,7 @@
 #include "number.h"
 #include "title.h"
 #include "game.h"
+#include "mapmake.h"
 #include "fade.h"
 #include "sound.h"
 
@@ -58,7 +59,7 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	m_InputMouse = new CInputMouse;
 	m_InputMouse->Init(hInstance, hWnd);
 
-	CManager::m_Mode = new CModeGame();
+	CManager::m_Mode = new CModeMapMake();
 	//CManager::m_Mode = new CModeGame();
 
 	if (CManager::m_Mode != NULL)
@@ -141,7 +142,7 @@ void CManager::Draw()
 		//•`‰æ
 		m_Mode->Draw();
 
-		CFade::Draw();
+		//CFade::Draw();
 	}
 
 	CRenderer::DrawEnd();

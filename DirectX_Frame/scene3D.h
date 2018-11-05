@@ -11,7 +11,7 @@ typedef struct
 {
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 NV; // ñ@ê¸
-	D3DCOLOR color;
+	DWORD color;
 	D3DXVECTOR2 texcoord;
 } VERTEX_3D;
 
@@ -26,6 +26,7 @@ public:
 		m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_VertexBuffer = NULL;
 		m_IndexBuffer = NULL;
+		m_Vertex = NULL;
 		D3DXMatrixIdentity(&m_World);
 	}
 
@@ -42,6 +43,7 @@ public:
 	void Update();
 	void Draw();
 	void DrawWithShader()override {}
+	void Change(VERTEX_3D* vertex, WORD* index);
 	VERTEX_3D* GetVertex() { return m_Vertex; }
 	static CScene3D* Create(int texId, float meshSize, int sizeX, int sizeY, int numPrimitive, int numVertex, int numIndex);
 	static CScene3D* Create(int texId, VERTEX_3D* vertex, WORD* index, int numPrimitive, int numVertex, int numIndex);
@@ -55,11 +57,11 @@ private:
 	D3DXMATRIX				m_World;
 
 	int m_NumVertex;
+	int m_NumIndex;
 	int m_NumPrimitive;
 	int m_TexId;
 
 	VERTEX_3D* m_Vertex;
-	WORD* m_Index;
 };
 
 #endif //!_SCENE3D_H_

@@ -7,7 +7,7 @@
 #include "scene3D.h"
 #include "texture.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL);
+static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 //======================================================================
 //	初期処理関数
@@ -21,6 +21,7 @@ void CScene3D::Init(int texId, float meshSize, int sizeX, int sizeY, int numPrim
 	}
 
 	m_NumPrimitive = numPrimitive;
+	m_NumIndex = numIndex;
 	m_NumVertex = numVertex;
 
 	m_TexId = texId;
@@ -110,6 +111,7 @@ void CScene3D::Init(int texId, VERTEX_3D* vertex, WORD* index, int numPrimitive,
 	}
 
 	m_NumPrimitive = numPrimitive;
+	m_NumIndex = numIndex;
 	m_NumVertex = numVertex;
 
 	m_TexId = texId;
@@ -147,11 +149,7 @@ void CScene3D::Init(int texId, VERTEX_3D* vertex, WORD* index, int numPrimitive,
 
 	m_VertexBuffer->Unlock();
 
-	m_Vertex = new VERTEX_3D[numVertex];
-	for (int i = 0; i < numVertex; i++)
-	{
-		m_Vertex[i] = vertex[i];
-	}
+	m_Vertex = vertex;
 
 	LPWORD Index;
 	m_IndexBuffer->Lock(0, 0, (void**)&Index, D3DLOCK_DISCARD);
@@ -201,7 +199,8 @@ void CScene3D::Uninit()
 
 	if (m_Vertex != NULL)
 	{
-		delete m_Vertex;
+		delete[] m_Vertex;
+		m_Vertex = NULL;
 	}
 
 	m_Shader = NULL;
@@ -234,11 +233,12 @@ void CScene3D::Draw()
 	pDevice->SetIndices(m_IndexBuffer);
 
 	//各種行列の設定(自分のやりたいとこ);
-	pDevice->SetMaterial(&m_Mat);
-
 	pDevice->SetFVF(FVF_VERTEX_3D);
+	//pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 	pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+	pDevice->SetMaterial(&m_Mat);
 
 	pDevice->SetTexture(0, CTexture::GetTexture(m_TexId));
 
@@ -275,4 +275,22 @@ CScene3D* CScene3D::Create(int texId, VERTEX_3D* vertex, WORD* index, int numPri
 	scene3D->Init(texId, vertex, index, numPrimitive, numVertex, numIndex);
 
 	return scene3D;
+}
+
+void CScene3D::Change(VERTEX_3D* vertex, WORD* index)
+{
+	m_Vertex = vertex;
+
+	VERTEX_3D* V;
+
+	// 頂点バッファ
+	m_VertexBuffer->Lock(0, 0, (void**)&V, D3DLOCK_DISCARD);
+
+	for (int i = 0; i < m_NumVertex; i++)
+	{
+		V[i] = vertex[i];
+	}
+
+	m_VertexBuffer->Unlock();
+
 }

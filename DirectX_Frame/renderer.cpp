@@ -119,8 +119,8 @@ LPDIRECT3DDEVICE9 CRenderer::GetDevice()
 HRESULT CRenderer::DrawBegin()
 {
 	//ƒNƒŠƒAˆ—
-	//CRenderer::GetDevice()->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(64, 96, 255, 255), 1.0f, 0);
-	CRenderer::GetDevice()->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
+	CRenderer::GetDevice()->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(64, 96, 255, 255), 1.0f, 0);
+	//CRenderer::GetDevice()->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
 	return CRenderer::GetDevice()->BeginScene();
 }

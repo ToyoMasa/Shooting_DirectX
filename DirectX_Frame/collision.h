@@ -306,7 +306,6 @@ bool isCollisionCapsule(const Capsule &c1, const Capsule &c2);
 //	第三引数		  　1つ目の円の半径
 //	第四引数、第五引数　2つ目の円の中心座標
 //　第六引数			2つ目の円の半径
-//	第八引数　サイズ
 //************************************************************************
 bool isCollisionCircle2D(float x0, float y0, float r0, float x1, float y1, float r1);
 

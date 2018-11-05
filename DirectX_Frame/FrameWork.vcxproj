@@ -193,6 +193,8 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="mapmake.h" />
+    <ClInclude Include="mathutil.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="moveToPlayer.h" />
     <ClInclude Include="moveToPos.h" />
@@ -268,6 +270,8 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="mapmake.cpp" />
+    <ClCompile Include="mathutil.cpp" />
     <ClCompile Include="moveToPlayer.cpp" />
     <ClCompile Include="moveToPos.cpp" />
     <ClCompile Include="moveToRandom.cpp" />

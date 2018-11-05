@@ -1,4 +1,110 @@
-﻿  game.cpp
+﻿  compilation object save succeeded; see D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\basic.cso
+D:\Old �t�@�C��\school\school\3�N\GM31\FPS_Game\trunk\DirectX_Frame\data\shaders\basic.fx(24,12-51): warning X3206: 'mul': implicit truncation of vector type
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\basic.cso
+D:\Old �t�@�C��\school\school\3�N\GM31\FPS_Game\trunk\DirectX_Frame\data\shaders\phong.fx(53,9-22): warning X3206: implicit truncation of vector type
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\phong.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\shader.cso
+  weapon.cpp
+  wall.cpp
+  waitTime.cpp
+  wait.cpp
+  title.cpp
+  texture.cpp
+  targetPoint.cpp
+  sound.cpp
+  skybox.cpp
+  SkinMeshFile.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshfile.cpp(235): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshfile.cpp(373): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshfile.cpp(462): warning C4244: '初期化中': 'DOUBLE' から 'FLOAT' への変換です。データが失われる可能性があります。
+  SkinMeshData.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshdata.cpp(8): warning C4316: 'FrameData': ヒープで割り当てられたオブジェクトが 16 にアラインメントされていない可能性があります
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshdata.cpp(99): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshdata.cpp(227): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  shotgun.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\shotgun.cpp(191): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\shotgun.cpp(192): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+  shader.cpp
+  sh.cpp
+  sceneSkinMesh.cpp
+  sceneShadow.cpp
+  sceneModelFBX.cpp
+  sceneModel.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\scenemodel.cpp(92): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\scenemodel.cpp(97): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\scenemodel.cpp(123): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\scenemodel.cpp(188): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\scenemodel.cpp(241): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  scene3D.cpp
+  scene2D.cpp
+  コードを生成中...
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\skinmeshfile.cpp(331): warning C4715: 'SkinMeshFile::SearchBoneFrame': 値を返さないコントロール パスがあります。
+  コンパイル中...
+  scene.cpp
+  root.cpp
+  rifle.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(187): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(188): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(189): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(193): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\rifle.cpp(194): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
+  result.cpp
+  renderer.cpp
+  playerPatternJump.cpp
+  playerPatternCrouch.cpp
+  playerPatternIdle.cpp
+  playerPatternAir.cpp
+  player.cpp
+  particle.cpp
+  number.cpp
+  moveToRandom.cpp
+  moveToPos.cpp
+  moveToPlayer.cpp
+  mathutil.cpp
+  mapmake.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\mapmake.cpp(293): warning C4244: '=': 'double' から 'DWORD' への変換です。データが失われる可能性があります。
+  manager.cpp
+  main.cpp
+  light.cpp
+  コードを生成中...
+  コンパイル中...
+  input.cpp
+  imgui_impl_dx9.cpp
+  imgui_draw.cpp
+  imgui_demo.cpp
+  ImGui_.cpp
+  imgui.cpp
+  game.cpp
 d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\game.cpp(89): warning C4101: 'hr': ローカル変数は 1 度も使われていません。
+  field.cpp
+  fade.cpp
+  enemyPatternDeath.cpp
+  enemyPatternChase.cpp
+  enemyPatternAttack.cpp
+  enemy.cpp
+  emitter.cpp
+  Effekseer.cpp
+  debug.cpp
+  controller.cpp
+  collision.cpp
+  class.cpp
+  character.cpp
+  コードを生成中...
+  コンパイル中...
+  camera.cpp
+  bullet.cpp
+d:\old ファイル\school\school\3年\gm31\fps_game\trunk\directx_frame\bullet.cpp(20): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。
+  box.cpp
+  billboard.cpp
+  astar.cpp
+  actionBase.cpp
+  action.cpp
+  コードを生成中...
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.exe
   FrameWork.vcxproj -> D:\Old ファイル\school\school\3年\GM31\FPS_Game\trunk\DirectX_Frame\Debug\FrameWork.pdb (Full PDB)

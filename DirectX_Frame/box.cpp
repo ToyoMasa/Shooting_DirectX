@@ -212,7 +212,7 @@ void CBox::DrawWithShader(D3DXMATRIX mtxWorld, Shader* shader)
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	// FVF(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)‚ÌÝ’è
-	pDevice->SetFVF(FVF_VERTEX_SHADER);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
 	D3DXVECTOR4  tempcolor;
 

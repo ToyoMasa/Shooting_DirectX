@@ -340,12 +340,6 @@ void CModeGame::Update()
 
 void CModeGame::Draw()
 {
-	//LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-	//if (pDevice == NULL)
-	//{
-	//	return;
-	//}
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CScene::DrawAll();
 	CBillBoard::DrawAll(player->GetCamera());
 
