@@ -6,7 +6,7 @@
 #define _SCENE_H_
 
 static const int OBJECT_MAX = 200;
-#include "sh.h"
+#include "shader.h"
 
 enum SCENE_TYPE
 {
@@ -35,7 +35,7 @@ protected:
 	D3DXVECTOR3 m_Pos;
 	SCENE_TYPE m_Type;
 	bool m_Visible;
-	Shader *m_Shader;
+	CShader *m_Shader;
 public:
 	CScene(int priority);
 	virtual ~CScene() {}
@@ -51,7 +51,7 @@ public:
 	void Set(D3DXVECTOR3& pos);
 	void SetVisible(bool visible) { m_Visible = visible; }
 	bool GetVisible() { return m_Visible; }
-	void SetShader(Shader* shader) { m_Shader = shader; }
+	void SetShader(CShader* shader) { m_Shader = shader; }
 	D3DXVECTOR3 GetPos() { return m_Pos; }
 	void Release();
 	static void UpdateAll();

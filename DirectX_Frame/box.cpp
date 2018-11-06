@@ -201,7 +201,7 @@ void CBox::Draw(D3DXMATRIX mtxWorld)
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, NUM_VERTEX, 0, NUM_PRIMITIVE);
 }
 
-void CBox::DrawWithShader(D3DXMATRIX mtxWorld, Shader* shader)
+void CBox::DrawWithShader(D3DXMATRIX mtxWorld, CShader* shader)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)

@@ -19,7 +19,6 @@
 #include "emitter.h"
 #include "billboard.h"
 #include "PlayerAnim.h"
-#include "shader.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))

@@ -5,7 +5,6 @@
 #include "common.h"
 #include "main.h"
 #include "wall.h"
-#include "shader.h"
 
 static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL);
 

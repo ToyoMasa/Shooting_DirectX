@@ -7,7 +7,7 @@
 
 #define BOX_TYPE_NUM (1)
 
-class Shader;
+class CShader;
 
 typedef struct
 {
@@ -27,7 +27,7 @@ public:
 	void Uninit(void);
 
 	void Draw(D3DXMATRIX mtxWorld);
-	void DrawWithShader(D3DXMATRIX mtxWorld, Shader* shader);
+	void DrawWithShader(D3DXMATRIX mtxWorld, CShader* shader);
 
 private:
 	VERTEX3D_BOX m_v[24];

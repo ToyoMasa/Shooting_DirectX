@@ -54,7 +54,7 @@ bool g_VertexMode = false;
 
 static CSceneModel* testufo;
 static CBox* testbox;
-static Shader* testshader;
+static CShader* testshader;
 
 bool g_Wire = false;
 
@@ -123,7 +123,7 @@ void CModeMapMake::Init()
 
 	bool sts;
 
-	testshader = new Shader();
+	testshader = new CShader();
 	sts = testshader->VertexShaderCompile(
 		"data/shaders/shader.fx",						// シェーダーファイル名
 		"VertexShader_Main",							// エントリー関数名

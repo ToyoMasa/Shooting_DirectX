@@ -1,210 +1,196 @@
+//*****************************************************************************
+//!	@file	shader.cpp
+//!	@brief	
+//!	@note	シェーダー関連処理
+//!	@author	
+//*****************************************************************************
+
+//-----------------------------------------------------------------------------
+//	Include header files.
+//-----------------------------------------------------------------------------
 #include "common.h"
-#include "renderer.h"
+#include "main.h"
 #include "manager.h"
 #include "camera.h"
-#include "texture.h"
 #include "shader.h"
-#include "sceneModel.h"
-#include "box.h"
 
-CCamera		*CShader::m_pCamera = NULL;
-CShader		*CShader::m_Shaders[SHADER_FILE_MAX] = { NULL };
-
-void CShader::Init(int id)
+//==============================================================================
+//!	@fn		ShaderCompile
+//!	@brief	シェーダーコンパイル
+//!	@param	const char* filename,　 シェーダーファイル名
+//!	@param	const char* entry,　　　エントリ関数名
+//!	@param	const char* version,　　シェーダーバージョン指定
+//!	@param	LPD3DXBUFFER* code,　　 コンパイル済みコード　
+//!	@param	LPD3DXCONSTANTTABLE* ctbl　定数テーブル
+//!	@retval	bool true 成功　false 失敗
+//==============================================================================
+bool CShader::ShaderCompile(
+	const char* filename,
+	const char* entry,
+	const char* version,						// バージョン
+	LPD3DXBUFFER* code,							// コンパイル済みコード
+	LPD3DXCONSTANTTABLE* ctbl)					// 定数テーブル
 {
-	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-
-	m_pCamera = CManager::GetCamera();
-
-	D3DXCreateEffectFromFile(
-		pDevice,
-		SHADER_FILE[id].c_str(),
-		NULL,
-		NULL,
-		D3DXSHADER_DEBUG,
-		NULL,
-		&m_pEffect,
-		NULL
-	);
+	LPD3DXBUFFER err = nullptr;
 
 	HRESULT hr;
 
-	do {
-		hr = m_pEffect->FindNextValidTechnique(m_hTech, &m_hTechNext);
-		if (FAILED(hr))
-		{
-			return;	// エラー
-		}
+	// 頂点シェーダをコンパイル
+	hr = D3DXCompileShaderFromFile(
+		filename,		// ファイル名
+		nullptr,		// プリプロセッサ定義へのポインタ 
+		nullptr,		// ID3DXInclude（#include疑似命令）
+		entry,			// 頂点シェーダー関数名 
+		version,		// 頂点シェーダーのバージョン 
+		0,				// コンパイルオプション
+		code,			// コンパイル済みのシェーダーコード（OUT）
+		&err,			// コンパイルエラー情報が格納される（OUT）
+		ctbl);			// シェーダー内のコンスタントテーブル（OUT）
 
-		if (m_hTechNext)
-		{
-			// テクニックのハンドル(m_hTechNext)を取得
-			D3DXTECHNIQUE_DESC TechDesc;
-			m_pEffect->GetTechniqueDesc(m_hTechNext, &TechDesc); // テクニックの名前を取得
-																 // TechDesc.Nameにテクニック名が入ってる
+						// エラー発生
+	if (FAILED(hr))
+	{
+		if (err) {
+			// コンパイルエラーあり
+			MessageBox(NULL, (LPSTR)err->GetBufferPointer(), "D3DXCompileShaderFromFile", MB_OK);
 		}
-		m_hTech = m_hTechNext;
-	} while (m_hTech != NULL);
+		else {
+			// その他のエラー
+			MessageBox(NULL, "シェーダーファイルが読み込めません", "D3DXCompileShaderFromFile", MB_OK);
+		}
+		return false;
+	}
+	return true;
 }
 
-void CShader::Uninit()
+//==============================================================================
+//!	@fn		VertexShaderCompile
+//!	@brief	頂点シェーダーオブジェクト生成
+//!	@param	LPDIRECT3DDEVICE9 lpdevidce    デバイスオブジェクト
+//!	@param	const char* filename,		   シェーダーファイル名
+//!	@param	const char* entry,			   エントリー関数名
+//!	@param	const char* version,		   バージョン
+//!	@param	LPD3DXCONSTANTTABLE* ctbl,	　 定数テーブル
+//!	@param	LPDIRECT3DVERTEXSHADER9* vsh　 頂点シェーダーオブジェクト
+//!	@retval	bool true 成功　false 失敗
+//==============================================================================
+bool CShader::VertexShaderCompile(
+	const char* filename,						// シェーダーファイル名
+	const char* entry,							// エントリー関数名
+	const char* version)						// バージョン
 {
-	if (m_pEffect)
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
 	{
-		m_pEffect->Release();
+		return false;
 	}
 
-}
+	bool sts;
+	LPD3DXBUFFER code;
 
-void CShader::Draw(CScene* scene)
-{
-	D3DXMATRIX world;
-	D3DXMatrixTranslation(&world, scene->GetPos().x, scene->GetPos().y, scene->GetPos().z);
-	m_World = world;
-
-	if (m_pCamera != NULL)
-	{
-		m_pEffect->SetMatrix("World", &m_World);
-		m_pEffect->SetMatrix("View", &m_pCamera->GetView());
-		m_pEffect->SetMatrix("Proj", &m_pCamera->GetProjection());
-
-		D3DXHANDLE hTVPShader;		// テクニック「TVPShader」のハンドル
-		hTVPShader = m_pEffect->GetTechniqueByName("TVPShader");
-		if (hTVPShader == NULL)
-		{
-			return;	// テクニック「TVPShader」が見つからなかった
-		}
-
-		m_pEffect->SetTechnique(hTVPShader);	// ハンドルを使ってテクニック「TVPShader」を選択する
-
-		UINT numPass;
-
-		HRESULT hr;
-
-		hr = m_pEffect->Begin(&numPass, 0);
-
-		if (FAILED(hr))
-		{
-			MessageBox(NULL, "テクニックの開始に失敗しました", "エラー", MB_OK);
-			return;	// テクニックの開始に失敗
-		}
-
-		for (UINT iPass = 0; iPass < numPass; iPass++)
-		{
-			hr = m_pEffect->BeginPass(iPass);	// iPass番目のパスの実行を開始
-			if (FAILED(hr))
-			{
-				MessageBox(NULL, "パスの実行に失敗しました", "エラー", MB_OK);
-				break;	// パスの実行に失敗
-			}
-
-			// ↓BeginPassの後でID3DXEffect::Set～メソッドを使った場合必要になる
-			// m_pEffect->CommitChanges(); // (このコード例ではない)
-
-			// ここで実際にメッシュを描画する
-			scene->Draw();
-
-			m_pEffect->EndPass();
-		}
-
-		hr = m_pEffect->End();
-		if (FAILED(hr))
-		{
-
-		}
+	// シェーダーコンパイル
+	sts = ShaderCompile(filename,
+		entry,
+		version,
+		&code,
+		&m_VSConstantTable);
+	if (!sts) {
+		return false;
 	}
-}
 
-void CShader::Draw(CScene* scene, LPD3DXMESH mesh, DWORD id)
-{
-	D3DXMATRIX world;
-	CSceneModel* temp = (CSceneModel*)scene;
-
-	if (m_pCamera != NULL)
+	// 頂点シェーダーオブジェクトを作成する
+	HRESULT hr = pDevice->CreateVertexShader((DWORD*)code->GetBufferPointer(), &m_VertexShader);
+	if (FAILED(hr))
 	{
-		m_pEffect->SetMatrix("View", &m_pCamera->GetView());
-		m_pEffect->SetMatrix("Proj", &m_pCamera->GetProjection());
-
-		D3DXHANDLE hTVPShader;		// テクニック「TVPShader」のハンドル
-		hTVPShader = m_pEffect->GetTechniqueByName("TVPShader");
-		if (hTVPShader == NULL)
-		{
-			return;	// テクニック「TVPShader」が見つからなかった
-		}
-
-		m_pEffect->SetTechnique(hTVPShader);	// ハンドルを使ってテクニック「TVPShader」を選択する
-
-		UINT numPass;
-
-		HRESULT hr;
-
-		hr = m_pEffect->Begin(&numPass, 0);
-
-		if (FAILED(hr))
-		{
-			MessageBox(NULL, "テクニックの開始に失敗しました", "エラー", MB_OK);
-			return;	// テクニックの開始に失敗
-		}
-
-		for (UINT iPass = 0; iPass < numPass; iPass++)
-		{
-			hr = m_pEffect->BeginPass(iPass);	// iPass番目のパスの実行を開始
-			if (FAILED(hr))
-			{
-				MessageBox(NULL, "パスの実行に失敗しました", "エラー", MB_OK);
-				break;	// パスの実行に失敗
-			}
-
-			// ↓BeginPassの後でID3DXEffect::Set～メソッドを使った場合必要になる
-			// m_pEffect->CommitChanges(); // (このコード例ではない)
-
-			// ここで実際にメッシュを描画する
-			mesh->DrawSubset(id);
-
-			m_pEffect->EndPass();
-		}
-
-		hr = m_pEffect->End();
-		if (FAILED(hr))
-		{
-			MessageBox(NULL, "シェーダーの適用に失敗しました", "エラー", MB_OK);
-		}
+		MessageBox(nullptr, "CreateVertexShader error", "CreateVertexShader", MB_OK);
+		return false;
 	}
+
+	code->Release();
+
+	return true;
 }
 
-void CShader::SetWorld(D3DXMATRIX world)
+//==============================================================================
+//!	@fn		PixelShaderCompile
+//!	@brief	ピクセルシェーダーオブジェクト生成
+//!	@param	LPDIRECT3DDEVICE9 lpdevidce    デバイスオブジェクト
+//!	@param	const char* filename,		   シェーダーファイル名
+//!	@param	const char* entry,			   エントリー関数名
+//!	@param	const char* version,		   バージョン
+//!	@param	LPD3DXCONSTANTTABLE* ctbl,	　 定数テーブル
+//!	@param	LPDIRECT3DVPIXELSHADER9* psh　 ピクセルシェーダーオブジェクト
+//!	@retval	bool true 成功　false 失敗
+//==============================================================================
+bool CShader::PixelShaderCompile(
+	const char* filename,						// シェーダーファイル名
+	const char* entry,							// エントリー関数名
+	const char* version)						// バージョン
 {
-	m_pEffect->SetMatrix("World", &world);
-}
-
-void CShader::SetTexture(LPDIRECT3DTEXTURE9 texture)
-{
-	m_pEffect->SetTexture(0, texture);
-}
-
-void CShader::LoadShader()
-{
-	// シェーダーファイル読み込み
-	for (int i = 0; i < SHADER_FILE_MAX; i++)
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
 	{
-		if (m_Shaders[i] == NULL)
-		{
-			m_Shaders[i] = new CShader();
-			m_Shaders[i]->Init(i);
-		}
+		return false;
 	}
+
+	bool sts;
+	LPD3DXBUFFER code;
+
+	// シェーダーコンパイル
+	sts = ShaderCompile(filename,
+		entry,
+		version,
+		&code,
+		&m_PSConstantTable);
+	if (!sts) {
+		return false;
+	}
+
+	// ピクセルシェーダーオブジェクトを作成する
+	HRESULT hr = pDevice->CreatePixelShader((DWORD*)code->GetBufferPointer(), &m_PixelShader);
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, "CreatePixelShader error", "CreatePixelShader", MB_OK);
+		return false;
+	}
+
+	code->Release();
+
+	return true;
 }
 
-void CShader::ReleaseShader()
+void CShader::ShaderSet(D3DXMATRIX world)
 {
-	// シェーダーファイルの解放
-	for (int i = 0; i < SHADER_FILE_MAX; i++)
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
 	{
-		if (m_Shaders[i] != NULL)
-		{
-			m_Shaders[i]->Uninit();
-			delete m_Shaders[i];
-			m_Shaders[i] = NULL;
-		}
+		return;
 	}
+
+	// 光の設定情報
+	D3DXVECTOR4		light_dir(0.0f, -1.0f, 0.0f, 0.0f);			// 光の方向
+	D3DXVECTOR4		diffuse(1.0f, 1.0f, 1.0f, 1.0f);			// 平行光源の色
+	D3DXVECTOR4		ambient(0.2f, 0.2f, 0.2f, 0.2f);			// 環境光
+	D3DXVECTOR4		specular(0.2f, 0.2f, 0.2f, 0.2f);			// スペキュラ光
+
+	// 頂点シェーダーとピクセルシェーダーをセット
+	pDevice->SetVertexShader(m_VertexShader);
+	pDevice->SetPixelShader(m_PixelShader);
+
+	// 定数をセット(頂点シェーダー)
+	//m_VSConstantTable->SetMatrix(pDevice, "m_world", &world);
+	//m_VSConstantTable->SetMatrix(pDevice, "m_view", &CManager::GetCamera()->GetView());
+	//m_VSConstantTable->SetMatrix(pDevice, "m_projection", &CManager::GetCamera()->GetProjection());	
+	m_VSConstantTable->SetMatrix(pDevice, "World", &world);
+	m_VSConstantTable->SetMatrix(pDevice, "View", &CManager::GetCamera()->GetView());
+	m_VSConstantTable->SetMatrix(pDevice, "Proj", &CManager::GetCamera()->GetProjection());
+
+	//m_VSConstantTable->SetVector(pDevice, "m_diffuse", &diffuse);
+	//m_VSConstantTable->SetVector(pDevice, "m_ambient", &ambient);
+	//m_VSConstantTable->SetVector(pDevice, "m_specular", &specular);
+	//m_VSConstantTable->SetVector(pDevice, "m_light_dir", &light_dir);
 }
+
+//******************************************************************************
+//	End of file.
+//******************************************************************************

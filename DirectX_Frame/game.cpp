@@ -31,13 +31,12 @@
 #include "fade.h"
 #include "Effekseer.h"
 #include "wall.h"
-#include "shader.h"
 #include "bullet.h"
 #include "weapon.h"
 #include "debug.h"
 #include "EnemyAnim.h"
 #include "enemyPatternChase.h"
-#include "sh.h"
+#include "shader.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -71,7 +70,7 @@ int CModeGame::m_Count = 0;
 CSceneSkinMesh* testModel[100] = { NULL };
 static CBox* testbox;
 static CSceneModel* testufo;
-static Shader* testshader;
+static CShader* testshader;
 
 void CModeGame::Init()
 {
@@ -139,11 +138,9 @@ void CModeGame::Init()
 	// 曲を変更
 	//BGM->Release();
 
-	CShader::SetCamera(CManager::GetCamera());
-
 	bool sts;
 
-	testshader = new Shader();
+	testshader = new CShader();
 	sts = testshader->VertexShaderCompile(
 		"basic.fx",						// シェーダーファイル名
 		"main",							// エントリー関数名

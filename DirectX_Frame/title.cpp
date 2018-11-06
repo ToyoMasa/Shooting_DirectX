@@ -26,7 +26,6 @@
 #include "fade.h"
 #include "PlayerAnim.h"
 #include "wall.h"
-#include "shader.h"
 
 CScene2D* CModeTitle::m_TitleLogo = NULL;
 CScene2D *CModeTitle::m_Text_PressSpace = NULL;
