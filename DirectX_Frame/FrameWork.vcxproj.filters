@@ -505,9 +505,6 @@
     <FxCompile Include="data\shaders\phong.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="data\shaders\basic.fx">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
     <FxCompile Include="basic.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>

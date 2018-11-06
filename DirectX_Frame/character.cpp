@@ -41,6 +41,7 @@ CCharacter::CCharacter()
 	m_WalkSpeed = 0.02f;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.5f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.5f);
 	D3DXMatrixIdentity(&m_Rotate);
+	m_AreaID = 0;
 
 	// ‰e‚Ìì¬
 	m_Shadow = CSceneShadow::Create();
@@ -190,6 +191,35 @@ void CCharacter::Rotate(D3DXVECTOR3 vec)
 
 		D3DXVec3Normalize(&m_Right, &m_Right);
 	}
+}
+
+//======================================================================
+//	Œ»Ý‚ÌƒGƒŠƒA‚ðŒŸõ
+//======================================================================
+void CCharacter::SearchArea(D3DXVECTOR3 pos)
+{
+	int numVertex = m_Field->GetSizeX();
+
+	float blockLen = numVertex / (float)SEPARATE_NUM;
+
+	int x = 0, y = 0;
+	for (int j = 0; j < SEPARATE_NUM; j++)
+	{
+		if (pos.x < -m_Field->GetSizeX() / 2.0f + blockLen * (j + 1))
+		{
+			x = j;
+			break;
+		}
+	}
+	for (int j = 0; j < SEPARATE_NUM; j++)
+	{
+		if (pos.z < -m_Field->GetSizeY() / 2.0f + blockLen * (j + 1))
+		{
+			y = j;
+			break;
+		}
+	}
+	m_AreaID = x * 1000 + y;
 }
 
 //======================================================================

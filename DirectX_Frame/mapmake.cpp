@@ -17,6 +17,7 @@
 #include "mapmake.h"
 #include "mathutil.h"
 #include "player.h"
+#include "box.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -49,7 +50,11 @@ float g_TempColor[4];
 DWORD g_BrushColor;
 double g_TestText;
 char g_FileName[256] = "map.txt";
-bool g_VertexMode = true;
+bool g_VertexMode = false;
+
+static CSceneModel* testufo;
+static CBox* testbox;
+static Shader* testshader;
 
 bool g_Wire = false;
 
@@ -115,6 +120,34 @@ void CModeMapMake::Init()
 			g_isHit[i][j] = false;
 		}
 	}
+
+	bool sts;
+
+	testshader = new Shader();
+	sts = testshader->VertexShaderCompile(
+		"data/shaders/shader.fx",						// シェーダーファイル名
+		"VertexShader_Main",							// エントリー関数名
+		"vs_3_0");						// バージョン
+
+	if (!sts) {
+		MessageBox(NULL, "エラー", "エラー", MB_OK);
+	}
+
+	// ピクセルシェーダーコンパイル
+	sts = testshader->PixelShaderCompile(
+		"data/shaders/shader.fx",						// シェーダーファイル名
+		"PixelShader_Main",							// エントリー関数名
+		"ps_3_0");						// バージョン
+
+	if (!sts) {
+		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
+	}
+
+	testbox = new CBox();
+	testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
+	testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
+	testufo->Move(D3DXVECTOR3(0.0f, 1.0f, -5.0f));
+	testufo->SetShader(testshader);
 }
 
 void CModeMapMake::Uninit()
@@ -132,6 +165,10 @@ void CModeMapMake::Uninit()
 	delete[] g_isHit;
 
 	CScene::ReleaseAll();
+
+	testbox->Uninit();
+	delete testbox;
+	delete testshader;
 }
 
 void CModeMapMake::Update()
@@ -355,6 +392,11 @@ void CModeMapMake::Draw()
 	}
 
 	CScene::DrawAll();
+
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	//testbox->Draw(mat);
+	testbox->DrawWithShader(mat, testshader);
 
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

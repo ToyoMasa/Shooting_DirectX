@@ -79,11 +79,3 @@ void PS(	float4 in_color : COLOR0,
 	}
 	out_color.a = 1;
 }
-
-
-
-
-
-
-
-

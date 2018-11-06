@@ -178,14 +178,17 @@ void Shader::ShaderSet(D3DXMATRIX world)
 	pDevice->SetPixelShader(m_PixelShader);
 
 	// 定数をセット(頂点シェーダー)
-	m_VSConstantTable->SetMatrix(pDevice, "m_world", &world);
-	m_VSConstantTable->SetMatrix(pDevice, "m_view", &CManager::GetCamera()->GetView());
-	m_VSConstantTable->SetMatrix(pDevice, "m_projection", &CManager::GetCamera()->GetProjection());
+	//m_VSConstantTable->SetMatrix(pDevice, "m_world", &world);
+	//m_VSConstantTable->SetMatrix(pDevice, "m_view", &CManager::GetCamera()->GetView());
+	//m_VSConstantTable->SetMatrix(pDevice, "m_projection", &CManager::GetCamera()->GetProjection());	
+	m_VSConstantTable->SetMatrix(pDevice, "World", &world);
+	m_VSConstantTable->SetMatrix(pDevice, "View", &CManager::GetCamera()->GetView());
+	m_VSConstantTable->SetMatrix(pDevice, "Proj", &CManager::GetCamera()->GetProjection());
 
-	m_VSConstantTable->SetVector(pDevice, "m_diffuse", &diffuse);
-	m_VSConstantTable->SetVector(pDevice, "m_ambient", &ambient);
-	m_VSConstantTable->SetVector(pDevice, "m_specular", &specular);
-	m_VSConstantTable->SetVector(pDevice, "m_light_dir", &light_dir);
+	//m_VSConstantTable->SetVector(pDevice, "m_diffuse", &diffuse);
+	//m_VSConstantTable->SetVector(pDevice, "m_ambient", &ambient);
+	//m_VSConstantTable->SetVector(pDevice, "m_specular", &specular);
+	//m_VSConstantTable->SetVector(pDevice, "m_light_dir", &light_dir);
 }
 
 //******************************************************************************

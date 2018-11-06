@@ -8,6 +8,9 @@
 #include <string>
 
 class CScene3D;
+class CCharacter;
+
+static const int SEPARATE_NUM = 20;
 
 class CField : public CScene
 {
@@ -22,6 +25,7 @@ public:
 		m_NumVertex = 0;
 		m_NumIndex = 0;
 		m_Scene3D = NULL;
+		m_AreaID = NULL;
 	}
 	~CField(){}
 
@@ -32,8 +36,11 @@ public:
 	void Update();
 	void Draw();
 	void DrawWithShader()override {}
-	float GetHeight(D3DXVECTOR3& pos);
+	float GetHeight(D3DXVECTOR3& pos, CCharacter* chara);
 	int GetBlockSize() { return m_SizeX; }
+	int GetVertexNum() { return m_NumVertex; }
+	int GetSizeX() { return m_SizeX; }
+	int GetSizeY() { return m_SizeY; }
 	void Change();
 	VERTEX_3D* GetVertex() { return m_Scene3D->GetVertex(); }
 	void SetVertex(VERTEX_3D* v) { m_Vertex = v; }
@@ -52,6 +59,7 @@ private:
 	int m_NumPrimitive;
 	int m_NumVertex;
 	int m_NumIndex;
+	int* m_AreaID;
 	float m_FieldHeight[5][5];
 	VERTEX_3D* m_Vertex;
 	WORD* m_Index;

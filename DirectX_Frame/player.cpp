@@ -115,6 +115,9 @@ void CPlayer::Update()
 	CInputKeyboard *inputKeyboard;
 	inputKeyboard = CManager::GetInputKeyboard();
 
+	ImGui::Begin("Area", 0);
+	ImGui::Text("%d", m_AreaID);
+	ImGui::End(); 
 	if (inputKeyboard->GetKeyPress(DIK_T))
 	{
 		g_test = !g_test;
@@ -321,7 +324,9 @@ void CPlayer::Move(float moveX, float moveZ)
 
 	newPos += cameraFront * PLAYER_MOVE_SPEED * moveZ;
 	newPos += cameraRight * PLAYER_MOVE_SPEED * moveX;
-	newPos.y = m_Field->GetHeight(newPos);
+
+	SearchArea(newPos);
+	newPos.y = m_Field->GetHeight(newPos, this);
 
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ
 	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + PLAYER_CUPSULE_RAD, newPos.z),
@@ -384,9 +389,11 @@ void CPlayer::MoveAir(float moveX, float moveY, float moveZ)
 	newPos += cameraRight * PLAYER_MOVE_SPEED * moveX;
 	newPos += m_Up * moveY;
 
-	if (newPos.y < m_Field->GetHeight(newPos))
+	SearchArea(newPos);
+	float fieldHeight = m_Field->GetHeight(newPos, this);
+	if (newPos.y < fieldHeight)
 	{
-		newPos.y = m_Field->GetHeight(newPos);
+		newPos.y = fieldHeight;
 		ChangePattern(new CPlayerPatternIdle());
 	}
 

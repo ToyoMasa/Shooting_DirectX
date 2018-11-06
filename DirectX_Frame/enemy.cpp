@@ -185,7 +185,8 @@ void CEnemy::Move(D3DXVECTOR3 newPos)
 {
 	m_Pos = newPos;
 
-	m_Pos.y = m_Field->GetHeight(m_Pos);
+	SearchArea(newPos);
+	m_Pos.y = m_Field->GetHeight(m_Pos, this);
 
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ENEMY_CUPSULE_RAD);

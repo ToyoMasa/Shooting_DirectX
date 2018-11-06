@@ -227,7 +227,7 @@ void CSceneModel::DrawWithShader()
 	pDevice->SetTransform(D3DTS_WORLD, &m_World);
 
 	// FVF(今から使用する頂点情報)の設定
-	pDevice->SetFVF(FVF_VERTEX_SHADER);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
 	D3DXVECTOR4  tempcolor;
 
@@ -240,43 +240,45 @@ void CSceneModel::DrawWithShader()
 	// サブセットを描画する(マテリアル数分ループ)
 	for (int i = 0; i<m_MaterialNum; i++)
 	{
-		// 環境光用のマテリアルをセット
-		tempcolor.x = pMaterials[i].MatD3D.Ambient.r;
-		tempcolor.y = pMaterials[i].MatD3D.Ambient.g;
-		tempcolor.z = pMaterials[i].MatD3D.Ambient.b;
-		tempcolor.w = pMaterials[i].MatD3D.Ambient.a;
-		m_Shader->GetVSTable()->SetVector(pDevice, "g_ambient_mat", &tempcolor);
+		pDevice->SetMaterial(&pMaterials[i].MatD3D);
+		//// 環境光用のマテリアルをセット
+		//tempcolor.x = pMaterials[i].MatD3D.Ambient.r;
+		//tempcolor.y = pMaterials[i].MatD3D.Ambient.g;
+		//tempcolor.z = pMaterials[i].MatD3D.Ambient.b;
+		//tempcolor.w = pMaterials[i].MatD3D.Ambient.a;
+		//m_Shader->GetVSTable()->SetVector(pDevice, "g_ambient_mat", &tempcolor);
 
-		// ディフューズ光用のマテリアルをセット
-		tempcolor.x = pMaterials[i].MatD3D.Diffuse.r;
-		tempcolor.y = pMaterials[i].MatD3D.Diffuse.g;
-		tempcolor.z = pMaterials[i].MatD3D.Diffuse.b;
-		tempcolor.w = pMaterials[i].MatD3D.Diffuse.a;
-		m_Shader->GetVSTable()->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
+		//// ディフューズ光用のマテリアルをセット
+		//tempcolor.x = pMaterials[i].MatD3D.Diffuse.r;
+		//tempcolor.y = pMaterials[i].MatD3D.Diffuse.g;
+		//tempcolor.z = pMaterials[i].MatD3D.Diffuse.b;
+		//tempcolor.w = pMaterials[i].MatD3D.Diffuse.a;
+		//m_Shader->GetVSTable()->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
 
-		// エミッシブ光用のマテリアルをセット
-		tempcolor.x = pMaterials[i].MatD3D.Emissive.r;
-		tempcolor.y = pMaterials[i].MatD3D.Emissive.g;
-		tempcolor.z = pMaterials[i].MatD3D.Emissive.b;
-		tempcolor.w = pMaterials[i].MatD3D.Emissive.a;
-		m_Shader->GetVSTable()->SetVector(pDevice, "g_emissive_mat", &tempcolor);
+		//// エミッシブ光用のマテリアルをセット
+		//tempcolor.x = pMaterials[i].MatD3D.Emissive.r;
+		//tempcolor.y = pMaterials[i].MatD3D.Emissive.g;
+		//tempcolor.z = pMaterials[i].MatD3D.Emissive.b;
+		//tempcolor.w = pMaterials[i].MatD3D.Emissive.a;
+		//m_Shader->GetVSTable()->SetVector(pDevice, "g_emissive_mat", &tempcolor);
 
-		// スペキュラー光用のマテリアルをセット
-		tempcolor.x = pMaterials[i].MatD3D.Specular.r;
-		tempcolor.y = pMaterials[i].MatD3D.Specular.g;
-		tempcolor.z = pMaterials[i].MatD3D.Specular.b;
-		tempcolor.w = pMaterials[i].MatD3D.Specular.a;
-		m_Shader->GetVSTable()->SetVector(pDevice, "g_specular_mat", &tempcolor);
+		//// スペキュラー光用のマテリアルをセット
+		//tempcolor.x = pMaterials[i].MatD3D.Specular.r;
+		//tempcolor.y = pMaterials[i].MatD3D.Specular.g;
+		//tempcolor.z = pMaterials[i].MatD3D.Specular.b;
+		//tempcolor.w = pMaterials[i].MatD3D.Specular.a;
+		//m_Shader->GetVSTable()->SetVector(pDevice, "g_specular_mat", &tempcolor);
 
-		// パワー値をセット
-		m_Shader->GetVSTable()->SetFloat(pDevice, "g_power", pMaterials[i].MatD3D.Power);
+		//// パワー値をセット
+		//m_Shader->GetVSTable()->SetFloat(pDevice, "g_power", pMaterials[i].MatD3D.Power);
 
 		// テクスチャを使用するか否かをセット
 		if (m_Texture[i]) {
-			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
+			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", true);
 		}
-		else {
-			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", FALSE);
+		else
+		{
+			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", false);
 		}
 		// テクスチャをサンプラーへセット
 		int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");

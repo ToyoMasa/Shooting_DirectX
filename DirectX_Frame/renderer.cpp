@@ -43,6 +43,7 @@ bool CRenderer::Init(HWND hWnd, BOOL bWindow)
 	d3dpp.BackBufferHeight = SCREEN_HEIGHT;
 	d3dpp.BackBufferFormat = d3ddm.Format;
 	d3dpp.BackBufferCount = 1;
+	d3dpp.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;	// バックバッファをロック可能にする
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;

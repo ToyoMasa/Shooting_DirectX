@@ -69,9 +69,9 @@ int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 
 CSceneSkinMesh* testModel[100] = { NULL };
-CBox* testbox;
-CSceneModel* testufo;
-Shader* testshader;
+static CBox* testbox;
+static CSceneModel* testufo;
+static Shader* testshader;
 
 void CModeGame::Init()
 {
@@ -95,24 +95,25 @@ void CModeGame::Init()
 	CFade::FadeIn();
 
 	// フィールド
-	CField* field = CField::Create(NULL, 10.0f, 20, 20, true);
+	//CField* field = CField::Create(NULL, 10.0f, 20, 20, true);
+	CField* field = CField::Create("data/output/map.txt");
 
 	// プレイヤー
 	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(0.0f, 0.0f, -30.0f));
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
-	//enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), new CEnemyPatternChase(), field);
-	//
-	//for (int j = 0; j < 10; j++)
-	//{
-	//	for (int i = 0; i < 10; i++)
-	//	{
-	//		testModel[10 * j + i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
-	//		testModel[10 * j + i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, -5.0f + j));
-	//		testModel[10 * j + i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
-	//	}
-	//}
+	enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(7.0f, 0.0f, 5.0f), new CEnemyPatternChase(), field);
+
+	for (int j = 0; j < 10; j++)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			testModel[10 * j + i] = CSceneSkinMesh::Create(SM_ID_ZOMBIE_A);
+			testModel[10 * j + i]->Move(D3DXVECTOR3(-5.0f + i, 0.0f, -5.0f + j));
+			testModel[10 * j + i]->ChangeAnim(rand() & (int)ENEMY_ANIM_MAX, 0.0f);
+		}
+	}
 	
 	// 空
 	CSkyBox::Create(player);
@@ -196,6 +197,8 @@ void CModeGame::Uninit()
 	// 全てのテクスチャの解放
 	CTexture::ReleaseAll();
 
+	testbox->Uninit();
+	delete testbox;
 	delete testshader;
 }
 

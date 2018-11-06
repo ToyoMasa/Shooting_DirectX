@@ -8,6 +8,7 @@
 #include "scene3D.h"
 #include "texture.h"
 #include "billboard.h"
+#include "character.h"
 #include "field.h"
 #include <iostream>
 #include <fstream>
@@ -221,6 +222,11 @@ void CField::Uninit()
 	{
 		m_Scene3D->Release();
 	}
+
+	if (m_AreaID)
+	{
+		delete[] m_AreaID;
+	}
 }
 
 void CField::Update()
@@ -261,7 +267,7 @@ void CField::Change()
 	m_Scene3D->Change(m_Vertex, m_Index);
 }
 
-float CField::GetHeight(D3DXVECTOR3& pos)
+float CField::GetHeight(D3DXVECTOR3& pos, CCharacter* chara)
 {
 	float cross1, cross2, cross3;
 	D3DXVECTOR3 V0P, V1P, V2P, V01, V12, V20;
@@ -273,61 +279,67 @@ float CField::GetHeight(D3DXVECTOR3& pos)
 	{
 		for (int x = 0; x < m_SizeX + 1; x++)
 		{
-			P0 = vertex[(z + 1) * (m_SizeY + 1) + x].pos;
-			P1 = vertex[z * (m_SizeY + 1) + x].pos;
-			P2 = vertex[(z + 1) * (m_SizeY + 1) + (x + 1)].pos;
-
-			V01 = P1 - P0;
-			V12 = P2 - P1;
-			V20 = P0 - P2;
-
-			V0P = pos - P0;
-			V1P = pos - P1;
-			V2P = pos - P2;
-			
-			cross1 = V01.x * V0P.z - V01.z * V0P.x;
-			cross2 = V12.x * V1P.z - V12.z * V1P.x;
-			cross3 = V20.x * V2P.z - V20.z * V2P.x;
-
-			if (cross1 <= 0.0f && cross2 <= 0.0f && cross3 <= 0.0f)
+			if (m_AreaID[(z + 1) * (m_SizeY + 1) + x] == chara->GetAreaID())
 			{
-				D3DXVECTOR3 n;
-				D3DXVec3Cross(&n, &V01, &V20);
+				P0 = vertex[(z + 1) * (m_SizeY + 1) + x].pos;
+				P1 = vertex[z * (m_SizeY + 1) + x].pos;
+				P2 = vertex[(z + 1) * (m_SizeY + 1) + (x + 1)].pos;
 
-				D3DXVec3Normalize(&n, &n);
+				V01 = P1 - P0;
+				V12 = P2 - P1;
+				V20 = P0 - P2;
 
-				float y = P0.y - (n.x * (pos.x - P0.x) + n.z * (pos.z - P0.z)) / n.y;
-				return y;
+				V0P = pos - P0;
+				V1P = pos - P1;
+				V2P = pos - P2;
+
+				cross1 = V01.x * V0P.z - V01.z * V0P.x;
+				cross2 = V12.x * V1P.z - V12.z * V1P.x;
+				cross3 = V20.x * V2P.z - V20.z * V2P.x;
+
+				if (cross1 <= 0.0f && cross2 <= 0.0f && cross3 <= 0.0f)
+				{
+					D3DXVECTOR3 n;
+					D3DXVec3Cross(&n, &V01, &V20);
+
+					D3DXVec3Normalize(&n, &n);
+
+					float y = P0.y - (n.x * (pos.x - P0.x) + n.z * (pos.z - P0.z)) / n.y;
+					return y;
+				}
 			}
 		}
 	
 		for (int x = 0; x < m_SizeX + 1; x++)
 		{
-			P0 = vertex[z * (m_SizeY + 1)+(x + 1)].pos;
-			P1 = vertex[(z + 1) * (m_SizeY + 1)+(x + 1)].pos;
-			P2 = vertex[z * (m_SizeY + 1) + x].pos;
-
-			V01 = P1 - P0;
-			V12 = P2 - P1;
-			V20 = P0 - P2;
-
-			V0P = pos - P0;
-			V1P = pos - P1;
-			V2P = pos - P2;
-
-			cross1 = V01.x * V0P.z - V01.z * V0P.x;
-			cross2 = V12.x * V1P.z - V12.z * V1P.x;
-			cross3 = V20.x * V2P.z - V20.z * V2P.x;
-
-			if (cross1 <= 0.0f && cross2 <= 0.0f && cross3 <= 0.0f)
+			if (m_AreaID[(z + 1) * (m_SizeY + 1) + x] == chara->GetAreaID())
 			{
-				D3DXVECTOR3 n;
-				D3DXVec3Cross(&n, &V20, &V01);
+				P0 = vertex[z * (m_SizeY + 1) + (x + 1)].pos;
+				P1 = vertex[(z + 1) * (m_SizeY + 1) + (x + 1)].pos;
+				P2 = vertex[z * (m_SizeY + 1) + x].pos;
 
-				D3DXVec3Normalize(&n, &n);
+				V01 = P1 - P0;
+				V12 = P2 - P1;
+				V20 = P0 - P2;
 
-				float y = P0.y - (n.x * (pos.x - P0.x) + n.z * (pos.z - P0.z)) / n.y;
-				return y;
+				V0P = pos - P0;
+				V1P = pos - P1;
+				V2P = pos - P2;
+
+				cross1 = V01.x * V0P.z - V01.z * V0P.x;
+				cross2 = V12.x * V1P.z - V12.z * V1P.x;
+				cross3 = V20.x * V2P.z - V20.z * V2P.x;
+
+				if (cross1 <= 0.0f && cross2 <= 0.0f && cross3 <= 0.0f)
+				{
+					D3DXVECTOR3 n;
+					D3DXVec3Cross(&n, &V20, &V01);
+
+					D3DXVec3Normalize(&n, &n);
+
+					float y = P0.y - (n.x * (pos.x - P0.x) + n.z * (pos.z - P0.z)) / n.y;
+					return y;
+				}
 			}
 		}
 	}
@@ -393,7 +405,31 @@ void CField::Load(string textname)
 	inputFile.close();
 
 	m_Scene3D = CScene3D::Create(m_TextureID, m_Vertex, m_Index, m_NumPrimitive, m_NumVertex, m_NumIndex);
+	m_AreaID = new int[m_NumVertex];
 
+	float blockLen = m_SizeX / (float)SEPARATE_NUM;
+
+	for (int i = 0; i < m_NumVertex; i++)
+	{
+		int x = 0, y = 0;
+		for (int j = 0; j < SEPARATE_NUM; j++)
+		{
+			if (m_Vertex[i].pos.x + m_SizeX / 2.0f < blockLen * (j + 1))
+			{
+				x = j;
+				break;
+			}
+		}
+		for (int j = 0; j < SEPARATE_NUM; j++)
+		{
+			if (m_Vertex[i].pos.z + m_SizeY / 2.0f < blockLen * (j + 1))
+			{
+				y = j;
+				break;
+			}
+		}
+		m_AreaID[i] = x * 1000 + y;
+	}
 }
 
 CField* CField::Create(std::string textname)

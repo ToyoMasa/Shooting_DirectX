@@ -12,7 +12,7 @@
 
 void CSkyBox::Init() 
 {
-	m_Model->Scale(D3DXVECTOR3(100.0f, 100.0f, 100.0f));
+	m_Model->Scale(D3DXVECTOR3(500.0f, 500.0f, 500.0f));
 }
 
 void CSkyBox::Uninit()

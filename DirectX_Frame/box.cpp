@@ -220,44 +220,45 @@ void CBox::DrawWithShader(D3DXMATRIX mtxWorld, Shader* shader)
 
 	shader->ShaderSet(mtxWorld);
 
-	// 環境光用のマテリアルをセット
-	tempcolor.x = m_mat.Ambient.r;
-	tempcolor.y = m_mat.Ambient.g;
-	tempcolor.z = m_mat.Ambient.b;
-	tempcolor.w = m_mat.Ambient.a;
-	shader->GetVSTable()->SetVector(pDevice, "g_ambient_mat", &tempcolor);
-
-	// ディフューズ光用のマテリアルをセット
-	tempcolor.x = m_mat.Diffuse.r;
-	tempcolor.y = m_mat.Diffuse.g;
-	tempcolor.z = m_mat.Diffuse.b;
-	tempcolor.w = m_mat.Diffuse.a;
-	shader->GetVSTable()->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
-
-	// エミッシブ光用のマテリアルをセット
-	tempcolor.x = m_mat.Emissive.r;
-	tempcolor.y = m_mat.Emissive.g;
-	tempcolor.z = m_mat.Emissive.b;
-	tempcolor.w = m_mat.Emissive.a;
-	shader->GetVSTable()->SetVector(pDevice, "g_emissive_mat", &tempcolor);
-
-//	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	// スペキュラー光用のマテリアルをセット
-	tempcolor.x = m_mat.Specular.r;
-	tempcolor.y = m_mat.Specular.g;
-	tempcolor.z = m_mat.Specular.b;
-	tempcolor.w = m_mat.Specular.a;
-	shader->GetVSTable()->SetVector(pDevice, "g_specular_mat", &tempcolor);
-
-	// パワー値をセット
-	shader->GetVSTable()->SetFloat(pDevice, "g_power", m_mat.Power);
-
+//	// 環境光用のマテリアルをセット
+//	tempcolor.x = m_mat.Ambient.r;
+//	tempcolor.y = m_mat.Ambient.g;
+//	tempcolor.z = m_mat.Ambient.b;
+//	tempcolor.w = m_mat.Ambient.a;
+//	shader->GetVSTable()->SetVector(pDevice, "g_ambient_mat", &tempcolor);
+//
+//	// ディフューズ光用のマテリアルをセット
+//	tempcolor.x = m_mat.Diffuse.r;
+//	tempcolor.y = m_mat.Diffuse.g;
+//	tempcolor.z = m_mat.Diffuse.b;
+//	tempcolor.w = m_mat.Diffuse.a;
+//	shader->GetVSTable()->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
+//
+//	// エミッシブ光用のマテリアルをセット
+//	tempcolor.x = m_mat.Emissive.r;
+//	tempcolor.y = m_mat.Emissive.g;
+//	tempcolor.z = m_mat.Emissive.b;
+//	tempcolor.w = m_mat.Emissive.a;
+//	shader->GetVSTable()->SetVector(pDevice, "g_emissive_mat", &tempcolor);
+//
+////	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+//
+//	// スペキュラー光用のマテリアルをセット
+//	tempcolor.x = m_mat.Specular.r;
+//	tempcolor.y = m_mat.Specular.g;
+//	tempcolor.z = m_mat.Specular.b;
+//	tempcolor.w = m_mat.Specular.a;
+//	shader->GetVSTable()->SetVector(pDevice, "g_specular_mat", &tempcolor);
+//
+//	// パワー値をセット
+//	shader->GetVSTable()->SetFloat(pDevice, "g_power", m_mat.Power);
+//
 	// テクスチャを使用するか否かをセット
 	if (CTexture::GetTexture(m_TexID)) {
 		shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
 	}
-	else {
+	else 
+	{
 		shader->GetPSTable()->SetBool(pDevice, "g_tex", FALSE);
 	}
 	// テクスチャをサンプラーへセット
