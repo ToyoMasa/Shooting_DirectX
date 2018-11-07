@@ -198,13 +198,16 @@ void CEnemy::Move(D3DXVECTOR3 newPos)
 			if (obj->GetType() == CHARACTER_ENEMY)
 			{
 				CEnemy* enemy = (CEnemy*)obj;
-				if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
+				D3DXVECTOR3 vec = m_Pos - enemy->GetPos();
+				if (D3DXVec3Length(&vec) < 2.0f)
 				{
-					D3DXVECTOR3 vec = m_Pos - enemy->GetPos();
-					D3DXVec3Normalize(&vec, &vec);
+					if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
+					{
+						D3DXVec3Normalize(&vec, &vec);
 
-					m_Pos = enemy->GetPos();
-					m_Pos += vec * (ENEMY_CUPSULE_RAD * 2 + 0.05f);
+						m_Pos = enemy->GetPos();
+						m_Pos += vec * (ENEMY_CUPSULE_RAD * 2 + 0.05f);
+					}
 				}
 			}
 		}

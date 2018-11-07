@@ -9,8 +9,6 @@
 #include "texture.h"
 #include "billboard.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL);
-
 //======================================================================
 //	Ã“Iƒƒ“ƒo•Ï”‚Ì‰Šú‰»
 //======================================================================

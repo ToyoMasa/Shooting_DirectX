@@ -7,8 +7,6 @@
 #include "scene3D.h"
 #include "texture.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
-
 //======================================================================
 //	èâä˙èàóùä÷êî
 //======================================================================

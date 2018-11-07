@@ -6,8 +6,6 @@
 #include "main.h"
 #include "sceneModelFBX.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL);
-
 //======================================================================
 //	èâä˙èàóùä÷êî
 //======================================================================

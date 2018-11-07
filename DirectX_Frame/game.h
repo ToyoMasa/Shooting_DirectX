@@ -8,7 +8,7 @@
 #include "mode.h"
 #include "sound.h"
 
-static const int ENEMY_NUM = 8;
+static const int ENEMY_NUM = 100;
 
 class CPlayer;
 class CEnemy;

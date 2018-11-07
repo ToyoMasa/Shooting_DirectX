@@ -275,11 +275,13 @@ float CField::GetHeight(D3DXVECTOR3& pos, CCharacter* chara)
 
 	VERTEX_3D* vertex = m_Scene3D->GetVertex();
 
+	int charaArea = chara->GetAreaID();
+
 	for (int z = 0; z < m_SizeY + 1; z++)
 	{
 		for (int x = 0; x < m_SizeX + 1; x++)
 		{
-			if (m_AreaID[(z + 1) * (m_SizeY + 1) + x] == chara->GetAreaID())
+			if (m_AreaID[(z + 1) * (m_SizeY + 1) + x] == charaArea)
 			{
 				P0 = vertex[(z + 1) * (m_SizeY + 1) + x].pos;
 				P1 = vertex[z * (m_SizeY + 1) + x].pos;
@@ -312,7 +314,7 @@ float CField::GetHeight(D3DXVECTOR3& pos, CCharacter* chara)
 	
 		for (int x = 0; x < m_SizeX + 1; x++)
 		{
-			if (m_AreaID[(z + 1) * (m_SizeY + 1) + x] == chara->GetAreaID())
+			if (m_AreaID[(z + 1) * (m_SizeY + 1) + x] == charaArea)
 			{
 				P0 = vertex[z * (m_SizeY + 1) + (x + 1)].pos;
 				P1 = vertex[(z + 1) * (m_SizeY + 1) + (x + 1)].pos;

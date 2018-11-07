@@ -6,8 +6,6 @@
 #include "main.h"
 #include "sceneSkinMesh.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL); 
-
 SkinMeshFile *CSceneSkinMesh::m_SkinMeshFiles[SM_ID_MAX] = { NULL };
 SkinMeshFileAnimation *CSceneSkinMesh::m_Animations[SM_ID_MAX] = { NULL };
 

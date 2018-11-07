@@ -6,8 +6,6 @@
 #include "main.h"
 #include "wall.h"
 
-static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL);
-
 void CWall::Init(D3DXVECTOR3 pos, float x, float y, float z, int texID)
 {
 	m_Pos = pos;

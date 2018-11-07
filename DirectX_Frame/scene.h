@@ -6,6 +6,8 @@
 #define _SCENE_H_
 
 static const int OBJECT_MAX = 200;
+static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+
 #include "shader.h"
 
 enum SCENE_TYPE

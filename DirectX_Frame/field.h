@@ -10,7 +10,7 @@
 class CScene3D;
 class CCharacter;
 
-static const int SEPARATE_NUM = 20;
+static const int SEPARATE_NUM = 100;
 
 class CField : public CScene
 {

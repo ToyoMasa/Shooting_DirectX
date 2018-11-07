@@ -342,13 +342,16 @@ void CPlayer::Move(float moveX, float moveZ)
 			if (obj->GetType() == CHARACTER_ENEMY)
 			{
 				CEnemy* enemy = (CEnemy*)obj;
-				if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
+				D3DXVECTOR3 vec = newPos - enemy->GetPos();
+				if (D3DXVec3Length(&vec) < 3.0f)
 				{
-					D3DXVECTOR3 vec = newPos - enemy->GetPos();
-					D3DXVec3Normalize(&vec, &vec);
+					if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
+					{
+						D3DXVec3Normalize(&vec, &vec);
 
-					newPos = enemy->GetPos();
-					newPos += vec * (ENEMY_CUPSULE_RAD + ENEMY_CUPSULE_RAD);
+						newPos = enemy->GetPos();
+						newPos += vec * (ENEMY_CUPSULE_RAD + ENEMY_CUPSULE_RAD);
+					}
 				}
 			}
 		}

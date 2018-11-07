@@ -7,7 +7,6 @@
 #include "box.h"
 #include "texture.h"
 
-#define FVF_VERTEX_3D (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL)
 #define NUM_VERTEX (24)
 #define NUM_PRIMITIVE (12)
 
