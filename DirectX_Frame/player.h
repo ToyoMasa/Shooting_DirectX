@@ -33,6 +33,7 @@ public:
 		m_Knife = NULL;
 		m_Hit = NULL;
 		m_isPreDeath  = false;
+		m_isADS = false;
 		m_Pattern = NULL;
 	}
 	~CPlayer(){}
@@ -52,7 +53,8 @@ public:
 	void ChangeWeapon(int id);
 	void Move(float moveX, float moveZ);
 	void MoveAir(float moveX, float moveY, float moveZ);
-	void ADS(BOOL ads);
+	void ADS();
+	void SetADS(bool ads);
 	void ChangePattern(CPlayerPatternBase* next);
 	float GetJumpPower() { return m_JumpPower; }
 	void SetJumpPower(float power) { m_JumpPower = power; }
@@ -69,6 +71,7 @@ private:
 	CSound*		m_Knife;
 	CSound*		m_Hit;
 	bool		m_isPreDeath;
+	bool		m_isADS;
 	CWeapon*	m_UsingWeapon;
 	CWeapon*	m_Weapon[HAVE_WEAPON];
 	CEffekseer* m_BloodEffect;

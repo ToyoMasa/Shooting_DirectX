@@ -5,8 +5,6 @@
 #ifndef _SCENE2D_H_
 #define _SCENE2D_H_
 
-static const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
-
 typedef struct
 {
 	D3DXVECTOR4 pos;

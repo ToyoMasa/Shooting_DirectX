@@ -96,7 +96,7 @@ HRESULT SkinMeshData::CreateMeshContainer(
 		memcpy(container->pMaterials, material_data, sizeof(D3DXMATERIAL) * material_num);
 
 		// ƒtƒ@ƒCƒ‹“Ç‚İ‚İ
-		for (int i = 0; i < material_num; i++)
+		for (int i = 0; i < (int)material_num; i++)
 		{
 			if (container->pMaterials[i].pTextureFilename != NULL)
 			{
@@ -224,7 +224,7 @@ HRESULT SkinMeshData::DestroyMeshContainer(THIS_ LPD3DXMESHCONTAINER base)
 
 	if (container->NumMaterials > 0)
 	{
-		for (int i = 0; i < container->NumMaterials; i++)
+		for (int i = 0; i < (int)container->NumMaterials; i++)
 		{
 			if (container->m_TextureList[i] != NULL)
 			{

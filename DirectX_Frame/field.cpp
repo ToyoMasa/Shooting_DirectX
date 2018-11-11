@@ -394,8 +394,6 @@ void CField::Load(string textname)
 	m_Vertex = new VERTEX_3D[m_NumVertex];
 	m_Index = new WORD[m_NumIndex];
 
-	//inputFile.read((char*)&m_Vertex, sizeof(m_Vertex));
-	//inputFile.read((char*)&m_Index, sizeof(m_Index));
 	for (int i = 0; i < m_NumVertex; i++)
 	{
 		inputFile.read((char*)&m_Vertex[i], sizeof(VERTEX_3D));

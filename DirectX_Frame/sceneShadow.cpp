@@ -10,8 +10,6 @@
 #include "player.h"
 #include "sceneShadow.h"
 
-#define FVF_VERTEX_3D (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_NORMAL)
-
 void CSceneShadow::Init()
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();

@@ -7,6 +7,7 @@
 
 static const int OBJECT_MAX = 200;
 static const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+static const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 #include "shader.h"
 
@@ -52,7 +53,7 @@ public:
 	virtual void Scale(D3DXVECTOR3 scale) {}
 	void Set(D3DXVECTOR3& pos);
 	void SetVisible(bool visible) { m_Visible = visible; }
-	bool GetVisible() { return m_Visible; }
+	bool& GetVisible() { return m_Visible; }
 	void SetShader(CShader* shader) { m_Shader = shader; }
 	D3DXVECTOR3 GetPos() { return m_Pos; }
 	void Release();
@@ -60,9 +61,9 @@ public:
 	static void DrawAll();
 	static void ReleaseAll();
 	static CScene* GetScene(int priority, int id) { return m_Scene[priority][id]; }
-	SCENE_TYPE GetType() { return m_Type; }
+	SCENE_TYPE& GetType() { return m_Type; }
 private:
-	static CScene *m_Scene[PRIORITY_MAX][OBJECT_MAX];
+	static CScene* m_Scene[PRIORITY_MAX][OBJECT_MAX];
 };
 
 #endif // !_SCENE_H_

@@ -232,7 +232,7 @@ void SkinMeshFile::DrawMeshContainer(LPD3DXFRAME frame, LPD3DXMESHCONTAINER cont
 		pDevice->SetTransform(D3DTS_WORLD, &frame_data->m_CombinedTransformationMatrix);
 
 		// メッシュの描画
-		for (int i = 0; i < original_container->NumMaterials; i++)
+		for (int i = 0; i < (int)original_container->NumMaterials; i++)
 		{
 			pDevice->SetMaterial( &original_container->pMaterials[i].MatD3D );
 			pDevice->SetTexture( 0, original_container->m_TextureList[i] );
@@ -306,6 +306,11 @@ FrameData* SkinMeshFile::SearchBoneFrame(LPSTR _BoneName, D3DXFRAME* _pFrame)
 {
 	FrameData* pFrame = (FrameData*)_pFrame;
 
+	if (pFrame == NULL)
+	{
+		return NULL;
+	}
+
 	if (strcmp(pFrame->Name, _BoneName) == 0)
 	{
 		return pFrame;
@@ -328,6 +333,7 @@ FrameData* SkinMeshFile::SearchBoneFrame(LPSTR _BoneName, D3DXFRAME* _pFrame)
 			return pFrame;
 		}
 	}
+	return (FrameData*)_pFrame;
 }
 
 // ボーンのマトリックス取得（ボーンの名前）
@@ -370,7 +376,7 @@ void SkinMeshFileAnimation::Init()
 	m_AnimController->SetTrackSpeed(0, 0.5f);
 
 	//アニメーショントラックの取得
-	for (int i = 0; i < m_AnimController->GetNumAnimationSets(); i++)
+	for (int i = 0; i < (int)m_AnimController->GetNumAnimationSets(); i++)
 	{
 		//アニメーション取得
 		m_AnimController->GetAnimationSet(i, &(m_AnimSet[i]));
@@ -459,7 +465,7 @@ bool SkinMeshFileAnimation::SetLoopTime(UINT animID, FLOAT time)
 		return false;
 
 	// トラックスピード調節値を算出
-	FLOAT DefTime = m_AnimSet[animID]->GetPeriod();
+	FLOAT DefTime = (float)m_AnimSet[animID]->GetPeriod();
 	m_AnimController->SetTrackSpeed(0, DefTime * time);
 
 	return true;

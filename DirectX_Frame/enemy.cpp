@@ -26,7 +26,7 @@
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"
 
-static const float ENEMY_LIFE = 1000.0f;
+static const float ENEMY_LIFE = 100.0f;
 
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
 {

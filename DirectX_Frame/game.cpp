@@ -24,6 +24,7 @@
 #include "number.h"
 #include "game.h"
 #include "result.h"
+#include "mapmake.h"
 #include "particle.h"
 #include "emitter.h"
 #include "action.h"
@@ -77,8 +78,6 @@ void CModeGame::Init()
 	Black->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
 	Black->SetVisible(false);
 
-	HRESULT hr;
-
 	// ルートの設定
 	CRoot::Set();
 
@@ -90,17 +89,17 @@ void CModeGame::Init()
 	CField* field = CField::Create("data/output/map.txt");
 
 	// プレイヤー
-	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(0.0f, 0.0f, -30.0f));
+	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-90.0f, 0.0f, -90.0f));
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
-	for (int j = 0; j < 5; j++)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			enemy[10 * j + i] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(-50.0f + i * 10.0f, 0.0f, -50.0f + j * 10.0f), new CEnemyPatternChase(), field);
-		}
-	}
+	//for (int j = 0; j < 5; j++)
+	//{
+	//	for (int i = 0; i < 10; i++)
+	//	{
+	//		enemy[10 * j + i] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(-50.0f + i * 10.0f, 0.0f, -50.0f + j * 10.0f), new CEnemyPatternChase(), field);
+	//	}
+	//}
 	
 	// 空
 	CSkyBox::Create(player);
@@ -110,9 +109,6 @@ void CModeGame::Init()
 
 	// ビルボードの準備
 	CBillBoard::Init();
-
-	// マップの生成
-	//MakeMap();
 
 	// スコア等のリセット
 	m_PlayerDied = false;
@@ -258,6 +254,13 @@ void CModeGame::Update()
 			}
 		}
 	}
+
+	ImGui::Begin("MapConfig", 0);
+	if (ImGui::Button("MapEditer"))
+	{
+		CFade::FadeOut(new CModeMapMake());
+	}
+	ImGui::End();
 }
 
 void CModeGame::Draw()

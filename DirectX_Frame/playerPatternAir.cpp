@@ -72,7 +72,7 @@ void CPlayerPatternAir::Update(CPlayer* player)
 		player->SetUpValue(player->GetUpValue() * 1.03f);
 
 		// ADS
-		player->ADS(inputMouse->GetRightPress());
+		//player->ADS(inputMouse->GetRightPress());
 
 		// UŒ‚
 		if (inputMouse->GetLeftPress())

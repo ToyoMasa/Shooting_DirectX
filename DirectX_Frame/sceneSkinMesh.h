@@ -70,6 +70,7 @@ public:
 	// 1回再生のアニメ―ション
 	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID);
 	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID, float playSpeed);
+	void StopMontage() { m_Animation->StopMontage(); }
 	bool GetPlayMontage() { return m_Animation->GetPlayMontage(); }
 	// アニメーションの再生時間を取得
 	float GetWeightTime() { return m_Animation->GetWeightTime(); }

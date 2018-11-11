@@ -14,6 +14,7 @@ public:
 	~CPlayerPatternIdle() {}
 
 	void Init(CPlayer* player)override;
+	void Uninit(CPlayer* player)override{}
 	void Update(CPlayer* player)override;
 };
 

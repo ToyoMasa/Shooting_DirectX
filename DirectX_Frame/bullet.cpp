@@ -17,7 +17,7 @@
 
 CBullet *CBullet::m_Bullets[BULLET_MAX] = { NULL };
 
-static const float BULLET_RADIUS = 0.05;
+static const float BULLET_RADIUS = 0.05f;
 
 void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage)
 {

@@ -87,12 +87,12 @@ void CSceneModel::Init(const std::string& modelName)
 
 	m_Texture = new LPDIRECT3DTEXTURE9[m_MaterialNum];
 
-	for (int j = 0; j < m_MaterialNum; j++)
+	for (int j = 0; j < (int)m_MaterialNum; j++)
 	{
 		m_Texture[j] = NULL;
 	}
 
-	for (int j = 0; j < m_MaterialNum; j++)
+	for (int j = 0; j < (int)m_MaterialNum; j++)
 	{
 		if (pMaterials[j].pTextureFilename != NULL)
 		{
@@ -118,7 +118,7 @@ void CSceneModel::Init(const std::string& modelName)
 //======================================================================
 void CSceneModel::Uninit()
 {
-	for (int i = 0; i < m_MaterialNum; i++)
+	for (int i = 0; i < (int)m_MaterialNum; i++)
 	{
 		// テクスチャの解放
 		if (m_Texture[i] != NULL)
@@ -169,9 +169,6 @@ void CSceneModel::Draw()
 
 	LPD3DXMATERIAL pMaterials = (LPD3DXMATERIAL)m_Material->GetBufferPointer();
 
-	// FVF(今から使用する頂点情報)の設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
 	// ライトを無視するモデルならライトを無効化
 	if (m_isIgnoreLight)
 	{
@@ -183,7 +180,7 @@ void CSceneModel::Draw()
 
 	int texnum = 0;
 
-	for (int i = 0; i < m_MaterialNum; i++)
+	for (int i = 0; i < (int)m_MaterialNum; i++)
 	{
 		pDevice->SetMaterial(&pMaterials[i].MatD3D);
 
@@ -224,9 +221,6 @@ void CSceneModel::DrawWithShader()
 	m_World = m_Scale * m_Rotate * m_Move * m_Target;
 	pDevice->SetTransform(D3DTS_WORLD, &m_World);
 
-	// FVF(今から使用する頂点情報)の設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
 	D3DXVECTOR4  tempcolor;
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -236,7 +230,7 @@ void CSceneModel::DrawWithShader()
 	m_Shader->ShaderSet(m_World);
 
 	// サブセットを描画する(マテリアル数分ループ)
-	for (int i = 0; i<m_MaterialNum; i++)
+	for (int i = 0; i < (int)m_MaterialNum; i++)
 	{
 		pDevice->SetMaterial(&pMaterials[i].MatD3D);
 		//// 環境光用のマテリアルをセット

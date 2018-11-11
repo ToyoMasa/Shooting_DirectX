@@ -69,7 +69,7 @@ void CPlayerPatternCrouch::Update(CPlayer* player)
 		player->Move(moveX, moveZ);
 
 		// ADS
-		player->ADS(inputMouse->GetRightPress());
+		//player->ADS(inputMouse->GetRightPress());
 
 		// UŒ‚
 		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))

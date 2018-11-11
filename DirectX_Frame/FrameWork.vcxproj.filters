@@ -291,6 +291,9 @@
     <ClInclude Include="shader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="playerPatternADS.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -491,16 +494,8 @@
     <ClCompile Include="shader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="data\shaders\shader.fx">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="data\shaders\phong.fx">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="basic.fx">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
+    <ClCompile Include="playerPatternADS.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

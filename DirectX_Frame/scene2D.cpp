@@ -68,7 +68,6 @@ void CScene2D::Draw()
 		vertex[3].color = m_Color;
 
 	pDevice->SetTexture(0, CTexture::GetTexture(m_TexId));
-	pDevice->SetFVF(FVF_VERTEX_2D);
 
 	// αテスト(3つセット)
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);			// αテストのON
@@ -95,7 +94,7 @@ void CScene2D::SetTexCoord(float texCoordx1, float texCoordx2, float texCoordy1,
 //======================================================================
 CScene2D* CScene2D::Create(int texid, float texW, float texH)
 {
-	CScene2D *scene2D = new CScene2D(2);
+	CScene2D *scene2D = new CScene2D(LAYER_OBJECT2D);
 	scene2D->Init(texid, texW, texH);
 
 	return scene2D;

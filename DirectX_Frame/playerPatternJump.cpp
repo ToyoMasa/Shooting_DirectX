@@ -83,7 +83,7 @@ void CPlayerPatternJump::Update(CPlayer* player)
 
 
 		// ADS
-		player->ADS(inputMouse->GetRightPress());
+		//player->ADS(inputMouse->GetRightPress());
 
 		// UŒ‚
 		if (inputMouse->GetLeftPress())

@@ -32,6 +32,7 @@ public:
 	void SetShiftTime(float time) { m_ShiftTime = time; }
 	// 1回再生のアニメ―ション
 	void PlayMontage(UINT animID, float shiftTime, float playTime, UINT nextAnimID);
+	void StopMontage() { m_bPlayMontage = false; }
 	bool GetPlayMontage() { return m_bPlayMontage; }
 	// アニメーションの再生時間を取得
 	float GetWeightTime() { return m_CurrentWeightTime; }

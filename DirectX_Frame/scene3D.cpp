@@ -222,18 +222,12 @@ void CScene3D::Draw()
 		return;
 	}
 
-	// FVF(今から使用する頂点情報)の設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
 	// 頂点バッファとインデックスバッファの設定
 	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
 
 	pDevice->SetIndices(m_IndexBuffer);
 
 	//各種行列の設定(自分のやりたいとこ);
-	pDevice->SetFVF(FVF_VERTEX_3D);
-	//pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-
 	pDevice->SetTransform(D3DTS_WORLD, &m_World);
 
 	pDevice->SetMaterial(&m_Mat);

@@ -37,6 +37,7 @@ void CSceneSkinMesh::Uninit()
 	if (m_Animation != NULL)
 	{
 		delete m_Animation;
+		m_Animation = NULL;
 	}
 	//if (m_SkinMeshFile != NULL)
 	//{
@@ -63,9 +64,6 @@ void CSceneSkinMesh::Draw()
 		m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
 
 		pDevice->SetTransform(D3DTS_WORLD, &m_World);
-
-		// FVF(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)‚ÌÝ’è
-		pDevice->SetFVF(FVF_VERTEX_3D);
 
 		m_SkinMeshFiles[m_ModelID]->Draw(&m_World);
 	}
@@ -157,7 +155,9 @@ void CSceneSkinMesh::ReleaseFile(const SKINMESH_MODEL_ID& id)
 	if (m_SkinMeshFiles[id] != NULL)
 	{
 		delete m_SkinMeshFiles[id];
+		m_SkinMeshFiles[id] = NULL;
 		delete m_Animations[id];
+		m_Animations[id] = NULL;
 	}
 }
 

@@ -27,10 +27,11 @@
 #include "shotgun.h"
 #include "playerPatternIdle.h"
 #include "playerPatternJump.h"
+#include "playerPatternADS.h"
 
 void CPlayerPatternIdle::Init(CPlayer* player)
 {
-
+	player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
 }
 
 void CPlayerPatternIdle::Update(CPlayer* player)
@@ -70,7 +71,11 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 		player->Move(moveX, moveZ);
 
 		// ADS
-		player->ADS(inputMouse->GetRightPress());
+		if (inputMouse->GetRightPress())
+		{
+			player->ChangePattern(new CPlayerPatternADS());
+		}
+		//player->ADS(inputMouse->GetRightPress());
 
 		// UŒ‚
 		if (inputMouse->GetLeftPress())

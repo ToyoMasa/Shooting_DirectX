@@ -44,9 +44,6 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	CSound::Init();
 
-	// シェーダーの読み込み
-	//CShader::LoadShader();
-
 	// imguiの初期化と設定
 	CImGui::Init(hWnd, CRenderer::GetDevice());
 	ImGui::StyleColorsClassic();
@@ -59,8 +56,8 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	m_InputMouse = new CInputMouse;
 	m_InputMouse->Init(hInstance, hWnd);
 
-	//CManager::m_Mode = new CModeMapMake();
-	CManager::m_Mode = new CModeGame();
+	CManager::m_Mode = new CModeMapMake();
+	//CManager::m_Mode = new CModeGame();
 
 	if (CManager::m_Mode != NULL)
 	{
@@ -96,9 +93,6 @@ void CManager::Uninit()
 	}
 
 	CSound::Uninit();
-
-	// シェーダーの解放
-	//CShader::ReleaseShader();
 
 	// imguiの終了処理
 	CImGui::Uninit();

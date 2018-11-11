@@ -1,4 +1,7 @@
-
+//======================================================================
+//	マップ作成ツール [mapmake.cpp]　（2018/11/2）
+//	Author : 豊村 昌俊
+//======================================================================
 #include "common.h"
 #include "main.h"
 #include "mode.h"
@@ -18,6 +21,8 @@
 #include "mathutil.h"
 #include "player.h"
 #include "box.h"
+#include "game.h"
+#include "fade.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -53,7 +58,7 @@ char g_FileName[256] = "map.txt";
 bool g_VertexMode = false;
 
 static CSceneModel* testufo;
-static CBox* testbox;
+//static CBox* testbox;
 static CShader* testshader;
 
 bool g_Wire = false;
@@ -143,11 +148,12 @@ void CModeMapMake::Init()
 		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
 	}
 
-	testbox = new CBox();
-	testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
-	testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
-	testufo->Move(D3DXVECTOR3(0.0f, 1.0f, -5.0f));
-	testufo->SetShader(testshader);
+	//testbox = new CBox();
+	//testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
+	//testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
+	//testufo->Move(D3DXVECTOR3(0.0f, 0.0f, -3.0f));
+	//testufo->SetShader(testshader);
+
 }
 
 void CModeMapMake::Uninit()
@@ -166,8 +172,8 @@ void CModeMapMake::Uninit()
 
 	CScene::ReleaseAll();
 
-	testbox->Uninit();
-	delete testbox;
+	//testbox->Uninit();
+	//delete testbox;
 	delete testshader;
 }
 
@@ -327,7 +333,7 @@ void CModeMapMake::Update()
 				}
 				else
 				{
-					g_isHit[i][j] = 0.0;
+					g_isHit[i][j] = (DWORD)0.0;
 				}
 			}
 		}
@@ -356,6 +362,10 @@ void CModeMapMake::Update()
 		char filename[256];
 		sprintf_s(filename, "data/output/%s", g_FileName);
 		g_Field->Load(filename);
+	}
+	if (ImGui::Button("Play"))
+	{
+		CManager::SetMode(new CModeGame());
 	}
 	ImGui::End();
 
@@ -395,8 +405,9 @@ void CModeMapMake::Draw()
 
 	D3DXMATRIX mat;
 	D3DXMatrixIdentity(&mat);
+	D3DXMatrixTranslation(&mat, 0.0f, -0.5f, 0.0f);
 	//testbox->Draw(mat);
-	testbox->DrawWithShader(mat, testshader);
+	//testbox->DrawWithShader(mat, testshader);
 
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

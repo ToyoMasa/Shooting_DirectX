@@ -13,7 +13,8 @@ public:
 	CPlayerPatternAir() {}
 	~CPlayerPatternAir() {}
 
-	void Init(CPlayer* player);
+	void Init(CPlayer* player)override;
+	void Uninit(CPlayer* player)override{}
 	void Update(CPlayer* player)override;
 };
 

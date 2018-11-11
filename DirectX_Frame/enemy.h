@@ -40,7 +40,7 @@ public:
 	void GetCapsule(D3DXVECTOR3& pos1, D3DXVECTOR3& pos2, float& r);
 	Capsule& GetAttackCollision() { return m_AttackingCollsion; }
 
-	float GetSpeed() { return m_Speed; }
+	float& GetSpeed() { return m_Speed; }
 	void SetSpeed(float speed) { m_Speed = speed; }
 
 	void ChangePattern(CEnemyPatternBase* next);

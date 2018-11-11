@@ -201,6 +201,7 @@
     <ClInclude Include="moveToRandom.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="playerPatternADS.h" />
     <ClInclude Include="playerPatternAir.h" />
     <ClInclude Include="playerPatternBase.h" />
     <ClInclude Include="player.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerPatternADS.cpp" />
     <ClCompile Include="playerPatternAir.cpp" />
     <ClCompile Include="playerPatternIdle.cpp" />
     <ClCompile Include="playerPatternCrouch.cpp" />
@@ -305,24 +307,6 @@
     <ClCompile Include="waitTime.cpp" />
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="weapon.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="basic.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="data\shaders\phong.fx">
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
-    </FxCompile>
-    <FxCompile Include="data\shaders\shader.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

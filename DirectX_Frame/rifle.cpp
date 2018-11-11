@@ -183,14 +183,14 @@ void CRifle::Recoil(float recoilX, float recoilY)
 	{
 		m_CountFire++;
 
-		CModeGame::GetPlayer()->Rotate(recoilX * RECOILE_PATTERN_X, -recoilY * RECOILE_PATTERN_Y);
-		m_TotalRecoilX += recoilX * RECOILE_PATTERN_X;
-		m_TotalRecoilY += recoilY * RECOILE_PATTERN_Y;
+		CModeGame::GetPlayer()->Rotate(recoilX * (float)RECOILE_PATTERN_X, -recoilY * (float)RECOILE_PATTERN_Y);
+		m_TotalRecoilX += recoilX * (float)RECOILE_PATTERN_X;
+		m_TotalRecoilY += recoilY * (float)RECOILE_PATTERN_Y;
 	}
 	else
 	{
-		CModeGame::GetPlayer()->Rotate(recoilX * RECOILE_PATTERN_X, -recoilY * 0.1f);
-		m_TotalRecoilX += recoilX * RECOILE_PATTERN_X;
+		CModeGame::GetPlayer()->Rotate(recoilX * (float)RECOILE_PATTERN_X, -recoilY * 0.1f);
+		m_TotalRecoilX += recoilX * (float)RECOILE_PATTERN_X;
 		m_TotalRecoilY += recoilY * 0.1f;
 	}
 }

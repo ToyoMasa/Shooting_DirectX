@@ -47,7 +47,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_LocalCameraPos.y = 1.715f;
 	m_LocalCameraPos.z = 0.375f;
 	pos += m_LocalCameraPos;
-	D3DXVECTOR3 at = m_LocalCameraPos;
+	D3DXVECTOR3 at = pos;
 	at.z += 1.0f;
 	m_Model->Move(m_Pos);
 
@@ -123,6 +123,7 @@ void CPlayer::Update()
 		g_test = !g_test;
 	}
 
+	ADS();
 	m_Pattern->Update(this);
 }
 
@@ -328,6 +329,23 @@ void CPlayer::Move(float moveX, float moveZ)
 	SearchArea(newPos);
 	newPos.y = m_Field->GetHeight(newPos, this);
 
+	//D3DXVECTOR3 dirMove = newPos - m_Pos;
+	//D3DXVECTOR3 dirForward = newPos - m_Pos;
+	//dirForward.y = 0.0f;
+
+	//D3DXVec3Normalize(&dirMove, &dirMove);
+	//D3DXVec3Normalize(&dirForward, &dirForward);
+
+	//float dot = D3DXVec3Dot(&dirMove, &dirForward);
+
+	//float rad = acosf(dot);
+	//float degree = D3DXToDegree(rad);
+
+	//if (degree > 45 && newPos.y > m_Pos.y)
+	//{
+	//	return;
+	//}
+
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ
 	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + PLAYER_CUPSULE_RAD, newPos.z),
 		Point(newPos.x, newPos.y + 1.2f, newPos.z),
@@ -443,11 +461,10 @@ void CPlayer::MoveAir(float moveX, float moveY, float moveZ)
 	}
 }
 
-void CPlayer::ADS(BOOL ads)
+void CPlayer::ADS()
 {
-	if (ads)
+	if (m_isADS)
 	{
-		m_Model->ChangeAnim(PLAYER_ADS, 0.3f);
 		if (m_Camera->GetFov() > ADS_FOV)
 		{
 			m_Camera->SetFov(m_Camera->GetFov() - (DEFAULT_FOV - ADS_FOV) / 10.0f);
@@ -455,29 +472,32 @@ void CPlayer::ADS(BOOL ads)
 		else
 		{
 			m_Camera->SetFov(ADS_FOV);
-			m_UsingWeapon->SetADS(true);
 		}
 	}
 	else
 	{
-		m_Model->ChangeAnim(PLAYER_IDLE, 0.3f);
 		if (m_Camera->GetFov() < DEFAULT_FOV)
 		{
 			m_Camera->SetFov(m_Camera->GetFov() + (DEFAULT_FOV - ADS_FOV) / 10.0f);
-			m_UsingWeapon->SetADS(false);
 		}
 		else
 		{
 			m_Camera->SetFov(DEFAULT_FOV);
-			m_UsingWeapon->SetADS(false);
 		}
 	}
+}
+
+void CPlayer::SetADS(bool ads)
+{
+	m_isADS = ads;
+	m_UsingWeapon->SetADS(ads);
 }
 
 void CPlayer::ChangePattern(CPlayerPatternBase* next)
 {
 	if (m_Pattern != NULL)
 	{
+		m_Pattern->Uninit(this);
 		delete m_Pattern;
 	}
 

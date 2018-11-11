@@ -203,9 +203,12 @@ void CCharacter::SearchArea(D3DXVECTOR3 pos)
 	float blockLen = numVertex / (float)SEPARATE_NUM;
 
 	int x = 0, y = 0;
+	int sizeX = m_Field->GetSizeX();
+	int sizeY = m_Field->GetSizeY();
+
 	for (int j = 0; j < SEPARATE_NUM; j++)
 	{
-		if (pos.x < -m_Field->GetSizeX() / 2.0f + blockLen * (j + 1))
+		if (pos.x < -sizeX / 2.0f + blockLen * (j + 1))
 		{
 			x = j;
 			break;
@@ -213,7 +216,7 @@ void CCharacter::SearchArea(D3DXVECTOR3 pos)
 	}
 	for (int j = 0; j < SEPARATE_NUM; j++)
 	{
-		if (pos.z < -m_Field->GetSizeY() / 2.0f + blockLen * (j + 1))
+		if (pos.z < -sizeY / 2.0f + blockLen * (j + 1))
 		{
 			y = j;
 			break;
@@ -228,12 +231,6 @@ void CCharacter::SearchArea(D3DXVECTOR3 pos)
 D3DXVECTOR3 CCharacter::PushOut(D3DXVECTOR3 newPos, D3DXVECTOR3 oldPos, D3DXVECTOR3 normal)
 {
 	D3DXVECTOR3 moveVec = newPos - oldPos;
-/*
-	float L = distancePointToPlane(normal, newPos, normalPos);
-
-	D3DXVECTOR3 newVec = moveVec + (L + sphere.rad) * normal * 0.09f;*/
-
-	//D3DXVec3Normalize(&newVec, &newVec);
 
 	D3DXVECTOR3 newVec;
 

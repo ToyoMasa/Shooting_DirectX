@@ -188,8 +188,8 @@ void CShotgun::ChangeCrosshair(int nextTex)
 
 void CShotgun::Recoil(float recoilX, float recoilY)
 {
-	CModeGame::GetPlayer()->Rotate(recoilX * RECOILE_PATTERN_X, -recoilY);
-	m_TotalRecoilX = recoilX * RECOILE_PATTERN_X;
+	CModeGame::GetPlayer()->Rotate(recoilX * (float)RECOILE_PATTERN_X, -recoilY);
+	m_TotalRecoilX = recoilX * (float)RECOILE_PATTERN_X;
 	m_TotalRecoilY = recoilY;
 }
 

@@ -21,6 +21,7 @@ typedef enum
 	MODEL_ID_TARGET,
 	MODEL_ID_RIFLE,
 	MODEL_ID_BOX,
+	MODEL_ID_CYLINDER,
 	MODEL_ID_MAX,
 } MODEL_ID;
 
@@ -36,6 +37,7 @@ static const std::string MODEL_SOURCE[] =
 	"data/models/target.x",
 	"data/models/rifle.x",
 	"data/models/box.x",
+	"data/models/cylinder2.x",
 };
 
 class CSceneModel : public CScene
@@ -78,8 +80,8 @@ public:
 	void Rotate(D3DXVECTOR3 rot);
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
-	D3DXMATRIX GetScale() { return m_Scale; }
-	D3DXMATRIX GetWorld() { return m_World; }
+	D3DXMATRIX& GetScale() { return m_Scale; }
+	D3DXMATRIX& GetWorld() { return m_World; }
 	LPD3DXMESH GetMesh() { return m_Mesh; }
 	static CSceneModel* Create(const std::string& modelName);
 	static CSceneModel* Create(const std::string& modelName, bool isIgnore);

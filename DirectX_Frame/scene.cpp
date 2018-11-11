@@ -72,6 +72,22 @@ void CScene::DrawAll()
 
 	for (int j = 0; j < PRIORITY_MAX; j++)
 	{
+		switch (j)
+		{
+		case LAYER_BACKGROUND:
+			// FVF(今から使用する頂点情報)の設定
+			pDevice->SetFVF(FVF_VERTEX_3D);
+			break;
+		case LAYER_OBJECT2D:
+			pDevice->SetFVF(FVF_VERTEX_2D);
+			break;
+
+		default:
+			// FVF(今から使用する頂点情報)の設定
+			pDevice->SetFVF(FVF_VERTEX_3D);
+
+			break;
+		}
 		for (int i = 0; i < OBJECT_MAX; i++)
 		{
 			if (m_Scene[j][i] != NULL)
@@ -86,7 +102,6 @@ void CScene::DrawAll()
 					{
 						m_Scene[j][i]->Draw();
 					}
-					//m_Scene[j][i]->Draw();
 				}
 			}
 		}
