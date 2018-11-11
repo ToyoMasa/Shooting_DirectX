@@ -33,12 +33,17 @@ void CPlayerPatternADS::Init(CPlayer* player)
 {
 	player->GetModel()->StopMontage();
 	player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
+
+	// 照準の表示を遅延させるためのカウント
 	m_Time = timeGetTime();
+
+	player->SetADS(true);
 }
 
 void CPlayerPatternADS::Uninit(CPlayer* player)
 {
 	player->SetADS(false);
+	player->SetWeaponADS(false);
 }
 
 void CPlayerPatternADS::Update(CPlayer* player)
@@ -47,80 +52,62 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	CInputMouse *inputMouse;
 	float mouseX, mouseY, mouseZ;
 
+	// キーボード取得
+	inputKeyboard = CManager::GetInputKeyboard();
+
+	// マウス取得
+	inputMouse = CManager::GetInputMouse();
+	mouseX = (float)inputMouse->GetAxisX();
+	mouseY = (float)inputMouse->GetAxisY();
+	mouseZ = (float)inputMouse->GetAxisZ();
+
 	player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
 
-	if (timeGetTime() - m_Time < (DWORD)(1000 / 20))
+	// ADS解除
+	if (!inputMouse->GetRightPress())
 	{
+		player->ChangePattern(new CPlayerPatternIdle());
 		return;
 	}
 
-	player->SetADS(true);
-
+	float moveX = 0.0f, moveZ = 0.0f;
+	if (inputKeyboard->GetKeyPress(DIK_A))
 	{
-		// キーボード取得
-		inputKeyboard = CManager::GetInputKeyboard();
+		moveX = -0.5f;
+	}
+	if (inputKeyboard->GetKeyPress(DIK_D))
+	{
+		moveX = 0.5f;
+	}
+	if (inputKeyboard->GetKeyPress(DIK_W))
+	{
+		moveZ = 0.5f;
+	}
+	if (inputKeyboard->GetKeyPress(DIK_S))
+	{
+		moveZ = -0.5f;
+	}
 
-		// マウス取得
-		inputMouse = CManager::GetInputMouse();
-		mouseX = (float)inputMouse->GetAxisX();
-		mouseY = (float)inputMouse->GetAxisY();
-		mouseZ = (float)inputMouse->GetAxisZ();
+	player->Move(moveX, moveZ);
 
-		float moveX = 0.0f, moveZ = 0.0f;
-		if (inputKeyboard->GetKeyPress(DIK_A))
-		{
-			moveX = -0.5f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_D))
-		{
-			moveX = 0.5f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_W))
-		{
-			moveZ = 0.5f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_S))
-		{
-			moveZ = -0.5f;
-		}
+	// 回転
+	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 
-		player->Move(moveX, moveZ);
+	// ADSが完了したら照準の表示
+	DWORD currentTime = timeGetTime();
+	if (currentTime - m_Time < 1000 / 5.0f)
+	{
+		return;
+	}
+	player->SetWeaponADS(true);
 
-		// ADS
-		if (!inputMouse->GetRightPress())
-		{
-			player->ChangePattern(new CPlayerPatternIdle());
-		}
-
-		// 攻撃
-		if (inputMouse->GetLeftPress())
-		{
-			player->Shoot();
-		}
-		if (inputMouse->GetLeftRelease())
-		{
-			player->TriggerRelease();
-		}
-
-		// ジャンプ
-		if (inputKeyboard->GetKeyRelease(DIK_SPACE))
-		{
-			player->ChangePattern(new CPlayerPatternJump());
-
-		}
-
-		// 回転
-		player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-
-		// 武器チェンジ
-		if (inputKeyboard->GetKeyTrigger(DIK_1))
-		{
-			player->ChangeWeapon(0);
-		}
-
-		if (inputKeyboard->GetKeyTrigger(DIK_2))
-		{
-			player->ChangeWeapon(1);
-		}
+	// 攻撃
+	if (inputMouse->GetLeftPress())
+	{
+		player->Shoot();
+	}
+	if (inputMouse->GetLeftRelease())
+	{
+		player->TriggerRelease();
 	}
 }

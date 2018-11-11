@@ -87,7 +87,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 		}
 	}
 
-	m_Pattern = new CPlayerPatternIdle();
+	ChangePattern(new CPlayerPatternIdle());
 }
 
 void CPlayer::Uninit()
@@ -490,6 +490,10 @@ void CPlayer::ADS()
 void CPlayer::SetADS(bool ads)
 {
 	m_isADS = ads;
+}
+
+void CPlayer::SetWeaponADS(bool ads)
+{
 	m_UsingWeapon->SetADS(ads);
 }
 

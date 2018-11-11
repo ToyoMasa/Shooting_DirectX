@@ -55,6 +55,7 @@ public:
 	void MoveAir(float moveX, float moveY, float moveZ);
 	void ADS();
 	void SetADS(bool ads);
+	void SetWeaponADS(bool ads);
 	void ChangePattern(CPlayerPatternBase* next);
 	float GetJumpPower() { return m_JumpPower; }
 	void SetJumpPower(float power) { m_JumpPower = power; }

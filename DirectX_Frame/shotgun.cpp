@@ -42,7 +42,7 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_Rate = 60.0f / (200.0f / 60.0f);
 	m_CoolDown = 0.0f;
-	m_Damage = 4.0f;
+	m_Damage = 8.0f;
 
 	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
 
