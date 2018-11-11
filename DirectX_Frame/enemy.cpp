@@ -276,3 +276,12 @@ void CEnemy::Attack()
 
 	//m_isPreAttack = true;
 }
+
+void CEnemy::Damaged(float damage)
+{
+	CCharacter::Damaged(damage);
+	if (m_Life <= 0.0f)
+	{
+		Death();
+	}
+}

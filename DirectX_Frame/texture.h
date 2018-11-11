@@ -44,7 +44,8 @@ typedef enum
 	TEX_ID_CROSSHAIR_CIRCLE,		// クロスヘア
 	TEX_ID_SMOKE,					// 煙
 	TEX_ID_FLASH,					// マズルフラッシュ
-	TEX_ID_CIRCLE_2D,					// マズルフラッシュ
+	TEX_ID_CIRCLE_2D,				// 2D画面用円
+	TEX_ID_DAMAGE_SCREEN,			// ダメージを受けた時の出血エフェクト
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -85,6 +86,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/smoke.jpg",
 	"data/textures/flash.png",
 	"data/textures/debug_circle.png",
+	"data/textures/damage_screen.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

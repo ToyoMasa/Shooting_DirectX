@@ -49,6 +49,8 @@ public:
 	void Death();
 	void Attack();
 
+	void Damaged(float damage)override;
+
 private:
 	CEnemyPatternBase *m_Pattern;
 	Capsule m_AttackingCollsion;

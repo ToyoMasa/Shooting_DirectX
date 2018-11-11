@@ -35,6 +35,7 @@ public:
 		m_isPreDeath  = false;
 		m_isADS = false;
 		m_Pattern = NULL;
+		m_DamagedEffect = NULL;
 	}
 	~CPlayer(){}
 
@@ -62,6 +63,8 @@ public:
 	float GetUpValue() { return m_UpValue; }
 	void SetUpValue(float value) { m_UpValue = value; }
 
+	void Damaged(float damage)override;
+
 private:
 	D3DXMATRIX	m_LocalLocation;
 	CCamera*	m_Camera;
@@ -76,6 +79,7 @@ private:
 	CWeapon*	m_UsingWeapon;
 	CWeapon*	m_Weapon[HAVE_WEAPON];
 	CEffekseer* m_BloodEffect;
+	CScene2D*	m_DamagedEffect;
 	CPlayerPatternBase* m_Pattern;
 };
 

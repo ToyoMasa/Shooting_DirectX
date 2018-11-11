@@ -60,6 +60,10 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_BloodEffect->SetScale(0.1f, 0.1f, 0.1f);
 	m_BloodEffect->SetVisible(true);
 
+	m_DamagedEffect = CScene2D::Create(TEX_ID_DAMAGE_SCREEN, SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_DamagedEffect->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 1.0f));
+	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(166, 19, 19, 0));
+
 	m_Knife = CSound::Create(SOUND_LABEL_SE_KNIFE);
 	m_Hit = CSound::Create(SOUND_LABEL_SE_HIT);
 
@@ -87,6 +91,10 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 		}
 	}
 
+	// ステータスの設定
+	m_Life = 100.0f;
+	m_MaxLife = 100.0f;
+
 	ChangePattern(new CPlayerPatternIdle());
 }
 
@@ -104,6 +112,10 @@ void CPlayer::Uninit()
 	{
 		m_Model->Release();
 	}
+	if (m_DamagedEffect)
+	{
+		m_DamagedEffect->Release();
+	}
 	if (m_Knife)
 	{
 		m_Knife->Release();
@@ -118,6 +130,10 @@ void CPlayer::Update()
 	ImGui::Begin("Area", 0);
 	ImGui::Text("%d", m_AreaID);
 	ImGui::End(); 
+
+	ImGui::Begin("Player", 0);
+	ImGui::SliderFloat("Life", &m_Life, 0.0f, 100.0f);
+	ImGui::End();
 	if (inputKeyboard->GetKeyPress(DIK_T))
 	{
 		g_test = !g_test;
@@ -125,6 +141,8 @@ void CPlayer::Update()
 
 	ADS();
 	m_Pattern->Update(this);
+
+	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
 }
 
 void CPlayer::Draw()
@@ -151,10 +169,7 @@ void CPlayer::TriggerRelease()
 
 void CPlayer::Death()
 {
-	//m_Model->PlayMontage(PLAYER_DEATH, 0.3f, 8.0f, PLAYER_DEATH, 0.75f);
-	m_Hit->Play();
 
-	m_isPreDeath = true;
 }
 
 void CPlayer::Rotate(D3DXVECTOR3 vec)
@@ -507,4 +522,13 @@ void CPlayer::ChangePattern(CPlayerPatternBase* next)
 
 	m_Pattern = next;
 	next->Init(this);
+}
+
+void CPlayer::Damaged(float damage)
+{
+	CCharacter::Damaged(damage);
+	if (m_Life <= 0.0f)
+	{
+		Death();
+	}
 }

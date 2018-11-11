@@ -94,10 +94,7 @@ void CBullet::Update()
 
 					CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
 
-					if (enemy->Damaged(m_Damage) <= 0)
-					{
-						enemy->Death();
-					}
+					enemy->Damaged(m_Damage);
 				}
 			}
 		}

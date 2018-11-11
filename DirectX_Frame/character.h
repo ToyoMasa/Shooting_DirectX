@@ -45,7 +45,7 @@ public:
 	void Release();
 	CSceneSkinMesh* GetModel() { return m_Model; }
 
-	float Damaged(float damage);
+	virtual void Damaged(float damage);
 
 	D3DXVECTOR3 PushOut(D3DXVECTOR3 newPos, D3DXVECTOR3 oldPos, D3DXVECTOR3 normal);
 	D3DXVECTOR3 HitWall(D3DXVECTOR3 newPos);
@@ -71,6 +71,7 @@ protected:
 
 	// ステータス
 	float			m_Life;
+	float			m_MaxLife;
 private:
 	static CCharacter* m_Characters[CHARACTER_MAX];
 };
