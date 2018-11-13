@@ -93,13 +93,13 @@ void CModeGame::Init()
 	player->SetField(field);
 	CManager::SetCamera(player->GetCamera());
 
-	for (int j = 0; j < 5; j++)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			enemy[10 * j + i] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(-50.0f + i * 10.0f, 0.0f, -50.0f + j * 10.0f), new CEnemyPatternChase(), field);
-		}
-	}
+	//for (int j = 0; j < 5; j++)
+	//{
+	//	for (int i = 0; i < 10; i++)
+	//	{
+	//		enemy[10 * j + i] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(-50.0f + i * 10.0f, 0.0f, -50.0f + j * 10.0f), new CEnemyPatternChase(), field);
+	//	}
+	//}
 	
 	// ‹ó
 	CSkyBox::Create(player);

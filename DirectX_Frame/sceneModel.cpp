@@ -233,6 +233,8 @@ void CSceneModel::DrawWithShader()
 	for (int i = 0; i < (int)m_MaterialNum; i++)
 	{
 		pDevice->SetMaterial(&pMaterials[i].MatD3D);
+
+		m_Shader->SetMaterial(pMaterials[i].MatD3D);
 		//// 環境光用のマテリアルをセット
 		//tempcolor.x = pMaterials[i].MatD3D.Ambient.r;
 		//tempcolor.y = pMaterials[i].MatD3D.Ambient.g;

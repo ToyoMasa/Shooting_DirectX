@@ -50,25 +50,27 @@ void CPlayerPatternAir::Update(CPlayer* player)
 		mouseY = (float)inputMouse->GetAxisY();
 		mouseZ = (float)inputMouse->GetAxisZ();
 
-		float moveX = 0.0f, moveZ = 0.0f;
-		if (inputKeyboard->GetKeyPress(DIK_A))
-		{
-			moveX = -PLAYER_AIR_MOVE;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_D))
-		{
-			moveX = PLAYER_AIR_MOVE;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_W))
-		{
-			moveZ = PLAYER_AIR_MOVE;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_S))
-		{
-			moveZ = -PLAYER_AIR_MOVE;
-		}
+		//float moveX = 0.0f, moveZ = 0.0f;
+		//if (inputKeyboard->GetKeyPress(DIK_A))
+		//{
+		//	moveX = -1.0f;
+		//}
+		//if (inputKeyboard->GetKeyPress(DIK_D))
+		//{
+		//	moveX = 1.0f;
+		//}
+		//if (inputKeyboard->GetKeyPress(DIK_W))
+		//{
+		//	moveZ = 1.0f;
+		//}
+		//if (inputKeyboard->GetKeyPress(DIK_S))
+		//{
+		//	moveZ = -1.0f;
+		//}
 
-		player->MoveAir(moveX, player->GetUpValue(), moveZ);
+		m_MoveVec *= 0.99f;
+
+		player->MoveAir(m_MoveVec.x, player->GetUpValue(), m_MoveVec.y);
 		player->SetUpValue(player->GetUpValue() * 1.03f);
 
 		// ADS

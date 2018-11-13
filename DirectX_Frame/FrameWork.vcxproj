@@ -195,6 +195,7 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="mapmake.h" />
     <ClInclude Include="mathutil.h" />
+    <ClInclude Include="metalShader.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="moveToPlayer.h" />
     <ClInclude Include="moveToPos.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="mapmake.cpp" />
     <ClCompile Include="mathutil.cpp" />
+    <ClCompile Include="metalShader.cpp" />
     <ClCompile Include="moveToPlayer.cpp" />
     <ClCompile Include="moveToPos.cpp" />
     <ClCompile Include="moveToRandom.cpp" />
@@ -280,6 +282,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerPatternADS.cpp" />
     <ClCompile Include="playerPatternAir.cpp" />
+    <ClCompile Include="playerPatternDash.cpp" />
     <ClCompile Include="playerPatternIdle.cpp" />
     <ClCompile Include="playerPatternCrouch.cpp" />
     <ClCompile Include="playerPatternJump.cpp" />

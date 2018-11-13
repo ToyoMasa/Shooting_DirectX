@@ -23,6 +23,7 @@
 #include "box.h"
 #include "game.h"
 #include "fade.h"
+#include "metalShader.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -128,10 +129,30 @@ void CModeMapMake::Init()
 
 	bool sts;
 
-	testshader = new CShader();
+	//testshader = new CShader();
+	//sts = testshader->VertexShaderCompile(
+	//	"data/shaders/shader.fx",						// シェーダーファイル名
+	//	"VertexShader_Main",							// エントリー関数名
+	//	"vs_3_0");						// バージョン
+
+	//if (!sts) {
+	//	MessageBox(NULL, "エラー", "エラー", MB_OK);
+	//}
+
+	//// ピクセルシェーダーコンパイル
+	//sts = testshader->PixelShaderCompile(
+	//	"data/shaders/shader.fx",						// シェーダーファイル名
+	//	"PixelShader_Main",							// エントリー関数名
+	//	"ps_3_0");						// バージョン
+
+	//if (!sts) {
+	//	MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
+	//}
+
+	testshader = new CShaderMetal();
 	sts = testshader->VertexShaderCompile(
-		"data/shaders/shader.fx",						// シェーダーファイル名
-		"VertexShader_Main",							// エントリー関数名
+		"data/shaders/metal.fx",						// シェーダーファイル名
+		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
 	if (!sts) {
@@ -140,8 +161,8 @@ void CModeMapMake::Init()
 
 	// ピクセルシェーダーコンパイル
 	sts = testshader->PixelShaderCompile(
-		"data/shaders/shader.fx",						// シェーダーファイル名
-		"PixelShader_Main",							// エントリー関数名
+		"data/shaders/metal.fx",						// シェーダーファイル名
+		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 
 	if (!sts) {
@@ -150,9 +171,9 @@ void CModeMapMake::Init()
 
 	//testbox = new CBox();
 	//testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
-	//testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
-	//testufo->Move(D3DXVECTOR3(0.0f, 0.0f, -3.0f));
-	//testufo->SetShader(testshader);
+	testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
+	testufo->Move(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	testufo->SetShader(testshader);
 
 }
 

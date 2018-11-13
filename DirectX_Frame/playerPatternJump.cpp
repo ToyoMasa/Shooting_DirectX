@@ -28,7 +28,7 @@
 #include "playerPatternJump.h"
 #include "playerPatternAir.h"
 
-static const float PLAYER_JUMP_MOVE = 0.12f;
+static const float PLAYER_JUMP_MOVE = 0.18f;
 
 void CPlayerPatternJump::Init(CPlayer* player)
 {
@@ -52,38 +52,36 @@ void CPlayerPatternJump::Update(CPlayer* player)
 		mouseY = (float)inputMouse->GetAxisY();
 		mouseZ = (float)inputMouse->GetAxisZ();
 
-		float moveX = 0.0f, moveZ = 0.0f;
-		if (inputKeyboard->GetKeyPress(DIK_A))
-		{
-			moveX = -PLAYER_AIR_MOVE;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_D))
-		{
-			moveX = PLAYER_AIR_MOVE;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_W))
-		{
-			moveZ = PLAYER_AIR_MOVE;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_S))
-		{
-			moveZ = -PLAYER_AIR_MOVE;
-		}
+		//float moveX = 0.0f, moveZ = 0.0f;
+		//if (inputKeyboard->GetKeyPress(DIK_A))
+		//{
+		//	moveX = -PLAYER_AIR_MOVE_SPEED;
+		//}
+		//if (inputKeyboard->GetKeyPress(DIK_D))
+		//{
+		//	moveX = PLAYER_AIR_MOVE_SPEED;
+		//}
+		//if (inputKeyboard->GetKeyPress(DIK_W))
+		//{
+		//	moveZ = PLAYER_AIR_MOVE_SPEED;
+		//}
+		//if (inputKeyboard->GetKeyPress(DIK_S))
+		//{
+		//	moveZ = -PLAYER_AIR_MOVE_SPEED;
+		//}
+
+		m_MoveVec *= 0.99f;
 
 		player->SetJumpPower(player->GetJumpPower() - player->GetUpValue());
 		if (player->GetJumpPower() > 0)
 		{
-			player->MoveAir(moveX, player->GetUpValue(), moveZ);
-			player->SetUpValue(player->GetUpValue() * 0.98f);
+			player->MoveAir(m_MoveVec.x, player->GetUpValue(), m_MoveVec.y);
+			player->SetUpValue(player->GetUpValue() * 0.92f);
 		}
 		else
 		{
-			player->ChangePattern(new CPlayerPatternAir());
+			player->ChangePattern(new CPlayerPatternAir(m_MoveVec));
 		}
-
-
-		// ADS
-		//player->ADS(inputMouse->GetRightPress());
 
 		// UŒ‚
 		if (inputMouse->GetLeftPress())

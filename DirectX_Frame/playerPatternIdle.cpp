@@ -28,6 +28,7 @@
 #include "playerPatternIdle.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
+#include "playerPatternDash.h"
 
 void CPlayerPatternIdle::Init(CPlayer* player)
 {
@@ -69,7 +70,10 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 		moveZ = -1.0f;
 	}
 
-	player->Move(moveX, moveZ);
+	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
+	D3DXVec2Normalize(&dir, &dir);
+
+	player->Move(dir.x, dir.y);
 
 	// ADS
 	if (inputMouse->GetRightPress())
@@ -92,8 +96,14 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 	// ジャンプ
 	if (inputKeyboard->GetKeyRelease(DIK_SPACE))
 	{
-		player->ChangePattern(new CPlayerPatternJump());
+		player->ChangePattern(new CPlayerPatternJump(dir));
 
+	}
+
+	// ダッシュ
+	if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
+	{
+		player->ChangePattern(new CPlayerPatternDash());
 	}
 
 	// 回転

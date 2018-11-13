@@ -73,22 +73,26 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	float moveX = 0.0f, moveZ = 0.0f;
 	if (inputKeyboard->GetKeyPress(DIK_A))
 	{
-		moveX = -0.5f;
+		moveX = -1.0f;
 	}
 	if (inputKeyboard->GetKeyPress(DIK_D))
 	{
-		moveX = 0.5f;
+		moveX = 1.0f;
 	}
 	if (inputKeyboard->GetKeyPress(DIK_W))
 	{
-		moveZ = 0.5f;
+		moveZ = 1.0f;
 	}
 	if (inputKeyboard->GetKeyPress(DIK_S))
 	{
-		moveZ = -0.5f;
+		moveZ = -1.0f;
 	}
 
-	player->Move(moveX, moveZ);
+	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
+	D3DXVec2Normalize(&dir, &dir);
+	dir *= PLAYER_ADS_MOVE_SPEED;
+
+	player->Move(dir.x, dir.y);
 
 	// ‰ñ“]
 	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);

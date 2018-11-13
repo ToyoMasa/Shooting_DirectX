@@ -1,31 +1,28 @@
-//*****************************************************************************
-//!	@file	shader.h
-//!	@brief	シェーダー関連処理
-//!	@note	
-//!	@author
-//*****************************************************************************
-#pragma once
+//======================================================================
+//	シェーダー[shader.h]
+//
+//======================================================================
+#ifndef _SHADER_H_
+#define _SHADER_H_
 
 #include <string>
+#include <d3dx9.h>
 
-//-----------------------------------------------------------------------------
-//	Include header files.
-//-----------------------------------------------------------------------------
-#include	<d3dx9.h>
+enum SHADER_ID
+{
+	SH_ID_DEFAULT,
+	SH_ID_METAL
+};
 
 // シェーダーファイルリスト
 static const std::string SHADER_FILE[] =
 {
-	"data/shaders/shader.fx",
-	"data/shaders/phong.fx",
 	"data/shaders/basic.fx",
+	"data/shaders/metal.fx",
 };
 
 static const DWORD FVF_VERTEX_SHADER = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
 
-//-----------------------------------------------------------------------------
-// プロトタイプ宣言
-//-----------------------------------------------------------------------------
 class CShader
 {
 public:
@@ -37,7 +34,7 @@ public:
 		m_PixelShader = nullptr;
 		m_PSConstantTable = nullptr;
 	}
-	~CShader()
+	virtual ~CShader()
 	{
 		if (m_VertexShader)
 		{
@@ -78,14 +75,14 @@ public:
 	LPDIRECT3DVERTEXSHADER9& GetVS() { return m_VertexShader; }
 	LPDIRECT3DPIXELSHADER9& GetPS() { return m_PixelShader; }
 
-	void ShaderSet(D3DXMATRIX world);
-private:
+	virtual void ShaderSet(D3DXMATRIX world);
+	virtual void SetMaterial(D3DMATERIAL9 const&mat){}
+protected:
 	LPDIRECT3DVERTEXSHADER9 m_VertexShader;			// 頂点シェーダー
 	LPD3DXCONSTANTTABLE		m_VSConstantTable;		// 定数テーブル
 
 	LPDIRECT3DPIXELSHADER9	m_PixelShader;			// ピクセルシェーダー
 	LPD3DXCONSTANTTABLE		m_PSConstantTable;		// 定数テーブル
 };
-//******************************************************************************
-//	End of file.
-//******************************************************************************
+
+#endif // !_SHADER_H_

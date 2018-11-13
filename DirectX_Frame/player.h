@@ -10,9 +10,12 @@
 #include "Effekseer.h"
 #include "sound.h"
 
-static const float PLAYER_MOVE_SPEED = 0.08f;
+static const float PLAYER_MOVE_SPEED = 0.06f;
 static const float PLAYER_JUMP_POWER = 1.8f;
-static const float PLAYER_AIR_MOVE = 0.9f;
+static const float PLAYER_AIR_MOVE_SPEED = 0.9f;
+static const float PLAYER_ADS_MOVE_SPEED = 0.75f;
+static const float PLAYER_DASH_MOVE_SPEED_X = 0.6f;
+static const float PLAYER_DASH_MOVE_SPEED_Z = 1.5f;
 static const float VALUE_ROTATE_MOUSE = 0.003f;
 static const float PLAYER_CUPSULE_RAD = 0.5f;
 

@@ -58,6 +58,12 @@
     <Filter Include="ソース ファイル\enemyPattern">
       <UniqueIdentifier>{40f4e9e9-b60b-4ff8-9eaf-6a99fc6c693c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\shader">
+      <UniqueIdentifier>{09d7f9d4-81af-4656-bb05-93c9d7169b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\shader">
+      <UniqueIdentifier>{c3427eba-25dc-4e27-8517-8b09e0f06806}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -288,11 +294,14 @@
     <ClInclude Include="mathutil.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="playerPatternADS.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="metalShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -491,11 +500,17 @@
     <ClCompile Include="mathutil.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="playerPatternADS.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternDash.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="metalShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
