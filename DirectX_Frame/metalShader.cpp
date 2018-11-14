@@ -5,6 +5,29 @@
 #include "shader.h"
 #include "metalShader.h"
 
+CShaderMetal::CShaderMetal() : CShader()
+{
+	bool sts;
+	sts = VertexShaderCompile(
+		"data/shaders/metal.fx",						// シェーダーファイル名
+		"main",							// エントリー関数名
+		"vs_3_0");						// バージョン
+
+	if (!sts) {
+		MessageBox(NULL, "エラー", "エラー", MB_OK);
+	}
+
+	// ピクセルシェーダーコンパイル
+	sts = PixelShaderCompile(
+		"data/shaders/metal.fx",						// シェーダーファイル名
+		"PS",							// エントリー関数名
+		"ps_3_0");						// バージョン
+
+	if (!sts) {
+		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
+	}
+}
+
 void CShaderMetal::ShaderSet(D3DXMATRIX world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
@@ -14,10 +37,10 @@ void CShaderMetal::ShaderSet(D3DXMATRIX world)
 	}
 
 	// 光の設定情報
-	D3DXVECTOR4		light_dir(0.0f, -1.0f, 0.0f, 0.0f);			// 光の方向
-	D3DXVECTOR4		diffuse(1.0f, 1.0f, 1.0f, 1.0f);			// 平行光源の色
-	D3DXVECTOR4		ambient(0.2f, 0.2f, 0.2f, 0.2f);			// 環境光
-	D3DXVECTOR4		specular(0.2f, 0.2f, 0.2f, 0.2f);			// スペキュラ光
+	D3DXVECTOR4		light_dir(-1.0f, -1.0f, 1.0f, 0.0f);		// 光の方向
+	D3DXVECTOR4		diffuse(0.9f, 0.9f, 0.9f, 1.0f);			// 平行光源の色
+	D3DXVECTOR4		ambient(0.5f, 0.5f, 0.5f, 0.2f);			// 環境光
+	D3DXVECTOR4		specular(1.0f, 1.0f, 1.0f, 0.2f);			// スペキュラ光
 	D3DXVECTOR4		cameraPos = D3DXVECTOR4(CManager::GetCamera()->GetPos().x, CManager::GetCamera()->GetPos().y, CManager::GetCamera()->GetPos().z, 0.0f);
 
 	// 頂点シェーダーとピクセルシェーダーをセット
@@ -25,23 +48,14 @@ void CShaderMetal::ShaderSet(D3DXMATRIX world)
 	pDevice->SetPixelShader(m_PixelShader);
 
 	// 定数をセット(頂点シェーダー)
-	m_VSConstantTable->SetMatrix(pDevice, "m_world", &world);
-	m_VSConstantTable->SetMatrix(pDevice, "m_view", &CManager::GetCamera()->GetView());
-	m_VSConstantTable->SetMatrix(pDevice, "m_projection", &CManager::GetCamera()->GetProjection());	
+	m_VSConstantTable->SetMatrix(pDevice, "g_world", &world);
+	m_VSConstantTable->SetMatrix(pDevice, "g_view", &CManager::GetCamera()->GetView());
+	m_VSConstantTable->SetMatrix(pDevice, "g_projection", &CManager::GetCamera()->GetProjection());	
 
-	m_PSConstantTable->SetMatrix(pDevice, "m_world", &world);
-	m_PSConstantTable->SetMatrix(pDevice, "m_view", &CManager::GetCamera()->GetView());
-	m_PSConstantTable->SetMatrix(pDevice, "m_projection", &CManager::GetCamera()->GetProjection());
-
-	m_VSConstantTable->SetVector(pDevice, "m_diffuse", &diffuse);
-	m_VSConstantTable->SetVector(pDevice, "m_ambient", &ambient);
-	m_VSConstantTable->SetVector(pDevice, "m_specular", &specular);
-	m_VSConstantTable->SetVector(pDevice, "m_light_dir", &light_dir);
-
-	m_PSConstantTable->SetVector(pDevice, "m_diffuse", &diffuse);
-	m_PSConstantTable->SetVector(pDevice, "m_ambient", &ambient);
-	m_PSConstantTable->SetVector(pDevice, "m_specular", &specular);
-	m_PSConstantTable->SetVector(pDevice, "m_light_dir", &light_dir);
+	m_PSConstantTable->SetVector(pDevice, "g_diffuse", &diffuse);
+	m_PSConstantTable->SetVector(pDevice, "g_ambient", &ambient);
+	m_PSConstantTable->SetVector(pDevice, "g_specular", &specular);
+	m_PSConstantTable->SetVector(pDevice, "g_light_dir", &light_dir);
 
 	m_PSConstantTable->SetVector(pDevice, "g_camerapos", &cameraPos);
 }
@@ -57,12 +71,15 @@ void CShaderMetal::SetMaterial(D3DMATERIAL9 const&mat)
 	D3DXVECTOR4  tempcolor;
 
 	// 環境光用のマテリアルをセット
+	//tempcolor.x = 0.8f;
+	//tempcolor.y = 0.8f;
+	//tempcolor.z = 0.8f;
+	//tempcolor.w = 1.0f;
 	tempcolor.x = mat.Ambient.r;
 	tempcolor.y = mat.Ambient.g;
 	tempcolor.z = mat.Ambient.b;
 	tempcolor.w = mat.Ambient.a;
 	m_PSConstantTable->SetVector(pDevice, "g_ambient_mat", &tempcolor);
-	m_VSConstantTable->SetVector(pDevice, "g_ambient_mat", &tempcolor);
 
 	// ディフューズ光用のマテリアルをセット
 	tempcolor.x = mat.Diffuse.r;
@@ -70,7 +87,6 @@ void CShaderMetal::SetMaterial(D3DMATERIAL9 const&mat)
 	tempcolor.z = mat.Diffuse.b;
 	tempcolor.w = mat.Diffuse.a;
 	m_PSConstantTable->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
-	m_VSConstantTable->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
 
 	// エミッシブ光用のマテリアルをセット
 	tempcolor.x = mat.Emissive.r;
@@ -78,7 +94,6 @@ void CShaderMetal::SetMaterial(D3DMATERIAL9 const&mat)
 	tempcolor.z = mat.Emissive.b;
 	tempcolor.w = mat.Emissive.a;
 	m_PSConstantTable->SetVector(pDevice, "g_emissive_mat", &tempcolor);
-	m_VSConstantTable->SetVector(pDevice, "g_emissive_mat", &tempcolor);
 
 	// スペキュラー光用のマテリアルをセット
 	tempcolor.x = mat.Specular.r;
@@ -86,9 +101,7 @@ void CShaderMetal::SetMaterial(D3DMATERIAL9 const&mat)
 	tempcolor.z = mat.Specular.b;
 	tempcolor.w = mat.Specular.a;
 	m_PSConstantTable->SetVector(pDevice, "g_specular_mat", &tempcolor);
-	m_VSConstantTable->SetVector(pDevice, "g_specular_mat", &tempcolor);
 
 	// パワー値をセット
 	m_PSConstantTable->SetFloat(pDevice, "g_power", mat.Power);
-	m_VSConstantTable->SetFloat(pDevice, "g_power", mat.Power);
 }

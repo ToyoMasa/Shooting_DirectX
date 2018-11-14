@@ -21,7 +21,7 @@ static const std::string SHADER_FILE[] =
 	"data/shaders/metal.fx",
 };
 
-static const DWORD FVF_VERTEX_SHADER = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+static const DWORD FVF_VERTEX_SHADER = (D3DFVF_XYZ | D3DFVF_DIFFUSE);
 
 class CShader
 {

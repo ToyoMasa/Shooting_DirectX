@@ -59,7 +59,7 @@ char g_FileName[256] = "map.txt";
 bool g_VertexMode = false;
 
 static CSceneModel* testufo;
-//static CBox* testbox;
+static CBox* testbox;
 static CShader* testshader;
 
 bool g_Wire = false;
@@ -127,53 +127,13 @@ void CModeMapMake::Init()
 		}
 	}
 
-	bool sts;
-
-	//testshader = new CShader();
-	//sts = testshader->VertexShaderCompile(
-	//	"data/shaders/shader.fx",						// シェーダーファイル名
-	//	"VertexShader_Main",							// エントリー関数名
-	//	"vs_3_0");						// バージョン
-
-	//if (!sts) {
-	//	MessageBox(NULL, "エラー", "エラー", MB_OK);
-	//}
-
-	//// ピクセルシェーダーコンパイル
-	//sts = testshader->PixelShaderCompile(
-	//	"data/shaders/shader.fx",						// シェーダーファイル名
-	//	"PixelShader_Main",							// エントリー関数名
-	//	"ps_3_0");						// バージョン
-
-	//if (!sts) {
-	//	MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
-	//}
-
-	testshader = new CShaderMetal();
-	sts = testshader->VertexShaderCompile(
-		"data/shaders/metal.fx",						// シェーダーファイル名
-		"main",							// エントリー関数名
-		"vs_3_0");						// バージョン
-
-	if (!sts) {
-		MessageBox(NULL, "エラー", "エラー", MB_OK);
-	}
-
-	// ピクセルシェーダーコンパイル
-	sts = testshader->PixelShaderCompile(
-		"data/shaders/metal.fx",						// シェーダーファイル名
-		"PS",							// エントリー関数名
-		"ps_3_0");						// バージョン
-
-	if (!sts) {
-		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
-	}
+	//testshader = new CShaderMetal();
 
 	//testbox = new CBox();
 	//testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
-	testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
-	testufo->Move(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	testufo->SetShader(testshader);
+	//testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
+	//testufo->Move(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	//testufo->SetShader(testshader);
 
 }
 
@@ -195,7 +155,7 @@ void CModeMapMake::Uninit()
 
 	//testbox->Uninit();
 	//delete testbox;
-	delete testshader;
+	//delete testshader;
 }
 
 void CModeMapMake::Update()
@@ -424,11 +384,13 @@ void CModeMapMake::Draw()
 
 	CScene::DrawAll();
 
-	D3DXMATRIX mat;
-	D3DXMatrixIdentity(&mat);
-	D3DXMatrixTranslation(&mat, 0.0f, -0.5f, 0.0f);
-	//testbox->Draw(mat);
+	//D3DXMATRIX mat;
+	//D3DXMatrixIdentity(&mat);
+	//D3DXMatrixTranslation(&mat, 1.5f, 1.0f, 0.0f);
 	//testbox->DrawWithShader(mat, testshader);
+
+	//D3DXMatrixTranslation(&mat, -1.5f, 1.0f, 0.0f);
+	//testbox->Draw(mat);
 
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

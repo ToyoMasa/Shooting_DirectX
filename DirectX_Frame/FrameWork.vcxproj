@@ -183,6 +183,7 @@
     <ClInclude Include="enemyPatternDeath.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="enemyPatternDeath.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="fog.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="ImGui_.cpp" />

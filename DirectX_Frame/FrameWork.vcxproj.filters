@@ -303,6 +303,9 @@
     <ClInclude Include="metalShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
+    <ClInclude Include="fog.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="class.cpp">
@@ -511,6 +514,9 @@
     </ClCompile>
     <ClCompile Include="metalShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="fog.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

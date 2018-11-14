@@ -10,7 +10,7 @@
 class CShaderMetal : public CShader
 {
 public:
-	CShaderMetal() : CShader() {}
+	CShaderMetal();
 	~CShaderMetal() {}
 
 	void ShaderSet(D3DXMATRIX world)override;

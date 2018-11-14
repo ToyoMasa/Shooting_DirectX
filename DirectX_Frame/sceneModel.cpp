@@ -227,61 +227,37 @@ void CSceneModel::DrawWithShader()
 
 	LPD3DXMATERIAL pMaterials = (LPD3DXMATERIAL)m_Material->GetBufferPointer();
 
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	m_Shader->ShaderSet(m_World);
 
 	// サブセットを描画する(マテリアル数分ループ)
 	for (int i = 0; i < (int)m_MaterialNum; i++)
 	{
 		pDevice->SetMaterial(&pMaterials[i].MatD3D);
-
 		m_Shader->SetMaterial(pMaterials[i].MatD3D);
-		//// 環境光用のマテリアルをセット
-		//tempcolor.x = pMaterials[i].MatD3D.Ambient.r;
-		//tempcolor.y = pMaterials[i].MatD3D.Ambient.g;
-		//tempcolor.z = pMaterials[i].MatD3D.Ambient.b;
-		//tempcolor.w = pMaterials[i].MatD3D.Ambient.a;
-		//m_Shader->GetVSTable()->SetVector(pDevice, "g_ambient_mat", &tempcolor);
-
-		//// ディフューズ光用のマテリアルをセット
-		//tempcolor.x = pMaterials[i].MatD3D.Diffuse.r;
-		//tempcolor.y = pMaterials[i].MatD3D.Diffuse.g;
-		//tempcolor.z = pMaterials[i].MatD3D.Diffuse.b;
-		//tempcolor.w = pMaterials[i].MatD3D.Diffuse.a;
-		//m_Shader->GetVSTable()->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
-
-		//// エミッシブ光用のマテリアルをセット
-		//tempcolor.x = pMaterials[i].MatD3D.Emissive.r;
-		//tempcolor.y = pMaterials[i].MatD3D.Emissive.g;
-		//tempcolor.z = pMaterials[i].MatD3D.Emissive.b;
-		//tempcolor.w = pMaterials[i].MatD3D.Emissive.a;
-		//m_Shader->GetVSTable()->SetVector(pDevice, "g_emissive_mat", &tempcolor);
-
-		//// スペキュラー光用のマテリアルをセット
-		//tempcolor.x = pMaterials[i].MatD3D.Specular.r;
-		//tempcolor.y = pMaterials[i].MatD3D.Specular.g;
-		//tempcolor.z = pMaterials[i].MatD3D.Specular.b;
-		//tempcolor.w = pMaterials[i].MatD3D.Specular.a;
-		//m_Shader->GetVSTable()->SetVector(pDevice, "g_specular_mat", &tempcolor);
-
-		//// パワー値をセット
-		//m_Shader->GetVSTable()->SetFloat(pDevice, "g_power", pMaterials[i].MatD3D.Power);
-
+		
 		// テクスチャを使用するか否かをセット
-		if (m_Texture[i]) {
-			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", true);
+		if (pMaterials[i].pTextureFilename != NULL)
+		{
+			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
+			// テクスチャをサンプラーへセット
+			int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
+			pDevice->SetTexture(index, m_Texture[i]);
 		}
 		else
 		{
-			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", false);
+			m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", FALSE);
+			// テクスチャをサンプラーへセット
+			int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
+			pDevice->SetTexture(index, NULL);
 		}
-		// テクスチャをサンプラーへセット
-		int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
-		pDevice->SetTexture(index, m_Texture[i]);
 
 		m_Mesh->DrawSubset(i);					// サブセットの描画
 	}
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	// 頂点シェーダーとピクセルシェーダーをセット
 	pDevice->SetVertexShader(NULL);
 	pDevice->SetPixelShader(NULL);

@@ -16,6 +16,7 @@ class CBillBoard;
 class CScene2D;
 class CLight;
 class CSound;
+class CFog;
 
 class CModeGame : public CMode
 {
@@ -66,6 +67,7 @@ private:
 	static int m_Count;
 	static CSound* BGM;
 	static CSound* GameEnd_SE;
+	static CFog*	Fog;
 };
 
 #endif // !_GAME_H_

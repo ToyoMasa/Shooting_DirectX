@@ -38,6 +38,7 @@
 #include "EnemyAnim.h"
 #include "enemyPatternChase.h"
 #include "shader.h"
+#include "fog.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -67,6 +68,12 @@ int CModeGame::m_NumKill = 0;
 int CModeGame::m_NumSneak = 0; 
 int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
+CFog *CModeGame::Fog = NULL;
+
+float g_FogColor[4];
+float g_LightDiff[4];
+float g_LightAmb[4];
+float g_Density = 0.07f;
 
 void CModeGame::Init()
 {
@@ -118,6 +125,9 @@ void CModeGame::Init()
 	m_NumSneak = 0;
 	m_CountResult = 0;
 	GameEnd_SE = NULL;
+
+	//Fog->Set(D3DCOLOR_RGBA(0, 0, 0, 128), 2.0f, 50.0f);
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 128), 0.07f);
 }
 
 void CModeGame::Uninit()
@@ -260,13 +270,30 @@ void CModeGame::Update()
 	{
 		CFade::FadeOut(new CModeMapMake());
 	}
+
+	ImGui::ColorEdit4("DiffColor", g_LightDiff);
+	ImGui::ColorEdit4("AmbColor", g_LightAmb);
+	ImGui::ColorEdit4("FogColor", g_FogColor);
+	ImGui::SliderFloat("FogDensity", &g_Density, 0.0f, 1.0f);
 	ImGui::End();
+
+	Fog->Set(D3DCOLOR_RGBA((int)(g_FogColor[0] * 255), (int)(g_FogColor[1] * 255), (int)(g_FogColor[2] * 255), (int)(g_FogColor[3] * 255)), g_Density);
+	m_Light->SetLight(g_LightDiff[0], g_LightDiff[1], g_LightDiff[2], g_LightDiff[3], g_LightAmb[0], g_LightAmb[1], g_LightAmb[2], g_LightAmb[3]);
 }
 
 void CModeGame::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
 	CScene::DrawAll();
+
+	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：ON
 	CBillBoard::DrawAll(player->GetCamera());
+	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE); //フォグ：ON
 
 	CImGui::EndDraw();
 }

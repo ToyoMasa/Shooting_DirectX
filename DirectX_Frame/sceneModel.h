@@ -35,7 +35,7 @@ static const std::string MODEL_SOURCE[] =
 	"data/models/player.x",
 	"data/models/enemy01.x",
 	"data/models/target.x",
-	"data/models/rifle.x",
+	"data/models/rifle3.x",
 	"data/models/box.x",
 	"data/models/cylinder2.x",
 };

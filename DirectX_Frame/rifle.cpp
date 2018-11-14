@@ -19,11 +19,13 @@
 #include "emitter.h"
 #include "billboard.h"
 #include "PlayerAnim.h"
+#include "metalShader.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
 
 static const int DIFFUSSION = 160;
+CShader* metal = NULL;
 
 void CRifle::Init(CSceneSkinMesh *parent)
 {
@@ -64,7 +66,8 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.y = 141.5f;
 	m_Rot.z = 33.75f;
 
-	//m_Model->SetShader(CShader::GetShader(SHADER_FILE_BASIC));
+	metal = new CShaderMetal();
+	m_Model->SetShader(metal);
 }
 
 void CRifle::Uninit()
@@ -74,6 +77,8 @@ void CRifle::Uninit()
 		m_Model->Release();
 		m_Model = NULL;
 	}
+
+	delete metal;
 }
 
 void CRifle::Update()
