@@ -66,8 +66,8 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.y = 141.5f;
 	m_Rot.z = 33.75f;
 
-	metal = new CShaderMetal();
-	m_Model->SetShader(metal);
+	//metal = new CShaderMetal();
+	m_Model->SetShader(CShaderMetal::GetShader());
 }
 
 void CRifle::Uninit()
@@ -78,7 +78,7 @@ void CRifle::Uninit()
 		m_Model = NULL;
 	}
 
-	delete metal;
+	//delete metal;
 }
 
 void CRifle::Update()

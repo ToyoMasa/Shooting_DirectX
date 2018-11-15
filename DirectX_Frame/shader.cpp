@@ -13,6 +13,7 @@
 #include "manager.h"
 #include "camera.h"
 #include "shader.h"
+#include "metalShader.h"
 
 //==============================================================================
 //!	@fn		ShaderCompile
@@ -159,28 +160,9 @@ bool CShader::PixelShaderCompile(
 	return true;
 }
 
-void CShader::ShaderSet(D3DXMATRIX world)
+void CShader::ReleaseAll()
 {
-	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-	if (pDevice == NULL)
-	{
-		return;
-	}
-
-	// 光の設定情報
-	D3DXVECTOR4		light_dir(0.0f, -1.0f, 0.0f, 0.0f);			// 光の方向
-	D3DXVECTOR4		diffuse(1.0f, 1.0f, 1.0f, 1.0f);			// 平行光源の色
-	D3DXVECTOR4		ambient(0.2f, 0.2f, 0.2f, 0.2f);			// 環境光
-	D3DXVECTOR4		specular(0.2f, 0.2f, 0.2f, 0.2f);			// スペキュラ光
-
-	// 頂点シェーダーとピクセルシェーダーをセット
-	pDevice->SetVertexShader(m_VertexShader);
-	pDevice->SetPixelShader(m_PixelShader);
-
-	// 定数をセット(頂点シェーダー)
-	m_VSConstantTable->SetMatrix(pDevice, "World", &world);
-	m_VSConstantTable->SetMatrix(pDevice, "View", &CManager::GetCamera()->GetView());
-	m_VSConstantTable->SetMatrix(pDevice, "Proj", &CManager::GetCamera()->GetProjection());
+	CShaderMetal::Destroy();
 }
 
 //******************************************************************************

@@ -25,6 +25,7 @@
 #include "mapmake.h"
 #include "fade.h"
 #include "sound.h"
+#include "shader.h"
 
 //======================================================================
 //	静的メンバ変数
@@ -92,7 +93,11 @@ void CManager::Uninit()
 		m_InputMouse = NULL;
 	}
 
+	// サウンドを解放
 	CSound::Uninit();
+
+	// 使ったシェーダーを解放
+	CShader::ReleaseAll();
 
 	// imguiの終了処理
 	CImGui::Uninit();

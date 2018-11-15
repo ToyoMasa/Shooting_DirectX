@@ -2,8 +2,11 @@
 #include "main.h"
 #include "manager.h"
 #include "camera.h"
+#include "light.h"
 #include "shader.h"
 #include "metalShader.h"
+
+CShaderMetal *CShaderMetal::m_Shader = NULL;
 
 CShaderMetal::CShaderMetal() : CShader()
 {
@@ -28,6 +31,24 @@ CShaderMetal::CShaderMetal() : CShader()
 	}
 }
 
+CShaderMetal* CShaderMetal::GetShader()
+{
+	if (m_Shader == NULL)
+	{
+		m_Shader = new CShaderMetal();
+	}
+
+	return m_Shader;
+}
+
+void CShaderMetal::Destroy()
+{
+	if (m_Shader)
+	{
+		delete m_Shader;
+	}
+}
+
 void CShaderMetal::ShaderSet(D3DXMATRIX world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
@@ -38,9 +59,9 @@ void CShaderMetal::ShaderSet(D3DXMATRIX world)
 
 	// 光の設定情報
 	D3DXVECTOR4		light_dir(-1.0f, -1.0f, 1.0f, 0.0f);		// 光の方向
-	D3DXVECTOR4		diffuse(0.9f, 0.9f, 0.9f, 1.0f);			// 平行光源の色
-	D3DXVECTOR4		ambient(0.5f, 0.5f, 0.5f, 0.2f);			// 環境光
-	D3DXVECTOR4		specular(1.0f, 1.0f, 1.0f, 0.2f);			// スペキュラ光
+	D3DXVECTOR4		diffuse(DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR);			// 平行光源の色
+	D3DXVECTOR4		ambient(DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR);			// 環境光
+	D3DXVECTOR4		specular(1.0f, 1.0f, 1.0f, 0.01f);			// スペキュラ光
 	D3DXVECTOR4		cameraPos = D3DXVECTOR4(CManager::GetCamera()->GetPos().x, CManager::GetCamera()->GetPos().y, CManager::GetCamera()->GetPos().z, 0.0f);
 
 	// 頂点シェーダーとピクセルシェーダーをセット
@@ -58,6 +79,7 @@ void CShaderMetal::ShaderSet(D3DXMATRIX world)
 	m_PSConstantTable->SetVector(pDevice, "g_light_dir", &light_dir);
 
 	m_PSConstantTable->SetVector(pDevice, "g_camerapos", &cameraPos);
+	m_PSConstantTable->SetInt(pDevice, "g_specularpower", 200);
 }
 
 void CShaderMetal::SetMaterial(D3DMATERIAL9 const&mat)

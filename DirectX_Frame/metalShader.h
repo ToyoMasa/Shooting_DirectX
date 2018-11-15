@@ -10,13 +10,18 @@
 class CShaderMetal : public CShader
 {
 public:
-	CShaderMetal();
-	~CShaderMetal() {}
-
+	static CShaderMetal* GetShader();
+	static void Destroy();
 	void ShaderSet(D3DXMATRIX world)override;
 	void SetMaterial(D3DMATERIAL9 const&mat)override;
-private:
 
+private:
+	CShaderMetal();
+	CShaderMetal(const CShaderMetal& ref) {};
+	CShaderMetal& operator = (const CShaderMetal& ref) {};
+	~CShaderMetal() {}
+
+	static CShaderMetal* m_Shader;
 };
 
 #endif // !_METAL_SHADER_H_

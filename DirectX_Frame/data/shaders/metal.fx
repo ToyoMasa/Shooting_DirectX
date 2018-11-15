@@ -25,6 +25,7 @@ float		g_power;					// スペキュラー光のパワー値
 
 										// スペキュラ光の計算用
 float4		g_camerapos;				// カメラ位置
+int		g_specularpower;
 
 //------------------------------------------------
 // サンプラー1
@@ -102,7 +103,7 @@ void PS(float2 in_tex1		: TEXCOORD0,	//テクスチャ座標入力
 
 	// スペキュラー光による色を計算
 	float4 specular = g_specular * g_specular_mat *
-		pow(max(0, dot(N, H)), 50);
+		pow(max(0, dot(N, H)), g_specularpower);
 
 
 

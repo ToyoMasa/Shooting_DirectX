@@ -75,8 +75,11 @@ public:
 	LPDIRECT3DVERTEXSHADER9& GetVS() { return m_VertexShader; }
 	LPDIRECT3DPIXELSHADER9& GetPS() { return m_PixelShader; }
 
-	virtual void ShaderSet(D3DXMATRIX world);
-	virtual void SetMaterial(D3DMATERIAL9 const&mat){}
+	virtual void ShaderSet(D3DXMATRIX world) {}
+	virtual void SetMaterial(D3DMATERIAL9 const&mat) {}
+
+	// 全てのシェーダーを解放
+	static void ReleaseAll();
 protected:
 	LPDIRECT3DVERTEXSHADER9 m_VertexShader;			// 頂点シェーダー
 	LPD3DXCONSTANTTABLE		m_VSConstantTable;		// 定数テーブル

@@ -127,7 +127,7 @@ void CModeGame::Init()
 	GameEnd_SE = NULL;
 
 	//Fog->Set(D3DCOLOR_RGBA(0, 0, 0, 128), 2.0f, 50.0f);
-	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 128), 0.07f);
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.25f);
 }
 
 void CModeGame::Uninit()
@@ -264,7 +264,7 @@ void CModeGame::Update()
 			}
 		}
 	}
-
+/*
 	ImGui::Begin("MapConfig", 0);
 	if (ImGui::Button("MapEditer"))
 	{
@@ -278,7 +278,7 @@ void CModeGame::Update()
 	ImGui::End();
 
 	Fog->Set(D3DCOLOR_RGBA((int)(g_FogColor[0] * 255), (int)(g_FogColor[1] * 255), (int)(g_FogColor[2] * 255), (int)(g_FogColor[3] * 255)), g_Density);
-	m_Light->SetLight(g_LightDiff[0], g_LightDiff[1], g_LightDiff[2], g_LightDiff[3], g_LightAmb[0], g_LightAmb[1], g_LightAmb[2], g_LightAmb[3]);
+	m_Light->SetLight(g_LightDiff[0], g_LightDiff[1], g_LightDiff[2], g_LightDiff[3], g_LightAmb[0], g_LightAmb[1], g_LightAmb[2], g_LightAmb[3]);*/
 }
 
 void CModeGame::Draw()
