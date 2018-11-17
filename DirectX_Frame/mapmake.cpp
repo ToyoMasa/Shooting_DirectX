@@ -24,6 +24,7 @@
 #include "game.h"
 #include "fade.h"
 #include "metalShader.h"
+#include "waypoint.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -135,6 +136,18 @@ void CModeMapMake::Init()
 	//testufo->Move(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	//testufo->SetShader(testshader);
 
+	CWayPoint::Create(D3DXVECTOR3(10.0f, 3.0f, 2.0f));
+	CWayPoint::Create(D3DXVECTOR3(9.0f, 3.0f, 2.0f));
+	CWayPoint::Create(D3DXVECTOR3(8.0f, 3.0f, 2.0f));
+	CWayPoint::Create(D3DXVECTOR3(7.0f, 3.0f, 2.0f));
+
+	std::vector<CWayPoint*> p = CWayPoint::GetWayPoints();
+	p[0]->SetRecentPoint(p[1]);
+	p[1]->SetRecentPoint(p[0]);
+	p[0]->SetRecentPoint(p[2]);
+	p[2]->SetRecentPoint(p[0]);
+	p[2]->SetRecentPoint(p[3]);
+	p[3]->SetRecentPoint(p[2]);
 }
 
 void CModeMapMake::Uninit()
@@ -156,6 +169,8 @@ void CModeMapMake::Uninit()
 	//testbox->Uninit();
 	//delete testbox;
 	//delete testshader;
+
+	CWayPoint::Release();
 }
 
 void CModeMapMake::Update()

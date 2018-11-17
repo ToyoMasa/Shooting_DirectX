@@ -129,6 +129,7 @@ void CPlayer::Update()
 
 	ImGui::Begin("Area", 0);
 	ImGui::Text("%d", m_AreaID);
+
 	ImGui::End(); 
 
 	ImGui::Begin("Player", 0);

@@ -69,11 +69,9 @@ void CCamera::Update()
 	// 現在の座標を保存
 
 	ImGui::Begin("CameraFront", 0);
-	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
-	ImGui::End();
-
-	ImGui::Begin("CameraRight", 0);
-	ImGui::Text("X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
+	ImGui::Text("Front:X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
+	ImGui::Text("Right:X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
+	ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
 	ImGui::End();
 
 	// ビュー行列の作成

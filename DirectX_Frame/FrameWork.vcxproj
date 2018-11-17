@@ -185,6 +185,7 @@
     <ClInclude Include="field.h" />
     <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="waypoint.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="ImGui_.h" />
@@ -311,6 +312,7 @@
     <ClCompile Include="wait.cpp" />
     <ClCompile Include="waitTime.cpp" />
     <ClCompile Include="wall.cpp" />
+    <ClCompile Include="waypoint.cpp" />
     <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
