@@ -332,6 +332,20 @@ void CBillBoard::Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype)
 	}
 }
 
+void CBillBoard::Set(D3DXVECTOR3 pos, float scale, int drawtype)
+{
+	m_Pos = pos;
+	m_ScaleX = scale;
+	m_ScaleY = scale;
+	m_ScaleZ = scale;
+	m_DrawType = drawtype;
+
+	if (drawtype == FIXED_Y)
+	{
+		m_Pos.y += 0.5f * scale;
+	}
+}
+
 void CBillBoard::Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DCOLOR color)
 {
 	m_TextureId = texId;

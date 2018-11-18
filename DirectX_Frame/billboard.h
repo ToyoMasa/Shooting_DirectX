@@ -76,6 +76,7 @@ public:
 	static void DrawAll(CCamera* camera);
 	static void Set(int id, int texId, D3DXVECTOR3 pos, float scale, int drawtype);
 	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype);
+	void Set(D3DXVECTOR3 pos, float scale, int drawtype);
 	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DCOLOR color);
 	void SetId(int Id) { m_Id = Id; }
 	void SetVisible(bool visible) { m_isVisible = visible; }

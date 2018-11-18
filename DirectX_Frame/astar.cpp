@@ -10,17 +10,19 @@
 
 int CAStar::m_MapWidth = 0;
 int CAStar::m_MapHeight = 0;
-std::vector<int> CAStar::m_MapData;
+std::unordered_map<MapCoord, int> CAStar::m_MapData;
 
 void CAStar::AddMapData(const D3DXVECTOR3& pos)
 {
+	MapCoord coord((int)pos.x, (int)pos.y);
+
 	if (pos.y > 0.0f)
 	{
-		m_MapData.push_back(1);
+		m_MapData[coord] = MAP_WALL;
 	}
 	else
 	{
-		m_MapData.push_back(0);
+		m_MapData[coord] = MAP_ROAD;
 	}
 }
 
@@ -42,7 +44,10 @@ bool CAStar::IsWall(int posX, int posY)
 {
 	if ((float)posX < -(m_MapWidth / 2.0f) || m_MapWidth / 2.0f <= (float)posX) return true;
 	if ((float)posY < -(m_MapHeight / 2.0f) || m_MapHeight / 2.0f <= (float)posY) return true;
-	return (m_MapData[posX + posY * m_MapWidth] == 0);
+	MapCoord coord = { posX, posY };
+
+	int i = m_MapData[coord];
+	return (m_MapData[coord] == MAP_WALL);
 }
 
 //---------------------------------------------------------------------------
@@ -61,7 +66,7 @@ int CAStar::GetCostToGoal(const CAStarNode& start, const CAStarNode& goal)
 	return GetCostToGoal(start.GetPosX(), start.GetPosY(), goal.GetPosX(), goal.GetPosY());
 }
 
-std::vector<D3DXVECTOR3> CAStar::GetShortestWay(D3DXVECTOR3 start, D3DXVECTOR3 goal)
+bool CAStar::GetShortestWay(D3DXVECTOR3 start, D3DXVECTOR3 goal, std::vector<D3DXVECTOR3>& list)
 {
 	int startX = (int)start.x;
 	int startY = (int)start.z;
@@ -106,8 +111,14 @@ std::vector<D3DXVECTOR3> CAStar::GetShortestWay(D3DXVECTOR3 start, D3DXVECTOR3 g
 	// オープンリストから取り出す
 	openList.push_back(startNode);
 
+	int i = 0;
 	while (true)
 	{
+		if (i++ == 30)
+		{
+			return false;
+		}
+
 		// オープンリストが空なら検索失敗
 		if (openList.empty())
 		{
@@ -208,5 +219,7 @@ std::vector<D3DXVECTOR3> CAStar::GetShortestWay(D3DXVECTOR3 start, D3DXVECTOR3 g
 		}
 	}
 
-	return retList;
+	list = retList;
+
+	return true;
 }

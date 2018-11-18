@@ -8,21 +8,32 @@
 #include <vector>
 #include <d3dx9.h>
 
+static const int INIT_COST = 10000;
+
 class CWayPoint
 {
 public:
 	CWayPoint(D3DXVECTOR3 pos) { m_Pos = pos; }
 	~CWayPoint() {}
 
-	static void Create(D3DXVECTOR3 pos);
-	static void Release();
+	static void Init();
+	static void Uninit();
+	static void Add(D3DXVECTOR3 pos);
+	static void CreateGraph();
 	static std::vector<CWayPoint*>& GetWayPoints() { return m_WayPonits; }
-	void SetRecentPoint(CWayPoint* point);
+	static int GetNextPoint(const int s, const int e);
+	static float GetScalar(const D3DXVECTOR3& vec) { return sqrtf(vec.x * vec.x + vec.y * vec.y); }
+	static D3DXVECTOR3 GetWayPointPos(const int& index);
+	static int SearchShortestPoint(const D3DXVECTOR3& pos);
+	void SetRecentPoint(int id);
 
 private:
-	D3DXVECTOR3						m_Pos;
-	std::vector<CWayPoint*>			m_NearPoints;
 	static std::vector<CWayPoint*>	m_WayPonits;
+	static int** m_EdgeCost;
+	static int** m_ShortestPath;
+	int								m_ID;
+	D3DXVECTOR3						m_Pos;
+	std::vector<int>				m_NearPoints;
 };
 
 #endif //! _WAYPOINT_H_

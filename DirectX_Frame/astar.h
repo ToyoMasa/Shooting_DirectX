@@ -2,6 +2,7 @@
 #define _A_STAR_H_
 
 #include <d3dx9.h>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 
@@ -59,6 +60,34 @@ private:
 typedef std::shared_ptr<CAStarNode> NodePtr;
 typedef std::vector<NodePtr> NodePtrVector;
 
+class MapCoord
+{
+public:
+	MapCoord(int ax, int ay) : x(ax), y(ay) {}
+	int x;
+	int y;
+	bool operator==(const MapCoord &coord) const { return this->x == coord.x && this->y == coord.y; }
+	bool operator!=(const MapCoord &coord) const { return this->operator==(coord); }
+};
+
+enum MAP_STATUS
+{
+	MAP_ROAD = 0,
+	MAP_WALL
+};
+
+namespace std {
+	template<>
+	class hash<MapCoord> {
+	public:
+		size_t operator () (const MapCoord &coord) const
+		{
+			std::string bytes(reinterpret_cast<const char*>(&coord), sizeof(MapCoord));
+			return std::hash<std::string>()(bytes);
+		}
+	};
+}
+
 class CAStar
 {
 public:
@@ -71,12 +100,12 @@ public:
 	static bool IsWall(int posX, int posY);
 	static int GetCostToGoal(const int& startX, const int& startY, const int& goalX, const int& goalY);
 	static int GetCostToGoal(const CAStarNode& start, const CAStarNode& goal);
-	static std::vector<D3DXVECTOR3> GetShortestWay(D3DXVECTOR3 start, D3DXVECTOR3 goal);
+	static bool GetShortestWay(D3DXVECTOR3 start, D3DXVECTOR3 goal, std::vector<D3DXVECTOR3>& list);
 
 private:
 	static int m_MapWidth;
 	static int m_MapHeight;
-	static std::vector<int> m_MapData;
+	static std::unordered_map<MapCoord, int> m_MapData;
 };
 
 #endif // !_A_STAR_H_

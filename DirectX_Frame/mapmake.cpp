@@ -10,6 +10,7 @@
 #include "scene3D.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
+#include "billboard.h"
 #include "SkinMeshFile.h"
 #include "camera.h"
 #include "light.h"
@@ -90,24 +91,6 @@ void CModeMapMake::Init()
 
 	g_Light = CLight::Create(0);
 
-	//g_Heights = new float*[g_NumBlock];
-	//g_isHit = new DWORD*[g_NumBlock];
-	//for (int i = 0; i < g_NumBlock; i++)
-	//{
-	//	g_Heights[i] = new float[g_NumBlock];
-	//	g_isHit[i] = new DWORD[g_NumBlock];
-	//}
-
-	//for (int i = 0; i < g_NumBlock; i++)
-	//{
-	//	for (int j = 0; j < g_NumBlock; j++)
-	//	{
-	//		g_Heights[i][j] = 0.0f;
-	//		g_isHit[i][j] = false;
-	//	}
-	//}
-
-	//g_Field = CField::Create(TEX_ID_FIELD001, g_Size, g_NumBlock, g_NumBlock, g_Heights);
 	g_Field = CField::Create("data/output/map.txt");
 
 	g_NumBlock = g_Field->GetBlockSize();
@@ -137,25 +120,8 @@ void CModeMapMake::Init()
 	//testufo->Move(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	//testufo->SetShader(testshader);
 
-	CWayPoint::Create(D3DXVECTOR3(10.0f, 3.0f, 2.0f));
-	CWayPoint::Create(D3DXVECTOR3(9.0f, 3.0f, 2.0f));
-	CWayPoint::Create(D3DXVECTOR3(8.0f, 3.0f, 2.0f));
-	CWayPoint::Create(D3DXVECTOR3(7.0f, 3.0f, 2.0f));
-
-	std::vector<CWayPoint*> p = CWayPoint::GetWayPoints();
-	p[0]->SetRecentPoint(p[1]);
-	p[1]->SetRecentPoint(p[0]);
-	p[0]->SetRecentPoint(p[2]);
-	p[2]->SetRecentPoint(p[0]);
-	p[2]->SetRecentPoint(p[3]);
-	p[3]->SetRecentPoint(p[2]);
-
-	D3DXVECTOR3 test1 = D3DXVECTOR3(-55.0f, 0.0f, -73.0f);
-	D3DXVECTOR3 test2 = D3DXVECTOR3(-65.0f, 0.0f, -73.0f);
-	std::vector<D3DXVECTOR3> testList = CAStar::GetShortestWay(test1, test2);
-
-	int ni = 0;
-
+	CBillBoard::Init();
+	CWayPoint::Init();
 }
 
 void CModeMapMake::Uninit()
@@ -173,13 +139,13 @@ void CModeMapMake::Uninit()
 	delete[] g_isHit;
 
 	CScene::ReleaseAll();
+	CBillBoard::ReleaseAll();
+	CBillBoard::Uninit();
 
 	//testbox->Uninit();
 	//delete testbox;
 	//delete testshader;
-
-	CWayPoint::Release();
-	CAStar::Uninit();
+	CWayPoint::Uninit();
 }
 
 void CModeMapMake::Update()
@@ -407,6 +373,7 @@ void CModeMapMake::Draw()
 	}
 
 	CScene::DrawAll();
+	CBillBoard::DrawAll(CManager::GetCamera());
 
 	//D3DXMATRIX mat;
 	//D3DXMatrixIdentity(&mat);
