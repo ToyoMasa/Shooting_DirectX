@@ -10,6 +10,7 @@
 #include "billboard.h"
 #include "character.h"
 #include "field.h"
+#include "astar.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -397,6 +398,7 @@ void CField::Load(string textname)
 	for (int i = 0; i < m_NumVertex; i++)
 	{
 		inputFile.read((char*)&m_Vertex[i], sizeof(VERTEX_3D));
+		CAStar::AddMapData(m_Vertex[i].pos);
 	}
 	for (int i = 0; i < m_NumIndex; i++)
 	{
@@ -430,6 +432,8 @@ void CField::Load(string textname)
 		}
 		m_AreaID[i] = x * 1000 + y;
 	}
+
+	CAStar::SetMapSize(m_SizeX, m_SizeY);
 }
 
 CField* CField::Create(std::string textname)

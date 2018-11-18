@@ -25,6 +25,7 @@
 #include "fade.h"
 #include "metalShader.h"
 #include "waypoint.h"
+#include "astar.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -148,6 +149,13 @@ void CModeMapMake::Init()
 	p[2]->SetRecentPoint(p[0]);
 	p[2]->SetRecentPoint(p[3]);
 	p[3]->SetRecentPoint(p[2]);
+
+	D3DXVECTOR3 test1 = D3DXVECTOR3(-55.0f, 0.0f, -73.0f);
+	D3DXVECTOR3 test2 = D3DXVECTOR3(-65.0f, 0.0f, -73.0f);
+	std::vector<D3DXVECTOR3> testList = CAStar::GetShortestWay(test1, test2);
+
+	int ni = 0;
+
 }
 
 void CModeMapMake::Uninit()
@@ -171,6 +179,7 @@ void CModeMapMake::Uninit()
 	//delete testshader;
 
 	CWayPoint::Release();
+	CAStar::Uninit();
 }
 
 void CModeMapMake::Update()
