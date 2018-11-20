@@ -122,6 +122,9 @@ void CModeMapMake::Init()
 
 	CBillBoard::Init();
 	CWayPoint::Init();
+
+	int i = CWayPoint::SearchShortestPoint(D3DXVECTOR3(88.0f, 0.0f, 22.0f));
+	i = 0;
 }
 
 void CModeMapMake::Uninit()

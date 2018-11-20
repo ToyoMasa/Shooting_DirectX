@@ -53,18 +53,19 @@ public:
 	void TriggerRelease();
 	void Death();
 	void Rotate(D3DXVECTOR3 vec);
-	void Rotate(float horizontal, float vertical);
-	void ChangeWeapon(int id);
-	void Move(float moveX, float moveZ);
-	void MoveAir(float moveX, float moveY, float moveZ);
+	void Rotate(const float& horizontal, const float& vertical);
+	void ChangeWeapon(const int& id);
+	void Move(const float& moveX, const float& moveZ);
+	void MoveAir(const float& moveX, const float& moveY, const float& moveZ);
 	void ADS();
 	void SetADS(bool ads);
 	void SetWeaponADS(bool ads);
 	void ChangePattern(CPlayerPatternBase* next);
-	float GetJumpPower() { return m_JumpPower; }
+	float& GetJumpPower() { return m_JumpPower; }
 	void SetJumpPower(float power) { m_JumpPower = power; }
-	float GetUpValue() { return m_UpValue; }
+	float& GetUpValue() { return m_UpValue; }
 	void SetUpValue(float value) { m_UpValue = value; }
+	int& GetShortestPoint() { return m_ShortestPoint; }
 
 	void Damaged(float damage)override;
 
@@ -84,6 +85,7 @@ private:
 	CEffekseer* m_BloodEffect;
 	CScene2D*	m_DamagedEffect;
 	CPlayerPatternBase* m_Pattern;
+	int			m_ShortestPoint;
 };
 
 #endif // !_PLAYER_H_

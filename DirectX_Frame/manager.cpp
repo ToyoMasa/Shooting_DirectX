@@ -57,8 +57,8 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	m_InputMouse = new CInputMouse;
 	m_InputMouse->Init(hInstance, hWnd);
 
-	CManager::m_Mode = new CModeMapMake();
-	//CManager::m_Mode = new CModeGame();
+	//CManager::m_Mode = new CModeMapMake();
+	CManager::m_Mode = new CModeGame();
 
 	if (CManager::m_Mode != NULL)
 	{

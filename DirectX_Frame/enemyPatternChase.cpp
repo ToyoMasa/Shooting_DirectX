@@ -1,5 +1,5 @@
 //======================================================================
-//	敵追跡パターン [enemyPatternNormal.cpp]　（2018/10/31）
+//	敵追跡パターン [enemyPatternChase.cpp]　（2018/10/31）
 //	Author : 豊村 昌俊
 //======================================================================
 #include "common.h"
@@ -49,9 +49,6 @@ void CEnemyPatternChase::Update(CEnemy* enemy)
 	{
 		enemy->ChangePattern(new CEnemyPatternAttack());
 	}
-
-	// 壁との当たり判定
-	newPos = enemy->HitWall(newPos);
 
 	D3DXVec3Normalize(&vec, &vec);
 	enemy->Rotate(vec);

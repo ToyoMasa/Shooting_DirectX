@@ -179,6 +179,7 @@
     <ClInclude Include="EnemyAnim.h" />
     <ClInclude Include="enemyPatternAttack.h" />
     <ClInclude Include="enemyPatternBase.h" />
+    <ClInclude Include="enemyPatternWaypoints.h" />
     <ClInclude Include="enemyPatternChase.h" />
     <ClInclude Include="enemyPatternDeath.h" />
     <ClInclude Include="fade.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="emitter.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyPatternAttack.cpp" />
+    <ClCompile Include="enemyPatternWaypoints.cpp" />
     <ClCompile Include="enemyPatternChase.cpp" />
     <ClCompile Include="enemyPatternDeath.cpp" />
     <ClCompile Include="fade.cpp" />

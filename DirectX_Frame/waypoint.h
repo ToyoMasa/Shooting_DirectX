@@ -8,7 +8,7 @@
 #include <vector>
 #include <d3dx9.h>
 
-static const int INIT_COST = 10000;
+static const int INIT_COST = 50000;
 
 class CWayPoint
 {
@@ -22,7 +22,6 @@ public:
 	static void CreateGraph();
 	static std::vector<CWayPoint*>& GetWayPoints() { return m_WayPonits; }
 	static int GetNextPoint(const int s, const int e);
-	static float GetScalar(const D3DXVECTOR3& vec) { return sqrtf(vec.x * vec.x + vec.y * vec.y); }
 	static D3DXVECTOR3 GetWayPointPos(const int& index);
 	static int SearchShortestPoint(const D3DXVECTOR3& pos);
 	void SetRecentPoint(int id);

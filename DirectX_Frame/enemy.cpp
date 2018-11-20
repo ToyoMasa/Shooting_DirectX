@@ -35,10 +35,11 @@ void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPattern
 	m_OldPos = m_Pos;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);
 	m_Model->Move(m_Pos);
-	ChangePattern(pattern);
 	m_Field = field;
 
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	ChangePattern(pattern);
 
 	// ライフを設定
 	m_Life = ENEMY_LIFE;
@@ -186,7 +187,13 @@ void CEnemy::Move(D3DXVECTOR3 newPos)
 	m_Pos = newPos;
 
 	SearchArea(newPos);
-	m_Pos.y = m_Field->GetHeight(m_Pos, this);
+
+	D3DXVECTOR3 dis = newPos - CManager::GetCamera()->GetPos();
+
+	if (D3DXVec3Length(&dis) < 15.0f)
+	{
+		m_Pos.y = m_Field->GetHeight(m_Pos, this);
+	}
 
 	// コリジョンの計算
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ENEMY_CUPSULE_RAD);

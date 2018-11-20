@@ -27,6 +27,7 @@
 #include "shotgun.h"
 #include "playerPatternIdle.h"
 #include "playerPatternJump.h"
+#include "waypoint.h"
 
 bool g_test = false;
 
@@ -96,6 +97,8 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_MaxLife = 100.0f;
 
 	ChangePattern(new CPlayerPatternIdle());
+
+	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
 }
 
 void CPlayer::Uninit()
@@ -144,6 +147,7 @@ void CPlayer::Update()
 	m_Pattern->Update(this);
 
 	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
+	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
 }
 
 void CPlayer::Draw()
@@ -232,7 +236,7 @@ void CPlayer::Rotate(D3DXVECTOR3 vec)
 	D3DXVECTOR3 right = m_Camera->GetRight();
 }
 
-void CPlayer::Rotate(float horizontal, float vertical)
+void CPlayer::Rotate(const float& horizontal, const float& vertical)
 {
 	m_Camera->Rotation(horizontal, vertical);
 
@@ -308,7 +312,7 @@ void CPlayer::Rotate(float horizontal, float vertical)
 	}
 }
 
-void CPlayer::ChangeWeapon(int id)
+void CPlayer::ChangeWeapon(const int& id)
 {
 	m_UsingWeapon = m_Weapon[id];
 
@@ -325,7 +329,7 @@ void CPlayer::ChangeWeapon(int id)
 	}
 }
 
-void CPlayer::Move(float moveX, float moveZ)
+void CPlayer::Move(const float& moveX, const float& moveZ)
 {	
 	// ˆÚ“®E‰ñ“]
 	D3DXVECTOR3 cameraFront = m_Camera->GetFront();
@@ -408,7 +412,7 @@ void CPlayer::Move(float moveX, float moveZ)
 	}
 }
 
-void CPlayer::MoveAir(float moveX, float moveY, float moveZ)
+void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ)
 {
 	// ˆÚ“®E‰ñ“]
 	D3DXVECTOR3 cameraFront = m_Camera->GetFront();

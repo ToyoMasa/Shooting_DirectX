@@ -60,7 +60,7 @@ void CWayPoint::Init()
 
 	Add(D3DXVECTOR3(67.5f, 0.0f, -78.7f));
 	Add(D3DXVECTOR3(53.6f, 0.0f, -13.7f));
-	Add(D3DXVECTOR3(35.8f, 0.0f, 29.5f));
+	Add(D3DXVECTOR3(35.8f, 0.0f, -29.5f));
 	Add(D3DXVECTOR3(20.8f, 0.0f, -28.4f));
 	Add(D3DXVECTOR3(2.3f, 0.0f, -35.9f));
 
@@ -350,55 +350,25 @@ int CWayPoint::GetNextPoint(const int s, const int e)
 	return -1;
 }
 
-//位置更新.
-//void Update(D3DXVECTOR3* nowPos, const float nowDir, const float nowVel, const D3DXVECTOR3 targetPos)
-//{
-//	if (g_targetIndex < 0) {
-//		//最初のウェイポイントが見つかっていないので，直近のウェイポイントを探す.
-//		g_targetIndex = SearchNearestPoint(nowPos);
-//		g_targetWayPoint = GetWayPointPos(g_targetIndex);
-//	}
-//	else {
-//		//目標のウェイポイントは見つかっている．
-//
-//		const float RANGE_MAX = 15.0f;
-//		if (LMath::IsCollisionCircle(g_targetWayPoint, nowPos, RANGE_MAX)) {
-//			//すでに到着しているので，次のウェイポイントを探す.
-//			const int playerPoint = SearchNearestPoint(targetPos);
-//			g_targetIndex = GetNextNode(g_targetIndex, playerPoint);
-//			g_targetWayPoint = GetWayPointPos(g_targetIndex);
-//		}
-//	}
-//
-//	if (g_targetWayPoint.x >= 0.0f && g_targetWayPoint.y >= 0.0f) {
-//		//目標地点が有効なら，そこに向かう.
-//
-//		D3DXVECTOR3 dirVec = LMath::Normalize(nowPos, g_targetWayPoint);
-//
-//		nowDir = ADJUST_RAD(atan2f(-dirVec.y, dirVec.x));
-//
-//		nowPos.x += nowVel * cosf(nowDir);
-//		nowPos.y += nowVel * -sinf(nowDir);
-//	}
-//
-//	obj->SetNextPos(nowPos);
-//}
-
 //指定位置から一番近いウェイポイントを探す.
 int CWayPoint::SearchShortestPoint(const D3DXVECTOR3& pos)
 {
 	// ウェイポイントがない時
-	if (!(m_WayPonits.size() == 0)) { return -1; }
+	if (m_WayPonits.size() == 0) { return -1; }
 
 	// 一番近いポイントを探す
-	int     nextPoint = -1;
-	float   minDistance = (float)(1 << 30);
-	for (int i = 0; i != m_WayPonits.size(); ++i) {
+	int     nextPoint = 0;
+	float   minDistance = (float)(10000);
+
+	for (int i = 0; i != m_WayPonits.size(); ++i) 
+	{
 		
-		const float distance = CWayPoint::GetScalar(m_WayPonits[i]->m_Pos - pos);
-		if (distance > minDistance) { continue; }
-		minDistance = distance;
-		nextPoint = i;
+		const float distance = D3DXVec3Length(&(m_WayPonits[i]->m_Pos - pos));
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			nextPoint = i;
+		}
 	}
 
 	return nextPoint;
@@ -407,5 +377,9 @@ int CWayPoint::SearchShortestPoint(const D3DXVECTOR3& pos)
 // ウェイポイントを取得
 D3DXVECTOR3 CWayPoint::GetWayPointPos(const int& index)
 {
+	if (index < 0 || index >= m_WayPonits.size())
+	{
+		return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
 	return m_WayPonits[index]->m_Pos;
 }
