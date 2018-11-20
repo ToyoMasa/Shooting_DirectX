@@ -72,14 +72,6 @@ void CShaderSkinmesh::ShaderSet(D3DXMATRIX world)
 	m_VSConstantTable->SetMatrix(pDevice, "g_world", &world);
 	m_VSConstantTable->SetMatrix(pDevice, "g_view", &CManager::GetCamera()->GetView());
 	m_VSConstantTable->SetMatrix(pDevice, "g_projection", &CManager::GetCamera()->GetProjection());
-
-	m_PSConstantTable->SetVector(pDevice, "g_diffuse", &diffuse);
-	m_PSConstantTable->SetVector(pDevice, "g_ambient", &ambient);
-	m_PSConstantTable->SetVector(pDevice, "g_specular", &specular);
-	m_PSConstantTable->SetVector(pDevice, "g_light_dir", &light_dir);
-
-	m_PSConstantTable->SetVector(pDevice, "g_camerapos", &cameraPos);
-	m_PSConstantTable->SetInt(pDevice, "g_specularpower", 200);
 }
 
 void CShaderSkinmesh::SetMaterial(D3DMATERIAL9 const&mat)

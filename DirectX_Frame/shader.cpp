@@ -14,6 +14,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "metalShader.h"
+#include "skinmeshShader.h"
 
 //==============================================================================
 //!	@fn		ShaderCompile
@@ -163,6 +164,7 @@ bool CShader::PixelShaderCompile(
 void CShader::ReleaseAll()
 {
 	CShaderMetal::Destroy();
+	CShaderSkinmesh::Destroy();
 }
 
 //******************************************************************************

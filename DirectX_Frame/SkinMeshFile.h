@@ -139,6 +139,7 @@ public:
 				ワールド座標行列を引数で渡す
 	*/
 	void Draw(LPD3DXMATRIX matrix);
+	void DrawWithShader(LPD3DXMATRIX matrix, CShader* shader);
 
 	/*
 		フレームの描画
@@ -155,6 +156,7 @@ public:
 				全てのメッシュコンテナを描画(DrawMeshContainer)する
 	*/
 	void DrawFrame(LPD3DXFRAME frame);
+	void DrawFrameWithShader(LPD3DXFRAME frame, CShader* shader);
 
 	/*
 		メッシュコンテナの描画
@@ -173,6 +175,7 @@ public:
 				描画できる
 	*/
 	void DrawMeshContainer(LPD3DXFRAME frame, LPD3DXMESHCONTAINER container);
+	void DrawMeshContainerWithShader(LPD3DXFRAME frame, LPD3DXMESHCONTAINER container, CShader* shader);
 
 	/*
 		フレームの更新

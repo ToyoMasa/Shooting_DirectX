@@ -51,7 +51,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	void DrawWithShader()override {}
+	void DrawWithShader()override;
 	void SetWorld(D3DXMATRIX move);
 	void Move(D3DXVECTOR3 pos);
 	void Rotate(D3DXVECTOR3 rot);

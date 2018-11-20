@@ -28,6 +28,7 @@
 #include "playerPatternIdle.h"
 #include "playerPatternJump.h"
 #include "waypoint.h"
+#include "skinmeshShader.h"
 
 bool g_test = false;
 
@@ -99,6 +100,8 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	ChangePattern(new CPlayerPatternIdle());
 
 	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
+
+	m_Model->SetShader(CShaderSkinmesh::GetShader());
 }
 
 void CPlayer::Uninit()

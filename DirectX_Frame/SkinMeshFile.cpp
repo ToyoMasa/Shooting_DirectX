@@ -142,10 +142,14 @@ HRESULT SkinMeshFile::AllocateAllBoneMatrix(LPD3DXFRAME frame)
 
 void SkinMeshFile::Draw(LPD3DXMATRIX matrix)
 {
-	// フレームの行列を更新
-	//UpdateFrame(m_RootFrame, matrix);
 	// フレーム描画
 	DrawFrame(m_RootFrame);
+}
+
+void SkinMeshFile::DrawWithShader(LPD3DXMATRIX matrix, CShader* shader)
+{
+	// フレーム描画
+	DrawFrameWithShader(m_RootFrame, shader);
 }
 
 void SkinMeshFile::DrawFrame(LPD3DXFRAME frame)
@@ -173,7 +177,33 @@ void SkinMeshFile::DrawFrame(LPD3DXFRAME frame)
 		DrawFrame(frame_data->pFrameFirstChild);
 	}
 }
-	
+
+void SkinMeshFile::DrawFrameWithShader(LPD3DXFRAME frame, CShader* shader)
+{
+	FrameData *frame_data = (FrameData*)frame;
+	LPD3DXMESHCONTAINER container_data = frame_data->pMeshContainer;
+
+	// コンテナの数だけ描画する
+	while (container_data != NULL)
+	{
+		DrawMeshContainerWithShader(frame, container_data, shader);
+
+		container_data = container_data->pNextMeshContainer;
+	}
+
+	// 兄弟がいれば再帰で呼び出す
+	if (frame_data->pFrameSibling != NULL)
+	{
+		DrawFrameWithShader(frame_data->pFrameSibling, shader);
+	}
+
+	// 子がいれば再帰で呼び出す
+	if (frame_data->pFrameFirstChild != NULL)
+	{
+		DrawFrameWithShader(frame_data->pFrameFirstChild, shader);
+	}
+}
+
 void SkinMeshFile::DrawMeshContainer(LPD3DXFRAME frame, LPD3DXMESHCONTAINER container)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
@@ -240,6 +270,82 @@ void SkinMeshFile::DrawMeshContainer(LPD3DXFRAME frame, LPD3DXMESHCONTAINER cont
 		}
 	}
 
+}
+
+void SkinMeshFile::DrawMeshContainerWithShader(LPD3DXFRAME frame, LPD3DXMESHCONTAINER container, CShader* shader)
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
+	FrameData *frame_data = (FrameData*)frame;
+	MeshContainer *original_container = (MeshContainer*)container;
+
+	if (original_container->pSkinInfo != NULL)
+	{
+		LPD3DXBONECOMBINATION bone_buffer = (LPD3DXBONECOMBINATION)original_container->m_BoneBuffer->GetBufferPointer();
+
+		// ボーンの数まわす
+		for (DWORD i = 0; i < original_container->m_BoneNum; i++)
+		{
+			// ブレンドするボーンの数
+			DWORD bone_blend_num = 0;
+
+			// ボーンIDからブレンドする個数を割り出す
+			for (DWORD j = 0; j < original_container->m_BoneWeightNum; j++)
+			{
+				if (bone_buffer[i].BoneId[j] != UINT_MAX)
+				{
+					bone_blend_num++;
+				}
+			}
+
+			// 頂点ブレンドの設定
+			// 第二引数には_D3DVERTEXBLENDFLAGSが使われているので
+			// 対象となっているボーンの数と差異に注意
+			pDevice->SetRenderState(D3DRS_VERTEXBLEND, bone_blend_num - 1);
+
+			D3DXMATRIX matrix[4];
+			for (int j = 0; j < 4; j++)
+			{
+				D3DXMatrixIdentity(&matrix[j]);
+			}
+
+			for (DWORD j = 0; j < original_container->m_BoneWeightNum; j++)
+			{
+				DWORD matrix_index = bone_buffer[i].BoneId[j];
+
+				if (matrix_index != UINT_MAX)
+				{
+					// オフセット行列(m_BoneOffsetMatrix) * ボーンの行列(m_BoneMatrix)で最新の位置を割り出す
+					matrix[j] = original_container->m_BoneOffsetMatrix[matrix_index] * (*original_container->m_BoneMatrix[matrix_index]);
+					pDevice->SetTransform(D3DTS_WORLDMATRIX(j), &matrix[j]);
+				}
+			}
+
+			shader->GetVSTable()->SetMatrixArray(pDevice, "g_matWorld", (const D3DXMATRIX*)&matrix, 4);
+			shader->GetVSTable()->SetInt(pDevice, "g_BlendNum", original_container->m_BoneWeightNum);
+
+			pDevice->SetMaterial(&original_container->pMaterials[bone_buffer[i].AttribId].MatD3D);
+			pDevice->SetTexture(0, original_container->m_TextureList[bone_buffer[i].AttribId]);
+			original_container->MeshData.pMesh->DrawSubset(i);
+		}
+		// 通常のXFile描画
+	}
+	else {
+		// 描画位置行列の設定
+		pDevice->SetTransform(D3DTS_WORLD, &frame_data->m_CombinedTransformationMatrix);
+
+		// メッシュの描画
+		for (int i = 0; i < (int)original_container->NumMaterials; i++)
+		{
+			pDevice->SetMaterial(&original_container->pMaterials[i].MatD3D);
+			pDevice->SetTexture(0, original_container->m_TextureList[i]);
+			original_container->MeshData.pMesh->DrawSubset(i);
+		}
+	}
 }
 
 void SkinMeshFile::UpdateFrame(LPD3DXFRAME base, LPD3DXMATRIX parent_matrix)

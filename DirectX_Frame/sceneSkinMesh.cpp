@@ -95,6 +95,59 @@ void CSceneSkinMesh::Draw()
 	}
 }
 
+void CSceneSkinMesh::DrawWithShader()
+{
+	if (m_SkinMeshFiles[m_ModelID] != NULL)
+	{
+		LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+		if (pDevice == NULL)
+		{
+			return;
+		}
+
+		m_Animation->UpdateAnim(m_AnimPlaySpeed);
+
+		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+		D3DXVECTOR3 vec = (m_Pos - CManager::GetCamera()->GetPos());
+
+		// ìGÇ∆ÉvÉåÉCÉÑÅ[ÇÃãóó£
+		float len = D3DXVec3Length(&vec);
+
+		if (len < DRAW_DIST)
+		{
+			D3DXVec3Normalize(&vec, &vec);
+
+			D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
+			camFront.y = 0;
+
+			D3DXVec3Normalize(&camFront, &camFront);
+
+			float dot = D3DXVec3Dot(&vec, &camFront);
+			float rad = acosf(dot);
+
+			float degree = D3DXToDegree(rad);
+
+			if (m_ModelID == SM_ID_ZOMBIE_A)
+			{
+				int a = 0;
+			}
+
+			if (degree <= 90.0f)
+			{
+				m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
+
+				pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+				m_Shader->ShaderSet(m_World);
+				m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
+
+				m_SkinMeshFiles[m_ModelID]->DrawWithShader(&m_World, m_Shader);
+			}
+		}
+	}
+}
+
 void CSceneSkinMesh::SetWorld(D3DXMATRIX move)
 {
 	m_World = move;
