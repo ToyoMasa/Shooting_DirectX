@@ -120,6 +120,8 @@ void CScene3D::Init(int texId, VERTEX_3D* vertex, WORD* index, int numPrimitive,
 	// 頂点バッファ							↓大きい分には問題ない
 	hr = pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * numVertex, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &m_VertexBuffer, NULL);
 
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "頂点バッファの読み込みに失敗しました", "エラー", MB_OK);

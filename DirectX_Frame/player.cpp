@@ -349,23 +349,6 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 	SearchArea(newPos);
 	newPos.y = m_Field->GetHeight(newPos, this);
 
-	//D3DXVECTOR3 dirMove = newPos - m_Pos;
-	//D3DXVECTOR3 dirForward = newPos - m_Pos;
-	//dirForward.y = 0.0f;
-
-	//D3DXVec3Normalize(&dirMove, &dirMove);
-	//D3DXVec3Normalize(&dirForward, &dirForward);
-
-	//float dot = D3DXVec3Dot(&dirMove, &dirForward);
-
-	//float rad = acosf(dot);
-	//float degree = D3DXToDegree(rad);
-
-	//if (degree > 45 && newPos.y > m_Pos.y)
-	//{
-	//	return;
-	//}
-
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ
 	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + PLAYER_CUPSULE_RAD, newPos.z),
 		Point(newPos.x, newPos.y + 1.2f, newPos.z),

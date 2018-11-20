@@ -8,6 +8,8 @@
 #include <string>
 #include "SkinMeshFile.h"
 
+static const float DRAW_DIST = 30.0f;
+
 // ƒ‚ƒfƒ‹ŠÇ——pID
 typedef enum
 {
@@ -23,7 +25,7 @@ static const std::string SKINMESH_SOURCE[] =
 	"data/models/player_hand.x",
 	"data/models/enemy_01.x",
 	"data/models/enemy_02.x",
-	"data/models/zombieA.x",
+	"data/models/zombieB.x",
 };
 
 class CSceneSkinMesh : public CScene

@@ -64,12 +64,15 @@
     <Filter Include="ソース ファイル\shader">
       <UniqueIdentifier>{c3427eba-25dc-4e27-8517-8b09e0f06806}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\findRoot">
+      <UniqueIdentifier>{3fc37782-e799-4c2e-8bbe-36f4d696d79b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\findRoot">
+      <UniqueIdentifier>{65d1ef80-e52f-4a8e-88f3-e1d3970733dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="class.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="common.h">
@@ -285,9 +288,6 @@
     <ClInclude Include="enemyPatternAttack.h">
       <Filter>ヘッダー ファイル\enemyPattern</Filter>
     </ClInclude>
-    <ClInclude Include="astar.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="mapmake.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -306,17 +306,26 @@
     <ClInclude Include="fog.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="waypoint.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="enemyPatternWaypoints.h">
       <Filter>ヘッダー ファイル\enemyPattern</Filter>
     </ClInclude>
+    <ClInclude Include="astar.h">
+      <Filter>ヘッダー ファイル\findRoot</Filter>
+    </ClInclude>
+    <ClInclude Include="waypoint.h">
+      <Filter>ヘッダー ファイル\findRoot</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="gameobject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="skinmeshShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="class.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -455,9 +464,6 @@
     <ClCompile Include="box.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="wall.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -500,9 +506,6 @@
     <ClCompile Include="enemyPatternAttack.cpp">
       <Filter>ソース ファイル\enemyPattern</Filter>
     </ClCompile>
-    <ClCompile Include="astar.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="mapmake.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -524,11 +527,26 @@
     <ClCompile Include="fog.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="waypoint.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="enemyPatternWaypoints.cpp">
       <Filter>ソース ファイル\enemyPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="waypoint.cpp">
+      <Filter>ソース ファイル\findRoot</Filter>
+    </ClCompile>
+    <ClCompile Include="astar.cpp">
+      <Filter>ソース ファイル\findRoot</Filter>
+    </ClCompile>
+    <ClCompile Include="wall.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="gameobject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="skinmeshShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

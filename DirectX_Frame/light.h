@@ -18,14 +18,44 @@ public:
 	CLight();
 	~CLight();
 
-	void Init(int id);
-	void Uninit();
-	void SetLight(float diff1, float diff2, float diff3, float diff4, float amb1, float amb2, float amb3, float amb4);
+	virtual void Init(int id);
+	virtual void Uninit();
+	void SetLightColor(float diff1, float diff2, float diff3, float diff4, float amb1, float amb2, float amb3, float amb4);
+	void SetEnable(BOOL enable);
 	static CLight* Create(int id);
 
-private:
+protected:
 	D3DLIGHT9 m_Light;
 	int	m_LightID;
+};
+
+class CSpotLight : public CLight
+{
+public:
+	CSpotLight();
+	~CSpotLight();
+
+	void Init(
+		int id,
+		D3DXVECTOR3 pos,
+		D3DXVECTOR3 dir,
+		float range,
+		float theta,
+		float phi);
+	void Uninit();
+	void SetPos(D3DXVECTOR3 pos);
+	void SetDir(D3DXVECTOR3 dir);
+	void SetRange(float range);
+	void SetTheta(float theta);
+	void SetPhi(float phi);
+	static CSpotLight* Create(
+		int id,
+		D3DXVECTOR3 pos,
+		D3DXVECTOR3 dir,
+		float range,
+		float theta,
+		float phi);
+
 };
 
 #endif // !_LIGHT_H_

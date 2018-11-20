@@ -8,7 +8,7 @@
 #include<d3d9.h>
 #include<d3dx9.h>
 #include <math.h>
-#include "class.h"
+#include "gameobject.h"
 #include "scene.h"
 #include "ImGui_.h"
 #include "collision.h"

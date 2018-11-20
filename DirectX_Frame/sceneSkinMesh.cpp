@@ -5,15 +5,14 @@
 #include "common.h"
 #include "main.h"
 #include "sceneSkinMesh.h"
+#include "camera.h"
+#include "manager.h"
 
 SkinMeshFile *CSceneSkinMesh::m_SkinMeshFiles[SM_ID_MAX] = { NULL };
 SkinMeshFileAnimation *CSceneSkinMesh::m_Animations[SM_ID_MAX] = { NULL };
 
 void CSceneSkinMesh::Init(const SKINMESH_MODEL_ID& id)
 {
-	//m_SkinMeshFile = new SkinMeshFile();
-	//m_Animation = new SkinMeshFileAnimation();
-	//m_SkinMeshFile->Load(SKINMESH_SOURCE[id], m_Animation);
 	if (m_SkinMeshFiles[id] == NULL)
 	{
 		LoadFile(id);
@@ -39,10 +38,6 @@ void CSceneSkinMesh::Uninit()
 		delete m_Animation;
 		m_Animation = NULL;
 	}
-	//if (m_SkinMeshFile != NULL)
-	//{
-	//	delete m_SkinMeshFile;
-	//}
 }
 
 void CSceneSkinMesh::Update()
@@ -61,11 +56,42 @@ void CSceneSkinMesh::Draw()
 		}
 
 		m_Animation->UpdateAnim(m_AnimPlaySpeed);
-		m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
 
-		pDevice->SetTransform(D3DTS_WORLD, &m_World);
+		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
-		m_SkinMeshFiles[m_ModelID]->Draw(&m_World);
+		D3DXVECTOR3 vec = (m_Pos - CManager::GetCamera()->GetPos());
+		
+		// ìGÇ∆ÉvÉåÉCÉÑÅ[ÇÃãóó£
+		float len = D3DXVec3Length(&vec);
+		
+		if (len < DRAW_DIST)
+		{
+			D3DXVec3Normalize(&vec, &vec);
+
+			D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
+			camFront.y = 0;
+
+			D3DXVec3Normalize(&camFront, &camFront);
+
+			float dot = D3DXVec3Dot(&vec, &camFront);
+			float rad = acosf(dot);
+
+			float degree = D3DXToDegree(rad);
+
+			if (m_ModelID == SM_ID_ZOMBIE_A)
+			{
+				int a = 0;
+			}
+
+			if (degree <= 90.0f)
+			{
+				m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
+
+				pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+				m_SkinMeshFiles[m_ModelID]->Draw(&m_World);
+			}
+		}
 	}
 }
 
@@ -76,6 +102,7 @@ void CSceneSkinMesh::SetWorld(D3DXMATRIX move)
 
 void CSceneSkinMesh::Move(D3DXVECTOR3 pos)
 {
+	m_Pos = pos;
 	D3DXMatrixTranslation(&m_Move, pos.x, pos.y, pos.z);
 
 	m_World = m_Scale * m_Rotate * m_Move;

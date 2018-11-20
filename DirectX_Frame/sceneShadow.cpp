@@ -128,6 +128,8 @@ void CSceneShadow::Draw()
 	// テクスチャのセット
 	pDevice->SetTexture(0, CTexture::GetTexture(TEX_ID_CIRCLE));
 
+	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：OFF
+
 	//各種行列の設定(自分のやりたいところでやる)
 	pDevice->SetTransform(D3DTS_WORLD, &m_World);
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
@@ -138,6 +140,7 @@ void CSceneShadow::Draw()
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);		// αテストのON/OFF
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);				//フォグ：ON
 }
 
 void CSceneShadow::Move(D3DXVECTOR3 pos)
