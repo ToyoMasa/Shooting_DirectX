@@ -326,7 +326,8 @@ void SkinMeshFile::DrawMeshContainerWithShader(LPD3DXFRAME frame, LPD3DXMESHCONT
 			}
 
 			shader->GetVSTable()->SetMatrixArray(pDevice, "g_matWorld", (const D3DXMATRIX*)&matrix, 4);
-			shader->GetVSTable()->SetInt(pDevice, "g_BlendNum", original_container->m_BoneWeightNum);
+			shader->GetVSTable()->SetInt(pDevice, "g_blendNum", original_container->m_BoneWeightNum);
+			shader->SetMaterial(original_container->pMaterials[bone_buffer[i].AttribId].MatD3D);
 
 			pDevice->SetMaterial(&original_container->pMaterials[bone_buffer[i].AttribId].MatD3D);
 			pDevice->SetTexture(0, original_container->m_TextureList[bone_buffer[i].AttribId]);

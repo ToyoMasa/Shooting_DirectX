@@ -25,12 +25,14 @@
 #include "EnemyAnim.h"
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"
+#include "skinmeshShader.h"
 
 static const float ENEMY_LIFE = 100.0f;
 
 void CEnemy::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
 {
 	m_Model = CSceneSkinMesh::Create(modelId);
+	m_Model->SetShader(CShaderSkinmesh::GetShader());
 	m_Pos = spawnPos;
 	m_OldPos = m_Pos;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ENEMY_CUPSULE_RAD);

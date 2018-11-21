@@ -258,7 +258,7 @@ void CSceneModel::DrawWithShader()
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	// 頂点シェーダーとピクセルシェーダーをセット
+	// 頂点シェーダーとピクセルシェーダーをリセット
 	pDevice->SetVertexShader(NULL);
 	pDevice->SetPixelShader(NULL);
 }

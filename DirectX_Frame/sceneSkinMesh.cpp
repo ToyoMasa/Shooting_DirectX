@@ -144,6 +144,9 @@ void CSceneSkinMesh::DrawWithShader()
 
 				m_SkinMeshFiles[m_ModelID]->DrawWithShader(&m_World, m_Shader);
 			}
+			// 頂点シェーダーとピクセルシェーダーをリセット
+			pDevice->SetVertexShader(NULL);
+			pDevice->SetPixelShader(NULL);
 		}
 	}
 }
