@@ -29,6 +29,11 @@
 
 static float MOVE_SPEED = 0.015f;
 
+float FloatRandom()
+{
+	return rand() / 32767.0f;
+}
+
 void CEnemyPatternWaypoints::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_WALKING, 0.3f);
@@ -68,7 +73,7 @@ void CEnemyPatternWaypoints::Update(CEnemy* enemy)
 
 		D3DXVec3Normalize(&vec, &vec);
 
-		newPos += MOVE_SPEED * vec;
+		newPos += enemy->GetSpeed() * vec;
 
 		if (D3DXVec3Length(&(newPos - m_TargetPos)) < 1.0f)
 		{
@@ -78,6 +83,11 @@ void CEnemyPatternWaypoints::Update(CEnemy* enemy)
 
 			m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
 			m_TargetPos = CWayPoint::GetWayPointPos(m_TargetPoint);
+
+			// ˆÚ“®æ‚Éƒ‰ƒ“ƒ_ƒ€«‚ð•t—^
+			D3DXVECTOR3 random = D3DXVECTOR3(-1.0f + FloatRandom() * 2, -1.0f + FloatRandom() * 2, -1.0f + FloatRandom() * 2);
+			D3DXVec3Normalize(&random, &random);
+			m_TargetPos += random * FloatRandom();
 		}
 	}
 

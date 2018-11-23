@@ -247,6 +247,7 @@
     <ClInclude Include="waitTime.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="weapon.h" />
+    <ClInclude Include="zombie.h" />
     <ClInclude Include="ZombieAAnim.h" />
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +329,7 @@
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="waypoint.cpp" />
     <ClCompile Include="weapon.cpp" />
+    <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\metal.fx" />

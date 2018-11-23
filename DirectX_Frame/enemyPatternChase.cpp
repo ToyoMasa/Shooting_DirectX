@@ -25,8 +25,6 @@
 #include "enemyPatternChase.h"
 #include "enemyPatternAttack.h"
 
-static float CHASE_SPEED = 0.05f;
-
 void CEnemyPatternChase::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_RUNNING, 0.3f);
@@ -43,7 +41,7 @@ void CEnemyPatternChase::Update(CEnemy* enemy)
 	if (D3DXVec3Length(&vec) > 1.0f)
 	{
 		D3DXVec3Normalize(&vec, &vec);
-		newPos += CHASE_SPEED * vec;
+		newPos += enemy->GetSpeed() * 2.5f * vec;
 	}
 	else
 	{

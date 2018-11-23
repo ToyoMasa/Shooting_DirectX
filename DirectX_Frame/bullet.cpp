@@ -84,7 +84,7 @@ void CBullet::Update()
 				{
 					D3DXVECTOR3 pos1, pos2;
 					float r;
-					enemy->GetCapsule(pos1, pos2, r);
+					enemy->GetCapsuleInfo(pos1, pos2, r);
 
 					D3DXVECTOR3 ray;
 					ray = m_Forward;

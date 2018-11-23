@@ -390,7 +390,7 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 						D3DXVec3Normalize(&vec, &vec);
 
 						newPos = enemy->GetPos();
-						newPos += vec * (ENEMY_CUPSULE_RAD + ENEMY_CUPSULE_RAD);
+						newPos += vec * (PLAYER_CUPSULE_RAD + enemy->GetCapsuleRad());
 					}
 				}
 			}
@@ -460,7 +460,7 @@ void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ
 					D3DXVec3Normalize(&vec, &vec);
 
 					newPos = enemy->GetPos();
-					newPos += vec * (ENEMY_CUPSULE_RAD + ENEMY_CUPSULE_RAD);
+					newPos += vec * (PLAYER_CUPSULE_RAD + enemy->GetCapsuleRad());
 				}
 			}
 		}

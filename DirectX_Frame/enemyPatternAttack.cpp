@@ -29,7 +29,6 @@ static float CHASE_SPEED = 0.05f;
 
 void CEnemyPatternAttack::Init(CEnemy* enemy)
 {
-	//enemy->GetModel()->PlayMontage(ENEMY_ATTACK, 0.2f, 4.0f, ENEMY_RUNNING, 1.5f);
 	enemy->GetModel()->ChangeAnim(ENEMY_ATTACK, 0.3f);
 	enemy->GetModel()->SetAnimPlaySpeed(1.5f);
 }
