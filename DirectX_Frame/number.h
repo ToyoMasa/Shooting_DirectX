@@ -5,22 +5,27 @@
 #ifndef _NUMBER_H_
 #define _NUMBER_H_
 
-#define NUMBER_WIDTH (90)
-#define NUMBER_HEIGHT (140)
-#define NUMBER2_WIDTH (128)
-#define NUMBER2_HEIGHT (137)
-
-class CNumber
+class CNumber : public CScene
 {
 public:
-	CNumber() {}
+	CNumber() : CScene(LAYER_OBJECT2D) {}
 	~CNumber() {}
 
-	static void Init();
-	static void Uninit();
-	static void Draw(int n, float x, float y);
+	void Init()override;
+	void Uninit()override;
+	void Update()override;
+	void Draw()override;
+	void DrawWithShader()override {}
+
+	void SetNum(int num) { m_Num = num; }
+	void SetSize(float size);
+	static void DrawNum(int n, float x, float y, float size = 1.0f);
+
+	static CNumber* Create();
 
 private:
+	int				m_Num;
+	float			m_Size;
 	static CScene2D *m_Scene2D;
 };
 

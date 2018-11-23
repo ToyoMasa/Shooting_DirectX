@@ -377,7 +377,7 @@ int CWayPoint::SearchShortestPoint(const D3DXVECTOR3& pos)
 // ウェイポイントを取得
 D3DXVECTOR3 CWayPoint::GetWayPointPos(const int& index)
 {
-	if (index < 0 || index >= m_WayPonits.size())
+	if (index < 0 || index >= (int)m_WayPonits.size())
 	{
 		return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}

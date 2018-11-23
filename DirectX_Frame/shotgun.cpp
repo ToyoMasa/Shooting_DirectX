@@ -16,9 +16,13 @@
 #include "game.h"
 #include "debug.h"
 #include "PlayerAnim.h"
+#include "metalShader.h"
+#include "normalmapShader.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
+#define SHOTGUN_RATE (60.0f / (360.0f / 60.0f))
+static const int SHOTGUN_MAX_AMMO = 8;
 
 static const int DIFFUSSION = 200;
 static const int ADS_DIFFUSSION = 80;
@@ -29,6 +33,7 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 	m_Model = CSceneModel::Create("data/models/shotgun.x");
 	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
 	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+	m_Crosshair->SetVisible(false);
 	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -40,7 +45,10 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 	m_Model->Rotate(m_Rot);
 	m_Model->Scale(m_Scale);
 
-	m_Rate = 60.0f / (200.0f / 60.0f);
+	m_Ammo = SHOTGUN_MAX_AMMO;
+	m_MaxAmmo = SHOTGUN_MAX_AMMO;
+
+	m_Rate = SHOTGUN_RATE;
 	m_CoolDown = 0.0f;
 	m_Damage = 8.0f;
 
@@ -54,6 +62,11 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 	m_Flash->SetVisible(m_isFlash);
 
 	m_isReleaseTrigger = true;
+
+	m_Model->SetShader(CShaderMetal::GetShader());
+/*
+	m_Model->SetShader(CShaderNormalmap::GetShader());
+	m_Model->SetNormalMapTexture("shotgun_normal.png");*/
 }
 
 void CShotgun::Uninit()
@@ -120,7 +133,7 @@ void CShotgun::Update()
 
 void CShotgun::Shoot()
 {
-	if (m_CoolDown <= 0 && m_isReleaseTrigger)
+	if (m_CoolDown <= 0 && m_isReleaseTrigger && m_Ammo > 0)
 	{
 		if (m_isADS)
 		{
@@ -150,6 +163,9 @@ void CShotgun::Shoot()
 		m_CoolDown = m_Rate;
 		int i = 0;
 
+		// 残弾を減らす
+		m_Ammo--;
+
 		// マズルフラッシュの描画を有効化
 		m_FlashAlpha = 200;
 		m_isFlash = true;
@@ -161,9 +177,9 @@ void CShotgun::Shoot()
 		// リコイル
 		Recoil(0.1f, 0.25f);
 		m_CountFire = 0;
-		m_RecoilCount = 5;
-		m_RecoilX = m_TotalRecoilX / 5.0f;
-		m_RecoilY = m_TotalRecoilY / 5.0f;
+		m_RecoilCount = 10;
+		m_RecoilX = m_TotalRecoilX / 10.0f;
+		m_RecoilY = m_TotalRecoilY / 10.0f;
 	}
 }
 

@@ -15,6 +15,7 @@ public:
 	~CEvent() {}
 
 	virtual void Update() = 0;
+	virtual void isCollision() = 0;
 
 private:
 	D3DXVECTOR3 m_Pos;

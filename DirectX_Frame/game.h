@@ -17,6 +17,7 @@ class CScene2D;
 class CLight;
 class CSound;
 class CFog;
+class CEnemyManager;
 
 class CModeGame : public CMode
 {
@@ -37,6 +38,7 @@ public:
 	static void IncrementNumKill() { m_NumKill++; }
 	static void IncrementNumSneak() { m_NumSneak++; }
 	static void CallPause();
+	static CField* GetField() { return Field; }
 
 private:
 	static CBillBoard* tree1;
@@ -68,6 +70,8 @@ private:
 	static CSound* BGM;
 	static CSound* GameEnd_SE;
 	static CFog*	Fog;
+	static CField* Field;
+	static CEnemyManager* EnemyManager;
 };
 
 #endif // !_GAME_H_

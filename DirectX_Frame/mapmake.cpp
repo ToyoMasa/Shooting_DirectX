@@ -61,7 +61,7 @@ double g_TestText;
 char g_FileName[256] = "map.txt";
 bool g_VertexMode = false;
 
-static CSceneModel* testufo;
+//static CSceneModel* testufo;
 static CBox* testbox;
 static CShader* testshader;
 

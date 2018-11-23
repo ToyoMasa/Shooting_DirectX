@@ -14,6 +14,7 @@
 #include "bullet.h"
 #include "particle.h"
 #include "debug.h"
+#include "emitter.h"
 
 CBullet *CBullet::m_Bullets[BULLET_MAX] = { NULL };
 
@@ -92,7 +93,19 @@ void CBullet::Update()
 					D3DXVECTOR3 getPoint1, getPoint2;
 					calcRayCapsule(m_OldPos, ray, pos1, pos2, r, getPoint1, getPoint2);
 
-					CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
+					//CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
+					CParticleEmitter::Create(TEX_ID_CIRCLE,
+						5,
+						1,
+						5,
+						0.4f,
+						-0.05f,
+						getPoint1,
+						D3DXVECTOR3(-0.1f, 0.1f, -0.1f),
+						D3DXVECTOR3(0.1f, 0.15f, 0.1f),
+						D3DXVECTOR3(0.0f, -0.035f, 0.0f),
+						false,
+						D3DCOLOR_RGBA(192, 16, 16, 255));
 
 					enemy->Damaged(m_Damage);
 				}

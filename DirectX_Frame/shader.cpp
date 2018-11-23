@@ -15,6 +15,8 @@
 #include "shader.h"
 #include "metalShader.h"
 #include "skinmeshShader.h"
+#include "normalmapShader.h"
+#include "spotlightShader.h"
 
 //==============================================================================
 //!	@fn		ShaderCompile
@@ -165,6 +167,8 @@ void CShader::ReleaseAll()
 {
 	CShaderMetal::Destroy();
 	CShaderSkinmesh::Destroy();
+	CShaderNormalmap::Destroy();
+	CShaderSpotlight::Destroy();
 }
 
 //******************************************************************************

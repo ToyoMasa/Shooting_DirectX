@@ -11,7 +11,7 @@ class CCamera;
 class CField;
 class CSceneShadow;
 
-static const int CHARACTER_MAX = 100;
+static const int CHARACTER_MAX = 150;
 
 enum CHARACTER_TYPE
 {

@@ -12,7 +12,7 @@ CShaderSkinmesh::CShaderSkinmesh() : CShader()
 {
 	bool sts;
 	sts = VertexShaderCompile(
-		"data/shaders/skinmesh.fx",						// シェーダーファイル名
+		SHADER_FILE[SH_ID_SKINMESH].c_str(),						// シェーダーファイル名
 		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
@@ -22,7 +22,7 @@ CShaderSkinmesh::CShaderSkinmesh() : CShader()
 
 	// ピクセルシェーダーコンパイル
 	sts = PixelShaderCompile(
-		"data/shaders/skinmesh.fx",						// シェーダーファイル名
+		SHADER_FILE[SH_ID_SKINMESH].c_str(),						// シェーダーファイル名
 		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 
@@ -43,9 +43,10 @@ CShaderSkinmesh* CShaderSkinmesh::GetShader()
 
 void CShaderSkinmesh::Destroy()
 {
-	if (m_Shader)
+	if (m_Shader != NULL)
 	{
 		delete m_Shader;
+		m_Shader = NULL;
 	}
 }
 
@@ -92,18 +93,10 @@ void CShaderSkinmesh::SetMaterial(D3DMATERIAL9 const&mat)
 	D3DXVECTOR4  tempcolor;
 
 	// 環境光用のマテリアルをセット
-	//tempcolor.x = mat.Ambient.r;
-	//tempcolor.y = mat.Ambient.g;
-	//tempcolor.z = mat.Ambient.b;
-	//tempcolor.w = mat.Ambient.a;
 	tempcolor = D3DXVECTOR4(0.2f, 0.2f, 0.2f, 0.2f);
 	m_VSConstantTable->SetVector(pDevice, "g_ambient_mat", &tempcolor);
 
 	// ディフューズ光用のマテリアルをセット
-	//tempcolor.x = mat.Diffuse.r;
-	//tempcolor.y = mat.Diffuse.g;
-	//tempcolor.z = mat.Diffuse.b;
-	//tempcolor.w = mat.Diffuse.a;
 	tempcolor = D3DXVECTOR4(0.7f, 0.7f, 0.7f, 0.7f);
 	m_VSConstantTable->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
 

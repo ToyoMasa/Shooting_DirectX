@@ -3,6 +3,7 @@
 
 typedef enum
 {
+	PLAYER_NONE,
 	PLAYER_FIRE,
 	PLAYER_SPRINT,
 	PLAYER_ADS,

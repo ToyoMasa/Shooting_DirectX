@@ -66,96 +66,10 @@ void CEnemy::Update()
 	m_OldPos = m_Pos;
 
 	m_Pattern->Update(this);
-	//if (m_isPreDeath)
-	//{
-	//	if (m_Model->GetWeightTime() >= 8.0f)
-	//	{
-	//		if (m_EnemyType == ENEMY_TYPE_TARGET)
-	//		{
-	//			CModeGame::TargetKilled();
-	//		}
-	//		Release();
-	//		return;
-	//	}
-	//}
-	//else
-	//{
-	//	if (m_isPreAttack)
-	//	{
-	//		if (m_Model->GetWeightTime() >= 1.0f && !m_isPlaySE)
-	//		{
-	//			m_isPlaySE = true;
-	//			m_AttackSE->Play();
-	//		}
-
-	//		if (m_Model->GetWeightTime() >= 2.0f)
-	//		{
-	//			CPlayer* player = CModeGame::GetPlayer();
-	//			if (isCollisionCapsule(m_AttackingCollsion, player->GetCapsule()))
-	//			{
-	//				CModeGame::GetPlayer()->Death();
-	//				SetAction(CActionWait::Create(this));
-	//			}
-
-	//			m_isPreAttack = false;
-	//			m_isPlaySE = false;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		m_Action->Update();
-
-	//		Search();
-
-	//		m_Pos.y = m_Field->GetHeight(m_Pos);
-
-	//		// コリジョンの計算
-	//		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ENEMY_CUPSULE_RAD);
-	//		for (int i = 0; i < CHARACTER_MAX; i++)
-	//		{
-	//			CCharacter* obj = CCharacter::GetCharacter(i);
-	//			if (obj != NULL && obj != this)
-	//			{
-	//				if (obj->GetType() == CHARACTER_ENEMY)
-	//				{
-	//					CEnemy* enemy = (CEnemy*)obj;
-	//					if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
-	//					{
-	//						D3DXVECTOR3 vec = m_Pos - enemy->GetPos();
-	//						D3DXVec3Normalize(&vec, &vec);
-
-	//						m_Pos = enemy->GetPos();
-	//						m_Pos += vec * (ENEMY_CUPSULE_RAD * 2 + 0.05f);
-	//					}
-	//				}
-	//			}
-	//		}
-	//		m_Model->Move(m_Pos);
-	//		m_Shadow->Move(m_Pos);
-
-	//		// 当たり判定の移動
-	//		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ENEMY_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ENEMY_CUPSULE_RAD);
-	//		D3DXVECTOR3 attackPos = m_Pos + m_Forward * 1.0f;
-	//		m_AttackingCollsion.Set(Point(attackPos.x, attackPos.y + 0.25f, attackPos.z), Point(attackPos.x, attackPos.y + 1.65f, attackPos.z), PLAYER_CUPSULE_RAD);
-	//	}
-	//}
-
-	//if (m_FindPlayer)
-	//{
-	//	m_Count++;
-	//	if (m_Count < 120)
-	//	{
-	//		D3DXVECTOR3 markPos = m_Pos;
-	//		markPos.y += 2.5f;
-	//		
-	//		m_Exclamation->Set(TEX_ID_EXCLAMATION, markPos, 1.0f, NORMAL);
-	//	}
-	//	else if (m_Count = 120)
-	//	{
-	//		m_Exclamation->Release();
-	//		m_Exclamation = NULL;
-	//	}
-	//}
+	
+	ImGui::Begin("Enemy");
+	ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
+	ImGui::End();
 }
 
 CEnemy* CEnemy::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
@@ -190,11 +104,26 @@ void CEnemy::Move(D3DXVECTOR3 newPos)
 
 	SearchArea(newPos);
 
-	D3DXVECTOR3 dis = newPos - CManager::GetCamera()->GetPos();
+	D3DXVECTOR3 vec = newPos - CManager::GetCamera()->GetPos();
 
-	if (D3DXVec3Length(&dis) < 15.0f)
+	if (D3DXVec3Length(&vec) < DRAW_DIST)
 	{
-		m_Pos.y = m_Field->GetHeight(m_Pos, this);
+		D3DXVec3Normalize(&vec, &vec);
+
+		D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
+		camFront.y = 0;
+
+		D3DXVec3Normalize(&camFront, &camFront);
+
+		float dot = D3DXVec3Dot(&vec, &camFront);
+		float rad = acosf(dot);
+
+		float degree = D3DXToDegree(rad);
+
+		if (degree <= 90.0f)
+		{
+			m_Pos.y = m_Field->GetHeight(m_Pos, this);
+		}
 	}
 
 	// コリジョンの計算

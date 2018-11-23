@@ -49,6 +49,7 @@ public:
 		D3DXVECTOR3 velocityStart,
 		D3DXVECTOR3 velocityEnd,
 		D3DXVECTOR3 Accelerate,
+		D3DCOLOR color,
 		bool loop);
 	void Uninit();
 	void Update();
@@ -68,7 +69,8 @@ public:
 		D3DXVECTOR3 velocityStart,
 		D3DXVECTOR3 velocityEnd,
 		D3DXVECTOR3 Accelerate,
-		bool loop);
+		bool loop,
+		D3DCOLOR color = D3DCOLOR_RGBA(255, 255, 255, 255));
 
 private:
 
@@ -85,6 +87,7 @@ private:
 	D3DXVECTOR3 m_VelocityRangeStart;
 	D3DXVECTOR3 m_VelocityRanegeEnd;
 	D3DXVECTOR3 m_VelocityAcceleration;
+	D3DCOLOR	m_Color;
 	static CParticleEmitter* m_Emitters[EMITTER_MAX];
 };
 

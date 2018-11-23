@@ -13,6 +13,7 @@
 #include "sceneShadow.h"
 #include "texture.h"
 #include "billboard.h"
+#include "number.h"
 #include "character.h"
 #include "player.h"
 #include "input.h"
@@ -37,6 +38,7 @@ static const float ADS_FOV = 70.0f;
 static const float LOCAL_CAMERA_X = 0.0f;
 static const float LOCAL_CAMERA_Y = 1.715f;
 static const float LOCAL_CAMERA_Z = 0.375f;
+static const D3DXVECTOR3 AMMO_DISPLAY_POS = D3DXVECTOR3(SCREEN_WIDTH - 100.0f, SCREEN_HEIGHT - 60.0f, 0.0f);
 
 void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 {
@@ -102,6 +104,11 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
 
 	m_Model->SetShader(CShaderSkinmesh::GetShader());
+
+	// 残弾表示
+	m_AmmoNum = CNumber::Create();
+	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
+	m_AmmoNum->Set(AMMO_DISPLAY_POS);
 }
 
 void CPlayer::Uninit()
@@ -168,6 +175,7 @@ CPlayer* CPlayer::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 void CPlayer::Shoot()
 {
 	m_UsingWeapon->Shoot();
+	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
 }
 
 void CPlayer::TriggerRelease()
@@ -330,6 +338,8 @@ void CPlayer::ChangeWeapon(const int& id)
 			m_Weapon[i]->SetActive(true);
 		}
 	}
+
+	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
 }
 
 void CPlayer::Move(const float& moveX, const float& moveZ)
@@ -351,6 +361,11 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 
 	SearchArea(newPos);
 	newPos.y = m_Field->GetHeight(newPos, this);
+
+	if (newPos.y - m_Pos.y > 0.016)
+	{
+		return;
+	}
 
 	// コリジョンの計算
 	m_CapsuleCollision.Set(Point(newPos.x, newPos.y + PLAYER_CUPSULE_RAD, newPos.z),

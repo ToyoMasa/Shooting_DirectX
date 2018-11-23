@@ -15,8 +15,8 @@ static const float ENEMY_CUPSULE_RAD = 0.4f;
 
 typedef enum
 {
-	ENEMY_TYPE_PATROL = 0,
-	ENEMY_TYPE_TARGET,
+	ENEMY_TYPE_ZOMBIE = 0,
+	ENEMY_TYPE_MAX,
 } ENEMY_TYPE;
 
 class CEnemy : public CCharacter

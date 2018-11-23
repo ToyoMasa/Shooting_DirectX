@@ -37,6 +37,9 @@ public:
 		m_isActive = false;
 		m_isADS = false;
 
+		m_Ammo = 0;
+		m_MaxAmmo = 0;
+
 		m_Flash = NULL;
 		m_isFlash = false;
 
@@ -55,6 +58,7 @@ public:
 	static void UpdateAll();
 	static void ReleaseAll();
 	void SetActive(bool active);
+	void Reload() { m_Ammo = m_MaxAmmo; }
 	virtual void SetADS(bool ads) = 0;
 	virtual void ChangeCrosshair(int nextTex) = 0;
 	virtual void Recoil(float recoilX, float recoilY) = 0;
@@ -73,6 +77,8 @@ public:
 	CDebug*			GetBulletDebug() { return m_BulletDebug; }
 	CBillBoard*		GetFlash() { return m_Flash; }
 	int				GetFlashAlpha() { return m_FlashAlpha; }
+	int				GetAmmo() { return m_Ammo; }
+	int				GetMaxAmmo() { return m_MaxAmmo; }
 	float			GetDamage() { return m_Damage; }
 	float 			GetRate() { return m_Rate; }
 	float			GetCoolDown() { return m_CoolDown; }
@@ -91,6 +97,8 @@ protected:
 	D3DXMATRIX		m_MuzzleMatrix;
 	CDebug*			m_BulletDebug;
 	CBillBoard*		m_Flash;
+	int				m_Ammo;
+	int				m_MaxAmmo;
 	int				m_FlashAlpha;
 	int				m_RecoilCount;
 	int				m_CountFire;

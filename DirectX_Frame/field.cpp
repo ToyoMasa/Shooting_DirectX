@@ -11,6 +11,8 @@
 #include "character.h"
 #include "field.h"
 #include "astar.h"
+#include "metalShader.h"
+#include "spotlightShader.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -406,7 +408,7 @@ void CField::Load(string textname)
 	}
 	inputFile.close();
 
-	m_Scene3D = CScene3D::Create(m_TextureID, m_Vertex, m_Index, m_NumPrimitive, m_NumVertex, m_NumIndex);
+	m_Scene3D = CScene3D::Create(m_TextureID, m_Vertex, m_Index, m_NumPrimitive, m_NumVertex, m_NumIndex, LAYER_BACKGROUND);
 	m_AreaID = new int[m_NumVertex];
 
 	float blockLen = m_SizeX / (float)SEPARATE_NUM;
@@ -434,6 +436,8 @@ void CField::Load(string textname)
 	}
 
 	CAStar::SetMapSize(m_SizeX, m_SizeY);
+
+	//m_Scene3D->SetShader(CShaderMetal::GetShader());
 }
 
 CField* CField::Create(std::string textname)

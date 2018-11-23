@@ -10,18 +10,21 @@
 
 enum SHADER_ID
 {
-	SH_ID_DEFAULT,
-	SH_ID_METAL
+	SH_ID_METAL,
+	SH_ID_SKINMESH,
+	SH_ID_NORMALMAP,
+	SH_ID_SPOTLIGHT,
+	SH_ID_MAX
 };
 
 // シェーダーファイルリスト
 static const std::string SHADER_FILE[] =
 {
-	"data/shaders/basic.fx",
 	"data/shaders/metal.fx",
+	"data/shaders/skinmesh.fx",
+	"data/shaders/normalmap.fx",
+	"data/shaders/spotlight.fx",
 };
-
-static const DWORD FVF_VERTEX_SHADER = (D3DFVF_XYZ | D3DFVF_DIFFUSE);
 
 class CShader
 {

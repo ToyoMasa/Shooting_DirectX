@@ -51,7 +51,7 @@ public:
 	virtual void Move(D3DXVECTOR3 pos) {}
 	virtual void Rotate(D3DXVECTOR3 rot) {}
 	virtual void Scale(D3DXVECTOR3 scale) {}
-	void Set(D3DXVECTOR3& pos);
+	void Set(const D3DXVECTOR3& pos);
 	void SetVisible(bool visible) { m_Visible = visible; }
 	bool& GetVisible() { return m_Visible; }
 	void SetShader(CShader* shader) { m_Shader = shader; }

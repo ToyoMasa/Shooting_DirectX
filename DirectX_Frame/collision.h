@@ -222,6 +222,23 @@ public:
 	}
 };
 
+// AABB
+class AABB 
+{
+private:
+	D3DXVECTOR3 m_Max;
+	D3DXVECTOR3 m_Min;
+
+public:
+	AABB() {}
+	AABB(D3DXVECTOR3 max, D3DXVECTOR3 min) : m_Max(max), m_Min(min) {}
+
+	D3DXVECTOR3& GetMax() { return m_Max; }
+	D3DXVECTOR3& GetMin() { return m_Min; }
+	void SetMax(D3DXVECTOR3& value) { m_Max = value; }
+	void SetMin(D3DXVECTOR3& value) { m_Min = value; }
+};
+
 // OBB
 class OBB
 {
@@ -235,9 +252,9 @@ public:
 	float GetLen(int elem);				// 指定軸方向の長さを取得
 	D3DXVECTOR3 GetPos();				// 位置を取得
 
-	void SetPos(D3DXVECTOR3 pos) { m_Pos = pos; }
-	void SetNormal(int index, D3DXVECTOR3 normal) { m_NormalDirect[index] = normal; }
-	void SetLength(float x, float y, float z)
+	void SetPos(const D3DXVECTOR3& pos) { m_Pos = pos; }
+	void SetNormal(const int& index, const D3DXVECTOR3& normal) { m_NormalDirect[index] = normal; }
+	void SetLength(const float& x, const float& y, const float& z)
 	{
 		m_fLength[0] = x;
 		m_fLength[1] = y;
@@ -324,6 +341,11 @@ bool isCollisionLine2D(D3DXVECTOR3 &r1, D3DXVECTOR3 &r2, D3DXVECTOR3 &p1, D3DXVE
 bool isCollisionSphere(Sphere &sphere1, Sphere &sphere2);
 
 //************************************************************************
+//	AABBと点の当たり判定
+//************************************************************************
+bool isCollisionAABBToPoint(AABB &aabb, D3DXVECTOR3 &point);
+
+//************************************************************************
 //	OBBと点の当たり判定
 //************************************************************************
 float LenOBBToPoint(OBB &obb, D3DXVECTOR3 &point);
@@ -384,8 +406,8 @@ bool calcRayInfCilinder(
 //************************************************************************
 //	// ∠P1P2P3の内積を算出
 //************************************************************************
-float checkDot(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
-float checkDot(D3DXVECTOR3 vec1, D3DXVECTOR3 vec2, D3DXVECTOR3 vec3);
+float checkDot(const float& x1, const float& y1, const float& z1, const float& x2, const float& y2, const float& z2, const float& x3, const float& y3, const float& z3);
+float checkDot(const D3DXVECTOR3& vec1, const D3DXVECTOR3& vec2, const D3DXVECTOR3& vec3);
 
 //************************************************************************
 //	レイとカプセルの衝突判定

@@ -239,6 +239,42 @@ void CScene3D::Draw()
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, m_NumVertex, 0, m_NumPrimitive);
 }
 
+void CScene3D::DrawWithShader()
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
+	// 頂点バッファとインデックスバッファの設定
+	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
+
+	pDevice->SetIndices(m_IndexBuffer);
+
+	// シェーダーのセット
+	m_Shader->ShaderSet(m_World);
+
+	//各種行列の設定(自分のやりたいとこ);
+	pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+	pDevice->SetMaterial(&m_Mat);
+	m_Shader->SetMaterial(m_Mat);
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	// テクスチャをサンプラーへセット
+	int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
+	pDevice->SetTexture(index, CTexture::GetTexture(m_TexId));
+
+	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, m_NumVertex, 0, m_NumPrimitive);
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	// 頂点シェーダーとピクセルシェーダーをリセット
+	pDevice->SetVertexShader(NULL);
+	pDevice->SetPixelShader(NULL);
+}
+
 CScene3D* CScene3D::Create(int texId, float meshSize, int sizeX, int sizeY, int numPrimitive, int numVertex, int numIndex)
 {
 	CScene3D* scene3D = new CScene3D(LAYER_OBJECT3D);

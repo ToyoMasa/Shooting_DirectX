@@ -74,6 +74,8 @@ void CSceneModel::Init(const std::string& modelName)
 		m_Mesh = pCloneMesh;
 	}
 
+	//AddTangentSpace();
+
 	// メモリ解放
 	if (pAdjacency != NULL)
 	{
@@ -142,6 +144,13 @@ void CSceneModel::Uninit()
 	{
 		m_Material->Release();
 		m_Material = NULL;
+	}
+
+	// 法線マップテクスチャの解放
+	if (m_NormalmapTexture != NULL)
+	{
+		m_NormalmapTexture->Release();
+		m_NormalmapTexture = NULL;
 	}
 }
 
@@ -244,6 +253,14 @@ void CSceneModel::DrawWithShader()
 			// テクスチャをサンプラーへセット
 			int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
 			pDevice->SetTexture(index, m_Texture[i]);
+			
+			// 法線マップを持っているならシェーダーに渡す
+			if (m_NormalmapTexture != NULL)
+			{
+				// テクスチャをサンプラーへセット
+				index = m_Shader->GetPSTable()->GetSamplerIndex("NormalmapSampler1");
+				pDevice->SetTexture(index, m_NormalmapTexture);
+			}
 		}
 		else
 		{
@@ -251,6 +268,13 @@ void CSceneModel::DrawWithShader()
 			// テクスチャをサンプラーへセット
 			int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
 			pDevice->SetTexture(index, NULL);
+
+			if (m_NormalmapTexture != NULL)
+			{
+				// テクスチャをサンプラーへセット
+				index = m_Shader->GetPSTable()->GetSamplerIndex("NormalmapSampler1");
+				pDevice->SetTexture(index, NULL);
+			}
 		}
 
 		m_Mesh->DrawSubset(i);					// サブセットの描画
@@ -266,6 +290,27 @@ void CSceneModel::DrawWithShader()
 void CSceneModel::SetWorld(D3DXMATRIX move)
 {
 	m_Target = move;
+}
+
+void CSceneModel::SetNormalMapTexture(const std::string& texName)
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+	char filename[256];
+	ZeroMemory(filename, sizeof(filename));
+
+	sprintf_s(filename, "data/textures/%s", texName.c_str());
+
+	HRESULT hr;
+	hr = D3DXCreateTextureFromFile(pDevice, filename, &m_NormalmapTexture);
+
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, "テクスチャの読み込みに失敗しました", "エラー", MB_OK);
+	}
 }
 
 void CSceneModel::Move(D3DXVECTOR3 pos)
@@ -297,6 +342,95 @@ CSceneModel* CSceneModel::Create(const std::string& modelName)
 	sceneModel->Init(modelName);
 
 	return sceneModel;
+}
+
+//==============================================================================
+//!	@fn		AddTangentSpace
+//!	@brief	メッシュに接ベクトル空間を付与する
+//!	@param	デバイスオブジェクト
+//!	@retval	なし
+//!	@note	
+//==============================================================================
+/*-----------------------------------------------------------------------------------------
+従法線、接ベクトルのないメッシュに従法線、接ベクトルを追加する
+
+引数
+const LPD3DXMESH& inMesh   (IN)
+従法線、接ベクトルのないメッシュ
+
+LPD3DXMESH&	outMesh		  (OUT)
+位置情報、テクスチャ座標、法線、接ベクトル、従法線ベクトルを持つメッシュ
+
+戻り値
+bool 	 true  : 成功
+false : 失敗
+
+------------------------------------------------------------------------------------------*/
+bool CSceneModel::AddTangentSpace() 
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return false;
+	}
+
+	LPD3DXMESH		tempMesh;
+	LPD3DXMESH		outMesh;
+	HRESULT			hr;
+
+	const D3DVERTEXELEMENT9 Decl[] =
+	{
+		{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },				// 位置情報
+		{ 0, 12, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },				// テクスチャ座標
+		{ 0, 20, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },				// 法線
+		{ 0, 32, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0 },				// 接ベクトル
+		{ 0, 44, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0 },				// 従法線ベクトル
+		D3DDECL_END()
+	};
+
+	// 指定フォーマットのクローンメッシュを作る
+	hr = m_Mesh->CloneMesh(m_Mesh->GetOptions(), Decl, pDevice, &tempMesh);
+	if (FAILED(hr)) {
+		MessageBox(NULL, "ERROR!!", "CloneMeshエラー", MB_OK);
+		return false;
+	}
+
+	// 法線ベクトルを計算
+	hr = D3DXComputeNormals(tempMesh, NULL);
+	if (FAILED(hr)) {
+		tempMesh->Release();
+		MessageBox(NULL, "ERROR!!", "D3DXComputeNormalsエラー", MB_OK);
+		return false;
+	}
+
+	// 従法線、接ベクトルをもつメッシュを作成する
+	hr = D3DXComputeTangentFrameEx(tempMesh,
+		D3DDECLUSAGE_TEXCOORD, 0,		// 0番目のテクスチャ座標を使用する 
+		D3DDECLUSAGE_TANGENT, 0,		// 0番目の接ベクトルを計算する
+		D3DDECLUSAGE_BINORMAL, 0,		// 0番目の従法線ベクトルを計算する
+		D3DDECLUSAGE_NORMAL, 0,			// 0番目の法線ベクトルを計算する
+		0,								// 計算のオプション
+		NULL,							// 
+		-1.01f,							// 隣接する３角形の閾値
+		-0.01f,							// 単独とみなされる頂点の閾値
+		-1.01f,							// 法線の閾値
+		&outMesh,						// 生成されたメッシュ
+		NULL);							//  
+	if (FAILED(hr)) {
+		tempMesh->Release();
+		MessageBox(NULL, "ERROR!!", "D3DXComputeTangentFrameExエラー", MB_OK);
+		return false;
+	}
+
+	m_Mesh->Release();
+	m_Mesh = outMesh;
+
+	if (tempMesh)
+	{
+		tempMesh->Release();
+	}
+
+	return true;
 }
 
 CSceneModel* CSceneModel::Create(const std::string& modelName, bool isIgnore)

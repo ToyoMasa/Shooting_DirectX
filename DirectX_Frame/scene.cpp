@@ -21,7 +21,7 @@ CScene::CScene(int priority)
 	}
 }
 
-void CScene::Set(D3DXVECTOR3& pos)
+void CScene::Set(const D3DXVECTOR3& pos)
 {
 	m_Pos = pos;
 }

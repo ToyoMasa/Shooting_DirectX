@@ -63,6 +63,21 @@ float LenSegOnSeparateAxis(D3DXVECTOR3 *Sep, D3DXVECTOR3 *e1, D3DXVECTOR3 *e2, D
 }
 
 //======================================================================
+//	AABBと点の当たり判定
+//======================================================================
+bool isCollisionAABBToPoint(AABB &aabb, D3DXVECTOR3 &point)
+{
+	if (point.x < aabb.GetMin().x) return false;
+	if (point.x > aabb.GetMax().x) return false;
+	if (point.y < aabb.GetMin().y) return false;
+	if (point.y > aabb.GetMax().y) return false;
+	if (point.z < aabb.GetMin().z) return false;
+	if (point.z > aabb.GetMax().z) return false;
+
+	return true;
+}
+
+//======================================================================
 //	OBB同士の当たり判定
 //======================================================================
 bool isCollisionOBBs(OBB &obb1, OBB &obb2)
@@ -605,10 +620,10 @@ bool calcRayInfCilinder(
 // x1, y1, z1: 点P1
 // x2, y2, z2: 点P2
 // x3, y3, z3: 点P3
-float checkDot(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
-	return (x1 - x2) * (x3 - x2) + (y1 - y2) * (y3 - y2) + (z1 - z2) * (z3 - z2);
+float checkDot(const float& x1, const float& y1, const float& z1, const float& x2, const float& y2, const float& z2, const float& x3, const float& y3, const float& z3) {
+	return ((x1 - x2) * (x3 - x2) + (y1 - y2) * (y3 - y2) + (z1 - z2) * (z3 - z2));
 }
-float checkDot(D3DXVECTOR3 vec1, D3DXVECTOR3 vec2, D3DXVECTOR3 vec3) {
+float checkDot(const D3DXVECTOR3& vec1, const D3DXVECTOR3& vec2, const D3DXVECTOR3& vec3) {
 	return (vec1.x - vec2.x) * (vec3.x - vec2.x) + (vec1.y - vec2.y) * (vec3.y - vec2.y) + (vec1.z - vec2.z) * (vec3.z - vec2.z);
 }
 

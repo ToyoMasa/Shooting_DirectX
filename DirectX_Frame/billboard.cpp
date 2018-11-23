@@ -292,14 +292,23 @@ void CBillBoard::DrawAll(CCamera* camera)
 {
 	CBillBoard::DrawBegin();
 
+	int num = 0;
+
 	for (int i = 0; i < BILLBOARD_MAX; i++)
 	{
 		if (CBillBoard::m_BillBoards[i] != NULL)
 		{
 			CBillBoard::m_BillBoards[i]->DrawOne(camera);
+			num++;
 		}
 	}
+
 	CBillBoard::DrawEnd();
+
+	ImGui::Begin("BillboardNum");
+	ImGui::Text("%d", num);
+	ImGui::End();
+
 }
 
 void CBillBoard::Set(int id, int texId, D3DXVECTOR3 pos, float scale, int drawtype)

@@ -23,6 +23,7 @@ void CParticleEmitter::Init(
 	D3DXVECTOR3 velocityStart,
 	D3DXVECTOR3 velocityEnd,
 	D3DXVECTOR3 accelerate,
+	D3DCOLOR color,
 	bool loop)
 {
 	m_TextureID = texId;
@@ -35,6 +36,7 @@ void CParticleEmitter::Init(
 	m_VelocityRangeStart = velocityStart;
 	m_VelocityRanegeEnd = velocityEnd;
 	m_VelocityAcceleration = accelerate;
+	m_Color = color;
 	m_Loop = loop;
 }
 
@@ -61,7 +63,7 @@ void CParticleEmitter::Update()
 {
 	if (m_FrameCount % m_SpawnSpan == 0)
 	{
-		CParticle* particle = CParticle::Create(m_TextureID, m_LifeSpan, m_ParticleSize, m_Pos);
+		CParticle* particle = CParticle::Create(m_TextureID, m_LifeSpan, m_ParticleSize, m_Pos, m_Color);
 		particle->SetSizeChageValue(m_SizeChangeValue);
 
 		D3DXVECTOR3 velocity = m_VelocityRanegeEnd - m_VelocityRangeStart;
@@ -146,7 +148,8 @@ CParticleEmitter* CParticleEmitter::Create(
 	D3DXVECTOR3 velocityStart,
 	D3DXVECTOR3 velocityEnd,
 	D3DXVECTOR3 accelerate,
-	bool loop)
+	bool loop,
+	D3DCOLOR color)
 {
 	CParticleEmitter* emitter = new CParticleEmitter();
 	emitter->Init(
@@ -160,6 +163,7 @@ CParticleEmitter* CParticleEmitter::Create(
 		velocityStart,
 		velocityEnd,
 		accelerate,
+		color,
 		loop
 	);
 

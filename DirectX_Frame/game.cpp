@@ -41,6 +41,7 @@
 #include "enemyPatternWaypoints.h"
 #include "shader.h"
 #include "fog.h"
+#include "enemyManager.h"
 
 CBillBoard *CModeGame::tree1 = NULL;
 CBillBoard *CModeGame::tree2 = NULL;
@@ -71,18 +72,21 @@ int CModeGame::m_NumSneak = 0;
 int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 CFog *CModeGame::Fog = NULL;
+CField *CModeGame::Field = NULL;
+CEnemyManager *CModeGame::EnemyManager = NULL;
 
 float g_FogColor[4];
 float g_LightDiff[4];
 float g_LightAmb[4];
 float g_Density = 0.07f;
 
-CSpotLight* g_SpotLight;
-
 void CModeGame::Init()
 {
 	// テクスチャの初期化
 	CTexture::Init();
+
+	// スキンメッシュの一括ロード
+	CSceneSkinMesh::LoadAll();
 	
 	Black = CScene2D::Create(TEX_ID_BLACK, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Black->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
@@ -96,22 +100,22 @@ void CModeGame::Init()
 	CFade::FadeIn();
 
 	// フィールド
-	//CField* field = CField::Create(NULL, 10.0f, 20, 20, true);
-	CField* field = CField::Create("data/output/map.txt");
+	Field = CField::Create("data/output/map.txt");
 
 	// プレイヤー
 	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-90.0f, 0.0f, -90.0f));
-	player->SetField(field);
+	player->SetField(Field);
 	CManager::SetCamera(player->GetCamera());
 
 	CWayPoint::Init();
 
+	EnemyManager = new CEnemyManager(Field);
 	//enemy[0] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(88.0f, 0.0f, 22.0f), new CEnemyPatternWaypoints(), field);
 	for (int j = 0; j < 5; j++)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			enemy[10 * j + i] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(-50.0f + i * 10.0f, 0.0f, -25.0f + j * 10.0f), new CEnemyPatternWaypoints(), field);
+			enemy[10 * j + i] = CEnemy::Create(SM_ID_ZOMBIE_A, D3DXVECTOR3(-50.0f + i * 10.0f, 0.0f, -25.0f + j * 10.0f), new CEnemyPatternWaypoints(), Field);
 		}
 	}
 	
@@ -134,15 +138,8 @@ void CModeGame::Init()
 	GameEnd_SE = NULL;
 
 	//Fog->Set(D3DCOLOR_RGBA(0, 0, 0, 128), 2.0f, 50.0f);
-	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.07f);
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
 
-	g_SpotLight = CSpotLight::Create(
-		1,
-		CManager::GetCamera()->GetPos(),
-		CManager::GetCamera()->GetFront(),
-		10.0f,
-		1.0f,
-		1.0f);
 }
 
 void CModeGame::Uninit()
@@ -166,7 +163,6 @@ void CModeGame::Uninit()
 	CParticle::ReleaseAll();
 
 	m_Light->Release();
-	g_SpotLight->Release();
 
 	CBillBoard::Uninit();
 
@@ -174,6 +170,8 @@ void CModeGame::Uninit()
 	CTexture::ReleaseAll();
 
 	CWayPoint::Uninit();
+
+	delete EnemyManager;
 }
 
 void CModeGame::Update()
@@ -230,6 +228,7 @@ void CModeGame::Update()
 			CParticle::UpdateAll();
 			CBillBoard::UpdateAll();
 			CWeapon::UpdateAll();
+			EnemyManager->Update();
 
 			if (m_TargetDied)
 			{
@@ -282,29 +281,6 @@ void CModeGame::Update()
 			}
 		}
 	}
-
-	g_SpotLight->SetPos(CManager::GetCamera()->GetPos());
-	g_SpotLight->SetDir(CManager::GetCamera()->GetFront());
-
-	//ImGui::Begin("MapConfig", 0);
-	//if (ImGui::Button("MapEditer"))
-	//{
-	//	CFade::FadeOut(new CModeMapMake());
-	//}
-
-	//ImGui::ColorEdit4("DiffColor", g_LightDiff);
-	//ImGui::ColorEdit4("AmbColor", g_LightAmb);
-	//ImGui::ColorEdit4("FogColor", g_FogColor);
-	//ImGui::SliderFloat("FogDensity", &g_Density, 0.0f, 1.0f);
-	//ImGui::End();
-
-	//Fog->Set(D3DCOLOR_RGBA((int)(g_FogColor[0] * 255), (int)(g_FogColor[1] * 255), (int)(g_FogColor[2] * 255), (int)(g_FogColor[3] * 255)), g_Density);
-	//m_Light->SetLightColor(g_LightDiff[0], g_LightDiff[1], g_LightDiff[2], g_LightDiff[3], g_LightAmb[0], g_LightAmb[1], g_LightAmb[2], g_LightAmb[3]);
-
-	//ImGui::Begin("Zombie", 0);
-	//ImGui::Text("player_NerPoint:%d", CModeGame::GetPlayer()->GetShortestPoint());
-	//ImGui::Text("pos:X = %.2f Y = %.2f Z = %.2f", enemy[0]->GetPos().x, enemy[0]->GetPos().y, enemy[0]->GetPos().z);
-	//ImGui::End();
 }
 
 void CModeGame::Draw()

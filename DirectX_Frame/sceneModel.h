@@ -59,6 +59,7 @@ public:
 		m_MaterialNum = 0;
 		m_TextureNum = 0;
 		m_Texture = NULL;
+		m_NormalmapTexture = NULL;
 		m_Material = NULL;
 		m_isIgnoreLight = false;
 	}
@@ -76,10 +77,12 @@ public:
 	void Draw();
 	void DrawWithShader()override;
 	void SetWorld(D3DXMATRIX move);
+	void SetNormalMapTexture(const std::string& texName);
 	void Move(D3DXVECTOR3 pos);
 	void Rotate(D3DXVECTOR3 rot);
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
+	bool AddTangentSpace();
 	D3DXMATRIX& GetScale() { return m_Scale; }
 	D3DXMATRIX& GetWorld() { return m_World; }
 	LPD3DXMESH GetMesh() { return m_Mesh; }
@@ -100,6 +103,7 @@ private:
 	int					m_TextureNum;	// テクスチャ数
 	LPD3DXBUFFER		m_Material;		// マテリアル
 	LPDIRECT3DTEXTURE9 *m_Texture;		// テクスチャ
+	LPDIRECT3DTEXTURE9  m_NormalmapTexture; // 法線マップテクスチャ
 	bool				m_isIgnoreLight;// 影を付けるかどうか
 };
 

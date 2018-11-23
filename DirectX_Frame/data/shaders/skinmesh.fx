@@ -1,13 +1,13 @@
 // グローバル変数
-float4x4 	g_matWorld[4] : WORLD;   // ワールド変換行列配列
+float4x4 	g_matWorld[4] : WORLD;  // ワールド変換行列配列
 float4x4	g_world;		// 変換行列
-float4x4	g_view;		// 変換行列
+float4x4	g_view;			// 変換行列
 float4x4	g_projection;		// 変換行列
-int 		g_blendNum;       // ブレンドする配列の数
+int 		g_blendNum;       	// ブレンドする配列の数
 bool		g_tex;			// テクスチャありなしフラグ　true:あり
 
 // 光関連
-float3		g_light_dir;	// 平行光源の方向
+float3		g_light_dir;		// 平行光源の方向
 float4		g_diffuse;		// デフューズ
 float4		g_ambient;		// アンビエント
 float4		g_specular;		// スペキュラ―

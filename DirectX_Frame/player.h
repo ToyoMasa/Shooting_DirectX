@@ -24,6 +24,7 @@ static const int HAVE_WEAPON = 2;
 class CScene2D;
 class CWeapon;
 class CPlayerPatternBase;
+class CNumber;
 
 class CPlayer : public CCharacter
 {
@@ -85,6 +86,7 @@ private:
 	CEffekseer* m_BloodEffect;
 	CScene2D*	m_DamagedEffect;
 	CPlayerPatternBase* m_Pattern;
+	CNumber*	m_AmmoNum;
 	int			m_ShortestPoint;
 };
 

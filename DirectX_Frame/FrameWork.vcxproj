@@ -168,6 +168,7 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="enemyManager.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="common.h" />
@@ -187,7 +188,9 @@
     <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="event.h" />
+    <ClInclude Include="normalmapShader.h" />
     <ClInclude Include="skinmeshShader.h" />
+    <ClInclude Include="spotlightShader.h" />
     <ClInclude Include="waypoint.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -254,6 +257,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
+    <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="controller.cpp" />
@@ -285,6 +289,7 @@
     <ClCompile Include="moveToPlayer.cpp" />
     <ClCompile Include="moveToPos.cpp" />
     <ClCompile Include="moveToRandom.cpp" />
+    <ClCompile Include="normalmapShader.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
@@ -312,6 +317,7 @@
     <ClCompile Include="skinmeshShader.cpp" />
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="spotlightShader.cpp" />
     <ClCompile Include="targetPoint.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
@@ -320,6 +326,11 @@
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="waypoint.cpp" />
     <ClCompile Include="weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\shaders\metal.fx" />
+    <FxCompile Include="data\shaders\normalmap.fx" />
+    <FxCompile Include="data\shaders\spotlight.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

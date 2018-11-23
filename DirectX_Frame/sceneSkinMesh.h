@@ -8,14 +8,12 @@
 #include <string>
 #include "SkinMeshFile.h"
 
-static const float DRAW_DIST = 30.0f;
+static const float DRAW_DIST = 40.0f;
 
 // ƒ‚ƒfƒ‹ŠÇ——pID
 typedef enum
 {
 	SM_ID_PLAYER,
-	SM_ID_ENEMY01,
-	SM_ID_ENEMY02,
 	SM_ID_ZOMBIE_A,
 	SM_ID_MAX
 } SKINMESH_MODEL_ID;
@@ -23,8 +21,6 @@ typedef enum
 static const std::string SKINMESH_SOURCE[] =
 {
 	"data/models/player_hand.x",
-	"data/models/enemy_01.x",
-	"data/models/enemy_02.x",
 	"data/models/zombieB.x",
 };
 
@@ -78,6 +74,7 @@ public:
 	float GetWeightTime() { return m_Animation->GetWeightTime(); }
 
 	static CSceneSkinMesh* Create(const SKINMESH_MODEL_ID& id);
+	static void LoadAll();
 	static void LoadFile(const SKINMESH_MODEL_ID& id);
 	static void ReleaseFile(const SKINMESH_MODEL_ID& id);
 	static void ReleaseFileAll();

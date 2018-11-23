@@ -12,7 +12,7 @@ CShaderMetal::CShaderMetal() : CShader()
 {
 	bool sts;
 	sts = VertexShaderCompile(
-		"data/shaders/metal.fx",						// シェーダーファイル名
+		SHADER_FILE[SH_ID_METAL].c_str(),						// シェーダーファイル名
 		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
@@ -22,7 +22,7 @@ CShaderMetal::CShaderMetal() : CShader()
 
 	// ピクセルシェーダーコンパイル
 	sts = PixelShaderCompile(
-		"data/shaders/metal.fx",						// シェーダーファイル名
+		SHADER_FILE[SH_ID_METAL].c_str(),						// シェーダーファイル名
 		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 

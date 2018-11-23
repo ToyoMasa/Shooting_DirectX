@@ -42,7 +42,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	void DrawWithShader()override {}
+	void DrawWithShader()override;
 	void Change(VERTEX_3D* vertex, WORD* index);
 	VERTEX_3D* GetVertex() { return m_Vertex; }
 	static CScene3D* Create(int texId, float meshSize, int sizeX, int sizeY, int numPrimitive, int numVertex, int numIndex);

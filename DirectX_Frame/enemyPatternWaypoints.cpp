@@ -27,11 +27,12 @@
 #include "enemyPatternChase.h"
 #include "enemyPatternAttack.h"
 
-static float MOVE_SPEED = 0.1f;
+static float MOVE_SPEED = 0.015f;
 
 void CEnemyPatternWaypoints::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_WALKING, 0.3f);
+	enemy->GetModel()->SetAnimPlaySpeed(1.2f);
 
 	// 一番近いウェイポイントを検索
 	m_NowPoint = CWayPoint::SearchShortestPoint(enemy->GetPos());

@@ -55,7 +55,7 @@ void CWeapon::ReleaseAll()
 void CWeapon::SetActive(bool active) 
 {
 	m_Model->SetVisible(active);
-	m_Crosshair->SetVisible(active);
+	//m_Crosshair->SetVisible(active);
 	m_BulletDebug->SetVisible(active);
 	m_isActive = active;
 }

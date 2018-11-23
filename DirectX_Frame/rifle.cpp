@@ -20,19 +20,23 @@
 #include "billboard.h"
 #include "PlayerAnim.h"
 #include "metalShader.h"
+#include "normalmapShader.h"
+#include "spotlightShader.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
+#define RIFLE_RATE (60.0f / (460.0f / 60.0f))
+static const int RIFLE_MAX_AMMO = 40;
 
 static const int DIFFUSSION = 160;
-CShader* metal = NULL;
 
 void CRifle::Init(CSceneSkinMesh *parent)
 {
 	m_Parent = parent;
 	m_Model = CSceneModel::Create("data/models/rifle.x");
 	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
-	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f)); 
+	m_Crosshair->SetVisible(false);
 	m_Crosshair->SetColor(D3DCOLOR_RGBA(255, 0, 0, 255));
 	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -45,7 +49,10 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Model->Rotate(m_Rot);
 	m_Model->Scale(m_Scale);
 
-	m_Rate = 60.0f / (600.0f / 60.0f);
+	m_Ammo = RIFLE_MAX_AMMO;
+	m_MaxAmmo = RIFLE_MAX_AMMO;
+
+	m_Rate = RIFLE_RATE;
 	m_CoolDown = 0.0f;
 	m_Damage = 28.0f;
 
@@ -66,8 +73,9 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.y = 141.5f;
 	m_Rot.z = 33.75f;
 
-	//metal = new CShaderMetal();
+	//m_Model->SetShader(CShaderSpotlight::GetShader());
 	m_Model->SetShader(CShaderMetal::GetShader());
+	//m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
 }
 
 void CRifle::Uninit()
@@ -77,8 +85,6 @@ void CRifle::Uninit()
 		m_Model->Release();
 		m_Model = NULL;
 	}
-
-	//delete metal;
 }
 
 void CRifle::Update()
@@ -129,7 +135,7 @@ void CRifle::Update()
 
 void CRifle::Shoot()
 {
-	if (m_CoolDown <= 0)
+	if (m_CoolDown <= 0 && m_Ammo > 0)
 	{
 		if (m_isADS)
 		{
@@ -148,6 +154,9 @@ void CRifle::Shoot()
 
 		m_CoolDown = m_Rate;
 		int i = 0;
+
+		// 残弾を減らす
+		m_Ammo--;
 
 		// マズルフラッシュの描画を有効化
 		m_FlashAlpha = 200;

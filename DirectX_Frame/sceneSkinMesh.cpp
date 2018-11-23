@@ -128,11 +128,6 @@ void CSceneSkinMesh::DrawWithShader()
 
 			float degree = D3DXToDegree(rad);
 
-			if (m_ModelID == SM_ID_ZOMBIE_A)
-			{
-				int a = 0;
-			}
-
 			if (degree <= 90.0f)
 			{
 				m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
@@ -223,6 +218,15 @@ D3DXMATRIX CSceneSkinMesh::GetBoneMatrix(LPSTR _BoneName)
 	m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
 	return m_SkinMeshFiles[m_ModelID]->GetBoneMatrix(_BoneName);
 }
+
+void CSceneSkinMesh::LoadAll()
+{
+	for (int i = 0; i < SM_ID_MAX; i++)
+	{
+		LoadFile((SKINMESH_MODEL_ID)i);
+	}
+}
+
 void CSceneSkinMesh::LoadFile(const SKINMESH_MODEL_ID& id)
 {
 	if (m_SkinMeshFiles[id] == NULL)

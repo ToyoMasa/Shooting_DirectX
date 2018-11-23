@@ -70,6 +70,12 @@
     <Filter Include="ヘッダー ファイル\findRoot">
       <UniqueIdentifier>{65d1ef80-e52f-4a8e-88f3-e1d3970733dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\event">
+      <UniqueIdentifier>{f2947d9b-47d9-44b1-aade-1acfc24279be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\event">
+      <UniqueIdentifier>{5f96bd3e-3f9f-4ac5-ba83-c5690a16b134}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -315,14 +321,23 @@
     <ClInclude Include="waypoint.h">
       <Filter>ヘッダー ファイル\findRoot</Filter>
     </ClInclude>
-    <ClInclude Include="event.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="gameobject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="skinmeshShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="normalmapShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="spotlightShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>ヘッダー ファイル\event</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -539,14 +554,28 @@
     <ClCompile Include="wall.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="event.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="gameobject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="skinmeshShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
+    <ClCompile Include="normalmapShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="spotlightShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
+      <Filter>ソース ファイル\event</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\shaders\spotlight.fx" />
+    <FxCompile Include="data\shaders\normalmap.fx" />
+    <FxCompile Include="data\shaders\metal.fx" />
   </ItemGroup>
 </Project>
