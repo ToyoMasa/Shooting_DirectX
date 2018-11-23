@@ -120,8 +120,10 @@ void CSceneSkinMesh::DrawWithShader()
 
 			D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
 			camFront.y = 0;
+			vec.y = 0;
 
 			D3DXVec3Normalize(&camFront, &camFront);
+			D3DXVec3Normalize(&vec, &vec);
 
 			float dot = D3DXVec3Dot(&vec, &camFront);
 			float rad = acosf(dot);

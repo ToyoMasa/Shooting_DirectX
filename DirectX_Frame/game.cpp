@@ -28,7 +28,6 @@
 #include "particle.h"
 #include "emitter.h"
 #include "action.h"
-#include "root.h"
 #include "fade.h"
 #include "Effekseer.h"
 #include "wall.h"
@@ -85,16 +84,13 @@ void CModeGame::Init()
 	// テクスチャの初期化
 	CTexture::Init();
 
-	// スキンメッシュの一括ロード
-	CSceneSkinMesh::LoadAll();
-	
 	Black = CScene2D::Create(TEX_ID_BLACK, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Black->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
 	Black->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
 	Black->SetVisible(false);
 
-	// ルートの設定
-	CRoot::Set();
+	// 敵の経路を作成
+	CWayPoint::Init();
 
 	// フェード
 	CFade::FadeIn();
@@ -107,8 +103,6 @@ void CModeGame::Init()
 	player->SetField(Field);
 	CManager::SetCamera(player->GetCamera());
 
-	CWayPoint::Init();
-
 	EnemyManager = new CEnemyManager(Field);
 	
 	// 空
@@ -120,6 +114,11 @@ void CModeGame::Init()
 	// ビルボードの準備
 	CBillBoard::Init();
 
+	// ポーズの準備
+	Pause = CScene2D::Create(TEX_ID_PAUSE, 172.0f, 97.0f);
+	Pause->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+	Pause->SetVisible(false);
+
 	// スコア等のリセット
 	m_PlayerDied = false;
 	m_TargetDied = false;
@@ -129,7 +128,6 @@ void CModeGame::Init()
 	m_CountResult = 0;
 	GameEnd_SE = NULL;
 
-	//Fog->Set(D3DCOLOR_RGBA(0, 0, 0, 128), 2.0f, 50.0f);
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
 
 }
@@ -141,8 +139,6 @@ void CModeGame::Uninit()
 	CWeapon::ReleaseAll();
 
 	CCharacter::ReleaseAll();
-
-	CSceneSkinMesh::ReleaseFileAll();
 
 	CScene::ReleaseAll();
 
@@ -342,14 +338,12 @@ void CModeGame::CallPause()
 		m_Pause = false;
 		Black->SetVisible(false);
 		Pause->SetVisible(false);
-		Tutorial->SetVisible(false);
 	}
 	else
 	{
 		m_Pause = true;
 		Black->SetVisible(true);
 		Pause->SetVisible(true);
-		Tutorial->SetVisible(true);
 	}
 }
 

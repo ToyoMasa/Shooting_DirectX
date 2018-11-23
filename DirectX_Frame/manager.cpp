@@ -60,6 +60,9 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//CManager::m_Mode = new CModeMapMake();
 	CManager::m_Mode = new CModeGame();
 
+	// スキンメッシュの一括ロード
+	CSceneSkinMesh::LoadAll();
+
 	if (CManager::m_Mode != NULL)
 	{
 		CManager::m_Mode->Init();
@@ -72,6 +75,9 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 void CManager::Uninit()
 {
+	// スキンメッシュファイルの一括リリース
+	CSceneSkinMesh::ReleaseFileAll();
+
 	CFade::Uninit();
 
 	CManager::m_Mode->Uninit();
