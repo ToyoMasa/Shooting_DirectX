@@ -25,7 +25,7 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-#include "playerPatternIdle.h"
+#include "playerPatternNormal.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
@@ -92,7 +92,7 @@ void CPlayerPatternReload::Update(CPlayer* player)
 	}
 	else if (m_CountFrame == 90)
 	{
-		player->ChangePattern(new CPlayerPatternIdle());
+		player->ChangePattern(new CPlayerPatternNormal());
 	}
 
 	m_CountFrame++;

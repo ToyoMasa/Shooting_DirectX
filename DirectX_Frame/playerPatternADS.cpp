@@ -25,7 +25,7 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-#include "playerPatternIdle.h"
+#include "playerPatternNormal.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 
@@ -66,7 +66,7 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	// ADS‰ðœ
 	if (!inputMouse->GetRightPress())
 	{
-		player->ChangePattern(new CPlayerPatternIdle());
+		player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
 

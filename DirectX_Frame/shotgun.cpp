@@ -223,10 +223,6 @@ void CShotgun::RecoilUpdate()
 		m_TotalRecoilX = 0.0f;
 		m_TotalRecoilY = 0.0f;
 	}
-	
-	ImGui::Begin("FireCount", 0);
-	ImGui::Text("%d", m_CountFire);
-	ImGui::End();
 }
 
 void CShotgun::ReleaseTrigger()

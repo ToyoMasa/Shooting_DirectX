@@ -304,11 +304,6 @@ void CBillBoard::DrawAll(CCamera* camera)
 	}
 
 	CBillBoard::DrawEnd();
-
-	ImGui::Begin("BillboardNum");
-	ImGui::Text("%d", num);
-	ImGui::End();
-
 }
 
 void CBillBoard::Set(int id, int texId, D3DXVECTOR3 pos, float scale, int drawtype)

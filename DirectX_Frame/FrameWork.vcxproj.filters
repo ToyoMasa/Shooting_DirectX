@@ -264,9 +264,6 @@
     <ClInclude Include="shotgun.h">
       <Filter>ヘッダー ファイル\weapon</Filter>
     </ClInclude>
-    <ClInclude Include="playerPatternIdle.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
-    </ClInclude>
     <ClInclude Include="playerPatternBase.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
@@ -350,6 +347,9 @@
     </ClInclude>
     <ClInclude Include="zombie.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="playerPatternNormal.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -509,9 +509,6 @@
     <ClCompile Include="shotgun.cpp">
       <Filter>ソース ファイル\weapon</Filter>
     </ClCompile>
-    <ClCompile Include="playerPatternIdle.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
-    </ClCompile>
     <ClCompile Include="playerPatternCrouch.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
@@ -589,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="zombie.cpp">
       <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternNormal.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

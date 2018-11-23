@@ -25,7 +25,7 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-#include "playerPatternIdle.h"
+#include "playerPatternNormal.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
@@ -81,7 +81,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	// 前方へ移動していなければ通常状態へ
 	if (moveZ <= 0.8f)
 	{
-		player->ChangePattern(new CPlayerPatternIdle());
+		player->ChangePattern(new CPlayerPatternNormal());
 	}
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
@@ -104,7 +104,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	// ダッシュ
 	if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
 	{
-		player->ChangePattern(new CPlayerPatternIdle());
+		player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
 
@@ -128,7 +128,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	// 攻撃したらダッシュ状態を解除
 	if (inputMouse->GetLeftPress())
 	{
-		player->ChangePattern(new CPlayerPatternIdle());
+		player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
 	if (inputMouse->GetLeftRelease())

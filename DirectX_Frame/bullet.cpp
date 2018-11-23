@@ -140,10 +140,6 @@ void CBullet::UpdateAll()
 			num++;
 		}
 	}
-
-	ImGui::Begin("Bullet", 0);
-	ImGui::Text("%d", num);
-	ImGui::End();
 }
 
 void CBullet::ReleaseAll()

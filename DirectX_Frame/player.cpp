@@ -26,7 +26,7 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-#include "playerPatternIdle.h"
+#include "playerPatternNormal.h"
 #include "playerPatternJump.h"
 #include "playerPatternReload.h"
 #include "waypoint.h"
@@ -100,7 +100,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_Life = 100.0f;
 	m_MaxLife = 100.0f;
 
-	ChangePattern(new CPlayerPatternIdle());
+	ChangePattern(new CPlayerPatternNormal());
 
 	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
 
@@ -141,13 +141,9 @@ void CPlayer::Update()
 	CInputKeyboard *inputKeyboard;
 	inputKeyboard = CManager::GetInputKeyboard();
 
-	ImGui::Begin("Area", 0);
-	ImGui::Text("%d", m_AreaID);
-
-	ImGui::End(); 
-
 	ImGui::Begin("Player", 0);
 	ImGui::SliderFloat("Life", &m_Life, 0.0f, 100.0f);
+	ImGui::Text("Area:%d", m_AreaID);
 	ImGui::End();
 	if (inputKeyboard->GetKeyPress(DIK_T))
 	{
@@ -437,7 +433,7 @@ void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ
 	if (newPos.y < fieldHeight)
 	{
 		newPos.y = fieldHeight;
-		ChangePattern(new CPlayerPatternIdle());
+		ChangePattern(new CPlayerPatternNormal());
 	}
 
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ

@@ -25,20 +25,20 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-#include "playerPatternIdle.h"
+#include "playerPatternNormal.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
 #include "playerPatternReload.h"
 
-void CPlayerPatternIdle::Init(CPlayer* player)
+void CPlayerPatternNormal::Init(CPlayer* player)
 {
 	player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
 	player->SetADS(false);
 	player->SetWeaponADS(false);
 }
 
-void CPlayerPatternIdle::Update(CPlayer* player)
+void CPlayerPatternNormal::Update(CPlayer* player)
 {
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;

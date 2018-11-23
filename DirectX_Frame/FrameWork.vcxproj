@@ -217,7 +217,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerAnim.h" />
     <ClInclude Include="playerPatternDash.h" />
-    <ClInclude Include="playerPatternIdle.h" />
+    <ClInclude Include="playerPatternNormal.h" />
     <ClInclude Include="playerPatternCrouch.h" />
     <ClInclude Include="playerPatternJump.h" />
     <ClInclude Include="renderer.h" />
@@ -298,7 +298,7 @@
     <ClCompile Include="playerPatternADS.cpp" />
     <ClCompile Include="playerPatternAir.cpp" />
     <ClCompile Include="playerPatternDash.cpp" />
-    <ClCompile Include="playerPatternIdle.cpp" />
+    <ClCompile Include="playerPatternNormal.cpp" />
     <ClCompile Include="playerPatternCrouch.cpp" />
     <ClCompile Include="playerPatternJump.cpp" />
     <ClCompile Include="playerPatternReload.cpp" />

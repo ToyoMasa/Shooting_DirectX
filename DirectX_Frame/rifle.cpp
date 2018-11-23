@@ -226,10 +226,6 @@ void CRifle::RecoilUpdate()
 			m_TotalRecoilY = 0.0f;
 		}
 	}
-
-	ImGui::Begin("FireCount", 0);
-	ImGui::Text("%d", m_CountFire);
-	ImGui::End();
 }
 
 void CRifle::ReleaseTrigger()

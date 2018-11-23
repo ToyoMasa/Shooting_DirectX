@@ -1,21 +1,21 @@
 //======================================================================
-//	プレイヤーアイドルパターンヘッダ[playerPatternIdle.h]
+//	プレイヤー通常時パターンヘッダ[playerPatternNormal.h]
 //
 //======================================================================
-#ifndef _PLAYER_PATTERN_IDLE_H_
-#define _PLAYER_PATTERN_IDLE_H_
+#ifndef _PLAYER_PATTERN_NORMAL_H_
+#define _PLAYER_PATTERN_NORMAL_H_
 
 #include "playerPatternBase.h"
 
-class CPlayerPatternIdle : public CPlayerPatternBase
+class CPlayerPatternNormal : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternIdle() {}
-	~CPlayerPatternIdle() {}
+	CPlayerPatternNormal() {}
+	~CPlayerPatternNormal() {}
 
 	void Init(CPlayer* player)override;
 	void Uninit(CPlayer* player)override{}
 	void Update(CPlayer* player)override;
 };
 
-#endif // !_PLAYER_PATTERN_IDLE_H_
+#endif // !_PLAYER_PATTERN_NORMAL_H_
