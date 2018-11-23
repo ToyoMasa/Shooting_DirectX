@@ -29,6 +29,7 @@
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
+#include "playerPatternReload.h"
 
 void CPlayerPatternIdle::Init(CPlayer* player)
 {
@@ -81,7 +82,6 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 		player->ChangePattern(new CPlayerPatternADS());
 		return;
 	}
-	//player->ADS(inputMouse->GetRightPress());
 
 	// UŒ‚
 	if (inputMouse->GetLeftPress())
@@ -104,6 +104,15 @@ void CPlayerPatternIdle::Update(CPlayer* player)
 	if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
 	{
 		player->ChangePattern(new CPlayerPatternDash());
+	}
+
+	// ƒŠƒ[ƒh
+	if (inputKeyboard->GetKeyTrigger(DIK_R))
+	{
+		if (player->GetUsingWeapon()->GetAmmo() < player->GetUsingWeapon()->GetMaxAmmo())
+		{
+			player->ChangePattern(new CPlayerPatternReload());
+		}
 	}
 
 	// ‰ñ“]

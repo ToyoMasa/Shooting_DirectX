@@ -28,6 +28,7 @@
 #include "shotgun.h"
 #include "playerPatternIdle.h"
 #include "playerPatternJump.h"
+#include "playerPatternReload.h"
 #include "waypoint.h"
 #include "skinmeshShader.h"
 
@@ -511,6 +512,12 @@ void CPlayer::ADS()
 void CPlayer::SetADS(bool ads)
 {
 	m_isADS = ads;
+}
+
+void CPlayer::Reload()
+{
+	m_UsingWeapon->Reload();
+	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
 }
 
 void CPlayer::SetWeaponADS(bool ads)

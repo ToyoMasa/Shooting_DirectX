@@ -60,6 +60,7 @@ public:
 	void MoveAir(const float& moveX, const float& moveY, const float& moveZ);
 	void ADS();
 	void SetADS(bool ads);
+	void Reload();
 	void SetWeaponADS(bool ads);
 	void ChangePattern(CPlayerPatternBase* next);
 	float& GetJumpPower() { return m_JumpPower; }
@@ -67,6 +68,7 @@ public:
 	float& GetUpValue() { return m_UpValue; }
 	void SetUpValue(float value) { m_UpValue = value; }
 	int& GetShortestPoint() { return m_ShortestPoint; }
+	CWeapon* GetUsingWeapon() { return m_UsingWeapon; }
 
 	void Damaged(float damage)override;
 

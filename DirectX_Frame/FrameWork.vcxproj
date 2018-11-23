@@ -189,6 +189,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="normalmapShader.h" />
+    <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="skinmeshShader.h" />
     <ClInclude Include="spotlightShader.h" />
     <ClInclude Include="waypoint.h" />
@@ -299,6 +300,7 @@
     <ClCompile Include="playerPatternIdle.cpp" />
     <ClCompile Include="playerPatternCrouch.cpp" />
     <ClCompile Include="playerPatternJump.cpp" />
+    <ClCompile Include="playerPatternReload.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="rifle.cpp" />

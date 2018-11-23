@@ -29,6 +29,7 @@
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
+#include "playerPatternReload.h"
 
 void CPlayerPatternDash::Init(CPlayer* player)
 {
@@ -113,6 +114,15 @@ void CPlayerPatternDash::Update(CPlayer* player)
 		player->ChangePattern(new CPlayerPatternJump(dir));
 		return;
 
+	}
+
+	// リロード
+	if (inputKeyboard->GetKeyTrigger(DIK_R))
+	{
+		if (player->GetUsingWeapon()->GetAmmo() < player->GetUsingWeapon()->GetMaxAmmo())
+		{
+			player->ChangePattern(new CPlayerPatternReload());
+		}
 	}
 
 	// 攻撃したらダッシュ状態を解除
