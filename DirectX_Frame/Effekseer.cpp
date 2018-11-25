@@ -5,9 +5,9 @@
 #include "camera.h"
 #include "Effekseer.h"
 
-CEffekseer* CEffekseer::Create(Effect EffectType)
+CEffekseer* CEffekseer::Create(Effect EffectType, int priority)
 {
-	CEffekseer* Effekseer = new CEffekseer(EffectType, LAYER_EFFEKSEER);
+	CEffekseer* Effekseer = new CEffekseer(EffectType, priority);
 	Effekseer->Init();
 	return Effekseer;
 }

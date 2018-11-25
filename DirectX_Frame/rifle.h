@@ -5,6 +5,10 @@
 #ifndef _RIFLE_H_
 #define _RIFLE_H_
 
+class CSound;
+
+static const int RIFLE_SHOT_SE_NUM = 6;
+
 class CRifle : public CWeapon
 {
 public:
@@ -21,9 +25,10 @@ public:
 	void Recoil(float recoilX, float recoilY)override;
 	void RecoilUpdate()override;
 	void ReleaseTrigger()override;
+	void SoundShot()override;
 
 private:
-
+	CSound* m_ShotSE[RIFLE_SHOT_SE_NUM];
 };
 
 #endif // !_RIFLE_H_

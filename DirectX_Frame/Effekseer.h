@@ -27,11 +27,15 @@ public:
 	{
 		EFFECT_BLOODLOSS,
 		EFFECT_MUZZLEFLASH,
+		EFFECT_SMOKE,
+		EFFECT_FLAME,
 		EFFECT_MAX
 	};
 	const EffectFile fileName_[EFFECT_MAX]{
 		L"data/effects/BloodLoss.efk",
 		L"data/effects/muzzleflash.efk",
+		L"data/effects/smoke.efk",
+		L"data/effects/flame.efk",
 	};
 
 
@@ -77,7 +81,7 @@ public:
 	void Draw()override; 
 	void DrawWithShader()override {}
 
-	static CEffekseer *Create(Effect EffectType);
+	static CEffekseer *Create(Effect EffectType, int priority = LAYER_EFFEKSEER);
 	static void  CreateScene(Effect EffectType);
 
 	void SetLocation(D3DXVECTOR3 pos);

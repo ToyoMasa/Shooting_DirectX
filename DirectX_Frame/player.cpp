@@ -67,14 +67,13 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_DamagedEffect->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 1.0f));
 	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(166, 19, 19, 0));
 
-	m_Knife = CSound::Create(SOUND_LABEL_SE_KNIFE);
-	m_Hit = CSound::Create(SOUND_LABEL_SE_HIT);
-
 	// モデルの回転軸をカメラの位置にそろえる
 	D3DXMatrixTranslation(&m_LocalLocation, m_LocalCameraPos.x, -m_LocalCameraPos.y, m_LocalCameraPos.z);
 	m_Rotate = m_LocalLocation;
-
 	Rotate(m_Camera->GetFront());
+
+	// サウンドの設定
+	m_SoundReload = CSound::Create(SOUND_LABEL_SE_RELOAD);
 
 	// 武器を装備
 	m_Weapon[0] = CRifle::Create(m_Model);
@@ -127,10 +126,6 @@ void CPlayer::Uninit()
 	if (m_DamagedEffect)
 	{
 		m_DamagedEffect->Release();
-	}
-	if (m_Knife)
-	{
-		m_Knife->Release();
 	}
 }
 
@@ -499,6 +494,11 @@ void CPlayer::Reload()
 void CPlayer::SetWeaponADS(bool ads)
 {
 	m_UsingWeapon->SetADS(ads);
+}
+
+void CPlayer::PlayReload()
+{ 
+	m_SoundReload->Play(); 
 }
 
 void CPlayer::ChangePattern(CPlayerPatternBase* next)

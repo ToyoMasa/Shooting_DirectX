@@ -10,12 +10,15 @@
 #include "field.h"
 #include "enemyManager.h"
 #include "enemyPatternWaypoints.h"
+#include "zombie.h"
 
 CEnemyManager::CEnemyManager(CField* field)
 {
 	m_CountFrame = 0;
 	m_Field = field;
 	m_ZombieSpawnRate = 100;
+
+	CZombie::ZombieInit();
 
 	for (int i = 0; i < ZOMBIE_NUM_MAX; i++)
 	{

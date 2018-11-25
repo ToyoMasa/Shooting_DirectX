@@ -7,6 +7,8 @@
 
 #include "item.h"
 
+class CEffekseer;
+
 class CTargetCapsule : public CItem
 {
 public:
@@ -22,7 +24,10 @@ public:
 private:
 	CSceneModel*	m_Model;
 	Capsule			m_CollisionCapsule;
+	CEffekseer*		m_Smoke[2];
+	CEffekseer*		m_Flame;
 	float			m_Life;
+	bool			m_isDestroyed;
 };
 
 #endif // !_TARGETCAPSULE_H_

@@ -76,9 +76,12 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 		m_FlashEffect = CEffekseer::Create(CEffekseer::EFFECT_MUZZLEFLASH);
 		m_FlashEffect->RepeatEffect(false);
 		m_FlashEffect->SetScale(0.025f, 0.025f, 0.025f);
-		m_FlashEffect->SetSpeed(2.0f);
+		m_FlashEffect->SetSpeed(5.0f);
 		m_FlashEffect->SetVisible(true);
 	}
+
+	// eº‚Ì€”õ
+	m_ShotSE = CSound::Create(SOUND_LABEL_SE_SHOTGUN_SHOT);
 }
 
 void CShotgun::Uninit()
@@ -191,6 +194,9 @@ void CShotgun::Shoot()
 		m_FlashEffect->SetRotate(m_Rot);
 		m_FlashEffect->SetLocation(m_MuzzlePos);
 		m_FlashEffect->Play();
+
+		// eº
+		SoundShot();
 	}
 }
 
@@ -240,4 +246,9 @@ void CShotgun::ReleaseTrigger()
 {
 	// ƒgƒŠƒK[‚ð—£‚µ‚½”»’è
 	m_isReleaseTrigger = true;
+}
+
+void CShotgun::SoundShot()
+{
+	m_ShotSE->Play();
 }

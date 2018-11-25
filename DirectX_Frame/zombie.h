@@ -9,6 +9,9 @@
 
 static const float ZOMBIE_MOVE_SPEED = 0.015f;
 static const float ZOMBIE_CUPSULE_RAD = 0.4f;
+static const int ZOMBIE_VOICE_NUM = 3;
+
+class CSound;
 
 class CZombie : public CEnemy
 {
@@ -27,6 +30,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	static CZombie* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field);
+	static void ZombieInit();
 
 	void Move(D3DXVECTOR3 newPos);
 	void Death()override;
@@ -35,6 +39,8 @@ public:
 	void Damaged(float damage)override;
 	void GetCapsuleInfo(D3DXVECTOR3& pos1, D3DXVECTOR3& pos2, float& r)override;
 private:
+	static CSound* m_ZombieDeath;
+	static CSound* m_ZombieVoice[ZOMBIE_VOICE_NUM];
 };
 
 #endif // !_ZOMBIE_H_

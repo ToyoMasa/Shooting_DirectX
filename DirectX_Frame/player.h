@@ -34,8 +34,7 @@ public:
 		m_Type = CHARACTER_PLAYER;
 		m_CameraLength = 2.0f;
 		m_Camera = NULL;
-		m_Knife = NULL;
-		m_Hit = NULL;
+		m_SoundReload = NULL;
 		m_isPreDeath  = false;
 		m_isADS = false;
 		m_Pattern = NULL;
@@ -62,6 +61,7 @@ public:
 	void SetADS(bool ads);
 	void Reload();
 	void SetWeaponADS(bool ads);
+	void PlayReload();
 	void ChangePattern(CPlayerPatternBase* next);
 	float GetJumpPower() { return m_JumpPower; }
 	void SetJumpPower(float power) { m_JumpPower = power; }
@@ -79,8 +79,7 @@ private:
 	float		m_CameraLength;
 	float		m_JumpPower;
 	float		m_UpValue;
-	CSound*		m_Knife;
-	CSound*		m_Hit;
+	CSound*		m_SoundReload;
 	bool		m_isPreDeath;
 	bool		m_isADS;
 	CWeapon*	m_UsingWeapon;

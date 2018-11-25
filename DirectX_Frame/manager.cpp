@@ -26,6 +26,7 @@
 #include "fade.h"
 #include "sound.h"
 #include "shader.h"
+#include "waypoint.h"
 
 static float CAMERA_SPEED = 0.1f;
 
@@ -212,6 +213,8 @@ void CManager::SetMode(CMode* mode)
 void CManager::ChangeDebugMode()
 {
 	m_isDebug = !m_isDebug; 
+
+	CWayPoint::Debug();
 
 	if (m_isDebug)
 	{

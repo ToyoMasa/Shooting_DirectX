@@ -4,12 +4,14 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "scene.h"
 #include "texture.h"
 #include "billboard.h"
 #include "waypoint.h"
 
 std::vector<CWayPoint*> CWayPoint::m_WayPonits; 
+std::vector<CBillBoard*> CWayPoint::m_PointsDebug;
 int **CWayPoint::m_EdgeCost;
 int **CWayPoint::m_ShortestPath;
 
@@ -73,8 +75,9 @@ void CWayPoint::Init()
 	{
 		m_WayPonits[i]->m_ID = i;
 
-		CBillBoard* p = CBillBoard::Create(TEX_ID_CIRCLE);
-		p->Set(m_WayPonits[i]->m_Pos, 2.0f, NORMAL);
+		m_PointsDebug.push_back(CBillBoard::Create(TEX_ID_CIRCLE));
+		m_PointsDebug[i]->Set(m_WayPonits[i]->m_Pos, 2.0f, NORMAL);
+		m_PointsDebug[i]->SetVisible(false);
 	}
 
 	// 各隣接点の設定
@@ -265,6 +268,7 @@ void CWayPoint::Uninit()
 	}
 
 	m_WayPonits.clear();
+	m_PointsDebug.clear();
 }
 
 void CWayPoint::Add(D3DXVECTOR3 pos)
@@ -341,7 +345,8 @@ void CWayPoint::CreateGraph()
 //次に行くウェイポイントを取得.
 int CWayPoint::GetNextPoint(const int s, const int e)
 {
-	for (int i = 0; i != m_WayPonits.size(); i++) {
+	for (int i = 0; i != m_WayPonits.size(); i++) 
+	{
 		if (i == s) { continue; }
 		if (m_EdgeCost[s][i] + m_ShortestPath[i][e] == m_ShortestPath[s][e]) {
 			return i;
@@ -382,4 +387,12 @@ D3DXVECTOR3 CWayPoint::GetWayPointPos(const int& index)
 		return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 	return m_WayPonits[index]->m_Pos;
+}
+
+void CWayPoint::Debug()
+{
+	for (int i = 0; i != m_PointsDebug.size(); ++i)
+	{
+		m_PointsDebug[i]->SetVisible(CManager::GetDebug());
+	}
 }

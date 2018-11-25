@@ -32,6 +32,7 @@ void CEnemyPatternAttack::Init(CEnemy* enemy)
 	enemy->GetModel()->ChangeAnim(ENEMY_ATTACK, 0.3f);
 	enemy->GetModel()->SetAnimPlaySpeed(1.5f);
 	enemy->SetAttackHit(false);
+	enemy->Attack();
 }
 
 void CEnemyPatternAttack::Update(CEnemy* enemy)

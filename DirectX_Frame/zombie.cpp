@@ -13,6 +13,7 @@
 #include "sceneSkinMesh.h"
 #include "sceneShadow.h"
 #include "texture.h"
+#include "sound.h"
 #include "billboard.h"
 #include "player.h"
 #include "enemy.h"
@@ -30,6 +31,21 @@
 
 static const float ZOMBIE_LIFE = 200.0f;
 static const float ZOMBIE_ATTACK_DAMAGE = 23.0f;
+
+CSound *CZombie::m_ZombieDeath = NULL;
+CSound *CZombie::m_ZombieVoice[ZOMBIE_VOICE_NUM] = { NULL };
+
+void CZombie::ZombieInit()
+{
+	m_ZombieDeath = CSound::Create(SOUND_LABEL_SE_ZOMBIE_DEATH);
+	for (int i = 0; i < ZOMBIE_VOICE_NUM; i++)
+	{
+		if (m_ZombieVoice[i] == NULL)
+		{
+			m_ZombieVoice[i] = CSound::Create((SOUND_LABEL)(SOUND_LABEL_SE_ZOMBIEVOICE1 + i));
+		}
+	}
+}
 
 void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
 {
@@ -150,10 +166,12 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 void CZombie::Death()
 {
 	ChangePattern(new CEnemyPatternDeath());
+	m_ZombieDeath->Play();
 }
 
 void CZombie::Attack()
 {
+	m_ZombieVoice[rand() % 3]->Play();
 }
 
 void CZombie::Damaged(float damage)

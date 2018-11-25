@@ -14,6 +14,7 @@
 #include "normalmapShader.h"
 #include "emitter.h"
 #include "bullet.h"
+#include "Effekseer.h"
 
 static const float CAPSULE_LIFE_MAX = 1000.0f;
 
@@ -33,6 +34,27 @@ void CTargetCapsule::Init(D3DXVECTOR3 pos)
 	CDebugSphere::Create(D3DXVECTOR3(m_Pos.x, m_Pos.y + 2.5f, m_Pos.z), 1.0f);
 
 	m_Life = CAPSULE_LIFE_MAX;
+	m_isDestroyed = false;
+
+	//// 破壊時の煙エフェクト
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	m_Smoke[i] = CEffekseer::Create(CEffekseer::EFFECT_SMOKE, LAYER_EFFEKSEER_AFTER);
+	//	m_Smoke[i]->RepeatEffect(true);
+	//	//m_Smoke[i]->SetScale(0.025f, 0.025f, 0.025f);
+	//	m_Smoke[i]->SetVisible(true);
+
+	//	D3DXVECTOR3 smokepos = m_Pos;
+	//	smokepos.x -= 1.0f + 1.7f * i;
+	//	smokepos.y += 0.4f + 0.8f * i;
+	//	smokepos.z += 0.2f + 0.5f * i;
+
+	//	m_Smoke[i]->SetLocation(smokepos);
+	//}
+	m_Flame = CEffekseer::Create(CEffekseer::EFFECT_FLAME, LAYER_EFFEKSEER_AFTER);
+	m_Flame->RepeatEffect(false);
+	m_Flame->SetVisible(true);
+	m_Flame->SetLocation(m_Pos);
 }
 
 void CTargetCapsule::Uninit()
@@ -54,7 +76,10 @@ void CTargetCapsule::Update()
 	}
 
 	// 銃弾との当たり判定
-	HitBullet();
+	if (!m_isDestroyed)
+	{
+		HitBullet();
+	}
 }
 
 void CTargetCapsule::HitBullet()
@@ -107,7 +132,10 @@ void CTargetCapsule::HitBullet()
 
 				if (m_Life <= 0)
 				{
-					Release();
+					m_Flame->Play();
+					//m_Smoke[0]->Play();
+					//m_Smoke[1]->Play();
+					m_isDestroyed = true;
 				}
 			}
 		}

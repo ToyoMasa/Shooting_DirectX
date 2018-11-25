@@ -5,6 +5,8 @@
 #ifndef _SHOTGUN_H_
 #define _SHOTGUN_H_
 
+class CSound;
+
 class CShotgun : public CWeapon
 {
 public:
@@ -21,8 +23,10 @@ public:
 	void Recoil(float recoilX, float recoilY)override;
 	void RecoilUpdate()override;
 	void ReleaseTrigger()override;
+	void SoundShot()override;
 
 private:
+	CSound* m_ShotSE;
 	bool m_isReleaseTrigger;
 };
 

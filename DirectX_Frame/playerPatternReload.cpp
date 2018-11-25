@@ -37,6 +37,7 @@ void CPlayerPatternReload::Init(CPlayer* player)
 	player->SetADS(false);
 	player->SetWeaponADS(false);
 	m_CountFrame = 0;
+	player->PlayReload();
 }
 
 void CPlayerPatternReload::Update(CPlayer* player)

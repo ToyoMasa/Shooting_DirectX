@@ -64,6 +64,7 @@ public:
 	virtual void Recoil(float recoilX, float recoilY) = 0;
 	virtual void RecoilUpdate() = 0;
 	virtual void ReleaseTrigger() = 0;
+	virtual void SoundShot() = 0;
 
 	CSceneModel*	GetModel() { return m_Model; }
 	CScene2D*		GetCrosshair() { return m_Crosshair; }

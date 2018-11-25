@@ -10,6 +10,8 @@
 
 static const int INIT_COST = 50000;
 
+class CBillBoard;
+
 class CWayPoint
 {
 public:
@@ -24,10 +26,12 @@ public:
 	static int GetNextPoint(const int s, const int e);
 	static D3DXVECTOR3 GetWayPointPos(const int& index);
 	static int SearchShortestPoint(const D3DXVECTOR3& pos);
+	static void Debug();
 	void SetRecentPoint(int id);
 
 private:
 	static std::vector<CWayPoint*>	m_WayPonits;
+	static std::vector<CBillBoard*>	m_PointsDebug;
 	static int** m_EdgeCost;
 	static int** m_ShortestPath;
 	int								m_ID;

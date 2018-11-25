@@ -6,6 +6,7 @@
 #include "main.h"
 #include "manager.h"
 #include "texture.h"
+#include "sound.h"
 #include "camera.h"
 #include "scene2D.h"
 #include "sceneModel.h"
@@ -74,16 +75,12 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.z = 33.75f;
 
 	m_Model->SetShader(CShaderNormalmap::GetShader());
-	//m_Model->SetShader(CShaderMetal::GetShader());
 	m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
 
-	if (m_FlashEffect == NULL)
+	// eº‚Ì€”õ
+	for (int i = 0; i < RIFLE_SHOT_SE_NUM; i++)
 	{
-		m_FlashEffect = CEffekseer::Create(CEffekseer::EFFECT_MUZZLEFLASH);
-		m_FlashEffect->RepeatEffect(false);
-		m_FlashEffect->SetScale(0.025f, 0.025f, 0.025f);
-		m_FlashEffect->SetSpeed(2.0f);
-		m_FlashEffect->SetVisible(true);
+		m_ShotSE[i] = CSound::Create((SOUND_LABEL)(SOUND_LABEL_SE_RIFLE_SHOT1 + i));
 	}
 }
 
@@ -177,6 +174,9 @@ void CRifle::Shoot()
 		m_FlashEffect->SetLocation(m_MuzzlePos);
 
 		m_FlashEffect->Play();
+
+		// eº
+		SoundShot();
 	}
 }
 
@@ -256,4 +256,9 @@ void CRifle::ReleaseTrigger()
 		m_RecoilX = m_TotalRecoilX / 5.0f;
 		m_RecoilY = m_TotalRecoilY / 5.0f;
 	}
+}
+
+void CRifle::SoundShot()
+{
+	m_ShotSE[rand() % 6]->Play();
 }

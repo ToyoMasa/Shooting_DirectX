@@ -55,6 +55,7 @@ private:
 	static int m_Count;
 	static CSound* BGM;
 	static CSound* GameEnd_SE;
+	static CSound* ZombieVoice;
 	static CFog*	Fog;
 	static CField* Field;
 	static CEnemyManager* EnemyManager;

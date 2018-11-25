@@ -62,6 +62,7 @@ CScene2D *CModeGame::Pause = NULL;
 CScene2D *CModeGame::HowToUse = NULL;
 CSound *CModeGame::BGM = NULL;
 CSound *CModeGame::GameEnd_SE = NULL;
+CSound *CModeGame::ZombieVoice = NULL;
 int CModeGame::m_Count = 0;
 CFog *CModeGame::Fog = NULL;
 CField *CModeGame::Field = NULL;
@@ -94,7 +95,7 @@ void CModeGame::Init()
 	Field = CField::Create("data/output/map.txt");
 
 	// プレイヤー
-	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-90.0f, 0.0f, -90.0f));
+	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-68.0f, 0.0f, -74.0f));
 	player->SetField(Field);
 	CManager::SetCamera(player->GetCamera());
 
@@ -108,6 +109,10 @@ void CModeGame::Init()
 
 	// ビルボードの準備
 	CBillBoard::Init();
+
+	// サウンドの準備
+	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
+	ZombieVoice->Play(0.01f);
 
 	// ポーズの準備
 	Pause = CScene2D::Create(TEX_ID_PAUSE, 172.0f, 97.0f);

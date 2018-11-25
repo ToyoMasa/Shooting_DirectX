@@ -83,25 +83,24 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 		return;
 	}
 
-	// 攻撃
-	if (inputMouse->GetLeftPress())
-	{
-		player->Shoot();
-	}
 	if (inputMouse->GetLeftRelease())
 	{
 		player->TriggerRelease();
 	}
 
+	// 攻撃
+	if (inputMouse->GetLeftPress())
+	{
+		player->Shoot();
+	}
 	// ジャンプ
-	if (inputKeyboard->GetKeyRelease(DIK_SPACE))
+	else if (inputKeyboard->GetKeyRelease(DIK_SPACE))
 	{
 		player->ChangePattern(new CPlayerPatternJump(dir));
 
 	}
-
 	// ダッシュ
-	if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
+	else if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
 	{
 		player->ChangePattern(new CPlayerPatternDash());
 	}
