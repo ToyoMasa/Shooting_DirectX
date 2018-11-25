@@ -4,6 +4,7 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "scene.h"
 #include "debug.h"
 
@@ -51,71 +52,74 @@ void CDebugSphere::Update()
 
 void CDebugSphere::Draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-	if (pDevice == NULL)
+	if (CManager::GetDebug())
 	{
-		return;
+		LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+		if (pDevice == NULL)
+		{
+			return;
+		}
+
+		// ライトの無効化
+		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+		pDevice->SetTexture(0, NULL);
+
+		pDevice->SetFVF(FVF_VERTEX_DEBUG);
+
+		const float R_C = D3DX_PI * 2.0f / NUM_POLYGON;
+
+		DEBUG_VERTEX v[NUM_POLYGON + 1];
+
+		//*********************************************************
+		//	Z軸中心回転
+		//*********************************************************
+		for (int i = 0; i < NUM_POLYGON; i++)
+		{
+			v[i].pos.x = cosf(R_C * i) * m_Radius;
+			v[i].pos.y = sinf(R_C * i) * m_Radius;
+			v[i].pos.z = 0.0f;
+			v[i].color = D3DCOLOR_RGBA(32, 255, 64, 255);
+		}
+
+		v[NUM_POLYGON] = v[0];
+
+		// ポジションの更新
+		D3DXMatrixTranslation(&m_World, m_Pos.x, m_Pos.y, m_Pos.z);
+		pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+		pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, NUM_POLYGON, &v, sizeof(DEBUG_VERTEX));
+
+		//*********************************************************
+		//	X軸中心回転
+		//*********************************************************
+		for (int i = 0; i < NUM_POLYGON; i++)
+		{
+			v[i].pos.z = cosf(R_C * i) * m_Radius;
+			v[i].pos.y = sinf(R_C * i) * m_Radius;
+			v[i].pos.x = 0.0f;
+			v[i].color = D3DCOLOR_RGBA(32, 255, 64, 255);
+		}
+
+		v[NUM_POLYGON] = v[0];
+
+		pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, NUM_POLYGON, &v, sizeof(DEBUG_VERTEX));
+
+		//*********************************************************
+		//	Y軸中心回転
+		//*********************************************************
+		for (int i = 0; i < NUM_POLYGON; i++)
+		{
+			v[i].pos.x = cosf(R_C * i) * m_Radius;
+			v[i].pos.z = sinf(R_C * i) * m_Radius;
+			v[i].pos.y = 0.0f;
+			v[i].color = D3DCOLOR_RGBA(32, 255, 64, 255);
+		}
+
+		v[NUM_POLYGON] = v[0];
+
+		pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, NUM_POLYGON, &v, sizeof(DEBUG_VERTEX));
 	}
-
-	// ライトの無効化
-	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	pDevice->SetTexture(0, NULL);
-
-	pDevice->SetFVF(FVF_VERTEX_DEBUG);
-
-	const float R_C = D3DX_PI * 2.0f / NUM_POLYGON;
-
-	DEBUG_VERTEX v[NUM_POLYGON + 1];
-
-	//*********************************************************
-	//	Z軸中心回転
-	//*********************************************************
-	for (int i = 0; i < NUM_POLYGON; i++)
-	{
-		v[i].pos.x = cosf(R_C * i) * m_Radius;
-		v[i].pos.y = sinf(R_C * i) * m_Radius;
-		v[i].pos.z = 0.0f;
-		v[i].color = D3DCOLOR_RGBA(32, 255, 64, 255);
-	}
-
-	v[NUM_POLYGON] = v[0];
-
-	// ポジションの更新
-	D3DXMatrixTranslation(&m_World, m_Pos.x, m_Pos.y, m_Pos.z);
-	pDevice->SetTransform(D3DTS_WORLD, &m_World);
-
-	pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, NUM_POLYGON, &v, sizeof(DEBUG_VERTEX));
-
-	//*********************************************************
-	//	X軸中心回転
-	//*********************************************************
-	for (int i = 0; i < NUM_POLYGON; i++)
-	{
-		v[i].pos.z = cosf(R_C * i) * m_Radius;
-		v[i].pos.y = sinf(R_C * i) * m_Radius;
-		v[i].pos.x = 0.0f;
-		v[i].color = D3DCOLOR_RGBA(32, 255, 64, 255);
-	}
-
-	v[NUM_POLYGON] = v[0];
-
-	pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, NUM_POLYGON, &v, sizeof(DEBUG_VERTEX));
-
-	//*********************************************************
-	//	Y軸中心回転
-	//*********************************************************
-	for (int i = 0; i < NUM_POLYGON; i++)
-	{
-		v[i].pos.x = cosf(R_C * i) * m_Radius;
-		v[i].pos.z = sinf(R_C * i) * m_Radius;
-		v[i].pos.y = 0.0f;
-		v[i].color = D3DCOLOR_RGBA(32, 255, 64, 255);
-	}
-
-	v[NUM_POLYGON] = v[0];
-
-	pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, NUM_POLYGON, &v, sizeof(DEBUG_VERTEX));
 }
 
 CDebugSphere* CDebugSphere::Create(D3DXVECTOR3 pos, float r)

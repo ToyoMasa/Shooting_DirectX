@@ -76,6 +76,7 @@ void CShaderNormalmap::ShaderSet(const D3DXMATRIX& world)
 	m_VSConstantTable->SetMatrix(pDevice, "g_view", &CManager::GetCamera()->GetView());
 	m_VSConstantTable->SetMatrix(pDevice, "g_projection", &CManager::GetCamera()->GetProjection());
 
+	m_PSConstantTable->SetVector(pDevice, "g_ambient", &ambient);
 	m_PSConstantTable->SetVector(pDevice, "g_specular", &specular);
 	m_VSConstantTable->SetVector(pDevice, "g_light_dir", &light_dir);
 
@@ -92,6 +93,13 @@ void CShaderNormalmap::SetMaterial(const D3DMATERIAL9& mat)
 	}
 
 	D3DXVECTOR4  tempcolor;
+
+	// 環境光用のマテリアルをセット
+	tempcolor.x = mat.Ambient.r;
+	tempcolor.y = mat.Ambient.g;
+	tempcolor.z = mat.Ambient.b;
+	tempcolor.w = mat.Ambient.a;
+	m_PSConstantTable->SetVector(pDevice, "g_ambient_mat", &tempcolor);
 
 	// スペキュラー光用のマテリアルをセット
 	tempcolor.x = mat.Specular.r;

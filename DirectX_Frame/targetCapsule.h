@@ -16,12 +16,13 @@ public:
 	void Init(D3DXVECTOR3 pos);
 	void Uninit()override;
 	void Update()override;
-
+	void HitBullet();
 	static CTargetCapsule* Create(D3DXVECTOR3 pos);
 
 private:
-	CSceneModel* m_Model;
-
+	CSceneModel*	m_Model;
+	Capsule			m_CollisionCapsule;
+	float			m_Life;
 };
 
 #endif // !_TARGETCAPSULE_H_

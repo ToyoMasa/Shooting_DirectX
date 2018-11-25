@@ -5,6 +5,8 @@
 #include "debug.h"
 
 static const int BULLET_MAX = 50;
+static const float BULLET_RADIUS = 0.025f;
+
 
 class CBullet
 {
@@ -35,11 +37,18 @@ public:
 	void Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage);
 	void Uninit();
 	void Update();
-	void Draw();
+
+	D3DXVECTOR3 GetPos() { return m_Pos; }
+	D3DXVECTOR3 GetOldPos() { return m_OldPos; }
+	D3DXVECTOR3 GetForward() { return m_Forward; }
+	float		GetDamage() { return m_Damage; }
+
 	void Release();
 	static void UpdateAll();
 	static void ReleaseAll();
 	static CBullet* Create(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float range, float damage);
+	static CBullet* GetBullet(int id) { return m_Bullets[id]; }
+
 private:
 	D3DXVECTOR3		m_Pos;
 	D3DXVECTOR3		m_OldPos;

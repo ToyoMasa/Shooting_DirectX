@@ -385,9 +385,6 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 		}
 	}
 
-	// •Ç‚Æ‚Ì“–‚½‚è”»’è
-	newPos = HitWall(newPos);
-
 	m_Camera->Move(newPos - m_Pos);
 
 	SetPos(newPos);
@@ -450,9 +447,6 @@ void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ
 			}
 		}
 	}
-
-	// •Ç‚Æ‚Ì“–‚½‚è”»’è
-	newPos = HitWall(newPos);
 
 	m_Camera->Move(newPos - m_Pos);
 

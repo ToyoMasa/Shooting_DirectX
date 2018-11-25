@@ -242,52 +242,6 @@ D3DXVECTOR3 CCharacter::PushOut(D3DXVECTOR3 newPos, D3DXVECTOR3 oldPos, D3DXVECT
 	return oldPos + newVec;
 }
 
-D3DXVECTOR3 CCharacter::HitWall(D3DXVECTOR3 newPos)
-{
-	D3DXVECTOR3 rePos = newPos;
-
-	// ï«Ç∆ÇÃìñÇΩÇËîªíË
-	for (int i = 0; i < OBJECT_MAX; i++)
-	{
-		if (CScene::GetScene(LAYER_BACKGROUND, i) != NULL)
-		{
-			CScene* obj = CScene::GetScene(LAYER_BACKGROUND, i);
-
-			if (obj->GetType() == SCENE_TYPE_WALL)
-			{
-				CWall* wall = (CWall*)obj;
-				Sphere charaSphere;
-				charaSphere.pos = m_Pos;
-				charaSphere.pos.y += 0.4f;
-				charaSphere.rad = 0.4f;
-
-				if (isCollisionOBBtoSphere(wall->GetOBB(), charaSphere))
-				{
-					// è’ìÀÇµÇƒÇ¢ÇΩèÍçáÇ«ÇÃñ Ç∆è’ìÀÇµÇΩÇ©åüçı
-					for (int j = 0; j < 6; j++)
-					{
-						if (isCollisionSpheretoPlane(charaSphere, wall->GetNormalPos(j), wall->GetNormal(j)))
-						{
-							D3DXVECTOR3 normal = wall->GetNormal(j);
-							D3DXVECTOR3 vec = m_Pos - wall->GetNormalPos(j);
-
-							D3DXVec3Normalize(&normal, &normal);
-							D3DXVec3Normalize(&vec, &vec);
-
-							if (0 < D3DXVec3Dot(&normal, &vec))
-							{
-								rePos = PushOut(rePos, m_Pos, wall->GetNormal(j));
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	return rePos;
-}
-
 void CCharacter::Damaged(float damage)
 {
 	m_Life -= damage;

@@ -72,6 +72,8 @@ float g_LightDiff[4];
 float g_LightAmb[4];
 float g_Density = 0.07f;
 
+CTargetCapsule* tc;
+
 void CModeGame::Init()
 {
 	// テクスチャの初期化
@@ -117,6 +119,8 @@ void CModeGame::Init()
 	GameEnd_SE = NULL;
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
+
+	tc = CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
 }
 
 void CModeGame::Uninit()

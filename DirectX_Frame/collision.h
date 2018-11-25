@@ -192,34 +192,45 @@ public:
 // カプセル
 class Capsule
 {
-public:
+private:
 	Segment s;
 	float r;	// 半径
+public:
 	Capsule() : r(0.5f) {}
 	Capsule(const Segment &s, float r) : s(s), r(r) {}
 	Capsule(const Point &p1, const Point &p2, float r) : s(p1, p2), r(r) {}
 	~Capsule() {}
 
-	void Set(const Point &p1, const Point &p2, float r)
+	void Set(Point p1, Point p2, float rad)
 	{
 		Segment seg(p1, p2);
 		s = seg;
-		this->r = r;
+		r = rad;
 	}
+	float GetRad() { return r; }
+	Segment GetSegment() { return s; }
 };
 
 // 球
 class Sphere
 {
-public:
+private:
 	D3DXVECTOR3 pos;	// 中心座標
 	float rad;			// 半径
 
+public:
 	// コンストラクタ
 	Sphere()
 	{
 		rad = 1.0f;
 	}
+	void Set(const D3DXVECTOR3& p, float r)
+	{
+		pos = p;
+		rad = r;
+	}
+	D3DXVECTOR3 GetPos() { return pos; }
+	float GetRad() { return rad; }
 };
 
 // AABB
@@ -233,10 +244,10 @@ public:
 	AABB() {}
 	AABB(D3DXVECTOR3 max, D3DXVECTOR3 min) : m_Max(max), m_Min(min) {}
 
-	D3DXVECTOR3& GetMax() { return m_Max; }
-	D3DXVECTOR3& GetMin() { return m_Min; }
-	void SetMax(D3DXVECTOR3& value) { m_Max = value; }
-	void SetMin(D3DXVECTOR3& value) { m_Min = value; }
+	D3DXVECTOR3 GetMax() { return m_Max; }
+	D3DXVECTOR3 GetMin() { return m_Min; }
+	void SetMax(const D3DXVECTOR3& value) { m_Max = value; }
+	void SetMin(const D3DXVECTOR3& value) { m_Min = value; }
 };
 
 // OBB
@@ -315,7 +326,7 @@ float calcSegmentSegmentDist(const Segment &s1, const Segment &s2, Point &p1, Po
 // c1 : S1(線分1)
 // c2 : S2(線分2)
 // 戻り値: 衝突していたらtrue
-bool isCollisionCapsule(const Capsule &c1, const Capsule &c2);
+bool isCollisionCapsule(Capsule c1, Capsule c2);
 
 //************************************************************************
 //	円と円の当たり判定

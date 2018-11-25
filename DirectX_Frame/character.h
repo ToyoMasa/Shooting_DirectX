@@ -48,7 +48,6 @@ public:
 	virtual void Damaged(float damage);
 
 	D3DXVECTOR3 PushOut(D3DXVECTOR3 newPos, D3DXVECTOR3 oldPos, D3DXVECTOR3 normal);
-	D3DXVECTOR3 HitWall(D3DXVECTOR3 newPos);
 
 	static void ReleaseAll();
 	static CCharacter* GetCharacter(int id) { return m_Characters[id]; }

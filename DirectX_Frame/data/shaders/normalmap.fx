@@ -9,9 +9,11 @@ float4x4 	g_projection;				// プロジェクション変換行列
 texture		g_texture;					// テクスチャ
 bool		g_tex;						// テクスチャのありなし　false:なし　true:あり
 // 光
+float4		g_ambient;					// 環境光
 float4		g_specular;					// スペキュラー光
 float3		g_light_dir;				// 平行光源の方向
 // マテリアル
+float4		g_ambient_mat;					// 環境光
 float4		g_specular_mat;				// スペキュラー
 float		g_power;					// スペキュラー光のパワー値
 
@@ -138,7 +140,7 @@ void PS(float4 in_specular		: COLOR1,
 	float4 diffuse;
 
 	// 法線マップを使用してディフューズ計算
-	diffuse = max(0, dot(Light, Normal.xyz));
+	diffuse = g_ambient * g_ambient_mat + max(0, dot(Light, Normal.xyz));
 
 	// スペキュラ光計算
 	//float4 specular = float4(0.2, 0.2, 0.2, 1.0);
