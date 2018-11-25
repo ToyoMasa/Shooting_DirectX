@@ -35,7 +35,7 @@ public:
 	void SetType(CHARACTER_TYPE type) { m_Type = type; }
 	void SetField(CField* field) { m_Field = field; }
 	CField* GetField() { return m_Field; }
-	int& GetAreaID() { return m_AreaID; }
+	int GetAreaID() { return m_AreaID; }
 	void SearchArea(D3DXVECTOR3 pos);
 	void SetPos(D3DXVECTOR3 pos) { m_Pos = pos; }
 	D3DXVECTOR3 GetPos() { return m_Pos; }

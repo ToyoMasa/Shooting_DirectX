@@ -26,8 +26,8 @@
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
 #define RIFLE_RATE (60.0f / (460.0f / 60.0f))
-static const int RIFLE_MAX_AMMO = 40;
 
+static const int RIFLE_MAX_AMMO = 40;
 static const int DIFFUSSION = 160;
 
 void CRifle::Init(CSceneSkinMesh *parent)
@@ -73,10 +73,18 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.y = 141.5f;
 	m_Rot.z = 33.75f;
 
-	//m_Model->SetShader(CShaderSpotlight::GetShader());
 	m_Model->SetShader(CShaderNormalmap::GetShader());
 	//m_Model->SetShader(CShaderMetal::GetShader());
 	m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
+
+	if (m_FlashEffect == NULL)
+	{
+		m_FlashEffect = CEffekseer::Create(CEffekseer::EFFECT_MUZZLEFLASH);
+		m_FlashEffect->RepeatEffect(false);
+		m_FlashEffect->SetScale(0.025f, 0.025f, 0.025f);
+		m_FlashEffect->SetSpeed(2.0f);
+		m_FlashEffect->SetVisible(true);
+	}
 }
 
 void CRifle::Uninit()
@@ -112,6 +120,8 @@ void CRifle::Update()
 		D3DXMATRIX mtxMuzzle;
 		mtxMuzzle = m_MuzzleMatrix * (mtxRot * m_ParentMatrix);
 		m_MuzzlePos = D3DXVECTOR3(mtxMuzzle._41, mtxMuzzle._42, mtxMuzzle._43);
+		m_FlashEffect->SetMtxRotate(m_Parent->GetMtxRotate());
+		m_FlashEffect->SetLocation(m_MuzzlePos);
 
 		m_BulletDebug->Set(m_MuzzlePos);
 
@@ -159,13 +169,14 @@ void CRifle::Shoot()
 		// 残弾を減らす
 		m_Ammo--;
 
-		// マズルフラッシュの描画を有効化
-		m_FlashAlpha = 200;
-		m_isFlash = true;
-		m_Flash->SetVisible(m_isFlash);
-
 		// リコイル
 		Recoil(0.03f, 0.07f);
+
+		// マズルフラッシュ
+		m_FlashEffect->SetMtxRotate(m_Parent->GetMtxRotate());
+		m_FlashEffect->SetLocation(m_MuzzlePos);
+
+		m_FlashEffect->Play();
 	}
 }
 

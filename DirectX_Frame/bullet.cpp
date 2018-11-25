@@ -4,8 +4,10 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "camera.h"
 #include "scene3D.h"
+#include "Effekseer.h"
 #include "texture.h"
 #include "billboard.h"
 #include "character.h"
@@ -27,7 +29,6 @@ void CBullet::Init(D3DXVECTOR3 spawnPos, D3DXVECTOR3 vec, float speed, float ran
 	m_Speed = speed;
 	m_Range = range;
 	m_Damage = damage;
-	//m_Debug = CDebugSphere::Create(m_Pos, BULLET_RADIUS);
 }
 
 void CBullet ::Uninit()

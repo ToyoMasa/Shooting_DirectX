@@ -12,7 +12,8 @@
 #include "weapon.h"
 #include "debug.h"
 
-CWeapon *CWeapon::m_Weapons[WEAPON_MAX] = { NULL };
+CWeapon		*CWeapon::m_Weapons[WEAPON_MAX] = { NULL };
+CEffekseer	*CWeapon::m_FlashEffect = NULL;
 
 void CWeapon::Release()
 {
@@ -49,6 +50,11 @@ void CWeapon::ReleaseAll()
 			m_Weapons[i]->Release();
 			m_Weapons[i] = NULL;
 		}
+	}
+
+	if (m_FlashEffect)
+	{
+		m_FlashEffect->Release();
 	}
 }
 

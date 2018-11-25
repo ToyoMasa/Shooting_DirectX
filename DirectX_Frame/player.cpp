@@ -58,7 +58,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_Forward = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 	m_Right = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
 
-	m_BloodEffect = CEffekseer::Create(CEffekseer::Effect_BloodLoss, m_Camera);
+	m_BloodEffect = CEffekseer::Create(CEffekseer::EFFECT_BLOODLOSS);
 	m_BloodEffect->RepeatEffect(false);
 	m_BloodEffect->SetScale(0.1f, 0.1f, 0.1f);
 	m_BloodEffect->SetVisible(true);

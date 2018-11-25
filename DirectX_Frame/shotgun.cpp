@@ -4,6 +4,7 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "texture.h"
 #include "camera.h"
 #include "scene2D.h"
@@ -69,6 +70,15 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_Model->SetShader(CShaderNormalmap::GetShader());
 	m_Model->SetNormalMapTexture("shotgun_normal.png");
+
+	if (m_FlashEffect == NULL)
+	{
+		m_FlashEffect = CEffekseer::Create(CEffekseer::EFFECT_MUZZLEFLASH);
+		m_FlashEffect->RepeatEffect(false);
+		m_FlashEffect->SetScale(0.025f, 0.025f, 0.025f);
+		m_FlashEffect->SetSpeed(2.0f);
+		m_FlashEffect->SetVisible(true);
+	}
 }
 
 void CShotgun::Uninit()
@@ -168,11 +178,6 @@ void CShotgun::Shoot()
 		// 残弾を減らす
 		m_Ammo--;
 
-		// マズルフラッシュの描画を有効化
-		m_FlashAlpha = 200;
-		m_isFlash = true;
-		m_Flash->SetVisible(m_isFlash);
-
 		// トリガーを押したままにする
 		m_isReleaseTrigger = false;
 
@@ -182,6 +187,10 @@ void CShotgun::Shoot()
 		m_RecoilCount = 10;
 		m_RecoilX = m_TotalRecoilX / 10.0f;
 		m_RecoilY = m_TotalRecoilY / 10.0f;
+
+		m_FlashEffect->SetRotate(m_Rot);
+		m_FlashEffect->SetLocation(m_MuzzlePos);
+		m_FlashEffect->Play();
 	}
 }
 

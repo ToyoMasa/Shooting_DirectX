@@ -25,13 +25,13 @@ public:
 
 	const enum Effect
 	{
-		Effect_SpawnAvatar,
-		Effect_BloodLoss,
-		Effect_Max
+		EFFECT_BLOODLOSS,
+		EFFECT_MUZZLEFLASH,
+		EFFECT_MAX
 	};
-	const EffectFile fileName_[Effect_Max]{
-		L"data/effects/test.efk",
+	const EffectFile fileName_[EFFECT_MAX]{
 		L"data/effects/BloodLoss.efk",
+		L"data/effects/muzzleflash.efk",
 	};
 
 
@@ -43,7 +43,10 @@ public:
 		// エフェクト管理用インスタンスの生成
 		effekseerManager_ = Effekseer::Manager::Create(2000);
 
-		this->SetProj();
+		effekseerRenderer_->SetProjectionMatrix(
+			Effekseer::Matrix44().PerspectiveFovLH(D3DXToRadian(90.0f),                           //視野角
+			(float)SCREEN_WIDTH / SCREEN_HEIGHT,   //アスペクト比
+				0.1f, 1000.0f));
 
 		// 描画用インスタンスから描画機能を設定
 		effekseerManager_->SetSpriteRenderer(effekseerRenderer_->CreateSpriteRenderer());
@@ -68,13 +71,13 @@ public:
 		this->SetRotate(0.0f, 0.0f, 0.0f);
 		this->SetScale(1.0f, 1.0f, 1.0f);
 	}
-	void Init(CCamera* camera);
+	void Init();
 	void Uninit() override;
 	void Update()override;
 	void Draw()override; 
 	void DrawWithShader()override {}
 
-	static CEffekseer *Create(Effect EffectType, CCamera* camera);
+	static CEffekseer *Create(Effect EffectType);
 	static void  CreateScene(Effect EffectType);
 
 	void SetLocation(D3DXVECTOR3 pos);
@@ -100,6 +103,7 @@ public:
 	void SetScale(float x, float y,float z);
 	void SetScale(D3DXVECTOR3 scale);
 	D3DXVECTOR3 GetScale();
+	void SetMtxRotate(D3DXMATRIX rot) { m_Rotate = rot; }
 
 private:
 	void LoadEffect();
@@ -114,9 +118,8 @@ private:
 	bool playing_ = false;				//再生中か
 	bool visible_ = false;				//表示するか
 	Transform transform_;
+	D3DXMATRIX	m_Rotate;
 	int priority_;
-
-	CCamera* m_Camera;
 };
 
 #endif // !_EFFEKSEER_H

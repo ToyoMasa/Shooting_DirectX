@@ -7,6 +7,7 @@
 static const int BULLET_MAX = 50;
 static const float BULLET_RADIUS = 0.025f;
 
+class CEffekseer;
 
 class CBullet
 {
@@ -54,14 +55,14 @@ private:
 	D3DXVECTOR3		m_OldPos;
 	D3DXVECTOR3		m_Forward;
 	D3DXVECTOR3		m_Right;
-	CBillBoard		*m_Billboard;
-	CDebugSphere	*m_Debug;
+	CBillBoard*		m_Billboard;
+	CDebugSphere*	m_Debug;
 	float			m_Speed;
 	float			m_Move;
 	float			m_Range;
 	float			m_Damage;
 
-	static CBullet *m_Bullets[BULLET_MAX];
+	static CBullet*		m_Bullets[BULLET_MAX];
 };
 
 #endif // !_BULLET_H_

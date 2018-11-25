@@ -4,6 +4,7 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "texture.h"
 #include "scene2D.h"
 #include "sceneModel.h"
@@ -45,10 +46,14 @@ void CTargetCapsule::Uninit()
 
 void CTargetCapsule::Update()
 {
-	ImGui::Begin("Target");
-	ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
-	ImGui::End();
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("Target");
+		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
+		ImGui::End();
+	}
 
+	// èeíeÇ∆ÇÃìñÇΩÇËîªíË
 	HitBullet();
 }
 

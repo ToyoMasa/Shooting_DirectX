@@ -113,7 +113,8 @@ protected:
 	bool			m_isADS;
 	bool			m_isFlash;
 
-	static CWeapon	*m_Weapons[WEAPON_MAX];
+	static CEffekseer*	m_FlashEffect;
+	static CWeapon*	m_Weapons[WEAPON_MAX];
 };
 
 #endif // !_WEAPON_H_

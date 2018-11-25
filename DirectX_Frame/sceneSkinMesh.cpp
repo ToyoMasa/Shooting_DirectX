@@ -186,7 +186,7 @@ void CSceneSkinMesh::Scale(D3DXVECTOR3 scale)
 
 CSceneSkinMesh* CSceneSkinMesh::Create(const SKINMESH_MODEL_ID& id)
 {
-	CSceneSkinMesh* skinMesh = new CSceneSkinMesh(LAYER_OBJECT3D);
+	CSceneSkinMesh* skinMesh = new CSceneSkinMesh(LAYER_SKINMESH);
 	skinMesh->Init(id);
 
 	return skinMesh;

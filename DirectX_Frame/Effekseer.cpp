@@ -1,18 +1,19 @@
 
 #include "common.h"
 #include "main.h"
+#include "manager.h"
 #include "camera.h"
 #include "Effekseer.h"
 
-CEffekseer* CEffekseer::Create(Effect EffectType, CCamera* camera)
+CEffekseer* CEffekseer::Create(Effect EffectType)
 {
-	CEffekseer* Effekseer = new CEffekseer(EffectType, LAYER_OBJECT3D);
-	Effekseer->Init(camera);
+	CEffekseer* Effekseer = new CEffekseer(EffectType, LAYER_EFFEKSEER);
+	Effekseer->Init();
 	return Effekseer;
 }
 void  CEffekseer::CreateScene(Effect EffectType)
 {
-	CEffekseer* Effekseer = new CEffekseer(EffectType, LAYER_OBJECT3D);
+	CEffekseer* Effekseer = new CEffekseer(EffectType, LAYER_EFFEKSEER);
 }
 
 void CEffekseer::LoadEffect()
@@ -20,9 +21,8 @@ void CEffekseer::LoadEffect()
 	//エフェクトの読み込み
 	effekseerEffect_ = Effekseer::Effect::Create(effekseerManager_, (const EFK_CHAR*)fileName_[effectType_].fileName);
 }
-void CEffekseer::Init(CCamera* camera)
+void CEffekseer::Init()
 {
-	m_Camera = camera;
 }
 void CEffekseer::Uninit()
 {
@@ -46,7 +46,8 @@ void CEffekseer::Update()
 
 	//CCamera::CAMERA_STATUS camera = CCamera::GetMainCamera();
 
-	this->SetView(m_Camera->GetPos(), m_Camera->GetAt(), m_Camera->GetUp());
+	SetView(CManager::GetCamera()->GetPos(), CManager::GetCamera()->GetAt(), CManager::GetCamera()->GetUp());
+	SetProj();
 
 	playing_ = effekseerManager_->Exists(effekseerHandle_);
 	if (!playing_)
@@ -83,9 +84,10 @@ void CEffekseer::Draw()
 	D3DXMatrixRotationZ(&mtxRotateZ, D3DXToRadian(transform_.rotate.z));
 
 	mtxWorld = mtxScale;
-	mtxWorld *= mtxRotateX;
-	mtxWorld *= mtxRotateY;
-	mtxWorld *= mtxRotateZ;
+	//mtxWorld *= mtxRotateX;
+	//mtxWorld *= mtxRotateY;
+	//mtxWorld *= mtxRotateZ;
+	mtxWorld *= m_Rotate;
 	mtxWorld *= mtxTrans;
 
 	this->SetMatrix(mtxWorld);
@@ -101,9 +103,10 @@ void CEffekseer::SetProj()
 {
 	//投影行列の更新
 	
-	effekseerRenderer_->SetProjectionMatrix(Effekseer::Matrix44().PerspectiveFovLH(D3DXToRadian(90.0f),                           //視野角
+	effekseerRenderer_->SetProjectionMatrix(
+		Effekseer::Matrix44().PerspectiveFovLH(D3DXToRadian(CManager::GetCamera()->GetFov()),                           //視野角
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT,   //アスペクト比
-		0.1f, 10000.0f));
+		0.1f, 1000.0f));
 }
 void CEffekseer::SetView(D3DXVECTOR3 Pos, D3DXVECTOR3 At, D3DXVECTOR3 Up)
 {

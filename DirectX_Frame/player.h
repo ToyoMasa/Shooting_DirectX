@@ -63,11 +63,11 @@ public:
 	void Reload();
 	void SetWeaponADS(bool ads);
 	void ChangePattern(CPlayerPatternBase* next);
-	float& GetJumpPower() { return m_JumpPower; }
+	float GetJumpPower() { return m_JumpPower; }
 	void SetJumpPower(float power) { m_JumpPower = power; }
-	float& GetUpValue() { return m_UpValue; }
+	float GetUpValue() { return m_UpValue; }
 	void SetUpValue(float value) { m_UpValue = value; }
-	int& GetShortestPoint() { return m_ShortestPoint; }
+	int GetShortestPoint() { return m_ShortestPoint; }
 	CWeapon* GetUsingWeapon() { return m_UsingWeapon; }
 
 	void Damaged(float damage)override;
