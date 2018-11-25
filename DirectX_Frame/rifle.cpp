@@ -33,7 +33,7 @@ static const int DIFFUSSION = 160;
 void CRifle::Init(CSceneSkinMesh *parent)
 {
 	m_Parent = parent;
-	m_Model = CSceneModel::Create("data/models/rifle.x");
+	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
 	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
 	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f)); 
 	m_Crosshair->SetVisible(false);
@@ -74,8 +74,9 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.z = 33.75f;
 
 	//m_Model->SetShader(CShaderSpotlight::GetShader());
-	m_Model->SetShader(CShaderMetal::GetShader());
-	//m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
+	m_Model->SetShader(CShaderNormalmap::GetShader());
+	//m_Model->SetShader(CShaderMetal::GetShader());
+	m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
 }
 
 void CRifle::Uninit()

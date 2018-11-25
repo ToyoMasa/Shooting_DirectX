@@ -48,5 +48,5 @@ void CFog::End()
 		return;
 	}
 
-	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：ON
+	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：OFF
 }

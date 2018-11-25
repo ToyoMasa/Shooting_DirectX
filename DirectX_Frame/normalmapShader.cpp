@@ -16,7 +16,8 @@ CShaderNormalmap::CShaderNormalmap() : CShader()
 		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
-	if (!sts) {
+	if (!sts) 
+	{
 		MessageBox(NULL, "エラー", "エラー", MB_OK);
 	}
 
@@ -26,7 +27,8 @@ CShaderNormalmap::CShaderNormalmap() : CShader()
 		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 
-	if (!sts) {
+	if (!sts) 
+	{
 		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
 	}
 }
@@ -50,7 +52,7 @@ void CShaderNormalmap::Destroy()
 	}
 }
 
-void CShaderNormalmap::ShaderSet(D3DXMATRIX world)
+void CShaderNormalmap::ShaderSet(const D3DXMATRIX& world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -74,8 +76,6 @@ void CShaderNormalmap::ShaderSet(D3DXMATRIX world)
 	m_VSConstantTable->SetMatrix(pDevice, "g_view", &CManager::GetCamera()->GetView());
 	m_VSConstantTable->SetMatrix(pDevice, "g_projection", &CManager::GetCamera()->GetProjection());
 
-	m_VSConstantTable->SetVector(pDevice, "g_diffuse", &diffuse);
-	m_VSConstantTable->SetVector(pDevice, "g_ambient", &ambient);
 	m_PSConstantTable->SetVector(pDevice, "g_specular", &specular);
 	m_VSConstantTable->SetVector(pDevice, "g_light_dir", &light_dir);
 
@@ -83,7 +83,7 @@ void CShaderNormalmap::ShaderSet(D3DXMATRIX world)
 
 }
 
-void CShaderNormalmap::SetMaterial(D3DMATERIAL9 const&mat)
+void CShaderNormalmap::SetMaterial(const D3DMATERIAL9& mat)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -92,27 +92,6 @@ void CShaderNormalmap::SetMaterial(D3DMATERIAL9 const&mat)
 	}
 
 	D3DXVECTOR4  tempcolor;
-
-	// 環境光用のマテリアルをセット
-	tempcolor.x = mat.Ambient.r;
-	tempcolor.y = mat.Ambient.g;
-	tempcolor.z = mat.Ambient.b;
-	tempcolor.w = mat.Ambient.a;
-	m_VSConstantTable->SetVector(pDevice, "g_ambient_mat", &tempcolor);
-
-	// ディフューズ光用のマテリアルをセット
-	tempcolor.x = mat.Diffuse.r;
-	tempcolor.y = mat.Diffuse.g;
-	tempcolor.z = mat.Diffuse.b;
-	tempcolor.w = mat.Diffuse.a;
-	m_VSConstantTable->SetVector(pDevice, "g_diffuse_mat", &tempcolor);
-
-	// エミッシブ光用のマテリアルをセット
-	tempcolor.x = mat.Emissive.r;
-	tempcolor.y = mat.Emissive.g;
-	tempcolor.z = mat.Emissive.b;
-	tempcolor.w = mat.Emissive.a;
-	m_VSConstantTable->SetVector(pDevice, "g_emissive_mat", &tempcolor);
 
 	// スペキュラー光用のマテリアルをセット
 	tempcolor.x = mat.Specular.r;

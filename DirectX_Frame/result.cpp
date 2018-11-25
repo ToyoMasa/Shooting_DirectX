@@ -139,9 +139,12 @@ void CModeResult::Draw()
 
 	CImGui::BeginDraw();
 
-	ImGui::Begin("Debug Window", 0);
-	ImGui::Text("Kill = %d SneakKill = %d", m_NumKillEnemy, m_NumSneakKill);
-	ImGui::End();
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("Debug Window", 0);
+		ImGui::Text("Kill = %d SneakKill = %d", m_NumKillEnemy, m_NumSneakKill);
+		ImGui::End();
+	}
 
 	CImGui::EndDraw();
 }

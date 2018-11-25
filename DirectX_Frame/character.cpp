@@ -291,4 +291,9 @@ D3DXVECTOR3 CCharacter::HitWall(D3DXVECTOR3 newPos)
 void CCharacter::Damaged(float damage)
 {
 	m_Life -= damage;
+
+	if (m_Life <= 0)
+	{
+		m_Life = 0;
+	}
 }

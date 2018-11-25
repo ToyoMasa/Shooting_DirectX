@@ -49,7 +49,7 @@ void CShaderMetal::Destroy()
 	}
 }
 
-void CShaderMetal::ShaderSet(D3DXMATRIX world)
+void CShaderMetal::ShaderSet(const D3DXMATRIX& world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)

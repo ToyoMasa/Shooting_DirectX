@@ -29,12 +29,21 @@ public:
 	static void SetCamera(CCamera* camera) { m_UsingCamera = camera; }
 	static CCamera* GetCamera() { return m_UsingCamera; }
 
+	static void ChangeDebugMode();
+	static void DebugCameraControll();
+	static bool& GetDebug() { return m_isDebug; }
+	static bool& GetFogEnable() { return m_isFogEnable; }
+
 private:
-	static CInputKeyboard	*m_InputKeyboard;	// キーボードへのポインタ
-	static CInputMouse		*m_InputMouse;		// マウスへのポインタ
-	static CLight			*m_Light;
-	static CMode			*m_Mode;
-	static CCamera			*m_UsingCamera;
+	static CInputKeyboard*	m_InputKeyboard;	// キーボードへのポインタ
+	static CInputMouse*		m_InputMouse;		// マウスへのポインタ
+	static CLight*			m_Light;
+	static CMode*			m_Mode;
+	static CCamera*			m_UsingCamera;
+	static CCamera*			m_DebugCamera;
+	static CCamera*			m_TempCamera;
+	static bool				m_isDebug;
+	static bool				m_isFogEnable;
 };
 
 #endif // !_MANAGER_H_

@@ -28,7 +28,8 @@
 #include "enemyPatternDeath.h"
 #include "skinmeshShader.h"
 
-static const float ENEMY_LIFE = 100.0f;
+static const float ZOMBIE_LIFE = 200.0f;
+static const float ZOMBIE_ATTACK_DAMAGE = 23.0f;
 
 void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
 {
@@ -44,8 +45,9 @@ void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatter
 
 	ChangePattern(pattern);
 
-	// ライフを設定
-	m_Life = ENEMY_LIFE;
+	// ステータスを設定
+	m_Life = ZOMBIE_LIFE;
+	m_AttackDamage = ZOMBIE_ATTACK_DAMAGE;
 }
 
 void CZombie::Uninit()
@@ -68,9 +70,12 @@ void CZombie::Update()
 
 	m_Pattern->Update(this);
 
-	ImGui::Begin("Enemy");
-	ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
-	ImGui::End();
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("Enemy");
+		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
+		ImGui::End();
+	}
 }
 
 CZombie* CZombie::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)

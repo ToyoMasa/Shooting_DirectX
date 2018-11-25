@@ -5,6 +5,7 @@
 #include "common.h"
 #include "main.h"
 #include "camera.h"
+#include "manager.h"
 
 CCamera::CCamera()
 {
@@ -68,11 +69,14 @@ void CCamera::Update()
 	//	--カメラの処理--
 	// 現在の座標を保存
 
-	ImGui::Begin("CameraFront", 0);
-	ImGui::Text("Front:X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
-	ImGui::Text("Right:X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
-	ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
-	ImGui::End();
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("CameraFront", 0);
+		ImGui::Text("Front:X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
+		ImGui::Text("Right:X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
+		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
+		ImGui::End();
+	}
 
 	// ビュー行列の作成
 	D3DXMatrixLookAtLH(&m_View, &m_Pos, &m_At, &m_Up);	//ビュー行列を作ってくれる便利関数
@@ -80,10 +84,6 @@ void CCamera::Update()
 	// プロジェクション（パースペクティブ）行列の作成
 	// 引数＝(行列ポインタ, 画角, アスペクト比, ニアクリップ(0より大きい値、1で1mくらい), ファークリップ)
 	D3DXMatrixPerspectiveFovLH(&m_Projection, D3DXToRadian(m_Fov) /* またはD3DX_PI / 3　*/, (float)SCREEN_WIDTH / SCREEN_HEIGHT, NEAR_CLIP, FAR_CLIP);
-
-	//各種行列の設定
-	pDevice->SetTransform(D3DTS_VIEW, &m_View);
-	pDevice->SetTransform(D3DTS_PROJECTION, &m_Projection);
 }
 
 void CCamera::SetPos(D3DXVECTOR3 pos)
@@ -206,7 +206,7 @@ void CCamera::Rotation(float horizontal, float vertical)
 CCamera* CCamera::Create()
 {
 	CCamera* camera= new CCamera();
-	camera->Init(D3DXVECTOR3(0.0f, 3.0f, -3.0f), D3DXVECTOR3(0, 0, 0));
+	camera->Init(D3DXVECTOR3(0.0f, 3.0f, -3.0f), D3DXVECTOR3(0.0f, 3.0f, 0.0f));
 
 	return camera;
 }

@@ -12,8 +12,8 @@ class CShaderNormalmap : public CShader
 public:
 	static CShaderNormalmap* GetShader();
 	static void Destroy();
-	void ShaderSet(D3DXMATRIX world)override;
-	void SetMaterial(D3DMATERIAL9 const&mat)override;
+	void ShaderSet(const D3DXMATRIX& world)override;
+	void SetMaterial(const D3DMATERIAL9& mat)override;
 
 private:
 	CShaderNormalmap();
@@ -24,4 +24,4 @@ private:
 	static CShaderNormalmap* m_Shader;
 };
 
-#endif // !_SKINMESH_SHADER_H_
+#endif // !_NORMALMAP_SHADER_H_

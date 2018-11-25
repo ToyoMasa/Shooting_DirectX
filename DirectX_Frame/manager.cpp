@@ -27,14 +27,20 @@
 #include "sound.h"
 #include "shader.h"
 
+static float CAMERA_SPEED = 0.1f;
+
 //======================================================================
 //	静的メンバ変数
 //======================================================================
-CInputKeyboard *CManager::m_InputKeyboard = NULL;		// キーボードへのポインタ
-CInputMouse *CManager::m_InputMouse = NULL;			// マウスへのポインタ
-CLight		*CManager::m_Light;
-CMode		*CManager::m_Mode = NULL;
-CCamera		*CManager::m_UsingCamera = NULL;
+CInputKeyboard	*CManager::m_InputKeyboard = NULL;		// キーボードへのポインタ
+CInputMouse		*CManager::m_InputMouse = NULL;			// マウスへのポインタ
+CLight			*CManager::m_Light;
+CMode			*CManager::m_Mode = NULL;
+CCamera			*CManager::m_UsingCamera = NULL;
+CCamera			*CManager::m_DebugCamera = NULL;
+CCamera			*CManager::m_TempCamera = NULL;
+bool			CManager::m_isDebug = false;
+bool			CManager::m_isFogEnable = true;
 
 bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
@@ -63,6 +69,9 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// スキンメッシュの一括ロード
 	CSceneSkinMesh::LoadAll();
 
+	// デバッグカメラのセット
+	m_DebugCamera = CCamera::Create();
+
 	if (CManager::m_Mode != NULL)
 	{
 		CManager::m_Mode->Init();
@@ -82,6 +91,9 @@ void CManager::Uninit()
 
 	CManager::m_Mode->Uninit();
 	delete CManager::m_Mode;
+
+	// デバッグカメラの解放
+	m_DebugCamera->Release();
 
 	// キーボードの開放処理
 	if (m_InputKeyboard)
@@ -130,13 +142,30 @@ void CManager::Update()
 		m_InputMouse->Update();
 	}
 
+	if (m_InputKeyboard->GetKeyTrigger(DIK_AT))
+	{
+		ChangeDebugMode();
+	}
+
 	m_Mode->Update();
+
+	// デバッグ中はデバッグカメラを有効に
+	if (m_isDebug)
+	{
+		DebugCameraControll();
+	}
 
 	m_UsingCamera->Update();
 }
 
 void CManager::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
 	HRESULT hr;
 
 	hr = CRenderer::DrawBegin();
@@ -144,6 +173,12 @@ void CManager::Draw()
 	//Direct3Dによる描画の開始
 	if (SUCCEEDED(hr))
 	{
+		//各種行列の設定
+		pDevice->SetTransform(D3DTS_VIEW, &m_UsingCamera->GetView());
+		pDevice->SetTransform(D3DTS_PROJECTION, &m_UsingCamera->GetProjection());
+
+		pDevice->SetRenderState(D3DRS_FOGENABLE, m_isFogEnable); //フォグ
+
 		//描画
 		m_Mode->Draw();
 
@@ -169,5 +204,86 @@ void CManager::SetMode(CMode* mode)
 	{
 		CManager::m_Mode->Init();
 	}
+
+	m_isDebug = false;
+	m_TempCamera = NULL;
 }
 
+void CManager::ChangeDebugMode()
+{
+	m_isDebug = !m_isDebug; 
+
+	if (m_isDebug)
+	{
+		m_TempCamera = m_UsingCamera;
+		m_UsingCamera = m_DebugCamera;
+	}
+	else
+	{
+		if (m_TempCamera)
+		{
+			m_UsingCamera = m_TempCamera;
+		}
+	}
+}
+
+void CManager::DebugCameraControll()
+{
+	ImGui::Begin("Debug");
+	ImGui::Checkbox("FogEnable", &m_isFogEnable);
+	ImGui::SliderFloat("CameraSpeed", &CAMERA_SPEED, 0.0f, 5.0f);
+	ImGui::End();
+
+	CInputKeyboard *inputKeyboard;
+	CInputMouse *inputMouse;
+	float mouseX, mouseY, mouseZ;
+
+	// キーボード取得
+	inputKeyboard = CManager::GetInputKeyboard();
+
+	// マウス取得
+	inputMouse = CManager::GetInputMouse();
+	mouseX = (float)inputMouse->GetAxisX();
+	mouseY = (float)inputMouse->GetAxisY();
+	mouseZ = (float)inputMouse->GetAxisZ();
+
+	// カメラ操作
+	if (inputMouse->GetRightPress())
+	{
+		D3DXVECTOR3 camerapos = m_DebugCamera->GetPos();
+		float moveX = 0.0f, moveY = 0.0f, moveZ = 0.0f;
+		if (inputKeyboard->GetKeyPress(DIK_A))
+		{
+			moveX = -1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_D))
+		{
+			moveX = 1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_Q))
+		{
+			moveY = -1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_E))
+		{
+			moveY = 1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_W))
+		{
+			moveZ = 1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_S))
+		{
+			moveZ = -1.0f;
+		}
+
+		camerapos = camerapos + m_DebugCamera->GetRight() * moveX * CAMERA_SPEED;
+		camerapos = camerapos + m_DebugCamera->GetUp() * moveY * CAMERA_SPEED;
+		camerapos = camerapos + m_DebugCamera->GetFront() * moveZ * CAMERA_SPEED;
+
+		m_DebugCamera->Move(camerapos - m_DebugCamera->GetPos());
+
+		// 回転
+		m_DebugCamera->Rotation(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
+	}
+}

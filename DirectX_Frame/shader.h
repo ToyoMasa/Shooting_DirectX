@@ -78,8 +78,8 @@ public:
 	LPDIRECT3DVERTEXSHADER9& GetVS() { return m_VertexShader; }
 	LPDIRECT3DPIXELSHADER9& GetPS() { return m_PixelShader; }
 
-	virtual void ShaderSet(D3DXMATRIX world) {}
-	virtual void SetMaterial(D3DMATERIAL9 const&mat) {}
+	virtual void ShaderSet(const D3DXMATRIX& world) {}
+	virtual void SetMaterial(const D3DMATERIAL9& mat) {}
 
 	// 全てのシェーダーを解放
 	static void ReleaseAll();

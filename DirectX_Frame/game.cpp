@@ -41,15 +41,11 @@
 #include "shader.h"
 #include "fog.h"
 #include "enemyManager.h"
+#include "item.h"
+#include "targetCapsule.h"
 
-CBillBoard *CModeGame::tree1 = NULL;
-CBillBoard *CModeGame::tree2 = NULL;
 CPlayer *CModeGame::player = NULL;
-CEnemy *CModeGame::enemy[ENEMY_NUM] = { NULL };
-CEnemy *CModeGame::Target = NULL;
 CLight *CModeGame::m_Light;
-bool CModeGame::m_PlayerDied = false;
-bool CModeGame::m_TargetDied = false;
 bool CModeGame::m_PlayBGM = false;
 bool CModeGame::m_Pause = false;
 CScene2D *CModeGame::Load = NULL;
@@ -66,9 +62,6 @@ CScene2D *CModeGame::Pause = NULL;
 CScene2D *CModeGame::HowToUse = NULL;
 CSound *CModeGame::BGM = NULL;
 CSound *CModeGame::GameEnd_SE = NULL;
-int CModeGame::m_NumKill = 0;
-int CModeGame::m_NumSneak = 0; 
-int CModeGame::m_CountResult = 0;
 int CModeGame::m_Count = 0;
 CFog *CModeGame::Fog = NULL;
 CField *CModeGame::Field = NULL;
@@ -120,20 +113,16 @@ void CModeGame::Init()
 	Pause->SetVisible(false);
 
 	// スコア等のリセット
-	m_PlayerDied = false;
-	m_TargetDied = false;
 	m_PlayBGM = false;
-	m_NumKill = 0;
-	m_NumSneak = 0;
-	m_CountResult = 0;
 	GameEnd_SE = NULL;
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
-
 }
 
 void CModeGame::Uninit()
 {
+	CItem::ReleaseAll();
+
 	CBullet::ReleaseAll();
 
 	CWeapon::ReleaseAll();
@@ -217,56 +206,13 @@ void CModeGame::Update()
 			CBillBoard::UpdateAll();
 			CWeapon::UpdateAll();
 			EnemyManager->Update();
-
-			if (m_TargetDied)
-			{
-				m_CountResult++;
-
-				if (GameEnd_SE == NULL)
-				{
-					GameEnd_SE = CSound::Create(SOUND_LABEL_SE_GAMECLEAR);
-					GameEnd_SE->Play();
-				}
-
-				if (m_CountResult > 255)
-				{
-					if (m_CountResult > 300)
-					{
-						CFade::FadeOut(new CModeResult(m_NumKill, m_NumSneak, true));
-					}
-				}
-				else
-				{
-					GameClear->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_CountResult));
-				}
-			}
-			else if (m_PlayerDied)
-			{
-				if (GameEnd_SE == NULL)
-				{
-					GameEnd_SE = CSound::Create(SOUND_LABEL_SE_GAMEOVER);
-					GameEnd_SE->Play();
-					GameOver->SetVisible(true);
-				}
-
-				m_CountResult++;
-				if (m_CountResult > 255)
-				{
-					if (m_CountResult > 300)
-					{
-						CFade::FadeOut(new CModeResult(m_NumKill, m_NumSneak, false));
-					}
-				}
-				else
-				{
-					GameClear->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_CountResult));
-				}
-			}
+			CItem::UpdateAll();
 
 			if (inputKeyboard->GetKeyTrigger(DIK_P) || inputKeyboard->GetKeyTrigger(DIK_TAB))
 			{
 				CallPause();
 			}
+
 		}
 	}
 }
@@ -282,53 +228,17 @@ void CModeGame::Draw()
 	CScene::DrawAll();
 
 	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：OFF
-	CBillBoard::DrawAll(player->GetCamera());
+	CBillBoard::DrawAll();
 	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE); //フォグ：ON
 
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("Debug Window");
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
+
 	CImGui::EndDraw();
-}
-
-void CModeGame::PlayerDied()
-{
-	m_PlayerDied = true;
-}
-
-void CModeGame::TargetKilled()
-{
-	m_TargetDied = true;
-	GameClear->SetVisible(true);
-}
-
-void CModeGame::MakeMap()
-{
-	CWall::Create(D3DXVECTOR3(13.5f, 0.0f, -24.5f), 23.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-13.5f, 0.0f, -24.5f), 23.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-24.5f, 0.0f, -2.0f), 1.0f, 4.0f, 44.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(24.5f, 0.0f, -13.0f), 1.0f, 4.0f, 22.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(0.0f, 0.0f, 24.5f), 50.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(9.5f, 0.0f, 12.5f), 7.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-22.0f, 0.0f, -13.5f), 4.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-8.5f, 0.0f, -16.0f), 1.0f, 4.0f, 4.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-8.5f, 0.0f, -22.0f), 1.0f, 4.0f, 4.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-13.0f, 0.0f, -13.5f), 10.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(7.5f, 0.0f, -18.5f), 1.0f, 4.0f, 11.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-14.5f, 0.0f, 2.5f), 1.0f, 4.0f, 9.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(5.5f, 0.0f, 18.0f), 1.0f, 4.0f, 12.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-12.0f, 0.0f, 18.5f), 4.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-20.0f, 0.0f, 18.5f), 8.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-19.0f, 0.0f, 12.5f), 10.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-11.5f, 0.0f, 21.5f), 1.0f, 4.0f, 5.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-5.0f, 0.0f, 18.5f), 6.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(1.0f, 0.0f, 18.5f), 2.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(1.5f, 0.0f, 21.5f), 1.0f, 4.0f, 5.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-19.0f, 0.0f, -7.5f), 10.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(20.5f, 0.0f, 12.5f), 7.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-24.5f, 0.0f, 23.5f), 1.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(24.5f, 0.0f, 13.0f), 1.0f, 4.0f, 22.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(10.5f, 0.0f, -12.5f), 7.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(21.0f, 0.0f, -12.5f), 6.0f, 4.0f, 1.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-14.5f, 0.0f, 11.0f), 1.0f, 4.0f, 2.0f, TEX_ID_WALL01);
-	CWall::Create(D3DXVECTOR3(-14.5f, 0.0f, -6.0f), 1.0f, 4.0f, 2.0f, TEX_ID_WALL01);
 }
 
 void CModeGame::CallPause()

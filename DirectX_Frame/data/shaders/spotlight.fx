@@ -4,7 +4,7 @@ float4x4	g_world;		// 変換行列
 float4x4	g_view;			// 変換行列
 float4x4	g_projection;		// 変換行列
 //int 		g_blendNum;       	// ブレンドする配列の数
-//bool		g_tex;			// テクスチャありなしフラグ　true:あり
+bool		g_tex;			// テクスチャありなしフラグ　true:あり
 
 float3		g_lightposition;
 float		g_lightstrength;
@@ -23,10 +23,10 @@ sampler_state {
 };
 
 void main(float3 in_pos 	: POSITION,
-	float3 in_normal 		: NORMAL0,
+	float3 in_normal 		: NORMAL,
 	float2 in_tex1			: TEXCOORD0,
+	out float4 out_pos			: POSITION,
 	out float2 out_tex1			: TEXCOORD0,
-	out float4 out_pos 			: POSITION,
 	out float3 out_normal 		: TEXCOORD1,
 	out float3 out_lightdir 	: TEXCOORD2)
 {
@@ -62,6 +62,14 @@ void PS(float2 in_tex1		: TEXCOORD0,	//テクスチャ座標入力
 		shade = dot(normalize(in_normal), - ldir) * pow(coneFactor, g_lightdecay) * g_lightstrength; //< 減衰とライトの強さを考慮
  	}
 
-	float4 tex_color = tex2D(Sampler1, in_tex1);
-	out_color = tex_color * (shade + ambient);
+	//色の出力
+	if (g_tex)
+	{
+		float4 tex_color = tex2D(Sampler1, in_tex1);
+		out_color = tex_color * (shade + ambient);
+	}
+	else
+	{
+		out_color = color * (shade + ambient);
+	}
 }

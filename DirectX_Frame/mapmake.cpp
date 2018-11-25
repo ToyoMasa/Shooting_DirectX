@@ -61,10 +61,6 @@ double g_TestText;
 char g_FileName[256] = "map.txt";
 bool g_VertexMode = false;
 
-//static CSceneModel* testufo;
-static CBox* testbox;
-static CShader* testshader;
-
 bool g_Wire = false;
 
 void CModeMapMake::Init()
@@ -72,8 +68,7 @@ void CModeMapMake::Init()
 	// テクスチャの初期化
 	CTexture::Init();
 
-	m_Camera = new CCamera;
-	m_Camera->Init(D3DXVECTOR3(0.0f, 10.0f, -15.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_Camera = CCamera::Create(D3DXVECTOR3(0.0f, 10.0f, -15.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CManager::SetCamera(m_Camera);
 
 	// ブラシの作成
@@ -112,14 +107,6 @@ void CModeMapMake::Init()
 		}
 	}
 
-	//testshader = new CShaderMetal();
-
-	//testbox = new CBox();
-	//testbox->Init(2.0f, 2.0f, 2.0f, TEX_ID_FIELD001);
-	//testufo = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE]);
-	//testufo->Move(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-	//testufo->SetShader(testshader);
-
 	CBillBoard::Init();
 	CWayPoint::Init();
 
@@ -145,9 +132,6 @@ void CModeMapMake::Uninit()
 	CBillBoard::ReleaseAll();
 	CBillBoard::Uninit();
 
-	//testbox->Uninit();
-	//delete testbox;
-	//delete testshader;
 	CWayPoint::Uninit();
 }
 
@@ -354,7 +338,7 @@ void CModeMapMake::Update()
 	ImGui::RadioButton("COLOR", &g_BrushType, BRUSH_COLOR);
 	ImGui::SliderFloat("BrashSize", &g_BrushRange, 1.0f, 1000.0f);
 	ImGui::SliderFloat("BrashValue", &g_BrushValue, -10.0f, 10.0f);
-	ImGui::SliderFloat("CameraSpeed", &CAMERA_SPEED, -2.0f, 2.0f);
+	ImGui::SliderFloat("CameraSpeed", &CAMERA_SPEED, 0.0f, 5.0f);
 	ImGui::ColorEdit4("BrushColor", g_TempColor);
 	ImGui::Text("%.2f, %.2f, %.2f, %.2f", g_TempColor[0], g_TempColor[1], g_TempColor[2], g_TempColor[3]);
 	ImGui::End();
@@ -376,15 +360,7 @@ void CModeMapMake::Draw()
 	}
 
 	CScene::DrawAll();
-	CBillBoard::DrawAll(CManager::GetCamera());
-
-	//D3DXMATRIX mat;
-	//D3DXMatrixIdentity(&mat);
-	//D3DXMatrixTranslation(&mat, 1.5f, 1.0f, 0.0f);
-	//testbox->DrawWithShader(mat, testshader);
-
-	//D3DXMatrixTranslation(&mat, -1.5f, 1.0f, 0.0f);
-	//testbox->Draw(mat);
+	CBillBoard::DrawAll();
 
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

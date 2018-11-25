@@ -8,6 +8,7 @@
 #include "scene3D.h"
 #include "texture.h"
 #include "billboard.h"
+#include "manager.h"
 
 //======================================================================
 //	静的メンバ変数の初期化
@@ -108,7 +109,7 @@ void CBillBoard::UpdateAll()
 
 }
 
-void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* camera)
+void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -122,7 +123,7 @@ void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* cam
 
 	m_World = m_Scale * m_Move;
 
-	D3DXMATRIX mtxViewRotInv = camera->GetView();
+	D3DXMATRIX mtxViewRotInv = CManager::GetCamera()->GetView();
 
 	// ビュー行列の逆行列を作成
 	// 平行移動を無効にする
@@ -141,7 +142,7 @@ void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* cam
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
 }
 
-void CBillBoard::DrawOne(CCamera* camera)
+void CBillBoard::DrawOne()
 {
 	if (m_isVisible)
 	{
@@ -157,7 +158,7 @@ void CBillBoard::DrawOne(CCamera* camera)
 
 		m_World = m_Scale * m_Move;
 
-		D3DXMATRIX mtxViewRotInv = camera->GetView();
+		D3DXMATRIX mtxViewRotInv = CManager::GetCamera()->GetView();
 
 		// ビュー行列の逆行列を作成
 		// m_DrawTypeで切替
@@ -209,7 +210,7 @@ void CBillBoard::DrawOne(CCamera* camera)
 	}
 }
 
-void CBillBoard::DrawFixedY(int textureId, D3DXVECTOR3 vPos, float scale, CCamera* camera)
+void CBillBoard::DrawFixedY(int textureId, D3DXVECTOR3 vPos, float scale)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -223,7 +224,7 @@ void CBillBoard::DrawFixedY(int textureId, D3DXVECTOR3 vPos, float scale, CCamer
 
 	m_World = m_Scale * m_Move;
 
-	D3DXMATRIX mtxViewRotInv = camera->GetView();
+	D3DXMATRIX mtxViewRotInv = CManager::GetCamera()->GetView();
 
 	// ビュー行列の逆行列を作成
 	// 平行移動とY軸以外の回転を無効にする
@@ -288,7 +289,7 @@ void CBillBoard::DrawEnd()
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
-void CBillBoard::DrawAll(CCamera* camera)
+void CBillBoard::DrawAll()
 {
 	CBillBoard::DrawBegin();
 
@@ -298,7 +299,7 @@ void CBillBoard::DrawAll(CCamera* camera)
 	{
 		if (CBillBoard::m_BillBoards[i] != NULL)
 		{
-			CBillBoard::m_BillBoards[i]->DrawOne(camera);
+			CBillBoard::m_BillBoards[i]->DrawOne();
 			num++;
 		}
 	}

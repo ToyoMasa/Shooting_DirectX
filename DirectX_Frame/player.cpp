@@ -32,8 +32,6 @@
 #include "waypoint.h"
 #include "skinmeshShader.h"
 
-bool g_test = false;
-
 static const float DEFAULT_FOV = 90.0f;
 static const float ADS_FOV = 70.0f;
 static const float LOCAL_CAMERA_X = 0.0f;
@@ -141,20 +139,21 @@ void CPlayer::Update()
 	CInputKeyboard *inputKeyboard;
 	inputKeyboard = CManager::GetInputKeyboard();
 
-	ImGui::Begin("Player", 0);
-	ImGui::SliderFloat("Life", &m_Life, 0.0f, 100.0f);
-	ImGui::Text("Area:%d", m_AreaID);
-	ImGui::End();
-	if (inputKeyboard->GetKeyPress(DIK_T))
+	if (CManager::GetDebug())
 	{
-		g_test = !g_test;
+		ImGui::Begin("Player", 0);
+		ImGui::SliderFloat("Life", &m_Life, 0.0f, 100.0f);
+		ImGui::Text("Area:%d", m_AreaID);
+		ImGui::End();
 	}
+	else
+	{
+		ADS();
+		m_Pattern->Update(this);
 
-	ADS();
-	m_Pattern->Update(this);
-
-	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
-	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
+		m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
+		m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
+	}
 }
 
 void CPlayer::Draw()
@@ -269,10 +268,7 @@ void CPlayer::Rotate(const float& horizontal, const float& vertical)
 
 		m_Rotate *= mtxRotation;
 
-		if (!g_test)
-		{
-			m_Model->Rotate(m_Rotate);
-		}
+		m_Model->Rotate(m_Rotate);
 	}
 
 	//*********************************************************
@@ -311,11 +307,7 @@ void CPlayer::Rotate(const float& horizontal, const float& vertical)
 
 			m_Rotate *= mtxRotation;
 
-			if (!g_test)
-			{
-				m_Model->Rotate(m_Rotate);
-
-			}
+			m_Model->Rotate(m_Rotate);
 		}
 	}
 }
@@ -398,16 +390,13 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 
 	m_Camera->Move(newPos - m_Pos);
 
-	if (!g_test)
-	{
-		SetPos(newPos);
+	SetPos(newPos);
 
-		m_Model->Move(m_Pos + m_LocalCameraPos);
-		m_Shadow->Move(m_Pos + m_LocalCameraPos);
+	m_Model->Move(m_Pos + m_LocalCameraPos);
+	m_Shadow->Move(m_Pos + m_LocalCameraPos);
 
-		// “–‚½‚è”»’è‚ÌˆÚ“®
-		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
-	}
+	// “–‚½‚è”»’è‚ÌˆÚ“®
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
 }
 
 void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ)
@@ -467,16 +456,13 @@ void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ
 
 	m_Camera->Move(newPos - m_Pos);
 
-	if (!g_test)
-	{
-		SetPos(newPos);
+	SetPos(newPos);
 
-		m_Model->Move(m_Pos + m_LocalCameraPos);
-		m_Shadow->Move(m_Pos + m_LocalCameraPos);
+	m_Model->Move(m_Pos + m_LocalCameraPos);
+	m_Shadow->Move(m_Pos + m_LocalCameraPos);
 
-		// “–‚½‚è”»’è‚ÌˆÚ“®
-		m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
-	}
+	// “–‚½‚è”»’è‚ÌˆÚ“®
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
 }
 
 void CPlayer::ADS()

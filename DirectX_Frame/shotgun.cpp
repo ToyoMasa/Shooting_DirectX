@@ -18,6 +18,7 @@
 #include "PlayerAnim.h"
 #include "metalShader.h"
 #include "normalmapShader.h"
+#include "spotlightShader.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
@@ -30,7 +31,7 @@ static const int ADS_DIFFUSSION = 80;
 void CShotgun::Init(CSceneSkinMesh *parent)
 {
 	m_Parent = parent;
-	m_Model = CSceneModel::Create("data/models/shotgun.x");
+	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_SHOTGUN]);
 	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
 	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
 	m_Crosshair->SetVisible(false);
@@ -63,10 +64,11 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_isReleaseTrigger = true;
 
-	m_Model->SetShader(CShaderMetal::GetShader());
-/*
+	//m_Model->SetShader(CShaderMetal::GetShader());
+	//m_Model->SetShader(CShaderSpotlight::GetShader());
+
 	m_Model->SetShader(CShaderNormalmap::GetShader());
-	m_Model->SetNormalMapTexture("shotgun_normal.png");*/
+	m_Model->SetNormalMapTexture("shotgun_normal.png");
 }
 
 void CShotgun::Uninit()

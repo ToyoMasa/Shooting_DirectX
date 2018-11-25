@@ -55,7 +55,8 @@ HRESULT CInput::Init(HINSTANCE hInst, HWND hWnd)
 	rc.bottom = WinY + (WinHeight) - 39;
 
 	ClipCursor(&rc);
-//	ShowCursor(false);
+
+	//ShowCursor(FALSE);
 
 	return hr;
 }

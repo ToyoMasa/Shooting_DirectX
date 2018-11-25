@@ -9,55 +9,48 @@ float4x4 	g_projection;				// プロジェクション変換行列
 texture		g_texture;					// テクスチャ
 bool		g_tex;						// テクスチャのありなし　false:なし　true:あり
 // 光
-float4		g_diffuse;					// ディフューズ
-float4		g_emmisive;					// エミッシブ
-float4		g_ambient;					// 環境光
 float4		g_specular;					// スペキュラー光
 float3		g_light_dir;				// 平行光源の方向
 // マテリアル
-float4		g_diffuse_mat;				// ディフューズ光
-float4		g_emmisive_mat;				// エミッシブ光
-float4		g_ambient_mat;				// 環境光
 float4		g_specular_mat;				// スペキュラー
 float		g_power;					// スペキュラー光のパワー値
 
 float4      g_camerapos;				// カメラ座標
 
-// テクスチャ
-texture		g_normaltexture;			// ノーマルマップテクスチャ
-
 //------------------------------------------------
 // サンプラー1
 //------------------------------------------------
 sampler Sampler1 =
-sampler_state{
-	MinFilter= LINEAR;		// リニアフィルタ（縮小時）
-	MagFilter= LINEAR;		// リニアフィルタ（拡大時）
+sampler_state {
+	Texture = <g_texture>;
+	MinFilter = LINEAR;		// リニアフィルタ（縮小時）
+	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
 };
 
 //------------------------------------------------
 // サンプラー2
 //------------------------------------------------
 sampler NormalmapSampler1 =
-sampler_state{
-	MinFilter= LINEAR;		// リニアフィルタ（縮小時）
-	MagFilter= LINEAR;		// リニアフィルタ（拡大時）
+sampler_state {
+	Texture = <g_normaltexture>;
+	MinFilter = LINEAR;		// リニアフィルタ（縮小時）
+	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
 };
 
 //------------------------------------------------
 // 頂点シェーダ
 //------------------------------------------------
-void main( 	float3 in_pos : POSITION,
-				float3 in_normal : NORMAL,
-				float4 in_col1 : COLOR0,
-				float2 in_tex1	: TEXCOORD0,
-				float3 in_binormal : BINORMAL,
-				float3 in_tangent : TANGENT,
- 				out float4 out_pos : POSITION,
-				out float2 out_tex1 : TEXCOORD0,
-				out float3 out_lightvector : TEXCOORD1,
-				out float3 out_posforps : TEXCOORD2,
-				out float3 out_cameraposforps : TEXCOORD3)
+void main(float3 in_pos : POSITION,
+	float3 in_normal : NORMAL,
+	float4 in_col1 : COLOR0,
+	float2 in_tex1 : TEXCOORD0,
+	float3 in_binormal : BINORMAL,
+	float3 in_tangent : TANGENT,
+	out float4 out_pos : POSITION,
+	out float2 out_tex1 : TEXCOORD0,
+	out float3 out_lightvector : TEXCOORD1,
+	out float3 out_posforps : TEXCOORD2,
+	out float3 out_cameraposforps : TEXCOORD3)
 {
 	float3	N;		// ワールド空間上の法線ベクトル
 	float3  P;      // ワールド座標
@@ -65,8 +58,8 @@ void main( 	float3 in_pos : POSITION,
 	float3	L;		// 光の差し込む方向
 	float3  B;		// ワールド空間の従法線ベクトル
 	float3  T;		// ワールド空間の接ベクトル
-	
-	// 座標変換
+
+					// 座標変換
 	out_pos = mul(float4(in_pos, 1.0f), g_world);
 	P = (float3)out_pos;
 	out_pos = mul(out_pos, g_view);
@@ -125,12 +118,12 @@ void main( 	float3 in_pos : POSITION,
 //------------------------------------------------
 // ピクセルシェーダ
 //------------------------------------------------
-void PS( float4 in_specular    : COLOR1,
-				float2 in_tex1	      : TEXCOORD0,
-				float3 in_lightvector : TEXCOORD1,
-				float3 in_pos         : TEXCOORD2,
-				float3 in_camerapos : TEXCOORD3,
-				out float4 out_color : COLOR0)
+void PS(float4 in_specular		: COLOR1,
+	float2 in_tex1				: TEXCOORD0,
+	float3 in_lightvector		: TEXCOORD1,
+	float3 in_pos				: TEXCOORD2,
+	float3 in_camerapos			: TEXCOORD3,
+	out float4 out_color : COLOR0)
 {
 	float4 tex_color = tex2D(Sampler1, in_tex1);
 
@@ -158,11 +151,19 @@ void PS( float4 in_specular    : COLOR1,
 	float3 H = normalize(Light + V);
 
 	// ブリンフォンでスペキュラ光を計算
-	//float4 specular = pow(max(0, dot(H, Normal.xyz)), 200);
-	float4 specular = g_specular * g_specular_mat *
-		pow(max(0, dot(Normal, H)), g_power);
+	float4 specular = pow(max(0, dot(H, Normal.xyz)), 200);
+	//float4 specular = g_specular * g_specular_mat *
+	//	pow(max(0, dot((float3)Normal, H)), g_power);
 
-	// テクスチャの色と頂点の色を掛け合わせる
-	out_color = diffuse*tex_color + specular;
-	out_color.a = 1.0f;
+	//色の出力
+	if (g_tex)
+	{
+		// テクスチャの色と頂点の色を掛け合わせる
+		out_color = diffuse * tex_color + specular;
+		out_color.a = 1.0f;
+	}
+	else 
+	{
+		out_color = diffuse + specular;
+	}
 }

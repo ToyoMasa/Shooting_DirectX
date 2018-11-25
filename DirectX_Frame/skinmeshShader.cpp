@@ -50,7 +50,7 @@ void CShaderSkinmesh::Destroy()
 	}
 }
 
-void CShaderSkinmesh::ShaderSet(D3DXMATRIX world)
+void CShaderSkinmesh::ShaderSet(const D3DXMATRIX& world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)

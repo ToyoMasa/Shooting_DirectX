@@ -16,7 +16,8 @@ CShaderSpotlight::CShaderSpotlight() : CShader()
 		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
-	if (!sts) {
+	if (!sts) 
+	{
 		MessageBox(NULL, "エラー", "エラー", MB_OK);
 	}
 
@@ -26,7 +27,8 @@ CShaderSpotlight::CShaderSpotlight() : CShader()
 		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 
-	if (!sts) {
+	if (!sts) 
+	{
 		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
 	}
 }
@@ -49,7 +51,7 @@ void CShaderSpotlight::Destroy()
 	}
 }
 
-void CShaderSpotlight::ShaderSet(D3DXMATRIX world)
+void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -81,7 +83,7 @@ void CShaderSpotlight::ShaderSet(D3DXMATRIX world)
 	m_PSConstantTable->SetFloat(pDevice, "g_lightdecay", 1.0f);
 }
 
-void CShaderSpotlight::SetMaterial(D3DMATERIAL9 const&mat)
+void CShaderSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)

@@ -8,7 +8,7 @@ float4x4 	g_projection;				// プロジェクション変換行列
 
 bool		g_tex;						// テクスチャのありなし　false:なし　true:あり
 
-										// 光
+// 光
 float4		g_diffuse;					// ディフューズ
 float4		g_emmisive;					// エミッシブ
 float4		g_ambient;					// 環境光
@@ -16,14 +16,14 @@ float4		g_specular;					// スペキュラー光
 
 float3		g_light_dir;				// 平行光源の方向
 
-										// マテリアル
+// マテリアル
 float4		g_diffuse_mat;				// ディフューズ光
 float4		g_emmissive_mat;				// エミッシブ光
 float4		g_ambient_mat;				// 環境光
 float4		g_specular_mat;				// スペキュラー
 float		g_power;					// スペキュラー光のパワー値
 
-										// スペキュラ光の計算用
+// スペキュラ光の計算用
 float4		g_camerapos;				// カメラ位置
 int		g_specularpower;
 
@@ -108,12 +108,14 @@ void PS(float2 in_tex1		: TEXCOORD0,	//テクスチャ座標入力
 
 
 	//色の出力
-	if (g_tex) {
+	if (g_tex) 
+	{
 		float4 tex_color = tex2D(Sampler1, in_tex1);
 		// テクスチャの色と頂点の色を掛け合わせる
 		out_color = saturate(diffuse * tex_color + specular);
 	}
-	else {
+	else 
+	{
 		out_color = saturate(diffuse + specular);
 	}
 }

@@ -37,6 +37,9 @@ public:
 
 	float& GetSpeed() { return m_Speed; }
 	float& GetCapsuleRad() { return m_CapsuleRad; }
+	float& GetAttackDamage() { return m_AttackDamage; }
+	bool& GetAttackHit() { return m_AttackHit; }
+	void SetAttackHit(const bool& hit) { m_AttackHit = hit; }
 	void SetSpeed(float speed) { m_Speed = speed; }
 
 	void ChangePattern(CEnemyPatternBase* next);
@@ -47,11 +50,13 @@ public:
 	virtual void Damaged(float damage)override {}
 
 protected:
-	CEnemyPatternBase *m_Pattern;
-	Capsule m_AttackingCollsion;
-	int m_Count;
-	float m_Speed;
-	float m_CapsuleRad;
+	CEnemyPatternBase*		m_Pattern;
+	Capsule					m_AttackingCollsion;
+	int						m_Count;
+	float					m_AttackDamage;
+	float					m_Speed;
+	float					m_CapsuleRad;
+	bool					m_AttackHit;
 };
 
 #endif // !_ENEMY_H_

@@ -12,8 +12,8 @@ class CShaderSkinmesh : public CShader
 public:
 	static CShaderSkinmesh* GetShader();
 	static void Destroy();
-	void ShaderSet(D3DXMATRIX world)override;
-	void SetMaterial(D3DMATERIAL9 const&mat)override;
+	void ShaderSet(const D3DXMATRIX& world)override;
+	void SetMaterial(const D3DMATERIAL9& mat)override;
 
 private:
 	CShaderSkinmesh();

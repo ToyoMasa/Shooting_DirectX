@@ -188,10 +188,12 @@
     <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="event.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="normalmapShader.h" />
     <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="skinmeshShader.h" />
     <ClInclude Include="spotlightShader.h" />
+    <ClInclude Include="targetCapsule.h" />
     <ClInclude Include="waypoint.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -282,6 +284,7 @@
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_dx9.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
@@ -321,6 +324,7 @@
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="spotlightShader.cpp" />
+    <ClCompile Include="targetCapsule.cpp" />
     <ClCompile Include="targetPoint.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />

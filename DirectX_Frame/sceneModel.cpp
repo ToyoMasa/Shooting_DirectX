@@ -54,27 +54,27 @@ void CSceneModel::Init(const std::string& modelName)
 		return;
 	}
 
-	// クローン先
-	LPD3DXMESH pCloneMesh;
-	D3DVERTEXELEMENT9 elements[MAXD3DDECLLENGTH + 1];
-	m_Mesh->GetDeclaration(elements);
+	//// クローン先
+	//LPD3DXMESH pCloneMesh;
+	//D3DVERTEXELEMENT9 elements[MAXD3DDECLLENGTH + 1];
+	//m_Mesh->GetDeclaration(elements);
 
-	// VRAM上にクローンする（コピーする）
-	hr = m_Mesh->CloneMesh(D3DXMESH_MANAGED | D3DXMESH_WRITEONLY | D3DXMESH_32BIT, elements, pDevice, &pCloneMesh);
+	//// VRAM上にクローンする（コピーする）
+	//hr = m_Mesh->CloneMesh(D3DXMESH_MANAGED | D3DXMESH_WRITEONLY | D3DXMESH_32BIT, elements, pDevice, &pCloneMesh);
 
-	if (FAILED(hr))
-	{
-		MessageBox(NULL, "クローンに失敗しました", "エラー", MB_OK);
-		return;
-	}
-	// クローンがいるので元のやつを解放してクローン先のアドレスをもらう
-	if (m_Mesh != NULL)
-	{
-		m_Mesh->Release();
-		m_Mesh = pCloneMesh;
-	}
+	//if (FAILED(hr))
+	//{
+	//	MessageBox(NULL, "クローンに失敗しました", "エラー", MB_OK);
+	//	return;
+	//}
+	//// クローンがいるので元のやつを解放してクローン先のアドレスをもらう
+	//if (m_Mesh != NULL)
+	//{
+	//	m_Mesh->Release();
+	//	m_Mesh = pCloneMesh;
+	//}
 
-	//AddTangentSpace();
+	AddTangentSpace();
 
 	// メモリ解放
 	if (pAdjacency != NULL)
@@ -344,28 +344,7 @@ CSceneModel* CSceneModel::Create(const std::string& modelName)
 	return sceneModel;
 }
 
-//==============================================================================
-//!	@fn		AddTangentSpace
-//!	@brief	メッシュに接ベクトル空間を付与する
-//!	@param	デバイスオブジェクト
-//!	@retval	なし
-//!	@note	
-//==============================================================================
-/*-----------------------------------------------------------------------------------------
-従法線、接ベクトルのないメッシュに従法線、接ベクトルを追加する
-
-引数
-const LPD3DXMESH& inMesh   (IN)
-従法線、接ベクトルのないメッシュ
-
-LPD3DXMESH&	outMesh		  (OUT)
-位置情報、テクスチャ座標、法線、接ベクトル、従法線ベクトルを持つメッシュ
-
-戻り値
-bool 	 true  : 成功
-false : 失敗
-
-------------------------------------------------------------------------------------------*/
+// 従法線、接ベクトルのないメッシュに従法線、接ベクトルを追加する
 bool CSceneModel::AddTangentSpace() 
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();

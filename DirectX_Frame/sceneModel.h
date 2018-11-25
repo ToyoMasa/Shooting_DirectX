@@ -12,32 +12,20 @@
 // モデル管理用ID
 typedef enum
 {
-	MODEL_ID_UFO = 0,		// UFO
-	MODEL_ID_XBOT,
-	MODEL_ID_SKYBOX,
 	MODEL_ID_SKYDOME,
-	MODEL_ID_PLAYER,
-	MODEL_ID_ENEMY01,
-	MODEL_ID_TARGET,
 	MODEL_ID_RIFLE,
-	MODEL_ID_BOX,
-	MODEL_ID_CYLINDER,
+	MODEL_ID_SHOTGUN,
+	MODEL_ID_CAPSULE,
 	MODEL_ID_MAX,
 } MODEL_ID;
 
 // モデル読み込み用のソース
 static const std::string MODEL_SOURCE[] =
 {
-	"data/models/player_ufo.x",
-	"data/models/xbot2.x",
-	"data/models/skybox.x",
 	"data/models/sky.x",
-	"data/models/player.x",
-	"data/models/enemy01.x",
-	"data/models/target.x",
-	"data/models/rifle3.x",
-	"data/models/box.x",
-	"data/models/cylinder2.x",
+	"data/models/rifle.x",
+	"data/models/shotgun.x",
+	"data/models/scifi_capsule.x",
 };
 
 class CSceneModel : public CScene

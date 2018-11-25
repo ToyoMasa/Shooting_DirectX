@@ -82,6 +82,18 @@
     <Filter Include="ソース ファイル\enemy">
       <UniqueIdentifier>{9196e635-2107-4081-9935-131c8f1ebcf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\item">
+      <UniqueIdentifier>{b4422eb7-37df-4e05-9c70-afa32e816029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\item">
+      <UniqueIdentifier>{94229bc0-2a8d-4bea-a82a-6fe6ba19f967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\mode">
+      <UniqueIdentifier>{80f954bb-3fe8-45a2-b6df-6e73b330bb67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\mode">
+      <UniqueIdentifier>{c6dbe2d4-5a4c-4535-8d2c-4830e2feda00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -159,19 +171,7 @@
     <ClInclude Include="emitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="mode.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="title.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="character.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="result.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
@@ -294,9 +294,6 @@
     <ClInclude Include="enemyPatternAttack.h">
       <Filter>ヘッダー ファイル\enemyPattern</Filter>
     </ClInclude>
-    <ClInclude Include="mapmake.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="mathutil.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -350,6 +347,27 @@
     </ClInclude>
     <ClInclude Include="playerPatternNormal.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>ヘッダー ファイル\item</Filter>
+    </ClInclude>
+    <ClInclude Include="targetCapsule.h">
+      <Filter>ヘッダー ファイル\item</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>ヘッダー ファイル\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>ヘッダー ファイル\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="mode.h">
+      <Filter>ヘッダー ファイル\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="mapmake.h">
+      <Filter>ヘッダー ファイル\mode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -416,16 +434,7 @@
     <ClCompile Include="emitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="character.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="result.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="fade.cpp">
@@ -527,9 +536,6 @@
     <ClCompile Include="enemyPatternAttack.cpp">
       <Filter>ソース ファイル\enemyPattern</Filter>
     </ClCompile>
-    <ClCompile Include="mapmake.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="mathutil.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -590,10 +596,28 @@
     <ClCompile Include="playerPatternNormal.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>ソース ファイル\item</Filter>
+    </ClCompile>
+    <ClCompile Include="targetCapsule.cpp">
+      <Filter>ソース ファイル\item</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="mapmake.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\spotlight.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
-    <FxCompile Include="data\shaders\metal.fx" />
   </ItemGroup>
 </Project>
