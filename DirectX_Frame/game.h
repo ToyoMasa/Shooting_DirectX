@@ -19,6 +19,12 @@ class CSound;
 class CFog;
 class CEnemyManager;
 
+enum GAME_RESULT
+{
+	GAME_CLEAR,
+	GAME_OVER
+};
+
 class CModeGame : public CMode
 {
 public:
@@ -32,14 +38,14 @@ public:
 
 	static CPlayer* GetPlayer() { return player; }
 	static CCamera* GetCamera();
-	static void CallPause();
 	static CField* GetField() { return Field; }
+	static void IncrementKillCount() { KillCount++; }
+	static void GameEnd(GAME_RESULT result);
+	static void CallPause();
 
 private:
 	static CPlayer* player;
-	static CLight *m_Light;
-	static bool m_PlayBGM;
-	static bool m_Pause;
+	static CLight *Light;
 	static CScene2D* Load;
 	static CScene2D* LoadFrame;
 	static CScene2D* LoadGage;
@@ -49,16 +55,20 @@ private:
 	static CScene2D* Wanted;
 	static CScene2D* Tutorial;
 	static CScene2D* Tutorial2;
-	static CScene2D* Pause;
+	static CScene2D* PauseWord;
 	static CScene2D* Black;
 	static CScene2D* HowToUse;
-	static int m_Count;
+	static GAME_RESULT Result;
 	static CSound* BGM;
 	static CSound* GameEnd_SE;
 	static CSound* ZombieVoice;
 	static CFog*	Fog;
 	static CField* Field;
 	static CEnemyManager* EnemyManager;
+	static bool Pause;
+	static bool GameFinish;
+	static int FrameCount;
+	static int KillCount;
 };
 
 #endif // !_GAME_H_

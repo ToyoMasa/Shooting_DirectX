@@ -86,6 +86,7 @@ private:
 	CWeapon*	m_Weapon[HAVE_WEAPON];
 	CEffekseer* m_BloodEffect;
 	CScene2D*	m_DamagedEffect;
+	CScene2D*	m_AmmoBackScreen;
 	CPlayerPatternBase* m_Pattern;
 	CNumber*	m_AmmoNum;
 	int			m_ShortestPoint;

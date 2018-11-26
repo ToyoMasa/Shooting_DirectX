@@ -28,6 +28,7 @@
 void CEnemyPatternChase::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_RUNNING, 0.3f);
+	enemy->GetModel()->SetAnimPlaySpeed(2.0f);
 }
 
 void CEnemyPatternChase::Update(CEnemy* enemy)

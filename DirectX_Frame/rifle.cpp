@@ -77,6 +77,15 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Model->SetShader(CShaderNormalmap::GetShader());
 	m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
 
+	if (m_FlashEffect == NULL)
+	{
+		m_FlashEffect = CEffekseer::Create(CEffekseer::EFFECT_MUZZLEFLASH);
+		m_FlashEffect->RepeatEffect(false);
+		m_FlashEffect->SetScale(0.025f, 0.025f, 0.025f);
+		m_FlashEffect->SetSpeed(5.0f);
+		m_FlashEffect->SetVisible(true);
+	}
+
 	// eº‚Ì€”õ
 	for (int i = 0; i < RIFLE_SHOT_SE_NUM; i++)
 	{

@@ -21,9 +21,12 @@ void CEffekseer::LoadEffect()
 	//エフェクトの読み込み
 	effekseerEffect_ = Effekseer::Effect::Create(effekseerManager_, (const EFK_CHAR*)fileName_[effectType_].fileName);
 }
+
 void CEffekseer::Init()
 {
+
 }
+
 void CEffekseer::Uninit()
 {
 	// エフェクトの停止
@@ -106,7 +109,7 @@ void CEffekseer::SetProj()
 	effekseerRenderer_->SetProjectionMatrix(
 		Effekseer::Matrix44().PerspectiveFovLH(D3DXToRadian(CManager::GetCamera()->GetFov()),                           //視野角
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT,   //アスペクト比
-		0.1f, 1000.0f));
+		0.1f, 10000.0f));
 }
 void CEffekseer::SetView(D3DXVECTOR3 Pos, D3DXVECTOR3 At, D3DXVECTOR3 Up)
 {

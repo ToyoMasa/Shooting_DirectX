@@ -20,13 +20,13 @@ public:
 	void Draw();
 
 private:
-	static CScene2D* m_TitleLogo;
-	static CScene2D* m_Text_PressSpace;
+	static CScene2D* TitleLogo;
+	static CScene2D* Text_PressSpace;
 	static CSceneSkinMesh* m_Mesh;
-	static CCamera* m_Camera;
-	static CSound* m_BGM;
-	static CSound* m_SE;
-	static int m_Count;
+	static CCamera* Camera;
+	static CSound* BGM;
+	static CSound* SE;
+	static int Count;
 
 	static CScene2D* Load;
 	static CScene2D* LoadFrame;

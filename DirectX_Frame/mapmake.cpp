@@ -353,6 +353,7 @@ void CModeMapMake::Draw()
 	{
 		return;
 	}
+	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //ƒtƒHƒO
 
 	if (g_Wire)
 	{
@@ -365,8 +366,6 @@ void CModeMapMake::Draw()
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	g_Brush->Draw();
-
-	CImGui::EndDraw();
 }
 
 void CModeMapMake::ChangeMap()

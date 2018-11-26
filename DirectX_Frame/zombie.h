@@ -7,7 +7,7 @@
 
 #include "enemy.h"
 
-static const float ZOMBIE_MOVE_SPEED = 0.015f;
+static const float ZOMBIE_MOVE_SPEED = 0.03f;
 static const float ZOMBIE_CUPSULE_RAD = 0.4f;
 static const int ZOMBIE_VOICE_NUM = 3;
 
@@ -31,6 +31,7 @@ public:
 	void Update()override;
 	static CZombie* Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field);
 	static void ZombieInit();
+	static void ZombieUninit();
 
 	void Move(D3DXVECTOR3 newPos);
 	void Death()override;

@@ -32,6 +32,7 @@ void CNumber::Uninit()
 	if (m_Scene2D != NULL)
 	{
 		m_Scene2D->Release();
+		m_Scene2D = NULL;
 	}
 
 	CTexture::Release(TEX_ID_NUMBER001);

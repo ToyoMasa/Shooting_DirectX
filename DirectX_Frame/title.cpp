@@ -27,110 +27,40 @@
 #include "PlayerAnim.h"
 #include "wall.h"
 
-CScene2D* CModeTitle::m_TitleLogo = NULL;
-CScene2D *CModeTitle::m_Text_PressSpace = NULL;
+CScene2D* CModeTitle::TitleLogo = NULL;
+CScene2D *CModeTitle::Text_PressSpace = NULL;
 CSceneSkinMesh *CModeTitle::m_Mesh = NULL;
-CCamera *CModeTitle::m_Camera = NULL;
-CSound *CModeTitle::m_BGM = NULL;
-CSound *CModeTitle::m_SE = NULL;
-int CModeTitle::m_Count = 0;
+CCamera *CModeTitle::Camera = NULL;
+CSound *CModeTitle::BGM = NULL;
+CSound *CModeTitle::SE = NULL;
+int CModeTitle::Count = 0;
 CScene2D *CModeTitle::Load = NULL;
 CScene2D *CModeTitle::LoadFrame = NULL;
 CScene2D *CModeTitle::LoadGage = NULL;
-
-CWall* wall;
 
 void CModeTitle::Init()
 {
 	// テクスチャの初期化
 	CTexture::Init();
 
-	Load = CScene2D::Create(TEX_ID_NOWLOADING, 1545 / 2.0f, 414 / 2.0f);
-	Load->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
+	TitleLogo = CScene2D::Create(TEX_ID_TITLE, 1153.0f, 323.0f);
+	TitleLogo->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 150.0f, 0.0f));
 
-	LoadFrame = CScene2D::Create(TEX_ID_LOADFRAME, 960, 64);
-	LoadFrame->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0));
+	Text_PressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 501.0f, 105.0f);
+	Text_PressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
 
-	LoadGage = CScene2D::Create(TEX_ID_LOADGAGE, 950, 54);
-	LoadGage->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0));
-
-	HRESULT hr;
-	hr = CRenderer::DrawBegin();
-
-	// ロード画面を描画
-	if (SUCCEEDED(hr))
-	{
-		//描画
-		Load->Draw();
-		LoadFrame->Draw();
-
-		CRenderer::DrawEnd();
-	}
-
-	m_TitleLogo = CScene2D::Create(TEX_ID_TITLE, 1153.0f, 323.0f);
-	m_TitleLogo->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 150.0f, 0.0f));
-
-	m_Text_PressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 501.0f, 105.0f);
-	m_Text_PressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
-
-	m_Camera = CCamera::Create();
-	m_Camera->SetPos(D3DXVECTOR3(-0.2f, 1.7f, -1.0f));
-	m_Camera->SetAt(D3DXVECTOR3(0.0f, 1.5f, 0.0f));
-	CManager::SetCamera(m_Camera);
-
-	{
-		hr = CRenderer::DrawBegin();
-		LoadGage->SetSize(D3DXVECTOR2(950 * 0.3f, 54));
-		LoadGage->Set(D3DXVECTOR3((SCREEN_WIDTH / 2 - 950 / 2.0f) + 950 * 0.3f / 2.0f, SCREEN_HEIGHT / 2 + 200.0f, 0));
-
-		// ロード画面を描画
-		if (SUCCEEDED(hr))
-		{
-			//描画
-			Load->Draw();
-			LoadFrame->Draw();
-			LoadGage->Draw();
-
-			CRenderer::DrawEnd();
-		}
-	}
-
-	m_Mesh = CSceneSkinMesh::Create(SM_ID_PLAYER);
-	m_Mesh->ChangeAnim(PLAYER_IDLE, 0.0f);
-
-	{
-		hr = CRenderer::DrawBegin();
-		LoadGage->SetSize(D3DXVECTOR2(950 * 0.75f, 54));
-		LoadGage->Set(D3DXVECTOR3((SCREEN_WIDTH / 2 - 950 / 2.0f) + 950 * 0.75f / 2.0f, SCREEN_HEIGHT / 2 + 200.0f, 0));
-
-		// ロード画面を描画
-		if (SUCCEEDED(hr))
-		{
-			//描画
-			Load->Draw();
-			LoadFrame->Draw();
-			LoadGage->Draw();
-
-			CRenderer::DrawEnd();
-		}
-	}
+	Camera = CCamera::Create();
+	Camera->SetPos(D3DXVECTOR3(-0.2f, 1.7f, -1.0f));
+	Camera->SetAt(D3DXVECTOR3(0.0f, 1.5f, 0.0f));
+	CManager::SetCamera(Camera);
 
 	// フェードイン
 	CFade::FadeIn();
 
-	m_BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
-	m_BGM->Play();
+	BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
+	BGM->Play();
 
-	m_Count = 0;
-
-	// ロード画面を解放
-	Load->Release();
-	LoadFrame->Release();
-	LoadGage->Release();
-
-	//wall = CWall::Create(D3DXVECTOR3(0, 0, 0), 1, 1, 1, 0);
-	//wall->SetShader(&test);
-	//m_Mesh->SetShader(&test);
+	Count = 0;
 }
 
 void CModeTitle::Uninit()
@@ -140,7 +70,7 @@ void CModeTitle::Uninit()
 
 	CScene::ReleaseAll();
 
-	m_Camera->Release();
+	Camera->Release();
 
 	CSound::ReleaseAll();
 }
@@ -151,7 +81,7 @@ void CModeTitle::Update()
 	CInputMouse *inputMouse;
 	float mouseX, mouseY, mouseZ;
 
-	m_Camera->Update();
+	Camera->Update();
 
 	// キーボード取得
 	inputKeyboard = CManager::GetInputKeyboard();
@@ -162,15 +92,15 @@ void CModeTitle::Update()
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
 
-	m_Count++;
+	Count++;
 
-	if (m_Count / 256 % 2 == 0.0f)
+	if (Count / 256 % 2 == 0.0f)
 	{
-		m_Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Count % 256));
+		Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, Count % 256));
 	}
 	else
 	{
-		m_Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255 - (m_Count % 256)));
+		Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255 - (Count % 256)));
 	}
 
 	CScene::UpdateAll();
@@ -179,8 +109,8 @@ void CModeTitle::Update()
 	{
 		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			m_SE = CSound::Create(SOUND_LABEL_SE_TITLE);
-			m_SE->Play();
+			SE = CSound::Create(SOUND_LABEL_SE_TITLE);
+			SE->Play();
 			CFade::FadeOut(new CModeGame());
 		}
 	}
@@ -199,8 +129,4 @@ void CModeTitle::Draw()
 	CScene::DrawAll();
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-	CImGui::BeginDraw();
-
-	CImGui::EndDraw();
 }

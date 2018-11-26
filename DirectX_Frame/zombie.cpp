@@ -47,6 +47,18 @@ void CZombie::ZombieInit()
 	}
 }
 
+void CZombie::ZombieUninit()
+{
+	for (int i = 0; i < ZOMBIE_VOICE_NUM; i++)
+	{
+		if (m_ZombieVoice[i])
+		{
+			m_ZombieVoice[i]->Release();
+		}
+		m_ZombieVoice[i] = NULL;
+	}
+}
+
 void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
 {
 	m_Model = CSceneSkinMesh::Create(modelId);
@@ -167,6 +179,8 @@ void CZombie::Death()
 {
 	ChangePattern(new CEnemyPatternDeath());
 	m_ZombieDeath->Play();
+
+	CModeGame::IncrementKillCount();
 }
 
 void CZombie::Attack()

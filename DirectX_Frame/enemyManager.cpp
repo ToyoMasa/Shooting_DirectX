@@ -36,6 +36,7 @@ CEnemyManager::~CEnemyManager()
 		}
 		m_Zombies[i] = NULL;
 	}
+	CZombie::ZombieUninit();
 }
 
 void CEnemyManager::Update()

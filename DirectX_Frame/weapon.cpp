@@ -55,6 +55,7 @@ void CWeapon::ReleaseAll()
 	if (m_FlashEffect)
 	{
 		m_FlashEffect->Release();
+		m_FlashEffect = NULL;
 	}
 }
 

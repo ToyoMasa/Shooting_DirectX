@@ -37,7 +37,7 @@ float FloatRandom()
 void CEnemyPatternWaypoints::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_WALKING, 0.3f);
-	enemy->GetModel()->SetAnimPlaySpeed(1.2f);
+	enemy->GetModel()->SetAnimPlaySpeed(3.0f);
 
 	// 一番近いウェイポイントを検索
 	m_NowPoint = CWayPoint::SearchShortestPoint(enemy->GetPos());

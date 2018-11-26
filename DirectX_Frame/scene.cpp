@@ -34,6 +34,7 @@ void CScene::Release()
 		{
 			if (m_Scene[j][i] == this)
 			{
+				this->m_Shader = NULL;
 				Uninit();
 				m_Scene[j][i] = NULL;
 				delete this;

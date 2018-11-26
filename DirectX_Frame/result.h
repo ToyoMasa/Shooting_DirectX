@@ -11,11 +11,9 @@
 class CModeResult : public CMode
 {
 public:
-	CModeResult(int numKill, int numSneak, bool clear) : CMode() 
+	CModeResult(int numKill) : CMode() 
 	{
 		m_NumKillEnemy = numKill;
-		m_NumSneakKill = numSneak;
-		m_bKilledTarget = clear;
 	}
 	~CModeResult() {}
 
@@ -32,10 +30,7 @@ private:
 	static CSound* m_BGM;
 	static CSound* m_SE;
 	static int m_NumKillEnemy;
-	static int m_NumSneakKill;
-	static int m_Rank;
 	static int m_Count;
-	static bool m_bKilledTarget;
 };
 
 #endif // !_RESULT_H_

@@ -45,7 +45,7 @@ void CTargetCapsule::Init(D3DXVECTOR3 pos)
 	//	m_Smoke[i]->SetVisible(true);
 
 	//	D3DXVECTOR3 smokepos = m_Pos;
-	//	smokepos.x -= 1.0f + 1.7f * i;
+	//	smokepos.x -= 0.3f + 1.7f * i;
 	//	smokepos.y += 0.4f + 0.8f * i;
 	//	smokepos.z += 0.2f + 0.5f * i;
 
@@ -54,7 +54,10 @@ void CTargetCapsule::Init(D3DXVECTOR3 pos)
 	m_Flame = CEffekseer::Create(CEffekseer::EFFECT_FLAME, LAYER_EFFEKSEER_AFTER);
 	m_Flame->RepeatEffect(false);
 	m_Flame->SetVisible(true);
-	m_Flame->SetLocation(m_Pos);
+	D3DXVECTOR3 flamepos = m_Pos;
+	flamepos.y += 0.2f;
+	flamepos.z += 1.0f;
+	m_Flame->SetLocation(flamepos);
 }
 
 void CTargetCapsule::Uninit()
@@ -132,6 +135,7 @@ void CTargetCapsule::HitBullet()
 
 				if (m_Life <= 0)
 				{
+					m_Model->Release();
 					m_Flame->Play();
 					//m_Smoke[0]->Play();
 					//m_Smoke[1]->Play();

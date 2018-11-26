@@ -65,9 +65,6 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_isReleaseTrigger = true;
 
-	//m_Model->SetShader(CShaderMetal::GetShader());
-	//m_Model->SetShader(CShaderSpotlight::GetShader());
-
 	m_Model->SetShader(CShaderNormalmap::GetShader());
 	m_Model->SetNormalMapTexture("shotgun_normal.png");
 

@@ -64,11 +64,15 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	m_InputMouse = new CInputMouse;
 	m_InputMouse->Init(hInstance, hWnd);
 
-	//CManager::m_Mode = new CModeMapMake();
-	CManager::m_Mode = new CModeGame();
-
 	// スキンメッシュの一括ロード
 	CSceneSkinMesh::LoadAll();
+
+	// フェード処理
+	CFade::Init();
+
+	//CManager::m_Mode = new CModeMapMake();
+	CManager::m_Mode = new CModeGame();
+	//CManager::m_Mode = new CModeTitle();
 
 	// デバッグカメラのセット
 	m_DebugCamera = CCamera::Create();
@@ -78,7 +82,6 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		CManager::m_Mode->Init();
 	}
 
-	CFade::Init();
 
 	return true;
 }
@@ -183,7 +186,9 @@ void CManager::Draw()
 		//描画
 		m_Mode->Draw();
 
-		//CFade::Draw();
+		CImGui::EndDraw();
+
+		CFade::Draw();
 	}
 
 	CRenderer::DrawEnd();
