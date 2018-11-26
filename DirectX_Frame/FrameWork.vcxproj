@@ -191,6 +191,7 @@
     <ClInclude Include="item.h" />
     <ClInclude Include="normalmapShader.h" />
     <ClInclude Include="playerPatternReload.h" />
+    <ClInclude Include="playerPatternWeaponChange.h" />
     <ClInclude Include="skinmeshShader.h" />
     <ClInclude Include="spotlightShader.h" />
     <ClInclude Include="targetCapsule.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="playerPatternCrouch.cpp" />
     <ClCompile Include="playerPatternJump.cpp" />
     <ClCompile Include="playerPatternReload.cpp" />
+    <ClCompile Include="playerPatternWeaponChange.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="rifle.cpp" />

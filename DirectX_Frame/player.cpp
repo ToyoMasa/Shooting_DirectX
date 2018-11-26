@@ -328,6 +328,32 @@ void CPlayer::ChangeWeapon(const int& id)
 	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
 }
 
+void CPlayer::ChangeWeapon()
+{
+	for (int i = 0; i < HAVE_WEAPON; i++)
+	{
+		if (m_Weapon[i] != m_UsingWeapon)
+		{
+			m_UsingWeapon = m_Weapon[i];
+			break;
+		}
+	}
+
+	for (int i = 0; i < HAVE_WEAPON; i++)
+	{
+		if (m_Weapon[i] != m_UsingWeapon)
+		{
+			m_Weapon[i]->SetActive(false);
+		}
+		else
+		{
+			m_Weapon[i]->SetActive(true);
+		}
+	}
+
+	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
+}
+
 void CPlayer::Move(const float& moveX, const float& moveZ)
 {	
 	// ˆÚ“®E‰ñ“]

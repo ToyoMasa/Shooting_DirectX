@@ -55,6 +55,7 @@ public:
 	void Rotate(D3DXVECTOR3 vec);
 	void Rotate(const float& horizontal, const float& vertical);
 	void ChangeWeapon(const int& id);
+	void ChangeWeapon();
 	void Move(const float& moveX, const float& moveZ);
 	void MoveAir(const float& moveX, const float& moveY, const float& moveZ);
 	void ADS();

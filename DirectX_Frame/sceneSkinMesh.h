@@ -11,16 +11,18 @@
 static const float DRAW_DIST = 40.0f;
 
 // ÉÇÉfÉãä«óùópID
-typedef enum
+enum SKINMESH_MODEL_ID
 {
 	SM_ID_PLAYER,
 	SM_ID_ZOMBIE_A,
+	SM_ID_ZOMBIE_B,
 	SM_ID_MAX
-} SKINMESH_MODEL_ID;
+};
 
 static const std::string SKINMESH_SOURCE[] =
 {
 	"data/models/player_hand.x",
+	"data/models/zombieA.x",
 	"data/models/zombieB.x",
 };
 

@@ -369,6 +369,9 @@
     <ClInclude Include="mapmake.h">
       <Filter>ヘッダー ファイル\mode</Filter>
     </ClInclude>
+    <ClInclude Include="playerPatternWeaponChange.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -613,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="mapmake.cpp">
       <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternWeaponChange.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

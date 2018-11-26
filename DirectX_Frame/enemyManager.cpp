@@ -64,7 +64,7 @@ void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 				spawnPos = CWayPoint::GetWayPointPos(rand() % numWayPoint);
 
 				m_Zombies[i] = CZombie::Create(
-					SM_ID_ZOMBIE_A,
+					(SKINMESH_MODEL_ID)(SM_ID_ZOMBIE_A + rand() % 2),
 					spawnPos,
 					new CEnemyPatternWaypoints(),
 					m_Field);

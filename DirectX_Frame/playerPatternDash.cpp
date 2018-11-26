@@ -30,6 +30,7 @@
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
 #include "playerPatternReload.h"
+#include "playerPatternWeaponChange.h"
 
 void CPlayerPatternDash::Init(CPlayer* player)
 {
@@ -123,6 +124,12 @@ void CPlayerPatternDash::Update(CPlayer* player)
 		{
 			player->ChangePattern(new CPlayerPatternReload());
 		}
+	}
+
+	// 武器チェンジ
+	if (inputKeyboard->GetKeyTrigger(DIK_X))
+	{
+		player->ChangePattern(new CPlayerPatternWeaponChange());
 	}
 
 	// 攻撃したらダッシュ状態を解除

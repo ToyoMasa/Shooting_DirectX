@@ -30,6 +30,7 @@
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
 #include "playerPatternReload.h"
+#include "playerPatternWeaponChange.h"
 
 void CPlayerPatternNormal::Init(CPlayer* player)
 {
@@ -118,13 +119,8 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 
 	// •Šíƒ`ƒFƒ“ƒW
-	if (inputKeyboard->GetKeyTrigger(DIK_1))
+	if (inputKeyboard->GetKeyTrigger(DIK_X))
 	{
-		player->ChangeWeapon(0);
-	}
-
-	if (inputKeyboard->GetKeyTrigger(DIK_2))
-	{
-		player->ChangeWeapon(1);
+		player->ChangePattern(new CPlayerPatternWeaponChange());
 	}
 }
