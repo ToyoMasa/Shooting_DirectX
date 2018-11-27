@@ -160,8 +160,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="action.h" />
-    <ClInclude Include="actionBase.h" />
     <ClInclude Include="astar.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="box.h" />
@@ -209,9 +207,6 @@
     <ClInclude Include="mathutil.h" />
     <ClInclude Include="metalShader.h" />
     <ClInclude Include="mode.h" />
-    <ClInclude Include="moveToPlayer.h" />
-    <ClInclude Include="moveToPos.h" />
-    <ClInclude Include="moveToRandom.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="playerPatternADS.h" />
@@ -246,16 +241,12 @@
     <ClInclude Include="targetPoint.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
-    <ClInclude Include="wait.h" />
-    <ClInclude Include="waitTime.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="zombie.h" />
     <ClInclude Include="ZombieAAnim.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="action.cpp" />
-    <ClCompile Include="actionBase.cpp" />
     <ClCompile Include="astar.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="box.cpp" />
@@ -292,9 +283,6 @@
     <ClCompile Include="mapmake.cpp" />
     <ClCompile Include="mathutil.cpp" />
     <ClCompile Include="metalShader.cpp" />
-    <ClCompile Include="moveToPlayer.cpp" />
-    <ClCompile Include="moveToPos.cpp" />
-    <ClCompile Include="moveToRandom.cpp" />
     <ClCompile Include="normalmapShader.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
@@ -330,8 +318,6 @@
     <ClCompile Include="targetPoint.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
-    <ClCompile Include="wait.cpp" />
-    <ClCompile Include="waitTime.cpp" />
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="waypoint.cpp" />
     <ClCompile Include="weapon.cpp" />

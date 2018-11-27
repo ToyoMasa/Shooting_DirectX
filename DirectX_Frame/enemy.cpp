@@ -20,8 +20,6 @@
 #include "result.h"
 #include "input.h"
 #include "field.h"
-#include "actionBase.h"
-#include "action.h"
 #include "EnemyAnim.h"
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"

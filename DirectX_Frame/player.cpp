@@ -26,6 +26,8 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
+#include "item.h"
+#include "targetCapsule.h"
 #include "playerPatternNormal.h"
 #include "playerPatternJump.h"
 #include "playerPatternReload.h"
@@ -403,6 +405,29 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 						newPos = enemy->GetPos();
 						newPos += vec * (PLAYER_CUPSULE_RAD + enemy->GetCapsuleRad());
 					}
+				}
+			}
+		}
+	}
+
+	// ƒAƒCƒeƒ€‚Æ‚Ì“–‚½‚è”»’è
+	for (int i = 0; i < ITEM_MAX; i++)
+	{
+		CItem* item = CItem::GetItem(i);
+		if (item != NULL)
+		{
+			if (item->GetType() == ITEM_TYPE_CAPSULE)
+			{
+				CTargetCapsule* capsule = (CTargetCapsule*)item;
+
+				if (isCollisionCapsule(m_CapsuleCollision, capsule->GetCapsule()))
+				{
+					D3DXVECTOR3 vec = newPos - capsule->GetPos();
+
+					D3DXVec3Normalize(&vec, &vec);
+
+					newPos = capsule->GetPos();
+					newPos += vec * (PLAYER_CUPSULE_RAD + 1.0f);
 				}
 			}
 		}

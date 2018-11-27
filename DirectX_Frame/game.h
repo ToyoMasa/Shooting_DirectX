@@ -19,6 +19,7 @@ class CLight;
 class CSound;
 class CFog;
 class CEnemyManager;
+class CTargetCapsule;
 
 enum GAME_RESULT
 {
@@ -58,6 +59,7 @@ private:
 	static CFog*	Fog;
 	static CField* Field;
 	static CEnemyManager* EnemyManager;
+	static CTargetCapsule* Target[3];
 	static bool Pause;
 	static bool GameFinish;
 	static int FrameCount;

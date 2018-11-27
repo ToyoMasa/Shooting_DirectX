@@ -27,7 +27,6 @@
 #include "mapmake.h"
 #include "particle.h"
 #include "emitter.h"
-#include "action.h"
 #include "fade.h"
 #include "Effekseer.h"
 #include "wall.h"
@@ -61,6 +60,7 @@ int CModeGame::KillCount = 0;
 CFog *CModeGame::Fog = NULL;
 CField *CModeGame::Field = NULL;
 CEnemyManager *CModeGame::EnemyManager = NULL;
+CTargetCapsule *CModeGame::Target[3] = { NULL };
 
 float g_FogColor[4];
 float g_LightDiff[4];
@@ -94,6 +94,9 @@ void CModeGame::Init()
 	// フィールド
 	Field = CField::Create("data/output/map.txt");
 
+	// 空
+	CSkyBox::Create(player);
+
 	// プレイヤー
 	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-68.0f, 0.0f, -74.0f));
 	player->SetField(Field);
@@ -101,9 +104,6 @@ void CModeGame::Init()
 
 	EnemyManager = new CEnemyManager(Field);
 	
-	// 空
-	CSkyBox::Create(player);
-
 	// ライト
 	Light = CLight::Create(0);
 
@@ -113,7 +113,7 @@ void CModeGame::Init()
 	// サウンドの準備
 	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
 	ZombieVoice->Play(0.01f);
-	BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
+	BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
 	BGM->Play();
 
 	// スコア等のリセット
@@ -126,8 +126,9 @@ void CModeGame::Init()
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
 
-	tc = CTargetCapsule::Create(D3DXVECTOR3(-68.0f, 0.0f, -79.0f));
-	//tc = CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
+	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
+	CTargetCapsule::Create(D3DXVECTOR3(53.3f, 0.0f, -82.0f));
+	CTargetCapsule::Create(D3DXVECTOR3(-11.75f, 0.0f, -7.0f));
 }
 
 void CModeGame::Uninit()
@@ -143,8 +144,6 @@ void CModeGame::Uninit()
 	CScene::ReleaseAll();
 
 	CSound::ReleaseAll();
-
-	CActionBase::ReleaseAll();
 
 	CParticleEmitter::ReleaseAll();
 
@@ -268,7 +267,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 	GameFinish = true;
 	FrameCount = 0;
 
-	// ゲームクリアorゲームオーバーテキストの準備
+	CSound* se;
 
 	if (Result == GAME_CLEAR)
 	{
@@ -279,6 +278,9 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText = CScene2D::Create(TEX_ID_MISSION_COMPLETE, 1039.0f, 128.0f);
 		ResultText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
+
+		se = CSound::Create(SOUND_LABEL_SE_GAMECLEAR);
+		se->Play();
 	}
 	else
 	{
@@ -289,6 +291,9 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText = CScene2D::Create(TEX_ID_MISSION_FAILED, 923.0f, 128.0f);
 		ResultText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
+
+		se = CSound::Create(SOUND_LABEL_SE_GAMEOVER);
+		se->Play();
 	}
 }
 

@@ -25,12 +25,6 @@
     <Filter Include="ヘッダー ファイル\scene">
       <UniqueIdentifier>{5a5b1313-68bd-4215-9d40-207cf2bc6242}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\AI_Action">
-      <UniqueIdentifier>{3ee975a5-811e-465f-b540-df13daf66b6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\AI_Action">
-      <UniqueIdentifier>{687a9b55-8b62-4f40-a766-47865cfccc56}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\SkinMesh">
       <UniqueIdentifier>{857fa635-f252-4646-85d8-3202f55e76d5}</UniqueIdentifier>
     </Filter>
@@ -198,24 +192,6 @@
     <ClInclude Include="root.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="actionBase.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
-    </ClInclude>
-    <ClInclude Include="action.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
-    </ClInclude>
-    <ClInclude Include="moveToPos.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
-    </ClInclude>
-    <ClInclude Include="moveToPlayer.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
-    </ClInclude>
-    <ClInclude Include="wait.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
-    </ClInclude>
-    <ClInclude Include="moveToRandom.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
-    </ClInclude>
     <ClInclude Include="Effekseer.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
@@ -239,9 +215,6 @@
     </ClInclude>
     <ClInclude Include="wall.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="waitTime.h">
-      <Filter>ヘッダー ファイル\AI_Action</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -463,27 +436,6 @@
     </ClCompile>
     <ClCompile Include="root.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="action.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
-    </ClCompile>
-    <ClCompile Include="actionBase.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
-    </ClCompile>
-    <ClCompile Include="moveToPos.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
-    </ClCompile>
-    <ClCompile Include="moveToPlayer.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
-    </ClCompile>
-    <ClCompile Include="wait.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
-    </ClCompile>
-    <ClCompile Include="moveToRandom.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
-    </ClCompile>
-    <ClCompile Include="waitTime.cpp">
-      <Filter>ソース ファイル\AI_Action</Filter>
     </ClCompile>
     <ClCompile Include="Effekseer.cpp">
       <Filter>ソース ファイル\scene</Filter>

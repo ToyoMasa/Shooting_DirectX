@@ -12,13 +12,14 @@ class CEffekseer;
 class CTargetCapsule : public CItem
 {
 public:
-	CTargetCapsule() : CItem() {}
+	CTargetCapsule() : CItem() { m_Type = ITEM_TYPE_CAPSULE; }
 	~CTargetCapsule() {}
 
 	void Init(D3DXVECTOR3 pos);
 	void Uninit()override;
 	void Update()override;
 	void HitBullet();
+	Capsule GetCapsule() { return m_CollisionCapsule; }
 	static CTargetCapsule* Create(D3DXVECTOR3 pos);
 
 private:

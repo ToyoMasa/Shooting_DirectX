@@ -336,9 +336,9 @@ void CSceneModel::Scale(D3DXVECTOR3 scale)
 	D3DXMatrixScaling(&m_Scale, scale.x, scale.y, scale.z);
 }
 
-CSceneModel* CSceneModel::Create(const std::string& modelName)
+CSceneModel* CSceneModel::Create(const std::string& modelName, int layer)
 {
-	CSceneModel* sceneModel = new CSceneModel(LAYER_OBJECT3D);
+	CSceneModel* sceneModel = new CSceneModel(layer);
 	sceneModel->Init(modelName);
 
 	return sceneModel;
@@ -412,7 +412,7 @@ bool CSceneModel::AddTangentSpace()
 	return true;
 }
 
-CSceneModel* CSceneModel::Create(const std::string& modelName, bool isIgnore)
+CSceneModel* CSceneModel::Create(const std::string& modelName, bool isIgnore, int layer)
 {
 	CSceneModel* sceneModel = new CSceneModel(LAYER_OBJECT3D);
 	sceneModel->Init(modelName);

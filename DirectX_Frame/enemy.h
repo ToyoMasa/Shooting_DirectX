@@ -6,7 +6,6 @@
 #define _ENEMY_H_
 
 #include "character.h"
-#include "actionBase.h"
 #include "enemyPatternBase.h"
 #include "sound.h"
 

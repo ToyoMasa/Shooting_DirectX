@@ -15,7 +15,7 @@ public:
 	CSkyBox(CPlayer* player):CScene(0)
 	{
 		m_Player = player;
-		m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_SKYDOME], true);
+		m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_SKYDOME], true, LAYER_BACKGROUND);
 	}
 
 	~CSkyBox(){}

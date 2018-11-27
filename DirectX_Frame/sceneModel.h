@@ -74,8 +74,8 @@ public:
 	D3DXMATRIX& GetScale() { return m_Scale; }
 	D3DXMATRIX& GetWorld() { return m_World; }
 	LPD3DXMESH GetMesh() { return m_Mesh; }
-	static CSceneModel* Create(const std::string& modelName);
-	static CSceneModel* Create(const std::string& modelName, bool isIgnore);
+	static CSceneModel* Create(const std::string& modelName, int layer = LAYER_OBJECT3D);
+	static CSceneModel* Create(const std::string& modelName, bool isIgnore, int layer = LAYER_OBJECT3D);
 
 private:
 	D3DXMATRIX			m_Target;
