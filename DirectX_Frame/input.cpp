@@ -56,7 +56,7 @@ HRESULT CInput::Init(HINSTANCE hInst, HWND hWnd)
 
 	ClipCursor(&rc);
 
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 
 	return hr;
 }

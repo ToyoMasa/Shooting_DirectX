@@ -24,32 +24,63 @@
 #include "game.h"
 #include "result.h"
 #include "fade.h"
+#include "number.h"
+#include "fog.h"
 
-CScene2D* CModeResult::m_ResultText = NULL;
-CScene2D* CModeResult::m_RankText = NULL;
-CScene2D *CModeResult::m_Text_PressSpace = NULL;
-D3DCOLOR CModeResult::m_RankColor = D3DCOLOR_RGBA(255, 255, 255, 255);
-CSound *CModeResult::m_BGM = NULL;
-CSound *CModeResult::m_SE = NULL;
-int CModeResult::m_NumKillEnemy = 0;
-int CModeResult::m_Count = 0;
+CScene2D* CModeResult::ResultText = NULL;
+CScene2D* CModeResult::KillNumText = NULL;
+CScene2D *CModeResult::TextPressSpace = NULL;
+CSound *CModeResult::BGM = NULL;
+CSound *CModeResult::SE = NULL;
+CNumber *CModeResult::ScreenKillCount = NULL;
+CCamera *CModeResult::Camera = NULL;
+CFog *CModeResult::Fog = NULL;
+CField *CModeResult::Field = NULL;
+CLight *CModeResult::Light = NULL;
+int CModeResult::NumKillEnemy = 0;
+int CModeResult::CountFrame = 0;
 
 void CModeResult::Init()
 {
 	// テクスチャの初期化
 	CTexture::Init();
 
-	m_ResultText = CScene2D::Create(TEX_ID_RESULT, 193.0f, 103.0f);
-	m_ResultText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250.0f, 0.0f));
+	ResultText = CScene2D::Create(TEX_ID_RESULT, 193.0f, 103.0f);
+	ResultText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250.0f, 0.0f));
+	ResultText->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
-	m_Text_PressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 501.0f, 105.0f);
-	m_Text_PressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
+	KillNumText = CScene2D::Create(TEX_ID_KILL_ENEMY_NUM, 335.0f, 103.0f);
+	KillNumText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.0f - 50.0f, 0.0f));
+	KillNumText->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
+	TextPressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 501.0f, 105.0f);
+	TextPressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
+	TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
+	ScreenKillCount = CNumber::Create();
+	ScreenKillCount->SetNum(NumKillEnemy);
+	ScreenKillCount->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.0f + 50.0f, 0.0f));
+	ScreenKillCount->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
-	m_BGM = CSound::Create(SOUND_LABEL_BGM_RESULT);
-	m_BGM->Play();
-	m_SE = CSound::Create(SOUND_LABEL_SE_TITLE);
+	BGM = CSound::Create(SOUND_LABEL_BGM_RESULT);
+	BGM->Play();
+	SE = CSound::Create(SOUND_LABEL_SE_TITLE);
+
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
+
+	Camera = CCamera::Create();
+	Camera->SetPos(D3DXVECTOR3(-27.41f, 2.51f, -86.44f));
+	Camera->SetAt(D3DXVECTOR3(-23.28f, 2.36f, -86.12f));
+	CManager::SetCamera(Camera);
+
+	// フィールド
+	Field = CField::Create("data/output/map.txt");
+
+	// ライト
+	Light = CLight::Create(0);
+
+	// 空
+	CSkyBox::Create(NULL);
 
 	CFade::FadeIn();
 }
@@ -81,22 +112,22 @@ void CModeResult::Update()
 
 	CScene::UpdateAll();
 
-	m_Count++;
+	CountFrame++;
 
-	if (m_Count / 256 % 2 == 0.0f)
+	if (CountFrame / 256 % 2 == 0.0f)
 	{
-		m_Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Count % 256));
+		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, CountFrame % 256));
 	}
 	else
 	{
-		m_Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255 - (m_Count % 256)));
+		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255 - (CountFrame % 256)));
 	}
 
 	if (!CFade::GetFadeOut())
 	{
 		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			m_SE->Play();
+			SE->Play();
 			CFade::FadeOut(new CModeTitle());
 		}
 	}
@@ -109,7 +140,7 @@ void CModeResult::Draw()
 	if (CManager::GetDebug())
 	{
 		ImGui::Begin("Debug Window", 0);
-		ImGui::Text("Kill = %d", m_NumKillEnemy);
+		ImGui::Text("Kill = %d", NumKillEnemy);
 		ImGui::End();
 	}
 }

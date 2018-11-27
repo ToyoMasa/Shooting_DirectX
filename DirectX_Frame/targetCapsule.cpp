@@ -15,6 +15,7 @@
 #include "emitter.h"
 #include "bullet.h"
 #include "Effekseer.h"
+#include "game.h"
 
 static const float CAPSULE_LIFE_MAX = 1000.0f;
 
@@ -135,11 +136,11 @@ void CTargetCapsule::HitBullet()
 
 				if (m_Life <= 0)
 				{
-					m_Model->Release();
 					m_Flame->Play();
 					//m_Smoke[0]->Play();
 					//m_Smoke[1]->Play();
 					m_isDestroyed = true;
+					CModeGame::GameEnd(GAME_CLEAR);
 				}
 			}
 		}

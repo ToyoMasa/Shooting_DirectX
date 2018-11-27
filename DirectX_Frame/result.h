@@ -8,12 +8,14 @@
 #include "mode.h"
 #include "sound.h"
 
+class CNumber;
+
 class CModeResult : public CMode
 {
 public:
 	CModeResult(int numKill) : CMode() 
 	{
-		m_NumKillEnemy = numKill;
+		NumKillEnemy = numKill;
 	}
 	~CModeResult() {}
 
@@ -23,14 +25,18 @@ public:
 	void Draw();
 
 private:
-	static CScene2D* m_ResultText;
-	static CScene2D* m_RankText;
-	static CScene2D* m_Text_PressSpace;
-	static D3DCOLOR m_RankColor;
-	static CSound* m_BGM;
-	static CSound* m_SE;
-	static int m_NumKillEnemy;
-	static int m_Count;
+	static CScene2D* ResultText;
+	static CScene2D* KillNumText;
+	static CScene2D* TextPressSpace;
+	static CSound* BGM;
+	static CSound* SE;
+	static CNumber* ScreenKillCount;
+	static CCamera* Camera;
+	static CFog* Fog;
+	static CField* Field;
+	static CLight* Light;
+	static int NumKillEnemy;
+	static int CountFrame;
 };
 
 #endif // !_RESULT_H_

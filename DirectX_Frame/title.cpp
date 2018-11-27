@@ -21,44 +21,62 @@
 #include "input.h"
 #include "skybox.h"
 #include "number.h"
+#include "field.h"
 #include "title.h"
 #include "game.h"
 #include "fade.h"
 #include "PlayerAnim.h"
 #include "wall.h"
+#include "fog.h"
 
-CScene2D* CModeTitle::TitleLogo = NULL;
-CScene2D *CModeTitle::Text_PressSpace = NULL;
+CScene2D *CModeTitle::TitleLogo = NULL;
+CScene2D *CModeTitle::TextPressSpace = NULL;
 CSceneSkinMesh *CModeTitle::m_Mesh = NULL;
-CCamera *CModeTitle::Camera = NULL;
 CSound *CModeTitle::BGM = NULL;
 CSound *CModeTitle::SE = NULL;
-int CModeTitle::Count = 0;
 CScene2D *CModeTitle::Load = NULL;
 CScene2D *CModeTitle::LoadFrame = NULL;
 CScene2D *CModeTitle::LoadGage = NULL;
+CCamera *CModeTitle::Camera = NULL;
+CFog *CModeTitle::Fog = NULL;
+CField *CModeTitle::Field = NULL;
+CLight *CModeTitle::Light = NULL;
+int CModeTitle::Count = 0;
 
 void CModeTitle::Init()
 {
 	// テクスチャの初期化
 	CTexture::Init();
 
-	TitleLogo = CScene2D::Create(TEX_ID_TITLE, 1153.0f, 323.0f);
-	TitleLogo->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 150.0f, 0.0f));
-
-	Text_PressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 501.0f, 105.0f);
-	Text_PressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
-
-	Camera = CCamera::Create();
-	Camera->SetPos(D3DXVECTOR3(-0.2f, 1.7f, -1.0f));
-	Camera->SetAt(D3DXVECTOR3(0.0f, 1.5f, 0.0f));
-	CManager::SetCamera(Camera);
-
 	// フェードイン
 	CFade::FadeIn();
 
+	TitleLogo = CScene2D::Create(TEX_ID_TITLE, 390.0f * 2.0f, 90.0f * 2.0f);
+	TitleLogo->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 100.0f, 0.0f));
+	TitleLogo->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
+
+	TextPressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 420.0f, 90.0f);
+	TextPressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
+	TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
+
+	Camera = CCamera::Create();
+	Camera->SetPos(D3DXVECTOR3(-27.41f, 2.51f, -86.44f));
+	Camera->SetAt(D3DXVECTOR3(-23.28f, 2.36f, -86.12f));
+	CManager::SetCamera(Camera);
+
 	BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
 	BGM->Play();
+
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
+
+	// フィールド
+	Field = CField::Create("data/output/map.txt");
+
+	// ライト
+	Light = CLight::Create(0);
+
+	// 空
+	CSkyBox::Create(NULL);
 
 	Count = 0;
 }
@@ -96,22 +114,25 @@ void CModeTitle::Update()
 
 	if (Count / 256 % 2 == 0.0f)
 	{
-		Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, Count % 256));
+		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, Count % 256));
 	}
 	else
 	{
-		Text_PressSpace->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255 - (Count % 256)));
+		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255 - (Count % 256)));
 	}
 
 	CScene::UpdateAll();
 
 	if (!CFade::GetFadeOut())
 	{
-		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
+		if (!CManager::GetDebug())
 		{
-			SE = CSound::Create(SOUND_LABEL_SE_TITLE);
-			SE->Play();
-			CFade::FadeOut(new CModeGame());
+			if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
+			{
+				SE = CSound::Create(SOUND_LABEL_SE_TITLE);
+				SE->Play();
+				CFade::FadeOut(new CModeGame());
+			}
 		}
 	}
 }
@@ -123,8 +144,6 @@ void CModeTitle::Draw()
 	{
 		return;
 	}
-
-	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	CScene::DrawAll();
 

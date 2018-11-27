@@ -11,6 +11,7 @@
 static const int ENEMY_NUM = 100;
 
 class CPlayer;
+class CField;
 class CEnemy;
 class CBillBoard;
 class CScene2D;
@@ -46,18 +47,10 @@ public:
 private:
 	static CPlayer* player;
 	static CLight *Light;
-	static CScene2D* Load;
-	static CScene2D* LoadFrame;
-	static CScene2D* LoadGage;
-	static CScene2D* GameClear;
-	static CScene2D* GameOver;
-	static CScene2D* Mission;
-	static CScene2D* Wanted;
-	static CScene2D* Tutorial;
-	static CScene2D* Tutorial2;
+	static CScene2D* ResultText;
+	static CScene2D* EndBackground;
 	static CScene2D* PauseWord;
 	static CScene2D* Black;
-	static CScene2D* HowToUse;
 	static GAME_RESULT Result;
 	static CSound* BGM;
 	static CSound* GameEnd_SE;

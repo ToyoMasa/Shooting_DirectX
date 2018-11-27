@@ -321,16 +321,16 @@ void CWayPoint::CreateGraph()
 		}
 	}
 
-	//全点対最短経路を求める.
+	// 全点対最短経路を求める
 	{
-		//エッジの状態をまんまコピー.
+		// エッジの状態をまんまコピー
 		for (int i = 0; i != m_WayPonits.size(); ++i) {
 			for (int j = 0; j != m_WayPonits.size(); ++j) {
 				m_ShortestPath[i][j] = m_EdgeCost[i][j];
 			}
 		}
 
-		//ワーシャルフロイド.
+		// ワーシャルフロイド
 		for (int k = 0; k != m_WayPonits.size(); k++) {
 			for (int i = 0; i != m_WayPonits.size(); i++) {
 				for (int j = 0; j != m_WayPonits.size(); j++) {

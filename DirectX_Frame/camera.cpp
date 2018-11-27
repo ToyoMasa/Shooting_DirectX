@@ -71,7 +71,7 @@ void CCamera::Update()
 
 	if (CManager::GetDebug())
 	{
-		ImGui::Begin("CameraFront", 0);
+		ImGui::Begin("Camera", 0);
 		ImGui::Text("Front:X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);
 		ImGui::Text("Right:X = %.2f Y = %.2f Z = %.2f", m_Right.x, m_Right.y, m_Right.z);
 		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);

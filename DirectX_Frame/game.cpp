@@ -48,18 +48,10 @@ CPlayer *CModeGame::player = NULL;
 CLight *CModeGame::Light;
 bool CModeGame::Pause = false;
 bool CModeGame::GameFinish = false;
-CScene2D *CModeGame::Load = NULL;
-CScene2D *CModeGame::LoadFrame = NULL;
-CScene2D *CModeGame::LoadGage = NULL;
-CScene2D *CModeGame::GameClear = NULL;
-CScene2D *CModeGame::GameOver = NULL;
-CScene2D *CModeGame::Mission = NULL;
-CScene2D *CModeGame::Wanted = NULL;
-CScene2D *CModeGame::Tutorial = NULL;
-CScene2D *CModeGame::Tutorial2 = NULL;
+CScene2D *CModeGame::ResultText = NULL;
+CScene2D *CModeGame::EndBackground = NULL;
 CScene2D *CModeGame::Black = NULL;
 CScene2D *CModeGame::PauseWord = NULL;
-CScene2D *CModeGame::HowToUse = NULL;
 CSound *CModeGame::BGM = NULL;
 CSound *CModeGame::GameEnd_SE = NULL;
 CSound *CModeGame::ZombieVoice = NULL;
@@ -83,7 +75,7 @@ void CModeGame::Init()
 	CTexture::Init();
 
 	// フェード用のテクスチャ
-	Black = CScene2D::Create(TEX_ID_BLACK, SCREEN_WIDTH, SCREEN_HEIGHT);
+	Black = CScene2D::Create(TEX_ID_WHITE, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Black->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
 	Black->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
 	Black->SetVisible(false);
@@ -189,9 +181,25 @@ void CModeGame::Update()
 	{
 		if (GameFinish)
 		{
-			if (inputKeyboard->GetKeyTrigger(DIK_SPACE) || inputKeyboard->GetKeyTrigger(DIK_RETURN) || inputMouse->GetLeftTrigger())
+			FrameCount++;
+			if (FrameCount <= 255)
 			{
-				CFade::FadeOut(new CModeResult(KillCount));
+				if (Result == GAME_CLEAR)
+				{
+					EndBackground->SetColor(D3DCOLOR_RGBA(255, 255, 255, FrameCount));
+				}
+				else
+				{
+					EndBackground->SetColor(D3DCOLOR_RGBA(186, 7, 7, FrameCount / 2));
+				}
+				ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, FrameCount));
+			}
+			else
+			{
+				if (inputKeyboard->GetKeyTrigger(DIK_SPACE) || inputKeyboard->GetKeyTrigger(DIK_RETURN) || inputMouse->GetLeftTrigger())
+				{
+					CFade::FadeOut(new CModeResult(KillCount));
+				}
 			}
 		}
 		else if (Pause)
@@ -258,6 +266,30 @@ void CModeGame::GameEnd(GAME_RESULT result)
 {
 	Result = result;
 	GameFinish = true;
+	FrameCount = 0;
+
+	// ゲームクリアorゲームオーバーテキストの準備
+
+	if (Result == GAME_CLEAR)
+	{
+		EndBackground = CScene2D::Create(TEX_ID_WHITE, SCREEN_WIDTH, SCREEN_HEIGHT);
+		EndBackground->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
+		EndBackground->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
+
+		ResultText = CScene2D::Create(TEX_ID_MISSION_COMPLETE, 1039.0f, 128.0f);
+		ResultText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
+	}
+	else
+	{
+		EndBackground = CScene2D::Create(TEX_ID_WHITE, SCREEN_WIDTH, SCREEN_HEIGHT);
+		EndBackground->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0));
+		EndBackground->SetColor(D3DCOLOR_RGBA(186, 7, 7, 0));
+
+		ResultText = CScene2D::Create(TEX_ID_MISSION_FAILED, 923.0f, 128.0f);
+		ResultText->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
+	}
 }
 
 void CModeGame::CallPause()

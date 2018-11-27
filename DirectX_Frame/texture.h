@@ -22,7 +22,7 @@ typedef enum
 	TEX_ID_CIRCLE,					// 丸いパーティクル
 	TEX_ID_STAR,					// 星
 	TEX_ID_ATTACK,					// 攻撃可能テキスト
-	TEX_ID_BLACK,					// 真っ黒
+	TEX_ID_WHITE,					// 真っ白
 	TEX_ID_WALL01,					// 壁
 	TEX_ID_NOWLOADING,				// ロード画面文字
 	TEX_ID_LOADFRAME,				// ロード画面ゲージフレーム
@@ -46,6 +46,7 @@ typedef enum
 	TEX_ID_FLASH,					// マズルフラッシュ
 	TEX_ID_CIRCLE_2D,				// 2D画面用円
 	TEX_ID_DAMAGE_SCREEN,			// ダメージを受けた時の出血エフェクト
+	TEX_ID_KILL_ENEMY_NUM,			// 倒した敵の数
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -63,7 +64,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/circle.jpg",
 	"data/textures/star.png",
 	"data/textures/attack.png",
-	"data/textures/black.png",
+	"data/textures/white.png",
 	"data/textures/wall001.png",
 	"data/textures/NowLoading.png",
 	"data/textures/LoadFrame.png",
@@ -87,6 +88,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/flash.png",
 	"data/textures/debug_circle.png",
 	"data/textures/damage_screen.png",
+	"data/textures/kill_enemy_num.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

@@ -62,11 +62,11 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_BloodEffect->SetScale(0.1f, 0.1f, 0.1f);
 	m_BloodEffect->SetVisible(true);
 
-	m_AmmoBackScreen = CScene2D::Create(TEX_ID_BLACK, 100.0f, 70.0f);
+	m_AmmoBackScreen = CScene2D::Create(TEX_ID_WHITE, 100.0f, 70.0f);
 	m_AmmoBackScreen->Set(AMMO_DISPLAY_POS);
-	m_AmmoBackScreen->SetColor(D3DCOLOR_RGBA(255, 255, 255, 128));
+	m_AmmoBackScreen->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
 	m_DamagedEffect = CScene2D::Create(TEX_ID_DAMAGE_SCREEN, SCREEN_WIDTH, SCREEN_HEIGHT);
-	m_DamagedEffect->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 1.0f));
+	m_DamagedEffect->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 5.0f, SCREEN_HEIGHT / 2.0f, 1.0f));
 	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(166, 19, 19, 0));
 
 	// ƒ‚ƒfƒ‹‚Ì‰ñ“]Ž²‚ðƒJƒƒ‰‚ÌˆÊ’u‚É‚»‚ë‚¦‚é
