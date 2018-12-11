@@ -26,7 +26,7 @@ void CParticle::Init(
 	m_Pos = pos;
 
 	m_Billboard = CBillBoard::Create(texId);
-	m_Billboard->Set(m_TextureID ,m_Pos, m_Size, NORMAL);
+	m_Billboard->Set(m_TextureID ,m_Pos, m_Size, BILLBOARDTYPE_ADD);
 }
 
 void CParticle::Init(
@@ -42,7 +42,7 @@ void CParticle::Init(
 	m_Pos = pos;
 
 	m_Billboard = CBillBoard::Create(texId);
-	m_Billboard->Set(m_TextureID, m_Pos, m_Size, NORMAL, color);
+	m_Billboard->Set(m_TextureID, m_Pos, m_Size, BILLBOARDTYPE_ADD, color);
 }
 
 void CParticle::Uninit()
@@ -67,7 +67,7 @@ void CParticle::Update()
 
 	m_Size += m_SizeChangeValue;
 
-	m_Billboard->Set(m_TextureID, m_Pos, m_Size, NORMAL);
+	m_Billboard->Set(m_TextureID, m_Pos, m_Size, BILLBOARDTYPE_ADD);
 }
 
 void CParticle::UpdateAll()

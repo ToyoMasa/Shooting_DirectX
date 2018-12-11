@@ -13,8 +13,9 @@ static const int BILLBOARD_MAX = 10000;
 
 enum DRAW_TYPE
 {
-	NORMAL = 0,
-	FIXED_Y,
+	BILLBOARDTYPE_NORMAL = 0,
+	BILLBOARDTYPE_ADD,
+	BILLBOARDTYPE_FIXED_Y,
 };
 
 class CBillBoard
@@ -39,9 +40,7 @@ public:
 	static void Init();
 	static void Uninit();
 	static void UpdateAll();
-	static void Draw(int textureId, D3DXVECTOR3 vPos, float scale);
-	void DrawOne();
-	static void DrawFixedY(int textureId, D3DXVECTOR3 vPos, float scale);
+	void Draw();
 	static void DrawBegin();
 	static void DrawEnd();
 	static void DrawAll();
@@ -51,6 +50,7 @@ public:
 	void Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DCOLOR color);
 	void SetId(int Id) { m_Id = Id; }
 	void SetVisible(bool visible) { m_isVisible = visible; }
+	void SetColor(D3DCOLOR color);
 	void Release();
 	static void ReleaseAll();
 	static CBillBoard* Create(int texId);

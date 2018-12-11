@@ -109,40 +109,7 @@ void CBillBoard::UpdateAll()
 
 }
 
-void CBillBoard::Draw(int textureId, D3DXVECTOR3 vPos, float scale)
-{
-	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-	if (pDevice == NULL)
-	{
-		return;
-	}
-
-	// ワールド座標行列をセット
-	D3DXMatrixTranslation(&m_Move, vPos.x, vPos.y, vPos.z);
-	D3DXMatrixScaling(&m_Scale, scale, scale, scale);
-
-	m_World = m_Scale * m_Move;
-
-	D3DXMATRIX mtxViewRotInv = CManager::GetCamera()->GetView();
-
-	// ビュー行列の逆行列を作成
-	// 平行移動を無効にする
-	mtxViewRotInv._41 = 0.0f;
-	mtxViewRotInv._42 = 0.0f;
-	mtxViewRotInv._43 = 0.0f;
-
-	D3DXMatrixTranspose(&mtxViewRotInv, &mtxViewRotInv);
-
-	m_World = mtxViewRotInv * m_World;
-
-	pDevice->SetTexture(0, CTexture::GetTexture(textureId));
-
-	//各種行列の設定(自分のやりたいところでやる)
-	pDevice->SetTransform(D3DTS_WORLD, &m_World);
-	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
-}
-
-void CBillBoard::DrawOne()
+void CBillBoard::Draw()
 {
 	if (m_isVisible)
 	{
@@ -164,13 +131,22 @@ void CBillBoard::DrawOne()
 		// m_DrawTypeで切替
 		switch (m_DrawType)
 		{
-		case 0:
+		case BILLBOARDTYPE_NORMAL:
+			mtxViewRotInv._41 = 0.0f;
+			mtxViewRotInv._42 = 0.0f;
+			mtxViewRotInv._43 = 0.0f;
+
+			pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+			break;
+
+		case BILLBOARDTYPE_ADD:
 			mtxViewRotInv._41 = 0.0f;
 			mtxViewRotInv._42 = 0.0f;
 			mtxViewRotInv._43 = 0.0f;
 			break;
 
-		case 1:
+		case BILLBOARDTYPE_FIXED_Y:
 			mtxViewRotInv._21 = 0.0f;
 			mtxViewRotInv._32 = 0.0f;
 			mtxViewRotInv._12 = 0.0f;
@@ -178,6 +154,7 @@ void CBillBoard::DrawOne()
 			mtxViewRotInv._41 = 0.0f;
 			mtxViewRotInv._42 = 0.0f;
 			mtxViewRotInv._43 = 0.0f;
+			break;
 
 		default:
 			break;
@@ -207,44 +184,16 @@ void CBillBoard::DrawOne()
 		//各種行列の設定(自分のやりたいところでやる)
 		pDevice->SetTransform(D3DTS_WORLD, &m_World);
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
+
+		switch (m_DrawType)
+		{
+		case BILLBOARDTYPE_NORMAL:
+			pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+			break;
+		default:
+			break;
+		}
 	}
-}
-
-void CBillBoard::DrawFixedY(int textureId, D3DXVECTOR3 vPos, float scale)
-{
-	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
-	if (pDevice == NULL)
-	{
-		return;
-	}
-
-	// ワールド座標行列をセット
-	D3DXMatrixTranslation(&m_Move, vPos.x, vPos.y, vPos.z);
-	D3DXMatrixScaling(&m_Scale, scale, scale, scale);
-
-	m_World = m_Scale * m_Move;
-
-	D3DXMATRIX mtxViewRotInv = CManager::GetCamera()->GetView();
-
-	// ビュー行列の逆行列を作成
-	// 平行移動とY軸以外の回転を無効にする
-	mtxViewRotInv._21 = 0.0f;
-	mtxViewRotInv._32 = 0.0f;
-	mtxViewRotInv._12 = 0.0f;
-	mtxViewRotInv._23 = 0.0f;
-	mtxViewRotInv._41 = 0.0f;
-	mtxViewRotInv._42 = 0.0f;
-	mtxViewRotInv._43 = 0.0f;
-
-	D3DXMatrixTranspose(&mtxViewRotInv, &mtxViewRotInv);
-
-	m_World = mtxViewRotInv * m_World;
-
-	pDevice->SetTexture(0, CTexture::GetTexture(textureId));
-
-	//各種行列の設定(自分のやりたいところでやる)
-	pDevice->SetTransform(D3DTS_WORLD, &m_World);
-	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
 }
 
 void CBillBoard::DrawBegin()
@@ -299,7 +248,7 @@ void CBillBoard::DrawAll()
 	{
 		if (CBillBoard::m_BillBoards[i] != NULL)
 		{
-			CBillBoard::m_BillBoards[i]->DrawOne();
+			CBillBoard::m_BillBoards[i]->Draw();
 			num++;
 		}
 	}
@@ -316,7 +265,7 @@ void CBillBoard::Set(int id, int texId, D3DXVECTOR3 pos, float scale, int drawty
 	CBillBoard::m_BillBoards[id]->m_ScaleZ = scale;
 	CBillBoard::m_BillBoards[id]->m_DrawType = drawtype;
 
-	if (drawtype == FIXED_Y)
+	if (drawtype == BILLBOARDTYPE_FIXED_Y)
 	{
 		CBillBoard::m_BillBoards[id]->m_Pos.y += 0.5f * scale;
 	}
@@ -331,7 +280,7 @@ void CBillBoard::Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype)
 	m_ScaleZ = scale;
 	m_DrawType = drawtype;
 
-	if (drawtype == FIXED_Y)
+	if (drawtype == BILLBOARDTYPE_FIXED_Y)
 	{
 		m_Pos.y += 0.5f * scale;
 	}
@@ -345,7 +294,7 @@ void CBillBoard::Set(D3DXVECTOR3 pos, float scale, int drawtype)
 	m_ScaleZ = scale;
 	m_DrawType = drawtype;
 
-	if (drawtype == FIXED_Y)
+	if (drawtype == BILLBOARDTYPE_FIXED_Y)
 	{
 		m_Pos.y += 0.5f * scale;
 	}
@@ -361,10 +310,15 @@ void CBillBoard::Set(int texId, D3DXVECTOR3 pos, float scale, int drawtype, D3DC
 	m_DrawType = drawtype;
 	m_Color = color;
 
-	if (drawtype == FIXED_Y)
+	if (drawtype == BILLBOARDTYPE_FIXED_Y)
 	{
 		m_Pos.y += 0.5f * scale;
 	}
+}
+
+void CBillBoard::SetColor(D3DCOLOR color)
+{
+	m_Color = color;
 }
 
 void CBillBoard::Release()

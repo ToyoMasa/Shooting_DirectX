@@ -95,11 +95,11 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 		player->Shoot();
 	}
 	// ジャンプ
-	else if (inputKeyboard->GetKeyRelease(DIK_SPACE))
-	{
-		player->ChangePattern(new CPlayerPatternJump(dir));
+	//else if (inputKeyboard->GetKeyRelease(DIK_SPACE))
+	//{
+	//	player->ChangePattern(new CPlayerPatternJump(dir));
 
-	}
+	//}
 	// ダッシュ
 	else if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
 	{
@@ -119,7 +119,7 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 
 	// 武器チェンジ
-	if (inputKeyboard->GetKeyTrigger(DIK_X))
+	if (inputKeyboard->GetKeyTrigger(DIK_X) || mouseZ != 0)
 	{
 		player->ChangePattern(new CPlayerPatternWeaponChange());
 	}

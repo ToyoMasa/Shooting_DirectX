@@ -110,12 +110,12 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	}
 
 	// ジャンプ
-	if (inputKeyboard->GetKeyRelease(DIK_SPACE))
-	{
-		player->ChangePattern(new CPlayerPatternJump(dir));
-		return;
+	//if (inputKeyboard->GetKeyRelease(DIK_SPACE))
+	//{
+	//	player->ChangePattern(new CPlayerPatternJump(dir));
+	//	return;
 
-	}
+	//}
 
 	// リロード
 	if (inputKeyboard->GetKeyTrigger(DIK_R))

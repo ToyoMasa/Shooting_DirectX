@@ -20,6 +20,7 @@ typedef enum
 	TEX_ID_TITLE,					// タイトル
 	TEX_ID_RESULT,					// リザルト
 	TEX_ID_CIRCLE,					// 丸いパーティクル
+	TEX_ID_NORMAL_CIRCLE,			// 丸いパーティクル
 	TEX_ID_STAR,					// 星
 	TEX_ID_ATTACK,					// 攻撃可能テキスト
 	TEX_ID_WHITE,					// 真っ白
@@ -62,6 +63,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/title_logo.png",
 	"data/textures/result.png",
 	"data/textures/circle.jpg",
+	"data/textures/normal_circle.png",
 	"data/textures/star.png",
 	"data/textures/attack.png",
 	"data/textures/white.png",

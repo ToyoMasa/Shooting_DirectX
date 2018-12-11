@@ -5,18 +5,27 @@
 #include "common.h"
 #include "main.h"
 #include "manager.h"
+#include "camera.h"
 #include "scene.h"
 #include "texture.h"
 #include "billboard.h"
 #include "waypoint.h"
+#include "mathutil.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
 std::vector<CWayPoint*> CWayPoint::m_WayPonits; 
 std::vector<CBillBoard*> CWayPoint::m_PointsDebug;
 int **CWayPoint::m_EdgeCost;
 int **CWayPoint::m_ShortestPath;
+int	CWayPoint::m_EdgeCostSize = 0;
+int CWayPoint::m_ShortestPathSize = 0;
 
 void CWayPoint::Init()
 {
+	//Load("data/output/waypoints.txt");
 	// ウェイポイントを手動で設定
 	Add(D3DXVECTOR3(-55.0f, 0.0f, -73.0f));
 	Add(D3DXVECTOR3(-38.5, 0.0f, -74.0f));
@@ -74,10 +83,6 @@ void CWayPoint::Init()
 	for (int i = 0; i != m_WayPonits.size(); ++i)
 	{
 		m_WayPonits[i]->m_ID = i;
-
-		m_PointsDebug.push_back(CBillBoard::Create(TEX_ID_CIRCLE));
-		m_PointsDebug[i]->Set(m_WayPonits[i]->m_Pos, 2.0f, NORMAL);
-		m_PointsDebug[i]->SetVisible(false);
 	}
 
 	// 各隣接点の設定
@@ -239,7 +244,7 @@ void CWayPoint::Uninit()
 {
 	if (m_EdgeCost)
 	{
-		for (int i = 0; i != m_WayPonits.size(); ++i)
+		for (int i = 0; i < m_EdgeCostSize; ++i)
 		{
 			if (m_EdgeCost[i])
 			{
@@ -251,11 +256,16 @@ void CWayPoint::Uninit()
 
 	if (m_ShortestPath)
 	{
-		for (int i = 0; i != m_WayPonits.size(); ++i)
+		for (int i = 0; i < m_ShortestPathSize; ++i)
 		{
 			delete[] m_ShortestPath[i];
 		}
 		delete[] m_ShortestPath;
+	}
+
+	for (int i = 0; i != m_PointsDebug.size(); ++i)
+	{
+		m_PointsDebug[i]->Release();
 	}
 
 	for (int i = 0; i != m_WayPonits.size(); ++i)
@@ -275,6 +285,33 @@ void CWayPoint::Add(D3DXVECTOR3 pos)
 {
 	CWayPoint* waypoint = new CWayPoint(pos);
 	m_WayPonits.push_back(waypoint);
+
+	CBillBoard* billboard = CBillBoard::Create(TEX_ID_NORMAL_CIRCLE);
+	billboard->Set(waypoint->m_Pos, 2.0f, BILLBOARDTYPE_NORMAL);
+	//billboard->SetVisible(false);
+	m_PointsDebug.push_back(billboard);
+}
+
+void CWayPoint::AddNearPoint(int id, int addid)
+{
+	// 追加するIDと追加先IDが同じなら戻る
+	if (id == addid)
+	{
+		return;
+	}
+	// すでに追加するIDを持っていたら戻る
+	for (int i = 0; i != m_WayPonits[id]->m_NearPoints.size(); i++)
+	{
+		if (m_WayPonits[id]->m_NearPoints[i] == addid)
+		{
+			return;
+		}
+	}
+
+	m_WayPonits[id]->SetRecentPoint(addid);
+	m_WayPonits[addid]->SetRecentPoint(id);
+
+	SetSelectDebugColor(id);
 }
 
 void CWayPoint::SetRecentPoint(int id)
@@ -288,7 +325,9 @@ void CWayPoint::CreateGraph()
 	//エッジを設定.
 	{
 		m_EdgeCost = new int*[m_WayPonits.size()];
+		m_EdgeCostSize = m_WayPonits.size();
 		m_ShortestPath = new int*[m_WayPonits.size()];
+		m_ShortestPathSize = m_WayPonits.size();
 		for (int i = 0; i != m_WayPonits.size(); ++i)
 		{
 			m_EdgeCost[i] = new int[m_WayPonits.size()];
@@ -367,7 +406,6 @@ int CWayPoint::SearchShortestPoint(const D3DXVECTOR3& pos)
 
 	for (int i = 0; i != m_WayPonits.size(); ++i) 
 	{
-		
 		const float distance = D3DXVec3Length(&(m_WayPonits[i]->m_Pos - pos));
 		if (distance < minDistance)
 		{
@@ -395,4 +433,123 @@ void CWayPoint::Debug()
 	{
 		m_PointsDebug[i]->SetVisible(CManager::GetDebug());
 	}
+}
+
+// バイナリファイルに書き出し
+void CWayPoint::Save(string textname)
+{
+	ofstream outputFile(textname, ios::out | ios::binary);
+
+	if (m_WayPonits.size() > 0)
+	{
+		int size = m_WayPonits.size();
+		outputFile.write((char*)&size, sizeof(int));
+	}
+
+	for (int i = 0; i != m_WayPonits.size(); ++i)
+	{
+		outputFile.write((char*)&m_WayPonits[i]->m_ID, sizeof(int));
+		outputFile.write((char*)&m_WayPonits[i]->m_Pos, sizeof(D3DXVECTOR3));
+		int numnear = m_WayPonits[i]->m_NearPoints.size();
+		outputFile.write((char*)&numnear, sizeof(int));
+
+		for (int j = 0; j != m_WayPonits[i]->m_NearPoints.size(); j++)
+		{
+			outputFile.write((char*)&m_WayPonits[i]->m_NearPoints[j], sizeof(int));
+		}
+	}
+
+	outputFile.close();
+}
+
+void CWayPoint::Load(string textname)
+{
+	ifstream inputFile(textname, ios::in | ios::binary);
+	if (!inputFile)
+	{
+		MessageBox(NULL, "ウェイポイントファイルの読み込みに失敗しました", "エラー", MB_OK);
+	}
+
+	// 初期化
+	Uninit();
+
+	int size;
+	inputFile.read((char*)&size, sizeof(int));
+
+	for (int i = 0; i < size; i++)
+	{
+		int id;
+		inputFile.read((char*)&id, sizeof(int));
+		D3DXVECTOR3 pos;
+		inputFile.read((char*)&pos, sizeof(D3DXVECTOR3));
+		int numnear;
+		inputFile.read((char*)&numnear, sizeof(int));
+
+		CWayPoint* waypoint = new CWayPoint(pos);
+		waypoint->m_ID = i;
+		for (int j = 0; j < numnear; j++)
+		{
+			int point;
+			inputFile.read((char*)&point, sizeof(int));
+			waypoint->m_NearPoints.push_back(point);
+		}
+
+		m_WayPonits.push_back(waypoint);
+
+		m_PointsDebug.push_back(CBillBoard::Create(TEX_ID_NORMAL_CIRCLE));
+		m_PointsDebug[i]->Set(m_WayPonits[i]->m_Pos, 2.0f, BILLBOARDTYPE_NORMAL);
+	}
+
+	inputFile.close();
+
+	CreateGraph();
+}
+
+int CWayPoint::GetIDonScreen(D3DXVECTOR3 mouse)
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return -1;
+	}
+
+	for (int i = 0; i != m_WayPonits.size(); i++)
+	{
+		D3DXVECTOR3 screen;
+		// スクリーン座標に変換
+		WorldToScreen(pDevice, CManager::GetCamera()->GetView(), CManager::GetCamera()->GetProjection(), m_WayPonits[i]->m_Pos, screen);
+
+		if (isCollisionCircle2D(mouse.x, mouse.y, 10.0f, screen.x, screen.y, 10.0f))
+		{
+			return m_WayPonits[i]->m_ID;
+		}
+	}
+
+	return -1;
+}
+
+void CWayPoint::DebugColorReset()
+{
+	for (int i = 0; i != m_PointsDebug.size(); i++)
+	{
+		m_PointsDebug[i]->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255));
+	}
+}
+
+void CWayPoint::SetSelectDebugColor(int id)
+{
+	DebugColorReset();
+	m_PointsDebug[id]->SetColor(D3DCOLOR_RGBA(255, 16, 16, 255));
+
+	for (int i = 0; i != m_WayPonits[id]->m_NearPoints.size(); i++)
+	{
+		int nearId = m_WayPonits[id]->m_NearPoints[i];
+		m_PointsDebug[nearId]->SetColor(D3DCOLOR_RGBA(16, 255, 16, 255));
+	}
+
+}
+
+void CWayPoint::ChangeDebugColor(int id, D3DCOLOR color)
+{
+	m_PointsDebug[id]->SetColor(color);
 }
