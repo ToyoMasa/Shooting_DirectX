@@ -134,33 +134,38 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 
 		float degree = D3DXToDegree(rad);
 
-		if (degree <= 90.0f)
-		{
-			m_Pos.y = m_Field->GetHeight(m_Pos, this);
-		}
+		//if (degree <= 90.0f)
+		//{
+		//	m_Pos.y = m_Field->GetHeight(m_Pos, this);
+		//}
 	}
 
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ZOMBIE_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ZOMBIE_CUPSULE_RAD);
+	m_MoveCollision.Set(m_Pos, ZOMBIE_CUPSULE_RAD);
 	for (int i = 0; i < CHARACTER_MAX; i++)
 	{
 		CCharacter* obj = CCharacter::GetCharacter(i);
-		if (obj != NULL && obj != this)
+		if (obj == NULL || obj == this)
 		{
-			if (obj->GetType() == CHARACTER_ENEMY)
-			{
-				CEnemy* enemy = (CEnemy*)obj;
-				D3DXVECTOR3 vec = m_Pos - enemy->GetPos();
-				if (D3DXVec3Length(&vec) < 2.0f)
-				{
-					if (isCollisionCapsule(m_CapsuleCollision, enemy->GetCapsule()))
-					{
-						D3DXVec3Normalize(&vec, &vec);
+			continue;
+		}
 
-						m_Pos = enemy->GetPos();
-						m_Pos += vec * (ZOMBIE_CUPSULE_RAD * 2 + 0.05f);
-					}
-				}
+		if (obj->GetType() != CHARACTER_ENEMY)
+		{
+			continue;
+		}
+
+		CEnemy* enemy = (CEnemy*)obj;
+		D3DXVECTOR3 vec = m_Pos - enemy->GetPos();
+		if (D3DXVec3Length(&vec) < ZOMBIE_CUPSULE_RAD * 2)
+		{
+			if (isCollisionSphere(m_MoveCollision, enemy->GetSphere()))
+			{
+				D3DXVec3Normalize(&vec, &vec);
+
+				m_Pos = enemy->GetPos();
+				m_Pos += vec * (ZOMBIE_CUPSULE_RAD * 2 + 0.05f);
 			}
 		}
 	}
@@ -168,9 +173,10 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 	m_Shadow->Move(m_Pos);
 
 	// “–‚½‚è”»’è‚ÌˆÚ“®
-	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ZOMBIE_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ZOMBIE_CUPSULE_RAD);
+	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ZOMBIE_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ZOMBIE_CUPSULE_RAD); 
+	m_MoveCollision.Set(m_Pos, ZOMBIE_CUPSULE_RAD);
 	D3DXVECTOR3 attackPos = m_Pos + m_Forward * 1.0f;
-	m_AttackingCollsion.Set(Point(attackPos.x, attackPos.y + 0.25f, attackPos.z), Point(attackPos.x, attackPos.y + 1.65f, attackPos.z), PLAYER_CUPSULE_RAD);
+	m_AttackingCollision.Set(Point(attackPos.x, attackPos.y + 0.25f, attackPos.z), Point(attackPos.x, attackPos.y + 1.65f, attackPos.z), PLAYER_CUPSULE_RAD);
 }
 
 void CZombie::Death()

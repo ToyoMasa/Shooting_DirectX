@@ -520,7 +520,7 @@ void CModeMapMake::WaypointMakeUpdate()
 					// スクリーン座標に変換
 					WorldToScreen(pDevice, CManager::GetCamera()->GetView(), CManager::GetCamera()->GetProjection(), vtx, screen);
 
-					if (isCollisionCircle2D(mouse.x, mouse.y, m_BrushRange / 2.0f, screen.x, screen.y, 1.0f))
+					if (isCollisionCircle2D(mouse.x, mouse.y, 10.0f, screen.x, screen.y, 1.0f))
 					{
 						D3DXVECTOR3 vtx = vertex[j + m_NumBlock * i].pos;
 						vtx.y = 0;
@@ -573,6 +573,10 @@ void CModeMapMake::WaypointMakeUpdate()
 	{
 		char filename[256];
 		sprintf_s(filename, "data/output/waypoints.txt");
+
+		// 初期化
+		CWayPoint::Uninit();
+
 		CWayPoint::Load(filename);
 	}
 	ImGui::End();

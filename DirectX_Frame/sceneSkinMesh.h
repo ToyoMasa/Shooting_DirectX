@@ -43,6 +43,7 @@ public:
 		m_SkinMeshFile = NULL;
 		m_DefAnimSpeed = 0.025f;
 		m_AnimPlaySpeed = m_DefAnimSpeed;
+		m_NotDrawCount = 1;
 	}
 
 	void Init(const SKINMESH_MODEL_ID& id);
@@ -94,6 +95,7 @@ private:
 	SKINMESH_MODEL_ID		m_ModelID;
 	float					m_AnimPlaySpeed;
 	float					m_DefAnimSpeed;
+	int						m_NotDrawCount;
 	static SkinMeshFile*			m_SkinMeshFiles[SM_ID_MAX];
 	static SkinMeshFileAnimation*	m_Animations[SM_ID_MAX];
 };

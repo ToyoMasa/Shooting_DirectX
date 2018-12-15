@@ -502,7 +502,8 @@ float calcSegmentSegmentDist(const Segment &s1, const Segment &s2, Point &p1, Po
 // c1 : S1(ü•ª1)
 // c2 : S2(ü•ª2)
 // –ß‚è’l: Õ“Ë‚µ‚Ä‚¢‚½‚çtrue
-bool isCollisionCapsule(Capsule c1, Capsule c2) {
+bool isCollisionCapsule(Capsule c1, Capsule c2) 
+{
 	Point p1, p2;
 	float t1, t2;
 	float d = calcSegmentSegmentDist(c1.GetSegment(), c2.GetSegment(), p1, p2, t1, t2);

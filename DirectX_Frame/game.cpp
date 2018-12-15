@@ -94,13 +94,13 @@ void CModeGame::Init()
 	// フィールド
 	Field = CField::Create("data/output/map.txt");
 
-	// 空
-	CSkyBox::Create(player);
-
 	// プレイヤー
 	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-68.0f, 0.0f, -74.0f));
 	player->SetField(Field);
 	CManager::SetCamera(player->GetCamera());
+
+	// 空
+	CSkyBox::Create(player);
 
 	EnemyManager = new CEnemyManager(Field);
 	
@@ -124,7 +124,8 @@ void CModeGame::Init()
 	KillCount = 0;
 	FrameCount = 0;
 
-	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
+	//Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
 
 	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
 	CTargetCapsule::Create(D3DXVECTOR3(53.3f, 0.0f, -82.0f));
@@ -253,12 +254,15 @@ void CModeGame::Draw()
 	CBillBoard::DrawAll();
 	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE); //フォグ：ON
 
-	if (CManager::GetDebug())
-	{
-		ImGui::Begin("Debug Window");
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::End();
-	}
+	//if (CManager::GetDebug())
+	//{
+	//	ImGui::Begin("Debug Window");
+	//	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	//	ImGui::End();
+	//}
+	ImGui::Begin("Debug Window");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
 }
 
 void CModeGame::GameEnd(GAME_RESULT result)

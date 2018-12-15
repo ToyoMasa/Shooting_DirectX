@@ -30,14 +30,15 @@ public:
 	virtual void Uninit()override {}
 	virtual void Update()override {}
 	void SetField(CField* field) { m_Field = field; }
-	Capsule& GetCapsule() { return m_CapsuleCollision; }
+	Capsule GetCapsule() { return m_CapsuleCollision; }
+	Sphere GetSphere() { return m_MoveCollision; }
 	virtual void GetCapsuleInfo(D3DXVECTOR3& pos1, D3DXVECTOR3& pos2, float& r) {}
-	Capsule& GetAttackCollision() { return m_AttackingCollsion; }
+	Capsule GetAttackCollision() { return m_AttackingCollision; }
 
-	float& GetSpeed() { return m_Speed; }
-	float& GetCapsuleRad() { return m_CapsuleRad; }
-	float& GetAttackDamage() { return m_AttackDamage; }
-	bool& GetAttackHit() { return m_AttackHit; }
+	float GetSpeed() { return m_Speed; }
+	float GetCapsuleRad() { return m_CapsuleRad; }
+	float GetAttackDamage() { return m_AttackDamage; }
+	bool GetAttackHit() { return m_AttackHit; }
 	void SetAttackHit(const bool& hit) { m_AttackHit = hit; }
 	void SetSpeed(float speed) { m_Speed = speed; }
 
@@ -50,7 +51,8 @@ public:
 
 protected:
 	CEnemyPatternBase*		m_Pattern;
-	Capsule					m_AttackingCollsion;
+	Capsule					m_AttackingCollision;
+	Sphere					m_MoveCollision;
 	int						m_Count;
 	float					m_AttackDamage;
 	float					m_Speed;

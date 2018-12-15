@@ -87,6 +87,10 @@ void CModeResult::Init()
 
 void CModeResult::Uninit()
 {
+	Camera->Release();
+
+	Light->Release();
+
 	// 全てのテクスチャの解放
 	CTexture::ReleaseAll();
 

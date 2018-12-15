@@ -83,12 +83,14 @@ void CModeTitle::Init()
 
 void CModeTitle::Uninit()
 {
+	Camera->Release();
+
+	Light->Release();
+
 	// 全てのテクスチャの解放
 	CTexture::ReleaseAll();
 
 	CScene::ReleaseAll();
-
-	Camera->Release();
 
 	CSound::ReleaseAll();
 }
