@@ -19,6 +19,9 @@
 #include "enemy.h"
 #include "game.h"
 #include "wall.h"
+#include <array>
+#include <algorithm>
+using namespace std;
 
 CCharacter *CCharacter::m_Characters[CHARACTER_MAX] = { NULL };
 
@@ -39,6 +42,7 @@ CCharacter::CCharacter()
 	m_Right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	m_Up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_WalkSpeed = 0.02f;
+	m_CameraDist = 999.0f;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.5f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.5f);
 	D3DXMatrixIdentity(&m_Rotate);
 	m_AreaID = 0;
@@ -50,13 +54,73 @@ CCharacter::CCharacter()
 
 void CCharacter::UpdateAll()
 {
+	D3DXVECTOR3 camerapos = CManager::GetCamera()->GetPos();
 	for (int i = 0; i < CHARACTER_MAX; i++)
 	{
 		if (m_Characters[i] != NULL)
 		{
 			m_Characters[i]->Update();
 		}
+
+		if (m_Characters[i] != NULL)
+		{
+			D3DXVECTOR3 dist = m_Characters[i]->m_Pos - camerapos;
+			m_Characters[i]->m_CameraDist = D3DXVec3Length(&dist);
+		}
 	}
+
+	array<float, CHARACTER_MAX> enemyDist;
+	enemyDist.fill(DRAW_DIST);
+	D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
+	camFront.y = 0;
+	D3DXVec3Normalize(&camFront, &camFront);
+	int num = 0;
+
+	for (int i = 0; i < CHARACTER_MAX; i++)
+	{
+		if (m_Characters[i] == NULL)
+		{
+			continue;
+		}
+		if(m_Characters[i]->m_Type != CHARACTER_ENEMY)
+		{
+			continue;
+		}
+		if (m_Characters[i]->m_CameraDist > DRAW_DIST)
+		{
+			continue;
+		}
+
+		D3DXVECTOR3 vec = m_Characters[i]->m_Pos - camerapos;
+		vec.y = 0;
+
+		D3DXVec3Normalize(&vec, &vec);
+
+		float dot = D3DXVec3Dot(&vec, &camFront);
+		float rad = acosf(dot);
+
+		float degree = D3DXToDegree(rad);
+
+		if (degree > 90.0f)
+		{
+			continue;
+		}
+
+		ImGui::Begin("EnemyPos");
+		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Characters[i]->m_Pos.x, m_Characters[i]->m_Pos.y, m_Characters[i]->m_Pos.z);
+		ImGui::End();
+
+		enemyDist[i] = m_Characters[i]->m_CameraDist;
+		num++;
+	}
+
+	sort(enemyDist.begin(), enemyDist.end());
+	CManager::SetSkinMeshDrawDist(enemyDist[30]);
+
+	ImGui::Begin("Debug");
+	ImGui::Text("DRAW_DIST:%.2f", CManager::GetSkinMeshDrawDist());
+	ImGui::Text("DRAW_NUM:%d", num);
+	ImGui::End();
 }
 
 void CCharacter::Release()

@@ -11,6 +11,8 @@ class CCamera;
 class CLight;
 class CMode;
 
+static const float DRAW_DIST = 40.0f;
+
 class CManager
 {
 public:
@@ -31,8 +33,10 @@ public:
 
 	static void ChangeDebugMode();
 	static void DebugCameraControll();
-	static bool& GetDebug() { return m_isDebug; }
-	static bool& GetFogEnable() { return m_isFogEnable; }
+	static bool GetDebug() { return m_isDebug; }
+	static bool GetFogEnable() { return m_isFogEnable; }
+	static void SetSkinMeshDrawDist(float dist) { m_SkinMeshDrawDist = dist; }
+	static float GetSkinMeshDrawDist() { return m_SkinMeshDrawDist; }
 
 private:
 	static CInputKeyboard*	m_InputKeyboard;	// キーボードへのポインタ
@@ -44,6 +48,7 @@ private:
 	static CCamera*			m_TempCamera;
 	static bool				m_isDebug;
 	static bool				m_isFogEnable;
+	static float			m_SkinMeshDrawDist;
 };
 
 #endif // !_MANAGER_H_

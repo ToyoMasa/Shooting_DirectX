@@ -42,6 +42,7 @@ CCamera			*CManager::m_DebugCamera = NULL;
 CCamera			*CManager::m_TempCamera = NULL;
 bool			CManager::m_isDebug = false;
 bool			CManager::m_isFogEnable = true;
+float			CManager::m_SkinMeshDrawDist = DRAW_DIST;
 
 bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
@@ -82,6 +83,8 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		CManager::m_Mode->Init();
 	}
 
+	// スキンメッシュモデルの描画距離
+	m_SkinMeshDrawDist = DRAW_DIST;
 
 	return true;
 }

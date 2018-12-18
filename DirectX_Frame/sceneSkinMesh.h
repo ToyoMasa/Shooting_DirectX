@@ -8,8 +8,6 @@
 #include <string>
 #include "SkinMeshFile.h"
 
-static const float DRAW_DIST = 40.0f;
-
 // ƒ‚ƒfƒ‹ŠÇ——pID
 enum SKINMESH_MODEL_ID
 {

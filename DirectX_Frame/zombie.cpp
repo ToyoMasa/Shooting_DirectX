@@ -118,10 +118,10 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 
 	SearchArea(newPos);
 
-	D3DXVECTOR3 vec = newPos - CManager::GetCamera()->GetPos();
-
-	if (D3DXVec3Length(&vec) < DRAW_DIST)
+	if (m_CameraDist < CManager::GetSkinMeshDrawDist())
 	{
+		D3DXVECTOR3 vec = newPos - CManager::GetCamera()->GetPos();
+
 		D3DXVec3Normalize(&vec, &vec);
 
 		D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
@@ -134,10 +134,10 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 
 		float degree = D3DXToDegree(rad);
 
-		//if (degree <= 90.0f)
-		//{
-		//	m_Pos.y = m_Field->GetHeight(m_Pos, this);
-		//}
+		if (degree <= 90.0f)
+		{
+			m_Pos.y = m_Field->GetHeight(m_Pos, this);
+		}
 	}
 
 	// ƒRƒŠƒWƒ‡ƒ“‚ÌŒvŽZ

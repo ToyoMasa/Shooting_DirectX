@@ -64,6 +64,7 @@ protected:
 	CField			*m_Field;
 	Capsule			m_CapsuleCollision;
 	float			m_WalkSpeed;
+	float			m_CameraDist;
 	CHARACTER_TYPE	m_Type;
 	CSceneShadow	*m_Shadow;
 	int 			m_AreaID;

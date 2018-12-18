@@ -64,7 +64,7 @@ void CSceneSkinMesh::Draw()
 		// “G‚ÆƒvƒŒƒCƒ„[‚Ì‹——£
 		float len = D3DXVec3Length(&vec);
 		
-		if (len < DRAW_DIST)
+		if (len < CManager::GetSkinMeshDrawDist())
 		{
 			D3DXVec3Normalize(&vec, &vec);
 
@@ -103,7 +103,7 @@ void CSceneSkinMesh::DrawWithShader()
 		D3DXVECTOR3 vec = (m_Pos - CManager::GetCamera()->GetPos());
 		float len = D3DXVec3Length(&vec);
 
-		if (len > DRAW_DIST)
+		if (len > CManager::GetSkinMeshDrawDist())
 		{
 			m_NotDrawCount++;
 			return;
