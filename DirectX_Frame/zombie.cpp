@@ -26,6 +26,7 @@
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"
 #include "skinmeshShader.h"
+#include "enemyManager.h"
 
 static const float ZOMBIE_LIFE = 200.0f;
 static const float ZOMBIE_ATTACK_DAMAGE = 23.0f;
@@ -108,6 +109,7 @@ CZombie* CZombie::Create(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemy
 {
 	CZombie* enemy = new CZombie();
 	enemy->Init(modelId, spawnPos, pattern, field);
+	CModeGame::AddEnemyCount();
 
 	return enemy;
 }
@@ -184,7 +186,10 @@ void CZombie::Death()
 	ChangePattern(new CEnemyPatternDeath());
 	m_ZombieDeath->Play();
 
+	CModeGame::RemoveEnemyCount();
 	CModeGame::IncrementKillCount();
+
+	CModeGame::GetEnemyManager()->AddPlayerTension((100.0f - m_CameraDist) / 10.0f);
 }
 
 void CZombie::Attack()

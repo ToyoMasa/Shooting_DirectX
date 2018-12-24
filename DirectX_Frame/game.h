@@ -41,9 +41,13 @@ public:
 	static CPlayer* GetPlayer() { return player; }
 	static CCamera* GetCamera();
 	static CField* GetField() { return Field; }
-	static void IncrementKillCount() { KillCount++; }
+	static CEnemyManager* GetEnemyManager() { return EnemyManager; }
+	static void IncrementKillCount();
 	static void GameEnd(GAME_RESULT result);
 	static void CallPause();
+	static void AddEnemyCount() { EnemyCount++; }
+	static void RemoveEnemyCount() { EnemyCount--; }
+	static int GetEnemyCount() { return EnemyCount; }
 
 private:
 	static CPlayer* player;
@@ -63,6 +67,7 @@ private:
 	static bool Pause;
 	static bool GameFinish;
 	static int FrameCount;
+	static int EnemyCount;
 	static int KillCount;
 };
 

@@ -191,6 +191,12 @@
     <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="playerPatternWeaponChange.h" />
     <ClInclude Include="skinmeshShader.h" />
+    <ClInclude Include="spawnAIStateBase.h" />
+    <ClInclude Include="spawnAIStateFall.h" />
+    <ClInclude Include="spawnAIStateMax.h" />
+    <ClInclude Include="spawnAIStatePause.h" />
+    <ClInclude Include="spawnAIStateRise.h" />
+    <ClInclude Include="spawnAIStateStop.h" />
     <ClInclude Include="spotlightShader.h" />
     <ClInclude Include="targetCapsule.h" />
     <ClInclude Include="waypoint.h" />
@@ -313,6 +319,10 @@
     <ClCompile Include="skinmeshShader.cpp" />
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="spawnAIMax.cpp" />
+    <ClCompile Include="spawnAIStateFall.cpp" />
+    <ClCompile Include="spawnAIStatePause.cpp" />
+    <ClCompile Include="spawnAIStateRise.cpp" />
     <ClCompile Include="spotlightShader.cpp" />
     <ClCompile Include="targetCapsule.cpp" />
     <ClCompile Include="targetPoint.cpp" />

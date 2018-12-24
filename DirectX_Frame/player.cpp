@@ -33,6 +33,7 @@
 #include "playerPatternReload.h"
 #include "waypoint.h"
 #include "skinmeshShader.h"
+#include "enemyManager.h"
 
 static const float DEFAULT_FOV = 90.0f;
 static const float ADS_FOV = 70.0f;
@@ -577,6 +578,7 @@ void CPlayer::Damaged(float damage)
 	if (m_Life <= 0.0f)
 	{
 		Death();
+		CModeGame::GetEnemyManager()->AddPlayerTension(DAMAGED_TENSION);
 		CModeGame::GameEnd(GAME_OVER);
 	}
 }

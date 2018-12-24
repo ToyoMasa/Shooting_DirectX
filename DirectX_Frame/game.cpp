@@ -56,6 +56,7 @@ CSound *CModeGame::GameEnd_SE = NULL;
 CSound *CModeGame::ZombieVoice = NULL;
 GAME_RESULT CModeGame::Result = GAME_OVER;
 int CModeGame::FrameCount = 0;
+int CModeGame::EnemyCount = 0;
 int CModeGame::KillCount = 0;
 CFog *CModeGame::Fog = NULL;
 CField *CModeGame::Field = NULL;
@@ -263,6 +264,11 @@ void CModeGame::Draw()
 	ImGui::Begin("Debug Window");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
+}
+
+void CModeGame::IncrementKillCount()
+{
+	KillCount++;
 }
 
 void CModeGame::GameEnd(GAME_RESULT result)

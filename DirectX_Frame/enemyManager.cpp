@@ -5,18 +5,25 @@
 #include "common.h"
 #include "main.h"
 #include "manager.h"
+#include "game.h"
 #include "waypoint.h"
 #include "scene3D.h"
 #include "field.h"
 #include "enemyManager.h"
 #include "enemyPatternWaypoints.h"
 #include "zombie.h"
+#include "spawnAIStateRise.h"
+#include "spawnAIStateStop.h"
 
 CEnemyManager::CEnemyManager(CField* field)
 {
 	m_CountFrame = 0;
 	m_Field = field;
 	m_ZombieSpawnRate = 100;
+	m_PlayerTension = 0.0f;
+
+	//m_SpawnAI = new CSpawnAIStateStop(this);
+	m_SpawnAI = new CSpawnAIStateRise(this);
 
 	CZombie::ZombieInit();
 
@@ -37,17 +44,25 @@ CEnemyManager::~CEnemyManager()
 		m_Zombies[i] = NULL;
 	}
 	CZombie::ZombieUninit();
+
+	if (m_SpawnAI != NULL)
+	{
+		delete m_SpawnAI;
+		m_SpawnAI = NULL;
+	}
 }
 
 void CEnemyManager::Update()
 {
-	if (m_CountFrame % m_ZombieSpawnRate == 0)
-	{
-		CreateEnemy(ENEMY_TYPE_ZOMBIE);
-	}
+	m_SpawnAI->Update();
 
 	// フレームをインクリメント
 	m_CountFrame++;
+
+	ImGui::Begin("Debug");
+	ImGui::Text("ENEMY_NUM:%d", CModeGame::GetEnemyCount());
+	ImGui::Text("PLAYER_TENSION:%.2f", m_PlayerTension);
+	ImGui::End();
 }
 
 void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
@@ -75,4 +90,14 @@ void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 	default:
 		break;
 	}
+}
+
+void CEnemyManager::ChangeSpawnAI(CSpawnAIStateBase* next)
+{
+	if (m_SpawnAI != NULL)
+	{
+		delete m_SpawnAI;
+	}
+
+	m_SpawnAI = next;
 }

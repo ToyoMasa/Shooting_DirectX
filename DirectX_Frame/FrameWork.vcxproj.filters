@@ -46,12 +46,6 @@
     <Filter Include="ヘッダー ファイル\playerPattern">
       <UniqueIdentifier>{c14cfea4-04df-4020-88ea-e065535063b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\enemyPattern">
-      <UniqueIdentifier>{ce760528-9fa4-48c7-ab20-9c6c973b52c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\enemyPattern">
-      <UniqueIdentifier>{40f4e9e9-b60b-4ff8-9eaf-6a99fc6c693c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\shader">
       <UniqueIdentifier>{09d7f9d4-81af-4656-bb05-93c9d7169b47}</UniqueIdentifier>
     </Filter>
@@ -87,6 +81,18 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\mode">
       <UniqueIdentifier>{c6dbe2d4-5a4c-4535-8d2c-4830e2feda00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\enemy\spawnAI">
+      <UniqueIdentifier>{9815c86a-62f1-4c11-8fc8-6d5288f985fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\enemy\spawnAI">
+      <UniqueIdentifier>{ed492646-b011-4acc-9a77-b82a7f8eba4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\enemy\enemyPattern">
+      <UniqueIdentifier>{40f4e9e9-b60b-4ff8-9eaf-6a99fc6c693c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\enemy\enemyPattern">
+      <UniqueIdentifier>{ce760528-9fa4-48c7-ab20-9c6c973b52c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -256,16 +262,16 @@
       <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternBase.h">
-      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+      <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternChase.h">
-      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+      <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternDeath.h">
-      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+      <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternAttack.h">
-      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+      <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
     <ClInclude Include="mathutil.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -283,7 +289,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternWaypoints.h">
-      <Filter>ヘッダー ファイル\enemyPattern</Filter>
+      <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
     <ClInclude Include="astar.h">
       <Filter>ヘッダー ファイル\findRoot</Filter>
@@ -344,6 +350,24 @@
     </ClInclude>
     <ClInclude Include="playerPatternWeaponChange.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="spawnAIStateBase.h">
+      <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
+    </ClInclude>
+    <ClInclude Include="spawnAIStateRise.h">
+      <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
+    </ClInclude>
+    <ClInclude Include="spawnAIStateStop.h">
+      <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
+    </ClInclude>
+    <ClInclude Include="spawnAIStateMax.h">
+      <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
+    </ClInclude>
+    <ClInclude Include="spawnAIStateFall.h">
+      <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
+    </ClInclude>
+    <ClInclude Include="spawnAIStatePause.h">
+      <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -483,13 +507,13 @@
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="enemyPatternChase.cpp">
-      <Filter>ソース ファイル\enemyPattern</Filter>
+      <Filter>ソース ファイル\enemy\enemyPattern</Filter>
     </ClCompile>
     <ClCompile Include="enemyPatternDeath.cpp">
-      <Filter>ソース ファイル\enemyPattern</Filter>
+      <Filter>ソース ファイル\enemy\enemyPattern</Filter>
     </ClCompile>
     <ClCompile Include="enemyPatternAttack.cpp">
-      <Filter>ソース ファイル\enemyPattern</Filter>
+      <Filter>ソース ファイル\enemy\enemyPattern</Filter>
     </ClCompile>
     <ClCompile Include="mathutil.cpp">
       <Filter>ソース ファイル</Filter>
@@ -510,7 +534,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="enemyPatternWaypoints.cpp">
-      <Filter>ソース ファイル\enemyPattern</Filter>
+      <Filter>ソース ファイル\enemy\enemyPattern</Filter>
     </ClCompile>
     <ClCompile Include="waypoint.cpp">
       <Filter>ソース ファイル\findRoot</Filter>
@@ -571,6 +595,18 @@
     </ClCompile>
     <ClCompile Include="playerPatternWeaponChange.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="spawnAIStateRise.cpp">
+      <Filter>ソース ファイル\enemy\spawnAI</Filter>
+    </ClCompile>
+    <ClCompile Include="spawnAIMax.cpp">
+      <Filter>ソース ファイル\enemy\spawnAI</Filter>
+    </ClCompile>
+    <ClCompile Include="spawnAIStateFall.cpp">
+      <Filter>ソース ファイル\enemy\spawnAI</Filter>
+    </ClCompile>
+    <ClCompile Include="spawnAIStatePause.cpp">
+      <Filter>ソース ファイル\enemy\spawnAI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
