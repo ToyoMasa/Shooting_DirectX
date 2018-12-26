@@ -11,6 +11,7 @@
 #include "field.h"
 #include "enemyManager.h"
 #include "enemyPatternWaypoints.h"
+#include "enemyPatternWaypointsRun.h"
 #include "zombie.h"
 #include "spawnAIStateRise.h"
 #include "spawnAIStateStop.h"
@@ -21,6 +22,7 @@ CEnemyManager::CEnemyManager(CField* field)
 	m_Field = field;
 	m_ZombieSpawnRate = 100;
 	m_PlayerTension = 0.0f;
+	m_SpawnAIState = 0;
 
 	//m_SpawnAI = new CSpawnAIStateStop(this);
 	m_SpawnAI = new CSpawnAIStateRise(this);
@@ -62,6 +64,7 @@ void CEnemyManager::Update()
 	ImGui::Begin("Debug");
 	ImGui::Text("ENEMY_NUM:%d", CModeGame::GetEnemyCount());
 	ImGui::Text("PLAYER_TENSION:%.2f", m_PlayerTension);
+	ImGui::Text("SPAWN_STATE:%d", m_SpawnAIState);
 	ImGui::End();
 }
 
@@ -72,12 +75,26 @@ void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 	case ENEMY_TYPE_ZOMBIE:
 		for (int i = 0; i < ZOMBIE_NUM_MAX; i++)
 		{
-			if (m_Zombies[i] == NULL)
+			if (m_Zombies[i] != NULL)
 			{
-				D3DXVECTOR3 spawnPos;
-				int numWayPoint = CWayPoint::GetWayPoints().size();
-				spawnPos = CWayPoint::GetWayPointPos(rand() % numWayPoint);
+				continue;
+			}
 
+			D3DXVECTOR3 spawnPos;
+			int numWayPoint = CWayPoint::GetWayPoints().size();
+			spawnPos = CWayPoint::GetWayPointPos(rand() % numWayPoint);
+
+			if (m_SpawnAIState == SPAWN_AI_MAX)
+			{
+				m_Zombies[i] = CZombie::Create(
+					(SKINMESH_MODEL_ID)(SM_ID_ZOMBIE_A + rand() % 2),
+					spawnPos,
+					new CEnemyPatternWaypointsRun(),
+					m_Field);
+				break;
+			}
+			else
+			{
 				m_Zombies[i] = CZombie::Create(
 					(SKINMESH_MODEL_ID)(SM_ID_ZOMBIE_A + rand() % 2),
 					spawnPos,
@@ -100,4 +117,16 @@ void CEnemyManager::ChangeSpawnAI(CSpawnAIStateBase* next)
 	}
 
 	m_SpawnAI = next;
+}
+
+void CEnemyManager::DeleteZombie(CZombie* zombie)
+{
+	for (int i = 0; i < ZOMBIE_NUM_MAX; i++)
+	{
+		if (m_Zombies[i] == zombie)
+		{
+			m_Zombies[i] = NULL;
+			break;
+		}
+	}
 }

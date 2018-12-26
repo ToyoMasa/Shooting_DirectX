@@ -79,11 +79,8 @@ void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatter
 
 void CZombie::Uninit()
 {
-	if (m_Model)
-	{
-		m_Model->Release();
-		m_Model = NULL;
-	}
+	CModeGame::GetEnemyManager()->DeleteZombie(this);
+
 	if (m_Pattern != NULL)
 	{
 		delete m_Pattern;

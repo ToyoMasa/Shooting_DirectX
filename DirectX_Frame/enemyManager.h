@@ -29,14 +29,17 @@ public:
 	void SetPlayerTension(float tension) { m_PlayerTension = tension; }
 	float GetPlayerTension() { return m_PlayerTension; }
 	void ChangeSpawnAI(CSpawnAIStateBase* next);
+	void DeleteZombie(CZombie* zombie);
+	void SetSpawnAIState(int state) { m_SpawnAIState = state; }
 
 private:
-	CZombie* m_Zombies[ZOMBIE_NUM_MAX];
+	CZombie*			m_Zombies[ZOMBIE_NUM_MAX];
 	CField*				m_Field;
 	CSpawnAIStateBase*	m_SpawnAI;
 	float				m_PlayerTension;
 	int					m_CountFrame;
 	int					m_ZombieSpawnRate;
+	int					m_SpawnAIState;
 };
 
 

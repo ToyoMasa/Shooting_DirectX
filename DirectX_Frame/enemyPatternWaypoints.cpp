@@ -4,6 +4,7 @@
 //======================================================================
 #include "common.h"
 #include "main.h"
+#include "mathutil.h"
 #include "manager.h"
 #include "camera.h"
 #include "scene.h"
@@ -28,11 +29,6 @@
 #include "enemyPatternAttack.h"
 
 static float MOVE_SPEED = 0.015f;
-
-float FloatRandom()
-{
-	return rand() / 32767.0f;
-}
 
 void CEnemyPatternWaypoints::Init(CEnemy* enemy)
 {

@@ -10,7 +10,10 @@
 class CSpawnAIStateFall : public CSpawnAIStateBase
 {
 public:
-	CSpawnAIStateFall(CEnemyManager* manager) : CSpawnAIStateBase(manager) {}
+	CSpawnAIStateFall(CEnemyManager* manager) : CSpawnAIStateBase(manager)
+	{
+		manager->SetSpawnAIState(SPAWN_AI_FALL);
+	}
 	~CSpawnAIStateFall() {}
 
 	void Update()override;

@@ -10,10 +10,16 @@
 class CSpawnAIStateRise : public CSpawnAIStateBase
 {
 public:
-	CSpawnAIStateRise(CEnemyManager* manager) : CSpawnAIStateBase(manager) {}
+	CSpawnAIStateRise(CEnemyManager* manager) : CSpawnAIStateBase(manager)
+	{
+		m_Count = 0;
+		manager->SetSpawnAIState(SPAWN_AI_RISE);
+	}
 	~CSpawnAIStateRise() {}
 
 	void Update()override;
+private:
+	int m_Count;
 };
 
 #endif // !_SPAWN_AI_STATE_RISE_H_

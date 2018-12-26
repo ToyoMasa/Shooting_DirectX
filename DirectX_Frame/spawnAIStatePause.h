@@ -10,7 +10,11 @@
 class CSpawnAIStatePause : public CSpawnAIStateBase
 {
 public:
-	CSpawnAIStatePause(CEnemyManager* manager) : CSpawnAIStateBase(manager) { m_Count = 0; }
+	CSpawnAIStatePause(CEnemyManager* manager) : CSpawnAIStateBase(manager)
+	{
+		m_Count = 0;
+		manager->SetSpawnAIState(SPAWN_AI_PAUSE);
+	}
 	~CSpawnAIStatePause() {}
 
 	void Update()override;

@@ -167,6 +167,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="enemyPatternWaypointsRun.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="common.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="enemyPatternWaypointsRun.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="controller.cpp" />

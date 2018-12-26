@@ -10,7 +10,11 @@
 class CSpawnAIStateMax : public CSpawnAIStateBase
 {
 public:
-	CSpawnAIStateMax(CEnemyManager* manager) : CSpawnAIStateBase(manager) { m_Count = 0; }
+	CSpawnAIStateMax(CEnemyManager* manager) : CSpawnAIStateBase(manager)
+	{ 
+		m_Count = 0; 
+		manager->SetSpawnAIState(SPAWN_AI_MAX);
+	}
 	~CSpawnAIStateMax() {}
 
 	void Update()override;

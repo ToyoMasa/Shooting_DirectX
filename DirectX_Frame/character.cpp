@@ -129,6 +129,7 @@ void CCharacter::Release()
 	{
 		if (m_Characters[i] == this)
 		{
+			m_Characters[i]->m_Model->Release();
 			m_Characters[i]->m_Shadow->Release();
 			m_Characters[i]->Uninit();
 			delete this;

@@ -369,6 +369,9 @@
     <ClInclude Include="spawnAIStatePause.h">
       <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
     </ClInclude>
+    <ClInclude Include="enemyPatternWaypointsRun.h">
+      <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -607,6 +610,9 @@
     </ClCompile>
     <ClCompile Include="spawnAIStatePause.cpp">
       <Filter>ソース ファイル\enemy\spawnAI</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyPatternWaypointsRun.cpp">
+      <Filter>ソース ファイル\enemy\enemyPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

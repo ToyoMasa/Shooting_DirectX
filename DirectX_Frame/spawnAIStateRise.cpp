@@ -12,7 +12,7 @@
 
 void CSpawnAIStateRise::Update()
 {
-	if (m_EnemyManager->GetFrameCount() % 120 == 0)
+	if (m_Count % 120 == 0)
 	{
 		m_EnemyManager->CreateEnemy(ENEMY_TYPE_ZOMBIE);
 	}
@@ -21,4 +21,6 @@ void CSpawnAIStateRise::Update()
 	{
 		m_EnemyManager->ChangeSpawnAI(new CSpawnAIStateMax(m_EnemyManager));
 	}
+
+	m_Count++;
 }

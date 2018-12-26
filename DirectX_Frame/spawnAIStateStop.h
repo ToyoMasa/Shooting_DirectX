@@ -10,7 +10,10 @@
 class CSpawnAIStateStop : public CSpawnAIStateBase
 {
 public:
-	CSpawnAIStateStop(CEnemyManager* manager) : CSpawnAIStateBase(manager) {}
+	CSpawnAIStateStop(CEnemyManager* manager) : CSpawnAIStateBase(manager) 
+	{
+		manager->SetSpawnAIState(SPAWN_AI_STOP);
+	}
 	~CSpawnAIStateStop() {}
 
 	void Update()override {};
