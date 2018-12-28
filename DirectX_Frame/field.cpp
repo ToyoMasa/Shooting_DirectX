@@ -437,7 +437,7 @@ void CField::Load(string textname)
 
 	CAStar::SetMapSize(m_SizeX, m_SizeY);
 
-	//m_Scene3D->SetShader(CShaderMetal::GetShader());
+	m_Scene3D->SetShader(CShaderMetal::GetShader());
 }
 
 CField* CField::Create(std::string textname)

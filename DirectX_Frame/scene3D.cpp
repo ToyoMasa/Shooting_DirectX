@@ -263,6 +263,7 @@ void CScene3D::DrawWithShader()
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	// テクスチャをサンプラーへセット
+	m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
 	int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
 	pDevice->SetTexture(index, CTexture::GetTexture(m_TexId));
 
