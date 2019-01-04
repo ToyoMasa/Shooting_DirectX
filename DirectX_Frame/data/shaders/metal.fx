@@ -40,7 +40,8 @@ sampler_state {
 //------------------------------------------------
 // 頂点シェーダ
 //------------------------------------------------
-void main(float3 in_pos		: POSITION,
+void main(
+	float3 in_pos		: POSITION,
 	float3 in_normal : NORMAL,
 	float2 in_tex1 : TEXCOORD0,
 	out float4 out_pos : POSITION,		//変換後頂点出力	
@@ -66,7 +67,8 @@ void main(float3 in_pos		: POSITION,
 //------------------------------------------------
 // ピクセルシェーダ
 //------------------------------------------------
-void PS(float2 in_tex1		: TEXCOORD0,	//テクスチャ座標入力
+void PS(
+	float2 in_tex1		: TEXCOORD0,	//テクスチャ座標入力
 	float3 in_normal : TEXCOORD1,	//ピクセルの法線入力
 	float3 in_posforps : TEXCOORD2,	//ピクセルの座標入力
 	out float4 out_color : COLOR0)			//ピクセルカラー出力
