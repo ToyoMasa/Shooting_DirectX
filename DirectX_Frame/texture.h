@@ -48,6 +48,9 @@ typedef enum
 	TEX_ID_CIRCLE_2D,				// 2D画面用円
 	TEX_ID_DAMAGE_SCREEN,			// ダメージを受けた時の出血エフェクト
 	TEX_ID_KILL_ENEMY_NUM,			// 倒した敵の数
+	TEX_ID_GRASS,					// 草原
+	TEX_ID_SOIL,					// 土
+	TEX_ID_ROCK,					// 岩
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -91,6 +94,9 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/debug_circle.png",
 	"data/textures/damage_screen.png",
 	"data/textures/kill_enemy_num.png",
+	"data/textures/grass.jpg",
+	"data/textures/soil.jpg",
+	"data/textures/rock.jpg",
 };
 
 // テクスチャがロードされているか検索するためのマップ

@@ -247,10 +247,8 @@ void CScene3D::DrawWithShader()
 		return;
 	}
 
-	// 頂点バッファとインデックスバッファの設定
-	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
-
-	pDevice->SetIndices(m_IndexBuffer);
+	// 頂点フォーマットの指定
+	pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 	// シェーダーのセット
 	m_Shader->ShaderSet(m_World);
@@ -266,6 +264,11 @@ void CScene3D::DrawWithShader()
 	m_Shader->GetPSTable()->SetBool(pDevice, "g_tex", TRUE);
 	int index = m_Shader->GetPSTable()->GetSamplerIndex("Sampler1");
 	pDevice->SetTexture(index, CTexture::GetTexture(m_TexId));
+
+	// 頂点バッファとインデックスバッファの設定
+	pDevice->SetStreamSource(0, m_VertexBuffer, 0, sizeof(VERTEX_3D));
+
+	pDevice->SetIndices(m_IndexBuffer);
 
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, m_NumVertex, 0, m_NumPrimitive);
 

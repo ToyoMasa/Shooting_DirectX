@@ -17,6 +17,7 @@
 #include "skinmeshShader.h"
 #include "normalmapShader.h"
 #include "spotlightShader.h"
+#include "fieldShader.h"
 
 //==============================================================================
 //!	@fn		ShaderCompile
@@ -169,6 +170,7 @@ void CShader::ReleaseAll()
 	CShaderSkinmesh::Destroy();
 	CShaderNormalmap::Destroy();
 	CShaderSpotlight::Destroy();
+	CShaderField::Destroy();
 }
 
 //******************************************************************************

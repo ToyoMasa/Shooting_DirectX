@@ -55,10 +55,8 @@ void main(float3 in_pos		: POSITION,
 	out_pos = mul(out_pos, g_view);						// 頂点座標（ワールド座標系）をカメラ座標系に変換
 	out_pos = mul(out_pos, g_projection);				// 頂点座標（カメラ座標系）をスクリーン座標系に変換
 
-
 	// テクスチャ座標をそのまま出力する
 	out_tex1 = in_tex1;			// テクスチャ座標の出力
-
 
 	// 法線をワールド空間上のベクトルに変換して、単位ベクトル化してから出力
 	out_normal = normalize(mul(in_normal, (float3x3)g_world));

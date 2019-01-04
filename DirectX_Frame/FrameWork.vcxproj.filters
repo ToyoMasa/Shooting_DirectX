@@ -372,6 +372,9 @@
     <ClInclude Include="enemyPatternWaypointsRun.h">
       <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
+    <ClInclude Include="fieldShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -614,10 +617,14 @@
     <ClCompile Include="enemyPatternWaypointsRun.cpp">
       <Filter>ソース ファイル\enemy\enemyPattern</Filter>
     </ClCompile>
+    <ClCompile Include="fieldShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\spotlight.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
+    <FxCompile Include="data\shaders\field.fx" />
   </ItemGroup>
 </Project>

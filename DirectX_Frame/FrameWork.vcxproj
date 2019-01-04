@@ -168,6 +168,7 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="enemyPatternWaypointsRun.h" />
+    <ClInclude Include="fieldShader.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="common.h" />
@@ -262,6 +263,7 @@
     <ClCompile Include="character.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="enemyPatternWaypointsRun.cpp" />
+    <ClCompile Include="fieldShader.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="controller.cpp" />
@@ -336,6 +338,7 @@
     <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\shaders\field.fx" />
     <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
     <FxCompile Include="data\shaders\spotlight.fx" />
