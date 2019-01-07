@@ -631,18 +631,8 @@
     <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\spotlight.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
-<<<<<<< .mine
     <FxCompile Include="data\shaders\field.fx" />
-<<<<<<< .mine
     <FxCompile Include="data\shaders\skinmesh.fx" />
     <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
-||||||| .r63
-=======
-    <FxCompile Include="data\shaders\skinmesh.fx" />
-||||||| .r61
-=======
-    <FxCompile Include="data\shaders\field.fx" />
->>>>>>> .r63
->>>>>>> .r64
   </ItemGroup>
 </Project>
