@@ -375,6 +375,9 @@
     <ClInclude Include="fieldShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
+    <ClInclude Include="normalmapSpotlightShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -620,6 +623,9 @@
     <ClCompile Include="fieldShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
+    <ClCompile Include="normalmapSpotlightShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\metal.fx" />
@@ -627,10 +633,16 @@
     <FxCompile Include="data\shaders\normalmap.fx" />
 <<<<<<< .mine
     <FxCompile Include="data\shaders\field.fx" />
+<<<<<<< .mine
+    <FxCompile Include="data\shaders\skinmesh.fx" />
+    <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
+||||||| .r63
+=======
     <FxCompile Include="data\shaders\skinmesh.fx" />
 ||||||| .r61
 =======
     <FxCompile Include="data\shaders\field.fx" />
 >>>>>>> .r63
+>>>>>>> .r64
   </ItemGroup>
 </Project>

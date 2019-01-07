@@ -5,9 +5,6 @@
 //!	@author	
 //*****************************************************************************
 
-//-----------------------------------------------------------------------------
-//	Include header files.
-//-----------------------------------------------------------------------------
 #include "common.h"
 #include "main.h"
 #include "manager.h"
@@ -16,19 +13,10 @@
 #include "metalShader.h"
 #include "skinmeshShader.h"
 #include "normalmapShader.h"
+#include "normalmapSpotlightShader.h"
 #include "spotlightShader.h"
 #include "fieldShader.h"
 
-//==============================================================================
-//!	@fn		ShaderCompile
-//!	@brief	シェーダーコンパイル
-//!	@param	const char* filename,　 シェーダーファイル名
-//!	@param	const char* entry,　　　エントリ関数名
-//!	@param	const char* version,　　シェーダーバージョン指定
-//!	@param	LPD3DXBUFFER* code,　　 コンパイル済みコード　
-//!	@param	LPD3DXCONSTANTTABLE* ctbl　定数テーブル
-//!	@retval	bool true 成功　false 失敗
-//==============================================================================
 bool CShader::ShaderCompile(
 	const char* filename,
 	const char* entry,
@@ -68,17 +56,6 @@ bool CShader::ShaderCompile(
 	return true;
 }
 
-//==============================================================================
-//!	@fn		VertexShaderCompile
-//!	@brief	頂点シェーダーオブジェクト生成
-//!	@param	LPDIRECT3DDEVICE9 lpdevidce    デバイスオブジェクト
-//!	@param	const char* filename,		   シェーダーファイル名
-//!	@param	const char* entry,			   エントリー関数名
-//!	@param	const char* version,		   バージョン
-//!	@param	LPD3DXCONSTANTTABLE* ctbl,	　 定数テーブル
-//!	@param	LPDIRECT3DVERTEXSHADER9* vsh　 頂点シェーダーオブジェクト
-//!	@retval	bool true 成功　false 失敗
-//==============================================================================
 bool CShader::VertexShaderCompile(
 	const char* filename,						// シェーダーファイル名
 	const char* entry,							// エントリー関数名
@@ -116,17 +93,6 @@ bool CShader::VertexShaderCompile(
 	return true;
 }
 
-//==============================================================================
-//!	@fn		PixelShaderCompile
-//!	@brief	ピクセルシェーダーオブジェクト生成
-//!	@param	LPDIRECT3DDEVICE9 lpdevidce    デバイスオブジェクト
-//!	@param	const char* filename,		   シェーダーファイル名
-//!	@param	const char* entry,			   エントリー関数名
-//!	@param	const char* version,		   バージョン
-//!	@param	LPD3DXCONSTANTTABLE* ctbl,	　 定数テーブル
-//!	@param	LPDIRECT3DVPIXELSHADER9* psh　 ピクセルシェーダーオブジェクト
-//!	@retval	bool true 成功　false 失敗
-//==============================================================================
 bool CShader::PixelShaderCompile(
 	const char* filename,						// シェーダーファイル名
 	const char* entry,							// エントリー関数名
@@ -169,10 +135,7 @@ void CShader::ReleaseAll()
 	CShaderMetal::Destroy();
 	CShaderSkinmesh::Destroy();
 	CShaderNormalmap::Destroy();
+	CShaderNormalmapSpotlight::Destroy();
 	CShaderSpotlight::Destroy();
 	CShaderField::Destroy();
 }
-
-//******************************************************************************
-//	End of file.
-//******************************************************************************

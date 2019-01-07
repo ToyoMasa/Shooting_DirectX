@@ -72,8 +72,8 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	CFade::Init();
 
 	//CManager::m_Mode = new CModeMapMake();
-	//CManager::m_Mode = new CModeGame();
-	CManager::m_Mode = new CModeTitle();
+	CManager::m_Mode = new CModeGame();
+	//CManager::m_Mode = new CModeTitle();
 
 	// デバッグカメラのセット
 	m_DebugCamera = CCamera::Create();

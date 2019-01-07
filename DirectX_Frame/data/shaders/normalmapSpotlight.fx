@@ -1,18 +1,22 @@
 //------------------------------------------------
 // グローバル変数
 //------------------------------------------------
-float4x4	g_world;				// ワールド変換行列
-float4x4 	g_view;					// カメラ変換行列
-float4x4 	g_projection;			// プロジェクション変換行列
+// 座標変換用
+float4x4	g_world;					// ワールド変換行列
+float4x4 	g_view;						// カメラ変換行列
+float4x4 	g_projection;				// プロジェクション変換行列
+
+// テクスチャ
+bool		g_tex;						// テクスチャのありなし　false:なし　true:あり
 
 // ライトパラメータ
-float4		g_light_pos;			// 座標(ビュー空間)
-float3		g_light_dir;			// 方向(ビュー空間)
-float4		g_light_diff;           // ディフューズカラー
-float4		g_light_specular;		// スペキュラカラー
-float4		g_light_ambient;		// アンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
-float4		g_falloff_param;		// x:距離  y:FallOff  z:減衰処理パラメータ1  w:減衰処理パラメータ2
-float4		g_light_param;			// x:減衰処理パラメータ3  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
+float4		g_light_pos;				// 座標(ビュー空間)
+float3		g_light_dir;				// 方向(ビュー空間)
+float4		g_light_diff;               // ディフューズカラー
+float4		g_light_specular;			// スペキュラカラー
+float4		g_light_ambient;			// アンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
+float4		g_falloff_param;			// x:距離  y:FallOff  z:減衰処理パラメータ1  w:減衰処理パラメータ2
+float4		g_light_param;				// x:減衰処理パラメータ3  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
 
 float4		g_mat_ambient;
 float4		g_mat_emissive;
@@ -21,18 +25,31 @@ float4		g_mat_specular;
 float4		g_mat_power;
 float		g_alpha;
 
-float4		g_camera_pos;			// カメラ座標
+float4      g_camera_pos;				// カメラ座標
 
 //------------------------------------------------
 // サンプラー1
 //------------------------------------------------
 sampler Sampler1 =
-sampler_state
-{
+sampler_state {
 	Texture = <g_texture>;
 	MinFilter = LINEAR;		// リニアフィルタ（縮小時）
 	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
 };
+
+//------------------------------------------------
+// サンプラー2
+//------------------------------------------------
+sampler NormalmapSampler1 =
+sampler_state {
+	Texture = <g_normaltexture>;
+	MinFilter = LINEAR;		// リニアフィルタ（縮小時）
+	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
+};
+
+//------------------------------------------------
+// 頂点シェーダ
+//------------------------------------------------
 
 // main関数
 void main(
@@ -52,7 +69,7 @@ void main(
 	out_pos = mul(out_pos, g_view);						// 頂点座標（ワールド座標系）をカメラ座標系に変換
 	out_pos = mul(out_pos, g_projection);				// 頂点座標（カメラ座標系）をスクリーン座標系に変換
 
-														// 法線をワールド空間上のベクトルに変換して、単位ベクトル化してから出力
+	// 法線をワールド空間上のベクトルに変換して、単位ベクトル化してから出力
 	out_normal = normalize(mul(in_normal, (float3x3)g_world));
 
 	out_diff = in_diff;
@@ -89,6 +106,7 @@ void PS(
 
 	// ディフューズカラーとスペキュラカラーの初期化
 	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	// ライト方向ベクトルの計算
 	light_dir = normalize(in_posforps - g_light_pos.xyz);
@@ -113,7 +131,7 @@ void PS(
 	diffuse_angle_gen = saturate(dot(normal, -light_dir));
 
 	// ディフューズに減衰計算を追加
-	diffuse += (g_light_diff * in_diff * diffuse_angle_gen + g_light_ambient) * light_gen;
+	diffuse = (g_light_diff * g_mat_diffuse * diffuse_angle_gen/* + g_light_ambient*/) * light_gen;
 
 	// ハーフベクトルの計算
 	half_vec = normalize(vtx_to_camera - light_dir);
@@ -122,9 +140,9 @@ void PS(
 	power = pow(max(0.0f, dot(normal, half_vec)), g_mat_power.x);
 
 	// スペキュラカラーの計算
-	specular = power * light_gen.x * g_light_specular;
+	specular += power * light_gen.x * g_light_specular;
 
-	// ディフューズカラーにアンビエントカラーとエミッシブカラーを加算
+	// ディフューズカラーにアンビエントカラーを加算
 	diffuse = max(diffuse, g_mat_ambient);
 
 	// マテリアルのスペキュラカラー
@@ -132,8 +150,8 @@ void PS(
 
 	// 出力カラー
 	tex_color = tex2D(Sampler1, in_tex);
-	out_color.rgb = tex_color.rgb * diffuse.rgb + specular_color.rgb;
+	out_color.rgb = tex_color.rgb * diffuse.rgb/* + specular_color.rgb*/;
 
 	// 透明度
-	out_color.a = tex_color.a * in_diff.a * g_alpha;
+	out_color.a = g_alpha;
 }

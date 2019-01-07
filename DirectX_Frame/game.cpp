@@ -115,7 +115,7 @@ void CModeGame::Init()
 	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
 	ZombieVoice->Play(0.01f);
 	BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
-	BGM->Play();
+	BGM->Play(0.01f);
 
 	// スコア等のリセット
 	Result = GAME_OVER;

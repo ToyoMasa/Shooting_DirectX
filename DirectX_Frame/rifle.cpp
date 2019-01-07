@@ -22,6 +22,7 @@
 #include "PlayerAnim.h"
 #include "metalShader.h"
 #include "normalmapShader.h"
+#include "normalmapSpotlightShader.h"
 #include "spotlightShader.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
@@ -74,7 +75,7 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.y = 141.5f;
 	m_Rot.z = 33.75f;
 
-	m_Model->SetShader(CShaderNormalmap::GetShader());
+	m_Model->SetShader(CShaderNormalmapSpotlight::GetShader());
 	m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
 
 	if (m_FlashEffect == NULL)

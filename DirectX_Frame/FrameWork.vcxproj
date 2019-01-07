@@ -190,6 +190,7 @@
     <ClInclude Include="event.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="normalmapShader.h" />
+    <ClInclude Include="normalmapSpotlightShader.h" />
     <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="playerPatternWeaponChange.h" />
     <ClInclude Include="skinmeshShader.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="mathutil.cpp" />
     <ClCompile Include="metalShader.cpp" />
     <ClCompile Include="normalmapShader.cpp" />
+    <ClCompile Include="normalmapSpotlightShader.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
@@ -341,6 +343,7 @@
     <FxCompile Include="data\shaders\field.fx" />
     <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
+    <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
     <FxCompile Include="data\shaders\skinmesh.fx">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>

@@ -4,54 +4,55 @@
 #include "camera.h"
 #include "light.h"
 #include "shader.h"
-#include "spotlightShader.h"
+#include "normalmapSpotlightShader.h"
 
-CShaderSpotlight *CShaderSpotlight::m_Shader = NULL;
+CShaderNormalmapSpotlight *CShaderNormalmapSpotlight::m_Shader = NULL;
 
-CShaderSpotlight::CShaderSpotlight() : CShader()
+CShaderNormalmapSpotlight::CShaderNormalmapSpotlight() : CShader()
 {
 	bool sts;
 	sts = VertexShaderCompile(
-		SHADER_FILE[SH_ID_SPOTLIGHT].c_str(),						// シェーダーファイル名
+		SHADER_FILE[SH_ID_NORMALMAP_SPOTLIGHT].c_str(),						// シェーダーファイル名
 		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
-	if (!sts) 
+	if (!sts)
 	{
 		MessageBox(NULL, "エラー", "エラー", MB_OK);
 	}
 
 	// ピクセルシェーダーコンパイル
 	sts = PixelShaderCompile(
-		SHADER_FILE[SH_ID_SPOTLIGHT].c_str(),						// シェーダーファイル名
+		SHADER_FILE[SH_ID_NORMALMAP_SPOTLIGHT].c_str(),						// シェーダーファイル名
 		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 
-	if (!sts) 
+	if (!sts)
 	{
 		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
 	}
 }
 
-CShaderSpotlight* CShaderSpotlight::GetShader()
+CShaderNormalmapSpotlight* CShaderNormalmapSpotlight::GetShader()
 {
 	if (m_Shader == NULL)
 	{
-		m_Shader = new CShaderSpotlight();
+		m_Shader = new CShaderNormalmapSpotlight();
 	}
 
 	return m_Shader;
 }
 
-void CShaderSpotlight::Destroy()
+void CShaderNormalmapSpotlight::Destroy()
 {
-	if (m_Shader)
+	if (m_Shader != NULL)
 	{
 		delete m_Shader;
+		m_Shader = NULL;
 	}
 }
 
-void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
+void CShaderNormalmapSpotlight::ShaderSet(const D3DXMATRIX& world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -82,13 +83,13 @@ void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
 	m_PSConstantTable->SetVector(pDevice, "g_light_specular", &specular);
 	m_PSConstantTable->SetVector(pDevice, "g_light_ambient", &ambient);
 	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.01f, 0.1f, 0.2f));
-	m_PSConstantTable->SetVector(pDevice, "g_light_param", &D3DXVECTOR4(0.001f, cosf(D3DXToRadian(70.0f) / 2.0f), 1.0f / (cosf(D3DXToRadian(30.0f) / 2.0f) - cosf(D3DXToRadian(45.0f) / 2.0f)), 1.0f));
+	m_PSConstantTable->SetVector(pDevice, "g_light_param", &D3DXVECTOR4(0.01f, cosf(D3DXToRadian(70.0f) / 2.0f), 1.0f / (cosf(D3DXToRadian(30.0f) / 2.0f) - cosf(D3DXToRadian(45.0f) / 2.0f)), 1.0f));
 
 	m_PSConstantTable->SetVector(pDevice, "g_light_pos", &cameraPos);
 	m_PSConstantTable->SetVector(pDevice, "g_camera_pos", &cameraPos);
 }
 
-void CShaderSpotlight::SetMaterial(const D3DMATERIAL9& mat)
+void CShaderNormalmapSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -98,34 +99,35 @@ void CShaderSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 
 	D3DXVECTOR4  tempcolor;
 
-	 //環境光用のマテリアルをセット
-	tempcolor.x = 0.15f;
-	tempcolor.y = 0.15f;
-	tempcolor.z = 0.15f;
+	//環境光用のマテリアルをセット
+	tempcolor.x = 0.2f;
+	tempcolor.y = 0.2f;
+	tempcolor.z = 0.2f;
 	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_ambient", &tempcolor);
 
 	// ディフューズ光用のマテリアルをセット
-	tempcolor.x = 0.1f;
-	tempcolor.y = 0.1f;
-	tempcolor.z = 0.1f;
+	tempcolor.x = 0.6f;
+	tempcolor.y = 0.6f;
+	tempcolor.z = 0.6f;
+	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_diffuse", &tempcolor);
 
 	// エミッシブ光用のマテリアルをセット
-	tempcolor.x = mat.Emissive.r;
-	tempcolor.y = mat.Emissive.g;
-	tempcolor.z = mat.Emissive.b;
-	tempcolor.w = mat.Emissive.a;
+	tempcolor.x = 0.5f;
+	tempcolor.y = 0.5f;
+	tempcolor.z = 0.5f;
+	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_emissive", &tempcolor);
 
 	// スペキュラー光用のマテリアルをセット
-	tempcolor.x = mat.Specular.r;
-	tempcolor.y = mat.Specular.g;
-	tempcolor.z = mat.Specular.b;
-	tempcolor.w = mat.Specular.a;
+	tempcolor.x = 0.05f;
+	tempcolor.y = 0.05f;
+	tempcolor.z = 0.05f;
+	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_specular", &tempcolor);
 
 	// パワー値をセット
-	m_PSConstantTable->SetFloat(pDevice, "g_mat_power", 50.0f);
+	m_PSConstantTable->SetFloat(pDevice, "g_mat_power", 200);
 	m_PSConstantTable->SetFloat(pDevice, "g_alpha", 1.0f);
 }
