@@ -11,7 +11,7 @@ float3		g_light_dir;			// 方向(ビュー空間)
 float4		g_light_diff;           // ディフューズカラー
 float4		g_light_specular;		// スペキュラカラー
 float4		g_light_ambient;		// アンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
-float4		g_falloff_param;		// x:距離  y:FallOff  z:減衰処理パラメータ1  w:減衰処理パラメータ2
+float4		g_falloff_param;		// x:距離  y:FallOff  z:減衰処理パラメータ1（スペキュラ―の強さに影響）  w:減衰処理パラメータ2
 float4		g_light_param;			// x:減衰処理パラメータ3  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
 
 float4		g_mat_ambient;
@@ -52,7 +52,7 @@ void main(
 	out_pos = mul(out_pos, g_view);						// 頂点座標（ワールド座標系）をカメラ座標系に変換
 	out_pos = mul(out_pos, g_projection);				// 頂点座標（カメラ座標系）をスクリーン座標系に変換
 
-														// 法線をワールド空間上のベクトルに変換して、単位ベクトル化してから出力
+	// 法線をワールド空間上のベクトルに変換して、単位ベクトル化してから出力
 	out_normal = normalize(mul(in_normal, (float3x3)g_world));
 
 	out_diff = in_diff;

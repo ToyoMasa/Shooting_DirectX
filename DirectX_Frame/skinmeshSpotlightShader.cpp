@@ -4,46 +4,46 @@
 #include "camera.h"
 #include "light.h"
 #include "shader.h"
-#include "spotlightShader.h"
+#include "skinmeshSpotlightShader.h"
 
-CShaderSpotlight *CShaderSpotlight::m_Shader = NULL;
+CShaderSkinmeshSpotlight *CShaderSkinmeshSpotlight::m_Shader = NULL;
 
-CShaderSpotlight::CShaderSpotlight() : CShader()
+CShaderSkinmeshSpotlight::CShaderSkinmeshSpotlight() : CShader()
 {
 	bool sts;
 	sts = VertexShaderCompile(
-		SHADER_FILE[SH_ID_SPOTLIGHT].c_str(),						// シェーダーファイル名
+		SHADER_FILE[SH_ID_SKINMESH_SPOTLIGHT].c_str(),						// シェーダーファイル名
 		"main",							// エントリー関数名
 		"vs_3_0");						// バージョン
 
-	if (!sts) 
+	if (!sts)
 	{
 		MessageBox(NULL, "エラー", "エラー", MB_OK);
 	}
 
 	// ピクセルシェーダーコンパイル
 	sts = PixelShaderCompile(
-		SHADER_FILE[SH_ID_SPOTLIGHT].c_str(),						// シェーダーファイル名
+		SHADER_FILE[SH_ID_SKINMESH_SPOTLIGHT].c_str(),						// シェーダーファイル名
 		"PS",							// エントリー関数名
 		"ps_3_0");						// バージョン
 
-	if (!sts) 
+	if (!sts)
 	{
 		MessageBox(NULL, "読み込みエラー", "読み込みエラー", MB_OK);
 	}
 }
 
-CShaderSpotlight* CShaderSpotlight::GetShader()
+CShaderSkinmeshSpotlight* CShaderSkinmeshSpotlight::GetShader()
 {
 	if (m_Shader == NULL)
 	{
-		m_Shader = new CShaderSpotlight();
+		m_Shader = new CShaderSkinmeshSpotlight();
 	}
 
 	return m_Shader;
 }
 
-void CShaderSpotlight::Destroy()
+void CShaderSkinmeshSpotlight::Destroy()
 {
 	if (m_Shader)
 	{
@@ -51,7 +51,7 @@ void CShaderSpotlight::Destroy()
 	}
 }
 
-void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
+void CShaderSkinmeshSpotlight::ShaderSet(const D3DXMATRIX& world)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -81,14 +81,14 @@ void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
 	m_PSConstantTable->SetVector(pDevice, "g_light_diff", &diffuse);
 	m_PSConstantTable->SetVector(pDevice, "g_light_specular", &specular);
 	m_PSConstantTable->SetVector(pDevice, "g_light_ambient", &ambient);
-	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.01f, 0.15f, 0.2f));
+	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.1f, 0.8f, 0.2f));
 	m_PSConstantTable->SetVector(pDevice, "g_light_param", &D3DXVECTOR4(0.001f, cosf(D3DXToRadian(70.0f) / 2.0f), 1.0f / (cosf(D3DXToRadian(30.0f) / 2.0f) - cosf(D3DXToRadian(45.0f) / 2.0f)), 1.0f));
 
 	m_PSConstantTable->SetVector(pDevice, "g_light_pos", &cameraPos);
 	m_PSConstantTable->SetVector(pDevice, "g_camera_pos", &cameraPos);
 }
 
-void CShaderSpotlight::SetMaterial(const D3DMATERIAL9& mat)
+void CShaderSkinmeshSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 {
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)
@@ -98,7 +98,7 @@ void CShaderSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 
 	D3DXVECTOR4  tempcolor;
 
-	 //環境光用のマテリアルをセット
+	//環境光用のマテリアルをセット
 	tempcolor.x = 0.15f;
 	tempcolor.y = 0.15f;
 	tempcolor.z = 0.15f;

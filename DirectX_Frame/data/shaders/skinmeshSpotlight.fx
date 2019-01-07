@@ -1,22 +1,21 @@
 //------------------------------------------------
 // グローバル変数
 //------------------------------------------------
-// 座標変換用
-float4x4	g_world;					// ワールド変換行列
-float4x4 	g_view;						// カメラ変換行列
-float4x4 	g_projection;				// プロジェクション変換行列
-
-// テクスチャ
-bool		g_tex;						// テクスチャのありなし　false:なし　true:あり
+float4x4 	g_matWorld[4] : WORLD;  // ワールド変換行列配列
+float4x4	g_world;				// ワールド変換行列
+float4x4 	g_view;					// カメラ変換行列
+float4x4 	g_projection;			// プロジェクション変換行列
+int 		g_blendNum;				// ブレンドする配列の数
+bool		g_tex;					// テクスチャありなしフラグ　true:あり
 
 // ライトパラメータ
-float4		g_light_pos;				// 座標(ビュー空間)
-float3		g_light_dir;				// 方向(ビュー空間)
-float4		g_light_diff;               // ディフューズカラー
-float4		g_light_specular;			// スペキュラカラー
-float4		g_light_ambient;			// アンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
-float4		g_falloff_param;			// x:距離  y:FallOff  z:減衰処理パラメータ1  w:減衰処理パラメータ2
-float4		g_light_param;				// x:減衰処理パラメータ3  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
+float4		g_light_pos;			// 座標(ビュー空間)
+float3		g_light_dir;			// 方向(ビュー空間)
+float4		g_light_diff;           // ディフューズカラー
+float4		g_light_specular;		// スペキュラカラー
+float4		g_light_ambient;		// アンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
+float4		g_falloff_param;		// x:距離  y:FallOff  z:減衰処理パラメータ1  w:減衰処理パラメータ2
+float4		g_light_param;			// x:減衰処理パラメータ3  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
 
 float4		g_mat_ambient;
 float4		g_mat_emissive;
@@ -25,37 +24,25 @@ float4		g_mat_specular;
 float4		g_mat_power;
 float		g_alpha;
 
-float4      g_camera_pos;				// カメラ座標
+float4		g_camera_pos;			// カメラ座標
 
 //------------------------------------------------
 // サンプラー1
 //------------------------------------------------
 sampler Sampler1 =
-sampler_state {
+sampler_state
+{
 	Texture = <g_texture>;
 	MinFilter = LINEAR;		// リニアフィルタ（縮小時）
 	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
 };
 
-//------------------------------------------------
-// サンプラー2
-//------------------------------------------------
-sampler NormalmapSampler1 =
-sampler_state {
-	Texture = <g_normaltexture>;
-	MinFilter = LINEAR;		// リニアフィルタ（縮小時）
-	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
-};
-
-//------------------------------------------------
-// 頂点シェーダ
-//------------------------------------------------
-
 // main関数
 void main(
 	float3 in_pos : POSITION,
-	float3 in_normal : NORMAL,
 	float4 in_diff : COLOR0,
+	float4 in_weight : BLENDWEIGHT,
+	float3 in_normal : NORMAL,
 	float2 in_tex : TEXCOORD0,
 	out float4 out_pos : POSITION,
 	out float4 out_diff : COLOR0,
@@ -63,14 +50,28 @@ void main(
 	out float3 out_normal : TEXCOORD1,
 	out float3 out_posforps : TEXCOORD2)
 {
-	// 座標変換して出力（ワールド変換後の頂点も出力）
-	out_pos = mul(float4(in_pos, 1.0f), g_world);		// 頂点座標（ローカル座標系）をワールド座標系に変換	
-	out_posforps = out_pos.xyz;							// ワールド変換済み座標
+	float Weight[4] = (float[4])in_weight;      	// 重みをfloatに分割します
+	float LastBlendWeight = 0.0f;        		// 最後の行列に掛けられる重み
+	float4x4 matCombWorld = 0.0f;           	// 合成ワールド変換行列
+
+	// ワールド変換行列をブレンド
+	for (int i = 0; i < 4; i++) 
+	{
+		LastBlendWeight += Weight[i];   // 最後の重みをここで計算しておく
+		matCombWorld += g_matWorld[i] * Weight[i];
+	}
+
+	// 最後の重みを足し算
+	matCombWorld += g_matWorld[g_blendNum - 1] * (1.0f - LastBlendWeight);
+
+	// 法線ベクトルを変換
+	float3 transNormal = mul(in_normal, (float3x3)matCombWorld);
+	out_normal = normalize(transNormal);
+
+	out_pos = mul(float4(in_pos, 1.0f), matCombWorld);		// 頂点座標（ローカル座標系）をワールド座標系に変換
+	out_posforps = out_pos.xyz;
 	out_pos = mul(out_pos, g_view);						// 頂点座標（ワールド座標系）をカメラ座標系に変換
 	out_pos = mul(out_pos, g_projection);				// 頂点座標（カメラ座標系）をスクリーン座標系に変換
-
-	// 法線をワールド空間上のベクトルに変換して、単位ベクトル化してから出力
-	out_normal = normalize(mul(in_normal, (float3x3)g_world));
 
 	out_diff = in_diff;
 	out_tex = in_tex;

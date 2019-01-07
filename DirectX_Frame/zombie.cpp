@@ -26,6 +26,7 @@
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"
 #include "skinmeshShader.h"
+#include "skinmeshSpotlightShader.h"
 #include "enemyManager.h"
 
 static const float ZOMBIE_LIFE = 200.0f;
@@ -61,7 +62,7 @@ void CZombie::ZombieUninit()
 void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
 {
 	m_Model = CSceneSkinMesh::Create(modelId);
-	m_Model->SetShader(CShaderSkinmesh::GetShader());
+	m_Model->SetShader(CShaderSkinmeshSpotlight::GetShader());
 	m_Pos = spawnPos;
 	m_OldPos = m_Pos;
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ZOMBIE_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.5f, m_Pos.z), ZOMBIE_CUPSULE_RAD);

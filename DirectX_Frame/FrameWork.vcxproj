@@ -194,6 +194,7 @@
     <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="playerPatternWeaponChange.h" />
     <ClInclude Include="skinmeshShader.h" />
+    <ClInclude Include="skinmeshSpotlightShader.h" />
     <ClInclude Include="spawnAIStateBase.h" />
     <ClInclude Include="spawnAIStateFall.h" />
     <ClInclude Include="spawnAIStateMax.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="SkinMeshData.cpp" />
     <ClCompile Include="SkinMeshFile.cpp" />
     <ClCompile Include="skinmeshShader.cpp" />
+    <ClCompile Include="skinmeshSpotlightShader.cpp" />
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="spawnAIMax.cpp" />
@@ -350,6 +352,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="data\shaders\skinmeshSpotlight.fx" />
     <FxCompile Include="data\shaders\spotlight.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -33,6 +33,7 @@
 #include "playerPatternReload.h"
 #include "waypoint.h"
 #include "skinmeshShader.h"
+#include "skinmeshSpotlightShader.h"
 #include "enemyManager.h"
 
 static const float DEFAULT_FOV = 90.0f;
@@ -106,7 +107,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 
 	m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
 
-	m_Model->SetShader(CShaderSkinmesh::GetShader());
+	m_Model->SetShader(CShaderSkinmeshSpotlight::GetShader());
 
 	// Žc’e•\Ž¦
 	m_AmmoNum = CNumber::Create();

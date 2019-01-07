@@ -82,7 +82,7 @@ void CShaderNormalmapSpotlight::ShaderSet(const D3DXMATRIX& world)
 	m_PSConstantTable->SetVector(pDevice, "g_light_diff", &diffuse);
 	m_PSConstantTable->SetVector(pDevice, "g_light_specular", &specular);
 	m_PSConstantTable->SetVector(pDevice, "g_light_ambient", &ambient);
-	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.01f, 0.1f, 0.2f));
+	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.1f, 0.25f, 0.2f));
 	m_PSConstantTable->SetVector(pDevice, "g_light_param", &D3DXVECTOR4(0.01f, cosf(D3DXToRadian(70.0f) / 2.0f), 1.0f / (cosf(D3DXToRadian(30.0f) / 2.0f) - cosf(D3DXToRadian(45.0f) / 2.0f)), 1.0f));
 
 	m_PSConstantTable->SetVector(pDevice, "g_light_pos", &cameraPos);
@@ -128,6 +128,6 @@ void CShaderNormalmapSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 	m_PSConstantTable->SetVector(pDevice, "g_mat_specular", &tempcolor);
 
 	// パワー値をセット
-	m_PSConstantTable->SetFloat(pDevice, "g_mat_power", 200);
+	m_PSConstantTable->SetFloat(pDevice, "g_mat_power", 50.0f);
 	m_PSConstantTable->SetFloat(pDevice, "g_alpha", 1.0f);
 }

@@ -12,6 +12,7 @@ enum SHADER_ID
 {
 	SH_ID_METAL,
 	SH_ID_SKINMESH,
+	SH_ID_SKINMESH_SPOTLIGHT,
 	SH_ID_NORMALMAP,
 	SH_ID_NORMALMAP_SPOTLIGHT,
 	SH_ID_SPOTLIGHT,
@@ -24,6 +25,7 @@ static const std::string SHADER_FILE[] =
 {
 	"data/shaders/metal.fx",
 	"data/shaders/skinmesh.fx",
+	"data/shaders/skinmeshSpotlight.fx",
 	"data/shaders/normalmap.fx",
 	"data/shaders/normalmapSpotlight.fx",
 	"data/shaders/spotlight.fx",
