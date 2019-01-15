@@ -84,16 +84,19 @@ void CPlayerPatternReload::Update(CPlayer* player)
 	// フレームに応じた処理
 	if (m_CountFrame < 12)
 	{
+		// アニメーションの整合性を取る
 		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
 	}
 	else if (m_CountFrame == 60)
 	{
 		player->Reload();
+		// アニメーションの整合性を取る
 		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.5f);
 	}
 	else if (m_CountFrame == 90)
 	{
 		player->ChangePattern(new CPlayerPatternNormal());
+		return;
 	}
 
 	m_CountFrame++;

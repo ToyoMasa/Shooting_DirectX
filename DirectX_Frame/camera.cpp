@@ -94,6 +94,8 @@ void CCamera::SetPos(D3DXVECTOR3 pos)
 void CCamera::SetAt(D3DXVECTOR3 at)
 {
 	m_At = at;
+	m_Front = m_At - m_Pos;
+	D3DXVec3Normalize(&m_Front, &m_Front);
 }
 
 void CCamera::SetFov(float fov)

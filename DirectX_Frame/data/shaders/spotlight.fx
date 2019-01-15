@@ -125,7 +125,7 @@ void PS(
 	specular = power * light_gen.x * g_light_specular;
 
 	// ディフューズカラーにアンビエントカラーとエミッシブカラーを加算
-	diffuse = max(diffuse, g_mat_ambient);
+	diffuse = max(diffuse, g_mat_ambient * in_diff);
 
 	// マテリアルのスペキュラカラー
 	specular_color = specular * g_mat_specular;

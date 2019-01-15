@@ -88,9 +88,13 @@ void CModeGame::Init()
 
 	// 敵の経路を作成
 	CWayPoint::Init();
+	CWayPoint::Debug();
 
 	// フェード
 	CFade::FadeIn();
+
+	// ビルボードの準備
+	CBillBoard::Init();
 
 	// フィールド
 	Field = CField::Create("data/output/map.txt");
@@ -108,9 +112,6 @@ void CModeGame::Init()
 	// ライト
 	Light = CLight::Create(0);
 
-	// ビルボードの準備
-	CBillBoard::Init();
-
 	// サウンドの準備
 	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
 	ZombieVoice->Play(0.01f);
@@ -125,12 +126,9 @@ void CModeGame::Init()
 	KillCount = 0;
 	FrameCount = 0;
 
-	//Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
 
 	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
-	CTargetCapsule::Create(D3DXVECTOR3(53.3f, 0.0f, -82.0f));
-	CTargetCapsule::Create(D3DXVECTOR3(-11.75f, 0.0f, -7.0f));
 }
 
 void CModeGame::Uninit()

@@ -33,11 +33,11 @@ static float MOVE_SPEED = 0.015f;
 void CEnemyPatternWaypoints::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_WALKING, 0.3f);
-	enemy->GetModel()->SetAnimPlaySpeed(3.0f);
+	enemy->GetModel()->SetAnimPlaySpeed(2.5f);
 
 	// 一番近いウェイポイントを検索
 	m_NowPoint = CWayPoint::SearchShortestPoint(enemy->GetPos());
-	int playerPoint = CWayPoint::SearchShortestPoint(CModeGame::GetPlayer()->GetPos());
+	int playerPoint = CModeGame::GetPlayer()->GetShortestPoint();
 
 	m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
 	m_TargetPos = CWayPoint::GetWayPointPos(m_TargetPoint);
@@ -75,7 +75,7 @@ void CEnemyPatternWaypoints::Update(CEnemy* enemy)
 		{
 			// 目的地に到達したら次の目的地を設定
 			m_NowPoint = m_TargetPoint;
-			int playerPoint = CWayPoint::SearchShortestPoint(CModeGame::GetPlayer()->GetPos());
+			int playerPoint = CModeGame::GetPlayer()->GetShortestPoint();
 
 			m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
 			m_TargetPos = CWayPoint::GetWayPointPos(m_TargetPoint);

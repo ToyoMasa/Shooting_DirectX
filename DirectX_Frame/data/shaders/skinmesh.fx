@@ -43,7 +43,7 @@ void main(
 
 	// ワールド変換行列をブレンド
 	int i;
-	for(i = 0; i < g_blendNum - 1; i++)
+	for(i = 0; i < 4; i++)
 	{
 		LastBlendWeight += Weight[i];   // 最後の重みをここで計算しておく
 		matCombWorld += g_matWorld[i] * Weight[i];

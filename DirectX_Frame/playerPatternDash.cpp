@@ -46,6 +46,9 @@ void CPlayerPatternDash::Uninit(CPlayer* player)
 
 void CPlayerPatternDash::Update(CPlayer* player)
 {
+	// アニメーションの整合性を取る
+	player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
+
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
 	float mouseX, mouseY, mouseZ;
@@ -102,27 +105,13 @@ void CPlayerPatternDash::Update(CPlayer* player)
 		return;
 	}
 
-	// ダッシュ
-	if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
-	{
-		player->ChangePattern(new CPlayerPatternNormal());
-		return;
-	}
-
-	// ジャンプ
-	//if (inputKeyboard->GetKeyRelease(DIK_SPACE))
-	//{
-	//	player->ChangePattern(new CPlayerPatternJump(dir));
-	//	return;
-
-	//}
-
 	// リロード
 	if (inputKeyboard->GetKeyTrigger(DIK_R))
 	{
 		if (player->GetUsingWeapon()->GetAmmo() < player->GetUsingWeapon()->GetMaxAmmo())
 		{
 			player->ChangePattern(new CPlayerPatternReload());
+			return;
 		}
 	}
 
@@ -130,6 +119,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	if (inputKeyboard->GetKeyTrigger(DIK_X))
 	{
 		player->ChangePattern(new CPlayerPatternWeaponChange());
+		return;
 	}
 
 	// 攻撃したらダッシュ状態を解除
@@ -138,6 +128,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 		player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
+
 	if (inputMouse->GetLeftRelease())
 	{
 		player->TriggerRelease();

@@ -100,9 +100,9 @@ void CShaderNormalmapSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 	D3DXVECTOR4  tempcolor;
 
 	//環境光用のマテリアルをセット
-	tempcolor.x = 0.2f;
-	tempcolor.y = 0.2f;
-	tempcolor.z = 0.2f;
+	tempcolor.x = 0.13f;
+	tempcolor.y = 0.13f;
+	tempcolor.z = 0.13f;
 	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_ambient", &tempcolor);
 

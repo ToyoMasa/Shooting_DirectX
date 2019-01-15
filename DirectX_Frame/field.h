@@ -30,7 +30,6 @@ public:
 	~CField(){}
 
 	void Init(int texId, float meshSize, int sizeX, int sizeY);
-	void Init(int texId, float meshSize, int sizeX, int sizeY, bool isHeight);
 	void Init(int texId, float meshSize, int sizeX, int sizeY, float** heights);
 	void Uninit();
 	void Update();
@@ -48,7 +47,6 @@ public:
 	void Load(std::string textname);
 	static CField* Create(std::string textname);
 	static CField* Create(int texId, float meshSize, int sizeX, int sizeY);
-	static CField* Create(int texId, float meshSize, int sizeX, int sizeY, bool isHeight);
 	static CField* Create(int texId, float meshSize, int sizeX, int sizeY, float** heights);
 
 private:

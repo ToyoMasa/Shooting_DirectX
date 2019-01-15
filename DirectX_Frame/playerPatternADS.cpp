@@ -48,6 +48,9 @@ void CPlayerPatternADS::Uninit(CPlayer* player)
 
 void CPlayerPatternADS::Update(CPlayer* player)
 {
+	// アニメーションの整合性を取る
+	player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
+
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
 	float mouseX, mouseY, mouseZ;

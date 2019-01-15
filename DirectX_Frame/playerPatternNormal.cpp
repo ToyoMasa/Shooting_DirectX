@@ -41,6 +41,9 @@ void CPlayerPatternNormal::Init(CPlayer* player)
 
 void CPlayerPatternNormal::Update(CPlayer* player)
 {
+	// アニメーションの整合性を取る
+	player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
+
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
 	float mouseX, mouseY, mouseZ;
@@ -94,16 +97,12 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	{
 		player->Shoot();
 	}
-	// ジャンプ
-	//else if (inputKeyboard->GetKeyRelease(DIK_SPACE))
-	//{
-	//	player->ChangePattern(new CPlayerPatternJump(dir));
 
-	//}
 	// ダッシュ
-	else if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT))
+	else if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT) && moveZ > 0.8f)
 	{
 		player->ChangePattern(new CPlayerPatternDash());
+		return;
 	}
 
 	// リロード
@@ -112,6 +111,7 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 		if (player->GetUsingWeapon()->GetAmmo() < player->GetUsingWeapon()->GetMaxAmmo())
 		{
 			player->ChangePattern(new CPlayerPatternReload());
+			return;
 		}
 	}
 
@@ -122,5 +122,6 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	if (inputKeyboard->GetKeyTrigger(DIK_X) || mouseZ != 0)
 	{
 		player->ChangePattern(new CPlayerPatternWeaponChange());
+		return;
 	}
 }

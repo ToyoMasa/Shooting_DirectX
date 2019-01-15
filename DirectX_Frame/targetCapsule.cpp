@@ -16,13 +16,14 @@
 #include "bullet.h"
 #include "Effekseer.h"
 #include "game.h"
+#include "normalmapSpotlightShader.h"
 
 static const float CAPSULE_LIFE_MAX = 1000.0f;
 
 void CTargetCapsule::Init(D3DXVECTOR3 pos)
 {
 	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_CAPSULE], LAYER_BACKGROUND);
-	m_Model->SetShader(CShaderNormalmap::GetShader());
+	m_Model->SetShader(CShaderNormalmapSpotlight::GetShader());
 	m_Model->SetNormalMapTexture("Capsule_Normal.png");
 
 	m_Pos = pos;
@@ -39,6 +40,8 @@ void CTargetCapsule::Init(D3DXVECTOR3 pos)
 
 	m_Flame = CEffekseer::Create(CEffekseer::EFFECT_FLAME, LAYER_EFFEKSEER_AFTER);
 	m_Flame->RepeatEffect(false);
+	m_Flame->SetScale(0.5f, 0.5f, 0.5f);
+	m_Flame->SetSpeed(1.0f);
 	m_Flame->SetVisible(true);
 	D3DXVECTOR3 flamepos = m_Pos;
 	flamepos.y += 0.2f;
@@ -121,9 +124,8 @@ void CTargetCapsule::HitBullet()
 
 				if (m_Life <= 0)
 				{
+					m_Model->SetVisible(false);
 					m_Flame->Play();
-					//m_Smoke[0]->Play();
-					//m_Smoke[1]->Play();
 					m_isDestroyed = true;
 					CModeGame::GameEnd(GAME_CLEAR);
 				}
