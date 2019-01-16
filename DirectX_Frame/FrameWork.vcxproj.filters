@@ -249,9 +249,6 @@
     <ClInclude Include="playerPatternDash.h">
       <Filter>ヘッダー ファイル\playerPattern</Filter>
     </ClInclude>
-    <ClInclude Include="playerPatternCrouch.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
-    </ClInclude>
     <ClInclude Include="ZombieAAnim.h">
       <Filter>ヘッダー ファイル\SkinMesh\AnimationList</Filter>
     </ClInclude>
@@ -381,6 +378,9 @@
     <ClInclude Include="skinmeshSpotlightShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
+    <ClInclude Include="playerPatternStop.h">
+      <Filter>ヘッダー ファイル\playerPattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -509,9 +509,6 @@
     <ClCompile Include="shotgun.cpp">
       <Filter>ソース ファイル\weapon</Filter>
     </ClCompile>
-    <ClCompile Include="playerPatternCrouch.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
-    </ClCompile>
     <ClCompile Include="playerPatternJump.cpp">
       <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
@@ -631,6 +628,9 @@
     </ClCompile>
     <ClCompile Include="skinmeshSpotlightShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="playerPatternStop.cpp">
+      <Filter>ソース ファイル\playerPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

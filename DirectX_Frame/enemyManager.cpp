@@ -61,11 +61,14 @@ void CEnemyManager::Update()
 	// フレームをインクリメント
 	m_CountFrame++;
 
-	ImGui::Begin("Debug");
-	ImGui::Text("ENEMY_NUM:%d", CModeGame::GetEnemyCount());
-	ImGui::Text("PLAYER_TENSION:%.2f", m_PlayerTension);
-	ImGui::Text("SPAWN_STATE:%d", m_SpawnAIState);
-	ImGui::End();
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("Debug");
+		ImGui::Text("ENEMY_NUM:%d", CModeGame::GetEnemyCount());
+		ImGui::Text("PLAYER_TENSION:%.2f", m_PlayerTension);
+		ImGui::Text("SPAWN_STATE:%d", m_SpawnAIState);
+		ImGui::End();
+	}
 }
 
 void CEnemyManager::CreateEnemy(ENEMY_TYPE type)

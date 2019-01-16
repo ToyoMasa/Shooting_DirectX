@@ -47,6 +47,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 {
 	m_Model = CSceneSkinMesh::Create(modelId);
 	m_Model->ChangeAnim(PLAYER_IDLE, 0.0f);
+	m_Model->SetIsAlwaysDraw(true);
 	m_Pos = spawnPos;
 	D3DXVECTOR3 pos = m_Pos;
 	m_LocalCameraPos.x = 0.0f;
@@ -66,12 +67,19 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_BloodEffect->SetScale(0.1f, 0.1f, 0.1f);
 	m_BloodEffect->SetVisible(true);
 
-	m_AmmoBackScreen = CScene2D::Create(TEX_ID_WHITE, 100.0f, 70.0f);
-	m_AmmoBackScreen->Set(AMMO_DISPLAY_POS);
+	// 残弾表示の背景
+	m_AmmoBackScreen = CScene2D::Create(TEX_ID_WHITE, 170.0f, 70.0f);
+	m_AmmoBackScreen->Set(AMMO_DISPLAY_POS + D3DXVECTOR3(-33.0f, 0.0f, 0.0f));
 	m_AmmoBackScreen->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
+
+	// 画面のダメージエフェクト
 	m_DamagedEffect = CScene2D::Create(TEX_ID_DAMAGE_SCREEN, SCREEN_WIDTH, SCREEN_HEIGHT);
 	m_DamagedEffect->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 5.0f, SCREEN_HEIGHT / 2.0f, 1.0f));
 	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(166, 19, 19, 0));
+
+	// 銃弾アイコン
+	m_BulletIcon = CScene2D::Create(TEX_ID_BULLETICON, 70.0f, 70.0f);
+	m_BulletIcon->Set(AMMO_DISPLAY_POS + D3DXVECTOR3(-68.0f, 0.0f, 0.0f));
 
 	// モデルの回転軸をカメラの位置にそろえる
 	D3DXMatrixTranslation(&m_LocalLocation, m_LocalCameraPos.x, -m_LocalCameraPos.y, m_LocalCameraPos.z);
@@ -503,7 +511,7 @@ void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ
 	SetPos(newPos);
 
 	m_Model->Move(m_Pos + m_LocalCameraPos);
-	m_Shadow->Move(m_Pos + m_LocalCameraPos);
+	m_Shadow->Move(m_Pos);
 
 	// 当たり判定の移動
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
@@ -553,7 +561,7 @@ void CPlayer::SetWeaponADS(bool ads)
 
 void CPlayer::PlayReload()
 { 
-	m_SoundReload->Play(); 
+	m_SoundReload->Play(0.05f); 
 }
 
 void CPlayer::ChangePattern(CPlayerPatternBase* next)

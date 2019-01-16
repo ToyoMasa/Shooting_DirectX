@@ -39,7 +39,8 @@ void CEnemyPatternWaypointsRun::Init(CEnemy* enemy)
 	m_NowPoint = CWayPoint::SearchShortestPoint(enemy->GetPos());
 	int playerPoint = CModeGame::GetPlayer()->GetShortestPoint();
 
-	m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
+	//m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
+	m_TargetPoint = m_NowPoint;
 	m_TargetPos = CWayPoint::GetWayPointPos(m_TargetPoint);
 }
 
@@ -51,7 +52,7 @@ void CEnemyPatternWaypointsRun::Update(CEnemy* enemy)
 	targetPos.y = 0;
 	D3DXVECTOR3 vec = targetPos - newPos;
 
-	if (D3DXVec3Length(&vec) < 5.0f)
+	if (D3DXVec3Length(&vec) < 7.0f)
 	{
 		// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‹ß‚¯‚ê‚Î’Ç”ö
 		enemy->ChangePattern(new CEnemyPatternChase());

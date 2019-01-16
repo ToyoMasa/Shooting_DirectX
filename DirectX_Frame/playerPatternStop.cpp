@@ -25,14 +25,14 @@
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
-#include "playerPatternCrouch.h"
+#include "playerPatternStop.h"
 
-void CPlayerPatternCrouch::Init(CPlayer* player)
+void CPlayerPatternStop::Init(CPlayer* player)
 {
 
 }
 
-void CPlayerPatternCrouch::Update(CPlayer* player)
+void CPlayerPatternStop::Update(CPlayer* player)
 {
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
@@ -47,52 +47,5 @@ void CPlayerPatternCrouch::Update(CPlayer* player)
 		mouseX = (float)inputMouse->GetAxisX();
 		mouseY = (float)inputMouse->GetAxisY();
 		mouseZ = (float)inputMouse->GetAxisZ();
-
-		float moveX = 0.0f, moveZ = 0.0f;
-		if (inputKeyboard->GetKeyPress(DIK_A))
-		{
-			moveX = -1.0f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_D))
-		{
-			moveX = 1.0f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_W))
-		{
-			moveZ = 1.0f;
-		}
-		if (inputKeyboard->GetKeyPress(DIK_S))
-		{
-			moveZ = -1.0f;
-		}
-
-		player->Move(moveX, moveZ);
-
-		// ADS
-		//player->ADS(inputMouse->GetRightPress());
-
-		// UŒ‚
-		if (inputMouse->GetLeftPress() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
-		{
-			player->Shoot();
-		}
-		if (inputMouse->GetLeftRelease() || inputKeyboard->GetKeyRelease(DIK_SPACE))
-		{
-			player->TriggerRelease();
-		}
-
-		// ‰ñ“]
-		player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-
-		// •Šíƒ`ƒFƒ“ƒW
-		if (inputKeyboard->GetKeyTrigger(DIK_1))
-		{
-			player->ChangeWeapon(0);
-		}
-
-		if (inputKeyboard->GetKeyTrigger(DIK_2))
-		{
-			player->ChangeWeapon(1);
-		}
 	}
 }

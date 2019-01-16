@@ -39,6 +39,7 @@ public:
 	float GetCapsuleRad() { return m_CapsuleRad; }
 	float GetAttackDamage() { return m_AttackDamage; }
 	bool GetAttackHit() { return m_AttackHit; }
+	int GetCount() { return m_Count; }
 	void SetAttackHit(const bool& hit) { m_AttackHit = hit; }
 	void SetSpeed(float speed) { m_Speed = speed; }
 

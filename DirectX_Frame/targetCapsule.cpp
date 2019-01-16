@@ -18,7 +18,7 @@
 #include "game.h"
 #include "normalmapSpotlightShader.h"
 
-static const float CAPSULE_LIFE_MAX = 1000.0f;
+static const float CAPSULE_LIFE_MAX = 300.0f;
 
 void CTargetCapsule::Init(D3DXVECTOR3 pos)
 {

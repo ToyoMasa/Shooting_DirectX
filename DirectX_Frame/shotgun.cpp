@@ -20,6 +20,7 @@
 #include "metalShader.h"
 #include "normalmapShader.h"
 #include "normalmapSpotlightShader.h"
+#include "enemyManager.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
@@ -52,7 +53,7 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_Rate = SHOTGUN_RATE;
 	m_CoolDown = 0.0f;
-	m_Damage = 8.0f;
+	m_Damage = 15.0f;
 
 	m_BulletDebug = CDebugSphere::Create(m_MuzzlePos, 0.03f);
 
@@ -149,7 +150,7 @@ void CShotgun::Shoot()
 	{
 		if (m_isADS)
 		{
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				D3DXVECTOR3 bulletVec = CModeGame::GetCamera()->GetFront();
 				bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-ADS_DIFFUSSION / 2.0f + rand() % ADS_DIFFUSSION) / 1000.0f;
@@ -160,7 +161,7 @@ void CShotgun::Shoot()
 		}
 		else
 		{
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				D3DXVECTOR3 bulletVec = CModeGame::GetCamera()->GetFront();
 				bulletVec = bulletVec + CModeGame::GetCamera()->GetUp() * (-DIFFUSSION / 2.0f + rand() % DIFFUSSION) / 1000.0f;
@@ -194,6 +195,8 @@ void CShotgun::Shoot()
 
 		// eº
 		SoundShot();
+
+		CModeGame::GetEnemyManager()->AddPlayerTension(1.0f);
 	}
 }
 
@@ -247,5 +250,5 @@ void CShotgun::ReleaseTrigger()
 
 void CShotgun::SoundShot()
 {
-	m_ShotSE->Play();
+	m_ShotSE->Play(0.01f);
 }

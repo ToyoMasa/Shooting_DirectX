@@ -66,6 +66,7 @@ private:
 	static CTargetCapsule* Target[3];
 	static bool Pause;
 	static bool GameFinish;
+	static int GameCount;
 	static int FrameCount;
 	static int EnemyCount;
 	static int KillCount;

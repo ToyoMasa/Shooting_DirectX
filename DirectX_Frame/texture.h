@@ -51,6 +51,7 @@ typedef enum
 	TEX_ID_GRASS,					// 草原
 	TEX_ID_SOIL,					// 土
 	TEX_ID_ROCK,					// 岩
+	TEX_ID_BULLETICON,					// 岩
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -97,6 +98,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/grass.jpg",
 	"data/textures/soil.jpg",
 	"data/textures/rock.jpg",
+	"data/textures/bulleticon.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

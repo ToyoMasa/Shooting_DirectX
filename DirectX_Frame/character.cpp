@@ -106,10 +106,6 @@ void CCharacter::UpdateAll()
 			continue;
 		}
 
-		ImGui::Begin("EnemyPos");
-		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Characters[i]->m_Pos.x, m_Characters[i]->m_Pos.y, m_Characters[i]->m_Pos.z);
-		ImGui::End();
-
 		enemyDist[i] = m_Characters[i]->m_CameraDist;
 		num++;
 	}
@@ -117,10 +113,13 @@ void CCharacter::UpdateAll()
 	sort(enemyDist.begin(), enemyDist.end());
 	CManager::SetSkinMeshDrawDist(enemyDist[30]);
 
-	ImGui::Begin("Debug");
-	ImGui::Text("DRAW_DIST:%.2f", CManager::GetSkinMeshDrawDist());
-	ImGui::Text("DRAW_NUM:%d", num);
-	ImGui::End();
+	if (CManager::GetDebug())
+	{
+		ImGui::Begin("Debug");
+		ImGui::Text("DRAW_DIST:%.2f", CManager::GetSkinMeshDrawDist());
+		ImGui::Text("DRAW_NUM:%d", num);
+		ImGui::End();
+	}
 }
 
 void CCharacter::Release()

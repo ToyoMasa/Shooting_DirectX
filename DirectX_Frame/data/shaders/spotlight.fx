@@ -11,8 +11,8 @@ float3		g_light_dir;			// 方向(ビュー空間)
 float4		g_light_diff;           // ディフューズカラー
 float4		g_light_specular;		// スペキュラカラー
 float4		g_light_ambient;		// アンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
-float4		g_falloff_param;		// x:距離  y:FallOff  z:減衰処理パラメータ1（スペキュラ―の強さに影響）  w:減衰処理パラメータ2
-float4		g_light_param;			// x:減衰処理パラメータ3  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
+float4		g_falloff_param;		// x:距離  y:内筒と外筒間のぼかし  z:減衰処理パラメータ1（スペキュラ―の強さに影響）  w:減衰処理パラメータ2（明るさに影響）
+float4		g_light_param;			// x:減衰処理パラメータ3（光の届く距離に影響）  y:スポットライトパラメータ1( cos( Phi / 2.0f ) )  z:スポットライト用パラメータ2( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
 
 float4		g_mat_ambient;
 float4		g_mat_emissive;

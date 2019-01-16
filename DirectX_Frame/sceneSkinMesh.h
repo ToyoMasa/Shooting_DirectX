@@ -42,6 +42,7 @@ public:
 		m_DefAnimSpeed = 0.025f;
 		m_AnimPlaySpeed = m_DefAnimSpeed;
 		m_NotDrawCount = 1;
+		m_isAlwaysDraw = false;
 	}
 
 	void Init(const SKINMESH_MODEL_ID& id);
@@ -54,6 +55,7 @@ public:
 	void Rotate(D3DXVECTOR3 rot);
 	void Rotate(D3DXMATRIX rot);
 	void Scale(D3DXVECTOR3 scale);
+	void SetIsAlwaysDraw(bool draw) { m_isAlwaysDraw = draw; }
 
 	D3DXMATRIX GetMtxRotate() { return m_Rotate; }
 
@@ -94,6 +96,7 @@ private:
 	float					m_AnimPlaySpeed;
 	float					m_DefAnimSpeed;
 	int						m_NotDrawCount;
+	bool					m_isAlwaysDraw;
 	static SkinMeshFile*			m_SkinMeshFiles[SM_ID_MAX];
 	static SkinMeshFileAnimation*	m_Animations[SM_ID_MAX];
 };

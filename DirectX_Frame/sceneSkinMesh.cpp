@@ -103,28 +103,31 @@ void CSceneSkinMesh::DrawWithShader()
 		D3DXVECTOR3 vec = (m_Pos - CManager::GetCamera()->GetPos());
 		float len = D3DXVec3Length(&vec);
 
-		if (len > CManager::GetSkinMeshDrawDist())
+		if (!m_isAlwaysDraw)
 		{
-			m_NotDrawCount++;
-			return;
-		}
+			if (len > CManager::GetSkinMeshDrawDist())
+			{
+				m_NotDrawCount++;
+				return;
+			}
 
-		D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
-		camFront.y = 0;
-		vec.y = 0;
+			D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
+			camFront.y = 0;
+			vec.y = 0;
 
-		D3DXVec3Normalize(&camFront, &camFront);
-		D3DXVec3Normalize(&vec, &vec);
+			D3DXVec3Normalize(&camFront, &camFront);
+			D3DXVec3Normalize(&vec, &vec);
 
-		float dot = D3DXVec3Dot(&vec, &camFront);
-		float rad = acosf(dot);
+			float dot = D3DXVec3Dot(&vec, &camFront);
+			float rad = acosf(dot);
 
-		float degree = D3DXToDegree(rad);
+			float degree = D3DXToDegree(rad);
 
-		if (degree > 90.0f)
-		{
-			m_NotDrawCount++;
-			return;
+			if (degree > 90.0f)
+			{
+				m_NotDrawCount++;
+				return;
+			}
 		}
 
 		LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();

@@ -34,9 +34,7 @@
 
 void CPlayerPatternDash::Init(CPlayer* player)
 {
-	player->GetModel()->StopMontage();
 	player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
-
 }
 
 void CPlayerPatternDash::Uninit(CPlayer* player)
@@ -62,8 +60,6 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
 
-	player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
-
 	float moveX = 0.0f, moveZ = 0.0f;
 	if (inputKeyboard->GetKeyPress(DIK_A))
 	{
@@ -86,6 +82,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	if (moveZ <= 0.8f)
 	{
 		player->ChangePattern(new CPlayerPatternNormal());
+		return;
 	}
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
@@ -116,7 +113,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	}
 
 	// •Šíƒ`ƒFƒ“ƒW
-	if (inputKeyboard->GetKeyTrigger(DIK_X))
+	if (inputKeyboard->GetKeyTrigger(DIK_X) && moveZ > 0.8f)
 	{
 		player->ChangePattern(new CPlayerPatternWeaponChange());
 		return;

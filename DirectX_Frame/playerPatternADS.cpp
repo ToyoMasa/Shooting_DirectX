@@ -64,8 +64,6 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
 
-	player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
-
 	// ADS‰ðœ
 	if (!inputMouse->GetRightPress())
 	{

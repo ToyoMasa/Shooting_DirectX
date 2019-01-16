@@ -42,6 +42,8 @@
 #include "enemyManager.h"
 #include "item.h"
 #include "targetCapsule.h"
+#include "playerPatternStop.h"
+#include "playerPatternNormal.h"
 
 CPlayer *CModeGame::player = NULL;
 CLight *CModeGame::Light;
@@ -55,6 +57,7 @@ CSound *CModeGame::BGM = NULL;
 CSound *CModeGame::GameEnd_SE = NULL;
 CSound *CModeGame::ZombieVoice = NULL;
 GAME_RESULT CModeGame::Result = GAME_OVER;
+int CModeGame::GameCount = 0;
 int CModeGame::FrameCount = 0;
 int CModeGame::EnemyCount = 0;
 int CModeGame::KillCount = 0;
@@ -102,6 +105,7 @@ void CModeGame::Init()
 	// プレイヤー
 	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-68.0f, 0.0f, -74.0f));
 	player->SetField(Field);
+	player->ChangePattern(new CPlayerPatternStop());
 	CManager::SetCamera(player->GetCamera());
 
 	// 空
@@ -114,7 +118,7 @@ void CModeGame::Init()
 
 	// サウンドの準備
 	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
-	ZombieVoice->Play(0.01f);
+	//ZombieVoice->Play(0.01f);
 	BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
 	BGM->Play(0.01f);
 
@@ -123,10 +127,11 @@ void CModeGame::Init()
 	GameEnd_SE = NULL;
 	Pause = false;
 	GameFinish = false;
+	GameCount = 0;
 	KillCount = 0;
 	FrameCount = 0;
 
-	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
 
 	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
 }
@@ -176,6 +181,8 @@ void CModeGame::Update()
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
 
+	GameCount++;
+
 	if (!CFade::GetFadeOut())
 	{
 		if (GameFinish)
@@ -221,6 +228,11 @@ void CModeGame::Update()
 		}
 		else
 		{
+			if (GameCount == 60)
+			{
+				player->ChangePattern(new CPlayerPatternNormal());
+			}
+
 			CCharacter::UpdateAll();
 			CScene::UpdateAll();
 			CBullet::UpdateAll();
@@ -259,9 +271,6 @@ void CModeGame::Draw()
 	//	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	//	ImGui::End();
 	//}
-	ImGui::Begin("Debug Window");
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
 }
 
 void CModeGame::IncrementKillCount()
@@ -288,7 +297,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
 
 		se = CSound::Create(SOUND_LABEL_SE_GAMECLEAR);
-		se->Play();
+		se->Play(0.01f);
 	}
 	else
 	{
@@ -301,7 +310,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
 
 		se = CSound::Create(SOUND_LABEL_SE_GAMEOVER);
-		se->Play();
+		se->Play(0.01f);
 	}
 }
 

@@ -64,7 +64,7 @@ void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
 	D3DXVECTOR4		diffuse(DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR);			// 平行光源の色
 	D3DXVECTOR4		ambient(DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR);			// 環境光
 	D3DXVECTOR4		specular(1.0f, 1.0f, 1.0f, 0.01f);			// スペキュラ光
-	D3DXVECTOR4		cameraPos = D3DXVECTOR4(CManager::GetCamera()->GetPos().x, CManager::GetCamera()->GetPos().y, CManager::GetCamera()->GetPos().z, 0.0f);
+	D3DXVECTOR4		cameraPos = D3DXVECTOR4(CManager::GetCamera()->GetPos(), 0.0f);
 	float			lightStrength = 30.0f;
 
 	// 頂点シェーダーとピクセルシェーダーをセット
@@ -81,8 +81,8 @@ void CShaderSpotlight::ShaderSet(const D3DXMATRIX& world)
 	m_PSConstantTable->SetVector(pDevice, "g_light_diff", &diffuse);
 	m_PSConstantTable->SetVector(pDevice, "g_light_specular", &specular);
 	m_PSConstantTable->SetVector(pDevice, "g_light_ambient", &ambient);
-	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.01f, 0.15f, 0.2f));
-	m_PSConstantTable->SetVector(pDevice, "g_light_param", &D3DXVECTOR4(0.001f, cosf(D3DXToRadian(70.0f) / 2.0f), 1.0f / (cosf(D3DXToRadian(30.0f) / 2.0f) - cosf(D3DXToRadian(45.0f) / 2.0f)), 1.0f));
+	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &FALLOFF_PARAM);
+	m_PSConstantTable->SetVector(pDevice, "g_light_param", &SPOTLIGHT_PARAM);
 
 	m_PSConstantTable->SetVector(pDevice, "g_light_pos", &cameraPos);
 	m_PSConstantTable->SetVector(pDevice, "g_camera_pos", &cameraPos);
@@ -99,9 +99,9 @@ void CShaderSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 	D3DXVECTOR4  tempcolor;
 
 	 //環境光用のマテリアルをセット
-	tempcolor.x = 0.15f;
-	tempcolor.y = 0.15f;
-	tempcolor.z = 0.15f;
+	tempcolor.x = 0.08f;
+	tempcolor.y = 0.08f;
+	tempcolor.z = 0.08f;
 	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_ambient", &tempcolor);
 

@@ -85,14 +85,26 @@ void CPlayerPatternWeaponChange::Update(CPlayer* player)
 	{
 		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
 	}
+	else if (m_CountFrame < 60)
+	{
+		// アニメーションの整合性を取る
+		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
+	}
 	else if (m_CountFrame == 60)
 	{
+		player->Reload();
 		player->ChangeWeapon();
-		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.5f);
+		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
+	}
+	else if (m_CountFrame < 90)
+	{
+		// アニメーションの整合性を取る
+		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
 	}
 	else if (m_CountFrame == 90)
 	{
 		player->ChangePattern(new CPlayerPatternNormal());
+		return;
 	}
 
 	m_CountFrame++;

@@ -51,7 +51,7 @@ void CEnemyPatternWaypoints::Update(CEnemy* enemy)
 	targetPos.y = 0;
 	D3DXVECTOR3 vec = targetPos - newPos;
 
-	if (D3DXVec3Length(&vec) < 5.0f)
+	if (D3DXVec3Length(&vec) < 7.0f)
 	{
 		// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‹ß‚¯‚ê‚Î’Ç”ö
 		enemy->ChangePattern(new CEnemyPatternChase());

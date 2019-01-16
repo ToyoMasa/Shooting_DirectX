@@ -69,7 +69,7 @@ void CCamera::Update()
 	//	--ƒJƒƒ‰‚Ìˆ—--
 	// Œ»İ‚ÌÀ•W‚ğ•Û‘¶
 
-	//if (CManager::GetDebug())
+	if (CManager::GetDebug())
 	{
 		ImGui::Begin("Camera", 0);
 		ImGui::Text("Front:X = %.2f Y = %.2f Z = %.2f", m_Front.x, m_Front.y, m_Front.z);

@@ -63,7 +63,7 @@ void CModeResult::Init()
 	ScreenKillCount->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
 	BGM = CSound::Create(SOUND_LABEL_BGM_RESULT);
-	BGM->Play();
+	BGM->Play(0.01f);
 	SE = CSound::Create(SOUND_LABEL_SE_TITLE);
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
@@ -131,7 +131,7 @@ void CModeResult::Update()
 	{
 		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			SE->Play();
+			SE->Play(0.01f);
 			CFade::FadeOut(new CModeTitle());
 		}
 	}

@@ -92,6 +92,7 @@ void CZombie::Uninit()
 void CZombie::Update()
 {
 	m_OldPos = m_Pos;
+	m_Count++;
 
 	m_Pattern->Update(this);
 
@@ -182,7 +183,15 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 void CZombie::Death()
 {
 	ChangePattern(new CEnemyPatternDeath());
-	m_ZombieDeath->Play();
+	int random = rand() % 4;
+	if (random == 3)
+	{
+		m_ZombieDeath->Play(0.01f);
+	}
+	else
+	{
+		m_ZombieVoice[random]->Play(0.02f);
+	}
 
 	CModeGame::RemoveEnemyCount();
 	CModeGame::IncrementKillCount();
@@ -192,7 +201,7 @@ void CZombie::Death()
 
 void CZombie::Attack()
 {
-	m_ZombieVoice[rand() % 3]->Play();
+	m_ZombieVoice[rand() % 3]->Play(0.02f);
 }
 
 void CZombie::Damaged(float damage)

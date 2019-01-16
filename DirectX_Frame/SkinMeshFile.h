@@ -51,7 +51,7 @@ private:
 	float m_ShiftTime;              // シフトするのにかかる時間
 	float m_CurrentWeightTime;      // 現在のウェイト時間
 
-									// 1度きりアニメーション
+	// 1度きりアニメーション
 	DWORD m_NextAnim;
 	bool m_bPlayMontage;
 	float m_MontageTime;

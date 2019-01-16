@@ -87,11 +87,20 @@ void CPlayerPatternReload::Update(CPlayer* player)
 		// アニメーションの整合性を取る
 		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
 	}
+	else if (m_CountFrame < 60)
+	{
+		// アニメーションの整合性を取る
+		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
+	}
 	else if (m_CountFrame == 60)
 	{
 		player->Reload();
+		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
+	}
+	else if (m_CountFrame < 90)
+	{
 		// アニメーションの整合性を取る
-		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.5f);
+		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
 	}
 	else if (m_CountFrame == 90)
 	{

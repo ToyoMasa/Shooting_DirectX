@@ -24,6 +24,7 @@
 #include "normalmapShader.h"
 #include "normalmapSpotlightShader.h"
 #include "spotlightShader.h"
+#include "enemyManager.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
 #define RECOILE_PATTERN_Y ((0.1 * m_CountFire * (rand() % 1000) * 0.001))
@@ -186,7 +187,9 @@ void CRifle::Shoot()
 		m_FlashEffect->Play();
 
 		// eº
-		SoundShot();
+		SoundShot(); 
+		
+		CModeGame::GetEnemyManager()->AddPlayerTension(0.5f);
 	}
 }
 
@@ -270,5 +273,5 @@ void CRifle::ReleaseTrigger()
 
 void CRifle::SoundShot()
 {
-	m_ShotSE[rand() % 6]->Play();
+	m_ShotSE[rand() % 6]->Play(0.01f);
 }

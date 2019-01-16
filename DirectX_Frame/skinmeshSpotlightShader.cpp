@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "light.h"
 #include "shader.h"
+#include "spotlightShader.h"
 #include "skinmeshSpotlightShader.h"
 
 CShaderSkinmeshSpotlight *CShaderSkinmeshSpotlight::m_Shader = NULL;
@@ -64,7 +65,7 @@ void CShaderSkinmeshSpotlight::ShaderSet(const D3DXMATRIX& world)
 	D3DXVECTOR4		diffuse(DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR, DEFAULT_DEFUSE_COLOR);			// 平行光源の色
 	D3DXVECTOR4		ambient(DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR, DEFAULT_AMBIENT_COLOR);			// 環境光
 	D3DXVECTOR4		specular(1.0f, 1.0f, 1.0f, 0.01f);			// スペキュラ光
-	D3DXVECTOR4		cameraPos = D3DXVECTOR4(CManager::GetCamera()->GetPos().x, CManager::GetCamera()->GetPos().y, CManager::GetCamera()->GetPos().z, 0.0f);
+	D3DXVECTOR4		cameraPos = D3DXVECTOR4(CManager::GetCamera()->GetPos(), 0.0f);
 	float			lightStrength = 30.0f;
 
 	// 頂点シェーダーとピクセルシェーダーをセット
@@ -81,8 +82,8 @@ void CShaderSkinmeshSpotlight::ShaderSet(const D3DXMATRIX& world)
 	m_PSConstantTable->SetVector(pDevice, "g_light_diff", &diffuse);
 	m_PSConstantTable->SetVector(pDevice, "g_light_specular", &specular);
 	m_PSConstantTable->SetVector(pDevice, "g_light_ambient", &ambient);
-	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &D3DXVECTOR4(60.0f, 0.1f, 0.8f, 0.2f));
-	m_PSConstantTable->SetVector(pDevice, "g_light_param", &D3DXVECTOR4(0.001f, cosf(D3DXToRadian(70.0f) / 2.0f), 1.0f / (cosf(D3DXToRadian(30.0f) / 2.0f) - cosf(D3DXToRadian(45.0f) / 2.0f)), 1.0f));
+	m_PSConstantTable->SetVector(pDevice, "g_falloff_param", &FALLOFF_PARAM);
+	m_PSConstantTable->SetVector(pDevice, "g_light_param", &SPOTLIGHT_PARAM);
 
 	m_PSConstantTable->SetVector(pDevice, "g_light_pos", &cameraPos);
 	m_PSConstantTable->SetVector(pDevice, "g_camera_pos", &cameraPos);
@@ -99,33 +100,64 @@ void CShaderSkinmeshSpotlight::SetMaterial(const D3DMATERIAL9& mat)
 	D3DXVECTOR4  tempcolor;
 
 	//環境光用のマテリアルをセット
-	tempcolor.x = 0.15f;
-	tempcolor.y = 0.15f;
-	tempcolor.z = 0.15f;
+	tempcolor.x = 0.13f;
+	tempcolor.y = 0.13f;
+	tempcolor.z = 0.13f;
 	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_ambient", &tempcolor);
 
 	// ディフューズ光用のマテリアルをセット
-	tempcolor.x = 0.1f;
-	tempcolor.y = 0.1f;
-	tempcolor.z = 0.1f;
+	tempcolor.x = 0.6f;
+	tempcolor.y = 0.6f;
+	tempcolor.z = 0.6f;
+	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_diffuse", &tempcolor);
 
 	// エミッシブ光用のマテリアルをセット
-	tempcolor.x = mat.Emissive.r;
-	tempcolor.y = mat.Emissive.g;
-	tempcolor.z = mat.Emissive.b;
-	tempcolor.w = mat.Emissive.a;
+	tempcolor.x = 0.5f;
+	tempcolor.y = 0.5f;
+	tempcolor.z = 0.5f;
+	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_emissive", &tempcolor);
 
 	// スペキュラー光用のマテリアルをセット
-	tempcolor.x = mat.Specular.r;
-	tempcolor.y = mat.Specular.g;
-	tempcolor.z = mat.Specular.b;
-	tempcolor.w = mat.Specular.a;
+	tempcolor.x = 0.05f;
+	tempcolor.y = 0.05f;
+	tempcolor.z = 0.05f;
+	tempcolor.w = 1.0f;
 	m_PSConstantTable->SetVector(pDevice, "g_mat_specular", &tempcolor);
 
 	// パワー値をセット
 	m_PSConstantTable->SetFloat(pDevice, "g_mat_power", 50.0f);
 	m_PSConstantTable->SetFloat(pDevice, "g_alpha", 1.0f);
+	////環境光用のマテリアルをセット
+	//tempcolor.x = 0.15f;
+	//tempcolor.y = 0.15f;
+	//tempcolor.z = 0.15f;
+	//tempcolor.w = 1.0f;
+	//m_PSConstantTable->SetVector(pDevice, "g_mat_ambient", &tempcolor);
+
+	//// ディフューズ光用のマテリアルをセット
+	//tempcolor.x = 0.1f;
+	//tempcolor.y = 0.1f;
+	//tempcolor.z = 0.1f;
+	//m_PSConstantTable->SetVector(pDevice, "g_mat_diffuse", &tempcolor);
+
+	//// エミッシブ光用のマテリアルをセット
+	//tempcolor.x = mat.Emissive.r;
+	//tempcolor.y = mat.Emissive.g;
+	//tempcolor.z = mat.Emissive.b;
+	//tempcolor.w = mat.Emissive.a;
+	//m_PSConstantTable->SetVector(pDevice, "g_mat_emissive", &tempcolor);
+
+	//// スペキュラー光用のマテリアルをセット
+	//tempcolor.x = mat.Specular.r;
+	//tempcolor.y = mat.Specular.g;
+	//tempcolor.z = mat.Specular.b;
+	//tempcolor.w = mat.Specular.a;
+	//m_PSConstantTable->SetVector(pDevice, "g_mat_specular", &tempcolor);
+
+	//// パワー値をセット
+	//m_PSConstantTable->SetFloat(pDevice, "g_mat_power", 50.0f);
+	//m_PSConstantTable->SetFloat(pDevice, "g_alpha", 1.0f);
 }

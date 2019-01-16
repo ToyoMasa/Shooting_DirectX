@@ -226,7 +226,7 @@
     <ClInclude Include="PlayerAnim.h" />
     <ClInclude Include="playerPatternDash.h" />
     <ClInclude Include="playerPatternNormal.h" />
-    <ClInclude Include="playerPatternCrouch.h" />
+    <ClInclude Include="playerPatternStop.h" />
     <ClInclude Include="playerPatternJump.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
@@ -304,7 +304,7 @@
     <ClCompile Include="playerPatternAir.cpp" />
     <ClCompile Include="playerPatternDash.cpp" />
     <ClCompile Include="playerPatternNormal.cpp" />
-    <ClCompile Include="playerPatternCrouch.cpp" />
+    <ClCompile Include="playerPatternStop.cpp" />
     <ClCompile Include="playerPatternJump.cpp" />
     <ClCompile Include="playerPatternReload.cpp" />
     <ClCompile Include="playerPatternWeaponChange.cpp" />
@@ -349,8 +349,8 @@
     <FxCompile Include="data\shaders\skinmesh.fx">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="data\shaders\skinmeshSpotlight.fx" />
     <FxCompile Include="data\shaders\spotlight.fx" />
