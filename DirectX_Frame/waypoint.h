@@ -29,6 +29,7 @@ public:
 	static D3DXVECTOR3 GetWayPointPos(const int& index);
 	static int SearchShortestPoint(const D3DXVECTOR3& pos);
 	static void Debug();
+	static void Debug(bool debug);
 	static void Save(std::string textname);
 	static void Load(std::string textname);
 	static int GetIDonScreen(D3DXVECTOR3 mouse);

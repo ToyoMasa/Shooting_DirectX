@@ -25,6 +25,7 @@
 #include "EnemyAnim.h"
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"
+#include "enemyPatternChase.h"
 #include "skinmeshShader.h"
 #include "skinmeshSpotlightShader.h"
 #include "enemyManager.h"
@@ -190,18 +191,18 @@ void CZombie::Death()
 	}
 	else
 	{
-		m_ZombieVoice[random]->Play(0.02f);
+		m_ZombieVoice[random]->Play(0.08f);
 	}
 
 	CModeGame::RemoveEnemyCount();
 	CModeGame::IncrementKillCount();
 
-	CModeGame::GetEnemyManager()->AddPlayerTension((100.0f - m_CameraDist) / 10.0f);
+	CModeGame::GetEnemyManager()->AddPlayerTension((100.0f - m_CameraDist) / 20.0f);
 }
 
 void CZombie::Attack()
 {
-	m_ZombieVoice[rand() % 3]->Play(0.02f);
+	m_ZombieVoice[rand() % 3]->Play(0.08f);
 }
 
 void CZombie::Damaged(float damage)
@@ -210,6 +211,11 @@ void CZombie::Damaged(float damage)
 	if (m_Life <= 0.0f)
 	{
 		Death();
+	}
+
+	if (m_TargetState == CEnemy::TARGET_SEARCH)
+	{
+		ChangePattern(new CEnemyPatternChase());
 	}
 }
 

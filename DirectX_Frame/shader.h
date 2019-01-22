@@ -29,7 +29,7 @@ static const std::string SHADER_FILE[] =
 	"data/shaders/normalmap.fx",
 	"data/shaders/normalmapSpotlight.fx",
 	"data/shaders/spotlight.fx",
-	"data/shaders/field.fx",
+	"data/shaders/shader.fx",
 };
 
 class CShader

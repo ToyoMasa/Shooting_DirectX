@@ -30,6 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "fog.h"
 using namespace std;
 
 static float CAMERA_SPEED = 0.1f;
@@ -105,8 +106,18 @@ void CModeMapMake::Init()
 	CBillBoard::Init();
 	CWayPoint::Init();
 
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
+	CFog fog;
+	fog.Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
+
 	int i = CWayPoint::SearchShortestPoint(D3DXVECTOR3(88.0f, 0.0f, 22.0f));
 	i = 0;
+	CWayPoint::Debug(false);
 }
 
 void CModeMapMake::Uninit()
@@ -136,9 +147,11 @@ void CModeMapMake::Update()
 	{
 	case MAP_MAKE:
 		MapMakeUpdate();
+		CWayPoint::Debug(false);
 		break;
 	case WAYPOINT_MAKE:
 		WaypointMakeUpdate();
+		CWayPoint::Debug(true);
 		break;
 	case NONE:
 		break;

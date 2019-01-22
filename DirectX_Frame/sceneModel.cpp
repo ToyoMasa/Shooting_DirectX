@@ -414,7 +414,7 @@ bool CSceneModel::AddTangentSpace()
 
 CSceneModel* CSceneModel::Create(const std::string& modelName, bool isIgnore, int layer)
 {
-	CSceneModel* sceneModel = new CSceneModel(LAYER_OBJECT3D);
+	CSceneModel* sceneModel = new CSceneModel(layer);
 	sceneModel->Init(modelName);
 	sceneModel->m_isIgnoreLight = isIgnore;
 

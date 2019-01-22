@@ -65,9 +65,12 @@ void CModeTitle::Init()
 	CManager::SetCamera(Camera);
 
 	BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
-	BGM->Play(0.01f);
+	//BGM->Play(0.1f);
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
+
+	// ビルボードの準備
+	CBillBoard::Init();
 
 	// フィールド
 	Field = CField::Create("data/output/map.txt");
@@ -86,6 +89,8 @@ void CModeTitle::Uninit()
 	Camera->Release();
 
 	Light->Release();
+
+	CBillBoard::Uninit();
 
 	// 全てのテクスチャの解放
 	CTexture::ReleaseAll();
@@ -132,7 +137,7 @@ void CModeTitle::Update()
 			if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 			{
 				SE = CSound::Create(SOUND_LABEL_SE_TITLE);
-				SE->Play(0.01f);
+				SE->Play(0.1f);
 				CFade::FadeOut(new CModeGame());
 			}
 		}

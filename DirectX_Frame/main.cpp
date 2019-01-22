@@ -62,8 +62,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	RegisterClassEx(&wcex);						//WindowƒNƒ‰ƒX“o˜^
 
 	RECT wr = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	DWORD Style = ((WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME) ^ WS_MAXIMIZEBOX) & WS_OVERLAPPEDWINDOW;
-	AdjustWindowRect(&wr, Style, false);
+	DWORD Style;
 
 	int WinWidth = SCREEN_WIDTH + 16;
 	int WinHeight = SCREEN_HEIGHT + 39;
@@ -71,8 +70,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	RECT dr;
 	GetWindowRect(GetDesktopWindow(), &dr);
 
-	int WinX = 1536 < WinWidth ? 0 : (1536 - WinWidth) / 2;
-	int WinY = 864 < WinHeight ? 0 : (864 - WinHeight) / 2;
+	int WinX;
+	int WinY;
+
+	if (((dr.bottom - WinHeight) > 0) && ((dr.right - WinWidth) > 0))
+	{
+		Style = WS_OVERLAPPEDWINDOW;
+		RECT wr = { 0, 0, WinWidth, WinHeight };
+		AdjustWindowRect(&wr, Style, false);
+		WinWidth -= wr.left;
+		WinHeight -= wr.top;
+		WinY = (dr.bottom - WinHeight) / 2;
+		WinX = (dr.right - WinWidth) / 2;
+	}
+	else
+	{
+		Style = WS_POPUPWINDOW;
+		WinX = dr.top;
+		WinX = dr.left;
+		WinHeight = dr.bottom;
+		WinWidth = dr.right;
+	}
 
 	HWND hWnd = CreateWindowEx(
 		0,

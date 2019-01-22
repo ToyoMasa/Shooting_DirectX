@@ -38,7 +38,7 @@ void CTargetCapsule::Init(D3DXVECTOR3 pos)
 	m_Life = CAPSULE_LIFE_MAX;
 	m_isDestroyed = false;
 
-	m_Flame = CEffekseer::Create(CEffekseer::EFFECT_FLAME, LAYER_EFFEKSEER_AFTER);
+	m_Flame = CEffekseer::Create(CEffekseer::EFFECT_FLAME);
 	m_Flame->RepeatEffect(false);
 	m_Flame->SetScale(0.5f, 0.5f, 0.5f);
 	m_Flame->SetSpeed(1.0f);
@@ -62,9 +62,9 @@ void CTargetCapsule::Update()
 {
 	if (CManager::GetDebug())
 	{
-		ImGui::Begin("Target");
-		ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
-		ImGui::End();
+		//ImGui::Begin("Target");
+		//ImGui::Text("Pos  :X = %.2f Y = %.2f Z = %.2f", m_Pos.x, m_Pos.y, m_Pos.z);
+		//ImGui::End();
 	}
 
 	// èeíeÇ∆ÇÃìñÇΩÇËîªíË
@@ -125,6 +125,12 @@ void CTargetCapsule::HitBullet()
 				if (m_Life <= 0)
 				{
 					m_Model->SetVisible(false);
+					//m_Model->Release();
+					//m_Model = NULL;
+					D3DXVECTOR3 flamepos = m_Pos;
+					flamepos.y += 0.2f;
+					flamepos.z += 1.0f;
+					m_Flame->SetLocation(flamepos);
 					m_Flame->Play();
 					m_isDestroyed = true;
 					CModeGame::GameEnd(GAME_CLEAR);

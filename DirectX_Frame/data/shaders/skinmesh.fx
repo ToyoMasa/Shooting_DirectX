@@ -50,11 +50,11 @@ void main(
 	}
 
 	// 最後の重みを足し算
-	matCombWorld += g_matWorld[g_blendNum-1] * (1.0f-LastBlendWeight);
+	matCombWorld += g_matWorld[g_blendNum - 1] * (1.0f - LastBlendWeight);
 
 	// 法線ベクトルを変換
 	float3 transNormal = mul(inNormal, (float3x3)matCombWorld);
-	//outNormal = normalize(transNormal);
+	outNormal = normalize(transNormal);
 
 	outPos  = mul(inPos, mul(mul(matCombWorld, g_view), g_projection));	// 頂点と変換行列を掛ける
 	outDiff = inDiff;						// 色はそのまま	
@@ -85,7 +85,7 @@ void PS(
 		// サンプラーからテクセルを取得
 		float4 texcol = tex2D(Sampler1, inTex);
 
-		outDiff = inDiff * texcol;	// テクセル色を出力
+		outDiff = texcol;	// テクセル色を出力
 		outDiff.a = 0;
 	}
 	else

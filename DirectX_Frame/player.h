@@ -89,6 +89,7 @@ private:
 	CScene2D*	m_DamagedEffect;
 	CScene2D*	m_AmmoBackScreen;
 	CScene2D*	m_BulletIcon;
+	CScene2D*	m_Mission;
 	CPlayerPatternBase* m_Pattern;
 	CNumber*	m_AmmoNum;
 	int			m_ShortestPoint;

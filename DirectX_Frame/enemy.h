@@ -18,10 +18,16 @@ typedef enum
 class CEnemy : public CCharacter
 {
 public:
+	typedef enum
+	{
+		TARGET_FIND,
+		TARGET_SEARCH,
+	} TARGET_STATE;
+
 	CEnemy::CEnemy() : CCharacter() 
 	{
 		m_Type = CHARACTER_ENEMY;
-
+		m_TargetState = TARGET_SEARCH;
 		m_Count = 0;
 	}
 	~CEnemy() {}
@@ -42,6 +48,7 @@ public:
 	int GetCount() { return m_Count; }
 	void SetAttackHit(const bool& hit) { m_AttackHit = hit; }
 	void SetSpeed(float speed) { m_Speed = speed; }
+	void SetTargetState(TARGET_STATE state) { m_TargetState = state; }
 
 	void ChangePattern(CEnemyPatternBase* next);
 	virtual void Move(D3DXVECTOR3 newPos) {}
@@ -55,6 +62,7 @@ protected:
 	Capsule					m_AttackingCollision;
 	Sphere					m_MoveCollision;
 	int						m_Count;
+	TARGET_STATE			m_TargetState;
 	float					m_AttackDamage;
 	float					m_Speed;
 	float					m_CapsuleRad;

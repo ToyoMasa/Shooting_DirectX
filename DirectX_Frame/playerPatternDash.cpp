@@ -31,6 +31,7 @@
 #include "playerPatternDash.h"
 #include "playerPatternReload.h"
 #include "playerPatternWeaponChange.h"
+#include "enemyManager.h"
 
 void CPlayerPatternDash::Init(CPlayer* player)
 {
@@ -84,6 +85,9 @@ void CPlayerPatternDash::Update(CPlayer* player)
 		player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
+
+	// ‘–‚Á‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
+	CModeGame::GetEnemyManager()->AddPlayerTension(2.0f / 60.0f);
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
 	D3DXVec2Normalize(&dir, &dir);

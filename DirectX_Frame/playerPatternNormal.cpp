@@ -31,6 +31,7 @@
 #include "playerPatternDash.h"
 #include "playerPatternReload.h"
 #include "playerPatternWeaponChange.h"
+#include "enemyManager.h"
 
 void CPlayerPatternNormal::Init(CPlayer* player)
 {
@@ -77,6 +78,12 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
 	D3DXVec2Normalize(&dir, &dir);
+
+	// •à‚¢‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
+	if (moveX != 0.0f || moveZ != 0.0f)
+	{
+		CModeGame::GetEnemyManager()->AddPlayerTension(0.8f / 60.0f);
+	}
 
 	player->Move(dir.x, dir.y);
 

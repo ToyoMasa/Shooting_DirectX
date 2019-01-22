@@ -1,5 +1,6 @@
 #include "common.h"
 #include "renderer.h"
+#include "billboard.h"
 
 //======================================================================
 //	静的メンバ変数の初期化
@@ -82,6 +83,10 @@ void CScene::DrawAll()
 		case LAYER_OBJECT2D:
 			pDevice->SetFVF(FVF_VERTEX_2D);
 			break;
+		case LAYER_OBJECT3D:
+			pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：OFF
+			CBillBoard::DrawAll();
+			pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE); //フォグ：ON
 
 		default:
 			// FVF(今から使用する頂点情報)の設定

@@ -50,7 +50,7 @@ public:
 		effekseerRenderer_->SetProjectionMatrix(
 			Effekseer::Matrix44().PerspectiveFovLH(D3DXToRadian(90.0f),                           //視野角
 			(float)SCREEN_WIDTH / SCREEN_HEIGHT,   //アスペクト比
-				0.1f, 1000.0f));
+				0.1f, 10000.0f));
 
 		// 描画用インスタンスから描画機能を設定
 		effekseerManager_->SetSpriteRenderer(effekseerRenderer_->CreateSpriteRenderer());

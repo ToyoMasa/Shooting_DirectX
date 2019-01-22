@@ -227,6 +227,14 @@ void CWayPoint::Debug()
 	}
 }
 
+void CWayPoint::Debug(bool debug)
+{
+	for (int i = 0; i != m_PointsDebug.size(); ++i)
+	{
+		m_PointsDebug[i]->SetVisible(debug);
+	}
+}
+
 // バイナリファイルに書き出し
 void CWayPoint::Save(string textname)
 {

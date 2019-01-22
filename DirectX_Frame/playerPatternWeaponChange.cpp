@@ -30,6 +30,7 @@
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
 #include "playerPatternWeaponChange.h"
+#include "enemyManager.h"
 
 void CPlayerPatternWeaponChange::Init(CPlayer* player)
 {
@@ -75,6 +76,12 @@ void CPlayerPatternWeaponChange::Update(CPlayer* player)
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
 	D3DXVec2Normalize(&dir, &dir);
 
+	// •à‚¢‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
+	if (moveX != 0.0f || moveZ != 0.0f)
+	{
+		CModeGame::GetEnemyManager()->AddPlayerTension(0.8f / 60.0f);
+	}
+
 	player->Move(dir.x, dir.y);
 
 	// ‰ñ“]
@@ -92,7 +99,6 @@ void CPlayerPatternWeaponChange::Update(CPlayer* player)
 	}
 	else if (m_CountFrame == 60)
 	{
-		player->Reload();
 		player->ChangeWeapon();
 		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
 	}

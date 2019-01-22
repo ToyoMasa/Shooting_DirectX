@@ -30,6 +30,7 @@ void CEnemyPatternChase::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_RUNNING, 0.3f);
 	enemy->GetModel()->SetAnimPlaySpeed(2.0f);
+	enemy->SetTargetState(CEnemy::TARGET_FIND);
 }
 
 void CEnemyPatternChase::Update(CEnemy* enemy)
@@ -45,10 +46,11 @@ void CEnemyPatternChase::Update(CEnemy* enemy)
 	//	enemy->ChangePattern(new CEnemyPatternWaypointsRun());
 	//}
 	//else
-	if (enemy->GetCount() % 30 == 0)
+	if (enemy->GetCount() % 15 == 0)
 	{
 		if (CModeGame::GetField()->GetHeight(newPos, enemy) > 0.0f)
 		{
+			enemy->SetTargetState(CEnemy::TARGET_SEARCH);
 			enemy->ChangePattern(new CEnemyPatternWaypointsRun());
 		}
 	}

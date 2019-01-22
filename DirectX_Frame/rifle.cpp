@@ -273,5 +273,5 @@ void CRifle::ReleaseTrigger()
 
 void CRifle::SoundShot()
 {
-	m_ShotSE[rand() % 6]->Play(0.01f);
+	m_ShotSE[rand() % 6]->Play(0.1f);
 }

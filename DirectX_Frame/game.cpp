@@ -119,8 +119,8 @@ void CModeGame::Init()
 	// サウンドの準備
 	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
 	//ZombieVoice->Play(0.01f);
-	BGM = CSound::Create(SOUND_LABEL_BGM_LOAD);
-	BGM->Play(0.01f);
+	BGM = CSound::Create(SOUND_LABEL_BGM_GAME);
+	//BGM->Play(0.1f);
 
 	// スコア等のリセット
 	Result = GAME_OVER;
@@ -133,6 +133,7 @@ void CModeGame::Init()
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.1f);
 
+	//CTargetCapsule::Create(D3DXVECTOR3(-68.0f, 0.0f, -79.0f));
 	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
 }
 
@@ -247,6 +248,7 @@ void CModeGame::Update()
 			{
 				CallPause();
 			}
+
 		}
 	}
 }
@@ -260,10 +262,6 @@ void CModeGame::Draw()
 	}
 
 	CScene::DrawAll();
-
-	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：OFF
-	CBillBoard::DrawAll();
-	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE); //フォグ：ON
 
 	//if (CManager::GetDebug())
 	//{
@@ -297,7 +295,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
 
 		se = CSound::Create(SOUND_LABEL_SE_GAMECLEAR);
-		se->Play(0.01f);
+		se->Play(0.1f);
 	}
 	else
 	{
@@ -310,7 +308,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
 
 		se = CSound::Create(SOUND_LABEL_SE_GAMEOVER);
-		se->Play(0.01f);
+		se->Play(0.1f);
 	}
 }
 

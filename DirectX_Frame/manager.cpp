@@ -163,6 +163,16 @@ void CManager::Update()
 	}
 
 	m_UsingCamera->Update();
+
+	// キーボード取得
+	CInputKeyboard *inputKeyboard;
+	inputKeyboard = CManager::GetInputKeyboard();
+
+	if (inputKeyboard->GetKeyTrigger(DIK_M))
+	{
+		ShowCursor(FALSE);
+	}
+
 }
 
 void CManager::Draw()

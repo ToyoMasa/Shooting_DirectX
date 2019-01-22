@@ -63,7 +63,7 @@ void CModeResult::Init()
 	ScreenKillCount->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
 	BGM = CSound::Create(SOUND_LABEL_BGM_RESULT);
-	BGM->Play(0.01f);
+	BGM->Play(0.08f);
 	SE = CSound::Create(SOUND_LABEL_SE_TITLE);
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
@@ -72,6 +72,9 @@ void CModeResult::Init()
 	Camera->SetPos(D3DXVECTOR3(-27.41f, 2.51f, -86.44f));
 	Camera->SetAt(D3DXVECTOR3(-23.28f, 2.36f, -86.12f));
 	CManager::SetCamera(Camera);
+
+	// ビルボードの準備
+	CBillBoard::Init();
 
 	// フィールド
 	Field = CField::Create("data/output/map.txt");
@@ -90,6 +93,8 @@ void CModeResult::Uninit()
 	Camera->Release();
 
 	Light->Release();
+
+	CBillBoard::Uninit();
 
 	// 全てのテクスチャの解放
 	CTexture::ReleaseAll();
@@ -131,7 +136,7 @@ void CModeResult::Update()
 	{
 		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
 		{
-			SE->Play(0.01f);
+			SE->Play(0.1f);
 			CFade::FadeOut(new CModeTitle());
 		}
 	}

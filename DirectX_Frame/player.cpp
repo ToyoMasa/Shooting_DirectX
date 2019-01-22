@@ -67,19 +67,23 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_BloodEffect->SetScale(0.1f, 0.1f, 0.1f);
 	m_BloodEffect->SetVisible(true);
 
-	// 残弾表示の背景
-	m_AmmoBackScreen = CScene2D::Create(TEX_ID_WHITE, 170.0f, 70.0f);
-	m_AmmoBackScreen->Set(AMMO_DISPLAY_POS + D3DXVECTOR3(-33.0f, 0.0f, 0.0f));
-	m_AmmoBackScreen->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
-
 	// 画面のダメージエフェクト
 	m_DamagedEffect = CScene2D::Create(TEX_ID_DAMAGE_SCREEN, SCREEN_WIDTH, SCREEN_HEIGHT);
 	m_DamagedEffect->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 5.0f, SCREEN_HEIGHT / 2.0f, 1.0f));
 	m_DamagedEffect->SetColor(D3DCOLOR_RGBA(166, 19, 19, 0));
 
+	// 残弾表示の背景
+	m_AmmoBackScreen = CScene2D::Create(TEX_ID_WHITE, 160.0f, 70.0f);
+	m_AmmoBackScreen->Set(AMMO_DISPLAY_POS + D3DXVECTOR3(-30.0f, 0.0f, 0.0f));
+	m_AmmoBackScreen->SetColor(D3DCOLOR_RGBA(0, 0, 0, 128));
+
 	// 銃弾アイコン
 	m_BulletIcon = CScene2D::Create(TEX_ID_BULLETICON, 70.0f, 70.0f);
-	m_BulletIcon->Set(AMMO_DISPLAY_POS + D3DXVECTOR3(-68.0f, 0.0f, 0.0f));
+	m_BulletIcon->Set(AMMO_DISPLAY_POS + D3DXVECTOR3(-70.0f, 0.0f, 0.0f));
+
+	// ミッション目標
+	m_Mission = CScene2D::Create(TEX_ID_MISSION, 290.0f, 90.0f);
+	m_Mission->Set(D3DXVECTOR3(150.0f, 50.0f, 0.0f));
 
 	// モデルの回転軸をカメラの位置にそろえる
 	D3DXMatrixTranslation(&m_LocalLocation, m_LocalCameraPos.x, -m_LocalCameraPos.y, m_LocalCameraPos.z);
