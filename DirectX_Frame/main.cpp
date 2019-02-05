@@ -17,6 +17,7 @@
 #include "scene3D.h"
 #include "sceneModel.h"
 #include "manager.h"
+#include "input.h"
 
 //======================================================================
 //	定義
@@ -171,11 +172,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_ESCAPE:
+			CInput::ChangeShowCursol();
+
 			nID = MessageBox(hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_DEFBUTTON2);
 			if (nID == IDYES)
 			{
 				DestroyWindow(hWnd);
 			}
+
+			CInput::ChangeShowCursol();
 
 			break;
 

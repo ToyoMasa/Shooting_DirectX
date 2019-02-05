@@ -170,7 +170,7 @@ void CManager::Update()
 
 	if (inputKeyboard->GetKeyTrigger(DIK_M))
 	{
-		ShowCursor(FALSE);
+		CInput::ChangeShowCursol();
 	}
 
 }

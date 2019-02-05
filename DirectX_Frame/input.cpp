@@ -11,6 +11,7 @@
 // 静的変数
 //*****************************************************************************
 LPDIRECTINPUT8		CInput::m_pDInput = NULL;			// IDirectInput8インターフェースへのポインタ
+BOOL				CInput::m_isShowCursol = FALSE;
 
 //=============================================================================
 // CInputコンストラスタ
@@ -81,7 +82,8 @@ HRESULT CInput::Init(HINSTANCE hInst, HWND hWnd)
 
 	ClipCursor(&rc);
 
-	//ShowCursor(FALSE);
+	ShowCursor(FALSE);
+	m_isShowCursol = FALSE;
 
 	return hr;
 }
@@ -107,7 +109,7 @@ void CInput::Uninit(void)
 
 	// マウス移動範囲の解除
 	ClipCursor(NULL);
-	ShowCursor(true);
+	ShowCursor(TRUE);
 }
 
 //=============================================================================
@@ -119,6 +121,69 @@ HRESULT CInput::Update(void)
 	return S_OK;
 }
 #endif
+
+//=============================================================================
+// マウスカーソルの表示変更処理
+//=============================================================================
+void CInput::ChangeShowCursol()
+{
+	if (m_isShowCursol)
+	{
+		RECT wr = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+		DWORD Style;
+
+		int WinWidth = SCREEN_WIDTH + 16;
+		int WinHeight = SCREEN_HEIGHT + 39;
+
+		RECT dr;
+		GetWindowRect(GetDesktopWindow(), &dr);
+
+		int WinX;
+		int WinY;
+
+		if (((dr.bottom - WinHeight) > 0) && ((dr.right - WinWidth) > 0))
+		{
+			Style = WS_OVERLAPPEDWINDOW;
+			RECT wr = { 0, 0, WinWidth, WinHeight };
+			AdjustWindowRect(&wr, Style, false);
+			WinWidth -= wr.left;
+			WinHeight -= wr.top;
+			WinY = (dr.bottom - WinHeight) / 2;
+			WinX = (dr.right - WinWidth) / 2;
+		}
+		else
+		{
+			Style = WS_POPUPWINDOW;
+			WinX = dr.top;
+			WinX = dr.left;
+			WinHeight = dr.bottom;
+			WinWidth = dr.right;
+		}
+
+		// マウス移動範囲
+		RECT rc;
+		rc.left = WinX + 16;
+		rc.top = WinY + 39;
+		rc.right = WinX + (WinWidth)-16;
+		rc.bottom = WinY + (WinHeight)-39;
+
+		ClipCursor(&rc);
+
+		ShowCursor(FALSE);
+		ShowCursor(FALSE);
+
+		m_isShowCursol = FALSE;
+	}
+	else
+	{
+		// マウス移動範囲の解除
+		ClipCursor(NULL);
+		ShowCursor(TRUE);
+		ShowCursor(TRUE);
+
+		m_isShowCursol = TRUE;
+	}
+}
 
 //=============================================================================
 // CInputKeyboardコンストラスタ

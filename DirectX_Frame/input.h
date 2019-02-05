@@ -24,10 +24,12 @@ public:
 	virtual HRESULT Init(HINSTANCE hInst, HWND hWnd);
 	virtual void Uninit(void);
 	virtual HRESULT Update(void) = 0;		// ---> 純粋仮想関数化
+	static	void ChangeShowCursol();
 
 protected:
 	LPDIRECTINPUTDEVICE8		m_pDIDevice;		// IDirectInputDevice8インターフェースへのポインタ
 	static LPDIRECTINPUT8		m_pDInput;			// IDirectInput8インターフェースへのポインタ
+	static BOOL					m_isShowCursol;		// マウスカーソルの表示判定
 };
 
 //*********************************************************
