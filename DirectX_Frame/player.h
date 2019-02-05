@@ -9,6 +9,7 @@
 #include "sceneSkinMesh.h"
 #include "Effekseer.h"
 #include "sound.h"
+#include "tutorialBase.h"
 
 static const float PLAYER_MOVE_SPEED = 0.06f;
 static const float PLAYER_JUMP_POWER = 1.8f;
@@ -39,6 +40,7 @@ public:
 		m_isADS = false;
 		m_Pattern = NULL;
 		m_DamagedEffect = NULL;
+		m_Tutorial = NULL;
 	}
 	~CPlayer(){}
 
@@ -64,6 +66,7 @@ public:
 	void SetWeaponADS(bool ads);
 	void PlayReload();
 	void ChangePattern(CPlayerPatternBase* next);
+	void ChangeTutorial(CTutorialBase* next);
 	float GetJumpPower() { return m_JumpPower; }
 	void SetJumpPower(float power) { m_JumpPower = power; }
 	float GetUpValue() { return m_UpValue; }
@@ -74,25 +77,26 @@ public:
 	void Damaged(float damage)override;
 
 private:
-	D3DXMATRIX	m_LocalLocation;
-	CCamera*	m_Camera;
-	D3DXVECTOR3 m_LocalCameraPos;
-	float		m_CameraLength;
-	float		m_JumpPower;
-	float		m_UpValue;
-	CSound*		m_SoundReload;
-	bool		m_isPreDeath;
-	bool		m_isADS;
-	CWeapon*	m_UsingWeapon;
-	CWeapon*	m_Weapon[HAVE_WEAPON];
-	CEffekseer* m_BloodEffect;
-	CScene2D*	m_DamagedEffect;
-	CScene2D*	m_AmmoBackScreen;
-	CScene2D*	m_BulletIcon;
-	CScene2D*	m_Mission;
+	D3DXMATRIX			m_LocalLocation;
+	CCamera*			m_Camera;
+	D3DXVECTOR3			m_LocalCameraPos;
+	float				m_CameraLength;
+	float				m_JumpPower;
+	float				m_UpValue;
+	CSound*				m_SoundReload;
+	bool				m_isPreDeath;
+	bool				m_isADS;
+	CWeapon*			m_UsingWeapon;
+	CWeapon*			m_Weapon[HAVE_WEAPON];
+	CEffekseer*			m_BloodEffect;
+	CScene2D*			m_DamagedEffect;
+	CScene2D*			m_AmmoBackScreen;
+	CScene2D*			m_BulletIcon;
+	CScene2D*			m_Mission;
 	CPlayerPatternBase* m_Pattern;
-	CNumber*	m_AmmoNum;
-	int			m_ShortestPoint;
+	CTutorialBase*		m_Tutorial;
+	CNumber*			m_AmmoNum;
+	int					m_ShortestPoint;
 };
 
 #endif // !_PLAYER_H_

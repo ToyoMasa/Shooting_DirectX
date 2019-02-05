@@ -35,6 +35,7 @@
 #include "skinmeshShader.h"
 #include "skinmeshSpotlightShader.h"
 #include "enemyManager.h"
+#include "tutorialCamera.h"
 
 static const float DEFAULT_FOV = 90.0f;
 static const float ADS_FOV = 70.0f;
@@ -125,6 +126,9 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_AmmoNum = CNumber::Create();
 	m_AmmoNum->SetNum(m_UsingWeapon->GetAmmo());
 	m_AmmoNum->Set(AMMO_DISPLAY_POS);
+
+	CTutorialBase::LoadTexture();
+	ChangeTutorial(new CTutorialCamera());
 }
 
 void CPlayer::Uninit()
@@ -133,6 +137,11 @@ void CPlayer::Uninit()
 	{
 		delete m_Pattern;
 	}
+	if (m_Tutorial != NULL)
+	{
+		delete m_Tutorial;
+	}
+	CTutorialBase::ReleaseTexture();
 	if (m_Camera)
 	{
 		m_Camera->Release();
@@ -163,6 +172,7 @@ void CPlayer::Update()
 	{
 		ADS();
 		m_Pattern->Update(this);
+		m_Tutorial->Update(this);
 
 		m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
 		m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
@@ -578,6 +588,18 @@ void CPlayer::ChangePattern(CPlayerPatternBase* next)
 
 	m_Pattern = next;
 	next->Init(this);
+}
+
+void CPlayer::ChangeTutorial(CTutorialBase* next)
+{
+	if (m_Tutorial != NULL)
+	{
+		m_Tutorial->Uninit();
+		delete m_Tutorial;
+	}
+
+	m_Tutorial = next;
+	m_Tutorial->Init();
 }
 
 void CPlayer::Damaged(float damage)

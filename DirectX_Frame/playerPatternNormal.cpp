@@ -102,7 +102,15 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	// UŒ‚
 	if (inputMouse->GetLeftPress())
 	{
-		player->Shoot();
+		if (player->GetUsingWeapon()->GetAmmo() <= 0)
+		{
+			player->ChangePattern(new CPlayerPatternReload());
+			return;
+		}
+		else
+		{
+			player->Shoot();
+		}
 	}
 
 	// ƒ_ƒbƒVƒ…

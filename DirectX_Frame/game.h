@@ -20,6 +20,7 @@ class CSound;
 class CFog;
 class CEnemyManager;
 class CTargetCapsule;
+class CEventStartEnemy;
 
 enum GAME_RESULT
 {
@@ -64,6 +65,7 @@ private:
 	static CField* Field;
 	static CEnemyManager* EnemyManager;
 	static CTargetCapsule* Target[3];
+	static CEventStartEnemy* StartEnemy;
 	static bool Pause;
 	static bool GameFinish;
 	static int GameCount;

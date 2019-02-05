@@ -51,7 +51,19 @@ typedef enum
 	TEX_ID_GRASS,					// 草原
 	TEX_ID_SOIL,					// 土
 	TEX_ID_ROCK,					// 岩
-	TEX_ID_BULLETICON,					// 岩
+	TEX_ID_BULLETICON,				// 銃弾アイコン
+	TEX_ID_DASH_TEXT,				// チュートリアルテキスト「走る」
+	TEX_ID_GUNSHOT_TEXT,			// チュートリアルテキスト「銃で撃つ」
+	TEX_ID_GUNUP_TEXT,				// チュートリアルテキスト「銃を構える」
+	TEX_ID_MOVE_TEXT,				// チュートリアルテキスト「移動」
+	TEX_ID_CAMERA_ROTATE_TEXT,		// チュートリアルテキスト「カメラ回転」
+	TEX_ID_CHANGE_WEAPON_TEXT,		// チュートリアルテキスト「武器を切替」
+	TEX_ID_MOUSE_LEFT,				// チュートリアル操作「マウスの左クリック」
+	TEX_ID_MOUSE_RIGHT,				// チュートリアル操作「マウスの右クリック」
+	TEX_ID_MOUSE_WHEEL,				// チュートリアル操作「マウスのホイール」
+	TEX_ID_MOUSE_MOVE,				// チュートリアル操作「マウス移動」
+	TEX_ID_WASD_RED,				// チュートリアル操作「WASDキー」
+	TEX_ID_SHIFT,					// チュートリアル操作「Shiftキー」
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -99,6 +111,18 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/soil.jpg",
 	"data/textures/rock.jpg",
 	"data/textures/bulleticon.png",
+	"data/textures/dash.png",
+	"data/textures/gunshot.png",
+	"data/textures/gunup.png",
+	"data/textures/move.png",
+	"data/textures/camerarotate.png",
+	"data/textures/changeweapon.png",
+	"data/textures/oldmouse_l.png",
+	"data/textures/oldmouse_r.png",
+	"data/textures/oldmouse_w.png",
+	"data/textures/mouse_move.png",
+	"data/textures/wasd_red.png",
+	"data/textures/shift.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

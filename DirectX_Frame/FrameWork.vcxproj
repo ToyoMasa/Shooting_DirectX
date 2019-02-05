@@ -168,6 +168,7 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="enemyPatternWaypointsRun.h" />
+    <ClInclude Include="eventStartEnemy.h" />
     <ClInclude Include="fieldShader.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="collision.h" />
@@ -203,6 +204,10 @@
     <ClInclude Include="spawnAIStateStop.h" />
     <ClInclude Include="spotlightShader.h" />
     <ClInclude Include="targetCapsule.h" />
+    <ClInclude Include="tutorialBase.h" />
+    <ClInclude Include="tutorialCamera.h" />
+    <ClInclude Include="tutorialMove.h" />
+    <ClInclude Include="tutorialNone.h" />
     <ClInclude Include="waypoint.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -265,6 +270,7 @@
     <ClCompile Include="character.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="enemyPatternWaypointsRun.cpp" />
+    <ClCompile Include="eventStartEnemy.cpp" />
     <ClCompile Include="fieldShader.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="collision.cpp" />
@@ -336,6 +342,9 @@
     <ClCompile Include="targetPoint.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="tutorialBase.cpp" />
+    <ClCompile Include="tutorialCamera.cpp" />
+    <ClCompile Include="tutorialMove.cpp" />
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="waypoint.cpp" />
     <ClCompile Include="weapon.cpp" />
@@ -352,7 +361,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="data\shaders\skinmeshSpotlight.fx" />
+    <FxCompile Include="data\shaders\skinmeshSpotlight.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="data\shaders\spotlight.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

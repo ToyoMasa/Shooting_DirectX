@@ -40,12 +40,6 @@
     <Filter Include="ソース ファイル\weapon">
       <UniqueIdentifier>{24a3fa03-d452-4e28-952a-9fc50510e7d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\playerPattern">
-      <UniqueIdentifier>{b7208867-6b88-42c9-b414-6dc66749c37e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\playerPattern">
-      <UniqueIdentifier>{c14cfea4-04df-4020-88ea-e065535063b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\shader">
       <UniqueIdentifier>{09d7f9d4-81af-4656-bb05-93c9d7169b47}</UniqueIdentifier>
     </Filter>
@@ -93,6 +87,24 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\enemy\enemyPattern">
       <UniqueIdentifier>{ce760528-9fa4-48c7-ab20-9c6c973b52c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\player">
+      <UniqueIdentifier>{31366707-dae4-4afd-902f-9ece2d191d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\player\playerPattern">
+      <UniqueIdentifier>{b7208867-6b88-42c9-b414-6dc66749c37e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\player">
+      <UniqueIdentifier>{397f20ed-e1a3-4907-8221-1b396d06579d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\player\playerPattern">
+      <UniqueIdentifier>{c14cfea4-04df-4020-88ea-e065535063b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\player\tutorial">
+      <UniqueIdentifier>{0038a005-5bd3-4802-8c0d-eb2d12608329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\player\tutorial">
+      <UniqueIdentifier>{39bf99b3-7fa2-430c-9655-cd43165f6f29}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +166,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="field.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="skybox.h">
@@ -244,19 +253,19 @@
       <Filter>ヘッダー ファイル\weapon</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternBase.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternDash.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="ZombieAAnim.h">
       <Filter>ヘッダー ファイル\SkinMesh\AnimationList</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternJump.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternAir.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternBase.h">
       <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
@@ -274,7 +283,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternADS.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="shader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
@@ -310,7 +319,7 @@
       <Filter>ヘッダー ファイル\event</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternReload.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
@@ -322,7 +331,7 @@
       <Filter>ヘッダー ファイル\enemy</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternNormal.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
       <Filter>ヘッダー ファイル\item</Filter>
@@ -346,7 +355,7 @@
       <Filter>ヘッダー ファイル\mode</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternWeaponChange.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="spawnAIStateBase.h">
       <Filter>ヘッダー ファイル\enemy\spawnAI</Filter>
@@ -379,7 +388,25 @@
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
     <ClInclude Include="playerPatternStop.h">
-      <Filter>ヘッダー ファイル\playerPattern</Filter>
+      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialBase.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialNone.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialMove.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialCamera.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="eventStartEnemy.h">
+      <Filter>ヘッダー ファイル\event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -429,9 +456,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="skybox.cpp">
@@ -510,10 +534,10 @@
       <Filter>ソース ファイル\weapon</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternJump.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternAir.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="enemyPatternChase.cpp">
       <Filter>ソース ファイル\enemy\enemyPattern</Filter>
@@ -528,10 +552,10 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternADS.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternDash.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="shader.cpp">
       <Filter>ソース ファイル\shader</Filter>
@@ -570,7 +594,7 @@
       <Filter>ソース ファイル\event</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternReload.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>ソース ファイル\enemy</Filter>
@@ -582,7 +606,7 @@
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternNormal.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>ソース ファイル\item</Filter>
@@ -603,7 +627,7 @@
       <Filter>ソース ファイル\mode</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternWeaponChange.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="spawnAIStateRise.cpp">
       <Filter>ソース ファイル\enemy\spawnAI</Filter>
@@ -630,7 +654,22 @@
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
     <ClCompile Include="playerPatternStop.cpp">
-      <Filter>ソース ファイル\playerPattern</Filter>
+      <Filter>ソース ファイル\player\playerPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialBase.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialMove.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialCamera.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="eventStartEnemy.cpp">
+      <Filter>ソース ファイル\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

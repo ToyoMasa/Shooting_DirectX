@@ -23,6 +23,7 @@ CEnemyManager::CEnemyManager(CField* field)
 	m_ZombieSpawnRate = 100;
 	m_PlayerTension = 0.0f;
 	m_SpawnAIState = 0;
+	m_isStart = false;
 
 	//m_SpawnAI = new CSpawnAIStateStop(this);
 	m_SpawnAI = new CSpawnAIStateRise(this);
@@ -56,6 +57,11 @@ CEnemyManager::~CEnemyManager()
 
 void CEnemyManager::Update()
 {
+	if (!m_isStart)
+	{
+		return;
+	}
+
 	m_SpawnAI->Update();
 
 	// フレームをインクリメント
@@ -69,11 +75,11 @@ void CEnemyManager::Update()
 		ImGui::Text("SPAWN_STATE:%d", m_SpawnAIState);
 		ImGui::End();
 	}
-	//ImGui::SetNextWindowSize(ImVec2(80, 50), ImGuiSetCond_Once);
-	//ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 120.0f, 20), ImGuiSetCond_Once);
-	//ImGui::Begin("Heat");
-	//ImGui::Text("%.2f", m_PlayerTension);
-	//ImGui::End();
+	ImGui::SetNextWindowSize(ImVec2(80, 50), ImGuiSetCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 120.0f, 20), ImGuiSetCond_Once);
+	ImGui::Begin("Heat");
+	ImGui::Text("%.2f", m_PlayerTension);
+	ImGui::End();
 }
 
 void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
@@ -136,5 +142,26 @@ void CEnemyManager::DeleteZombie(CZombie* zombie)
 			m_Zombies[i] = NULL;
 			break;
 		}
+	}
+}
+
+void CEnemyManager::Start()
+{
+	for (int i = 0; i < ZOMBIE_NUM_MAX; i++)
+	{
+		if (m_Zombies[i] != NULL)
+		{
+			continue;
+		}
+
+		m_Zombies[i] = CZombie::Create(
+			(SKINMESH_MODEL_ID)(SM_ID_ZOMBIE_A + rand() % 2),
+			D3DXVECTOR3(5.0f, 0.0f, -84.0f),
+			new CEnemyPatternWaypoints(),
+			m_Field);
+
+		m_isStart = true;
+
+		break;
 	}
 }

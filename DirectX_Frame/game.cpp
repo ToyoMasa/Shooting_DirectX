@@ -44,6 +44,8 @@
 #include "targetCapsule.h"
 #include "playerPatternStop.h"
 #include "playerPatternNormal.h"
+#include "event.h"
+#include "eventStartEnemy.h"
 
 CPlayer *CModeGame::player = NULL;
 CLight *CModeGame::Light;
@@ -65,6 +67,7 @@ CFog *CModeGame::Fog = NULL;
 CField *CModeGame::Field = NULL;
 CEnemyManager *CModeGame::EnemyManager = NULL;
 CTargetCapsule *CModeGame::Target[3] = { NULL };
+CEventStartEnemy *CModeGame::StartEnemy = NULL;
 
 float g_FogColor[4];
 float g_LightDiff[4];
@@ -135,11 +138,15 @@ void CModeGame::Init()
 
 	//CTargetCapsule::Create(D3DXVECTOR3(-68.0f, 0.0f, -79.0f));
 	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
+
+	StartEnemy = CEventStartEnemy::Create();
 }
 
 void CModeGame::Uninit()
 {
 	CItem::ReleaseAll();
+
+	CEvent::ReleaseAll();
 
 	CBullet::ReleaseAll();
 
@@ -243,6 +250,7 @@ void CModeGame::Update()
 			CWeapon::UpdateAll();
 			EnemyManager->Update();
 			CItem::UpdateAll();
+			CEvent::UpdateAll();
 
 			if (inputKeyboard->GetKeyTrigger(DIK_P) || inputKeyboard->GetKeyTrigger(DIK_TAB))
 			{

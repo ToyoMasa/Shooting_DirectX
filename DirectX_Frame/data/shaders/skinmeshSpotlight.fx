@@ -55,7 +55,7 @@ void main(
 	float4x4 matCombWorld = 0.0f;           	// 合成ワールド変換行列
 
 	// ワールド変換行列をブレンド
-	for (int i = 0; i < 4; i++) 
+	for (int i = 0; i < g_blendNum; i++)
 	{
 		LastBlendWeight += Weight[i];   // 最後の重みをここで計算しておく
 		matCombWorld += g_matWorld[i] * Weight[i];

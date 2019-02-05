@@ -86,7 +86,7 @@ void PS(
 		float4 texcol = tex2D(Sampler1, inTex);
 
 		outDiff = texcol;	// テクセル色を出力
-		outDiff.a = 0;
+		outDiff.a = 255;
 	}
 	else
 	{

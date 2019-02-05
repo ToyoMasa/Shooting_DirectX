@@ -26,6 +26,7 @@
 #include "rifle.h"
 #include "shotgun.h"
 #include "playerPatternNormal.h"
+#include "playerPatternReload.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
 
@@ -109,7 +110,15 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	// UŒ‚
 	if (inputMouse->GetLeftPress())
 	{
-		player->Shoot();
+		if (player->GetUsingWeapon()->GetAmmo() <= 0)
+		{
+			player->ChangePattern(new CPlayerPatternReload());
+			return;
+		}
+		else
+		{
+			player->Shoot();
+		}
 	}
 	if (inputMouse->GetLeftRelease())
 	{

@@ -8,16 +8,26 @@
 #include "gameobject.h"
 #include <d3dx9.h>
 
-class CEvent : public CGameObject
+static const int EVENT_NUM_MAX = 20;
+
+class CEvent
 {
 public:
-	CEvent() {}
+	CEvent();
 	~CEvent() {}
 
+	virtual void Init() {}
+	virtual void Uninit() = 0;
 	virtual void Update() = 0;
-	virtual void isCollision() = 0;
+	void Release();
+
+	static void UpdateAll();
+	static void ReleaseAll();
 
 private:
+	static CEvent* m_Events[EVENT_NUM_MAX];
+
+protected:
 	D3DXVECTOR3 m_Pos;
 };
 

@@ -31,6 +31,7 @@ public:
 	void ChangeSpawnAI(CSpawnAIStateBase* next);
 	void DeleteZombie(CZombie* zombie);
 	void SetSpawnAIState(int state) { m_SpawnAIState = state; }
+	void Start();
 
 private:
 	CZombie*			m_Zombies[ZOMBIE_NUM_MAX];
@@ -40,6 +41,7 @@ private:
 	int					m_CountFrame;
 	int					m_ZombieSpawnRate;
 	int					m_SpawnAIState;
+	bool				m_isStart;
 };
 
 
