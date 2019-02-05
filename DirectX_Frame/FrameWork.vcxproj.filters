@@ -408,6 +408,21 @@
     <ClInclude Include="eventStartEnemy.h">
       <Filter>ヘッダー ファイル\event</Filter>
     </ClInclude>
+    <ClInclude Include="tutorialDash.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialShoot.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialADS.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialReload.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorialChangeWeapon.h">
+      <Filter>ヘッダー ファイル\player\tutorial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -670,6 +685,21 @@
     </ClCompile>
     <ClCompile Include="eventStartEnemy.cpp">
       <Filter>ソース ファイル\event</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialDash.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialShoot.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialADS.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialReload.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorialChangeWeapon.cpp">
+      <Filter>ソース ファイル\player\tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

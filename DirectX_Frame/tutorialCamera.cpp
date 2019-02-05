@@ -34,26 +34,32 @@ void CTutorialCamera::Update(CPlayer* player)
 
 	int value = m_Count % 120;
 
-	if (m_Count < 120)
+	if (m_Count <= TUTORIAL_DRAW_FRAME - TUTORIAL_FADE_FRAME)
 	{
-		m_Alpha += 255 / 120;
-		m_Text->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
-		m_Controller->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
+		if (m_Alpha < 255)
+		{
+			m_Alpha += 255 / TUTORIAL_FADE_FRAME;
+			if (m_Alpha > 255)
+			{
+				m_Alpha = 255;
+			}
+			m_Text->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
+			m_Controller->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
+		}
+		else
+		{
+			m_Text->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255));
+			m_Controller->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255));
+		}
 	}
-	else if (m_Count == 120)
+	else if (m_Count >  TUTORIAL_DRAW_FRAME - TUTORIAL_FADE_FRAME)
 	{
-		m_Alpha = 255;
-		m_Text->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
-		m_Controller->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
-	}
-	else if (m_Count > 300)
-	{
-		m_Alpha -= 255 / 120;
+		m_Alpha -= 255 / TUTORIAL_FADE_FRAME;
 		m_Text->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
 		m_Controller->SetColor(D3DCOLOR_RGBA(255, 255, 255, m_Alpha));
 	}
 
-	if (m_Count > 420)
+	if (m_Count > TUTORIAL_DRAW_FRAME)
 	{
 		player->ChangeTutorial(new CTutorialMove());
 	}

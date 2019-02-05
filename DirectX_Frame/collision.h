@@ -347,6 +347,14 @@ bool isCollisionCircle2D(float x0, float y0, float r0, float x1, float y1, float
 bool isCollisionLine2D(D3DXVECTOR3 &r1, D3DXVECTOR3 &r2, D3DXVECTOR3 &p1, D3DXVECTOR3 &p2);
 
 //************************************************************************
+//	四角形と点の当たり判定
+//	第一引数			四角形の左上頂点
+//	第二引数		  　四角形の右下頂点
+//	第三引数			点の座標
+//************************************************************************
+bool isCollisionSquareToPoint2D(D3DXVECTOR2 &sp1, D3DXVECTOR2 &sp2, D3DXVECTOR2 &p);
+
+//************************************************************************
 //	球と球の当たり判定
 //************************************************************************
 bool isCollisionSphere(Sphere &sphere1, Sphere &sphere2);

@@ -23,7 +23,10 @@ void CEventStartEnemy::Uninit()
 void CEventStartEnemy::Update()
 {
 	D3DXVECTOR3 player = CManager::GetCamera()->GetPos();
-	if (isCollisionCircle2D(m_Pos.x, m_Pos.z, 5.0f, player.x, player.z, 1.0f))
+	if (isCollisionSquareToPoint2D(
+		D3DXVECTOR2(m_Pos.x - 5.0f, m_Pos.z + 0.5f),
+		D3DXVECTOR2(m_Pos.x + 5.0f, m_Pos.z - 0.5f),
+		D3DXVECTOR2(player.x, player.z)))
 	{
 		CModeGame::GetEnemyManager()->Start();
 		Release();

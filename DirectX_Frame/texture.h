@@ -58,12 +58,14 @@ typedef enum
 	TEX_ID_MOVE_TEXT,				// チュートリアルテキスト「移動」
 	TEX_ID_CAMERA_ROTATE_TEXT,		// チュートリアルテキスト「カメラ回転」
 	TEX_ID_CHANGE_WEAPON_TEXT,		// チュートリアルテキスト「武器を切替」
+	TEX_ID_RELOAD_TEXT,				// チュートリアルテキスト「リロード」
 	TEX_ID_MOUSE_LEFT,				// チュートリアル操作「マウスの左クリック」
 	TEX_ID_MOUSE_RIGHT,				// チュートリアル操作「マウスの右クリック」
 	TEX_ID_MOUSE_WHEEL,				// チュートリアル操作「マウスのホイール」
 	TEX_ID_MOUSE_MOVE,				// チュートリアル操作「マウス移動」
 	TEX_ID_WASD_RED,				// チュートリアル操作「WASDキー」
 	TEX_ID_SHIFT,					// チュートリアル操作「Shiftキー」
+	TEX_ID_KEY_R,					// チュートリアル操作「Rキー」
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -117,12 +119,14 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/move.png",
 	"data/textures/camerarotate.png",
 	"data/textures/changeweapon.png",
+	"data/textures/reload.png",
 	"data/textures/oldmouse_l.png",
 	"data/textures/oldmouse_r.png",
 	"data/textures/oldmouse_w.png",
 	"data/textures/mouse_move.png",
 	"data/textures/wasd_red.png",
 	"data/textures/shift.png",
+	"data/textures/key_r.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

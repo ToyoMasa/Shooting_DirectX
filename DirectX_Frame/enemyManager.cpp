@@ -9,12 +9,14 @@
 #include "waypoint.h"
 #include "scene3D.h"
 #include "field.h"
+#include "player.h"
 #include "enemyManager.h"
 #include "enemyPatternWaypoints.h"
 #include "enemyPatternWaypointsRun.h"
 #include "zombie.h"
 #include "spawnAIStateRise.h"
 #include "spawnAIStateStop.h"
+#include "tutorialShoot.h"
 
 CEnemyManager::CEnemyManager(CField* field)
 {
@@ -161,6 +163,8 @@ void CEnemyManager::Start()
 			m_Field);
 
 		m_isStart = true;
+
+		CModeGame::GetPlayer()->ChangeTutorial(new CTutorialShoot());
 
 		break;
 	}

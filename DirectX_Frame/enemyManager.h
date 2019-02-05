@@ -25,8 +25,8 @@ public:
 	void Update();
 	void CreateEnemy(ENEMY_TYPE type);
 	int GetFrameCount() { return m_CountFrame; }
-	void AddPlayerTension(float add) { m_PlayerTension += add; }
-	void SetPlayerTension(float tension) { m_PlayerTension = tension; }
+	void AddPlayerTension(float add) { if (m_isStart) { m_PlayerTension += add; } }
+	void SetPlayerTension(float tension) {if (m_isStart) { m_PlayerTension = tension; } }
 	float GetPlayerTension() { return m_PlayerTension; }
 	void ChangeSpawnAI(CSpawnAIStateBase* next);
 	void DeleteZombie(CZombie* zombie);

@@ -46,6 +46,7 @@
 #include "playerPatternNormal.h"
 #include "event.h"
 #include "eventStartEnemy.h"
+#include "tutorialCamera.h"
 
 CPlayer *CModeGame::player = NULL;
 CLight *CModeGame::Light;
@@ -106,7 +107,7 @@ void CModeGame::Init()
 	Field = CField::Create("data/output/map.txt");
 
 	// ƒvƒŒƒCƒ„[
-	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-68.0f, 0.0f, -74.0f));
+	player = CPlayer::Create(SM_ID_PLAYER, D3DXVECTOR3(-88.0f, 0.0f, -85.0f));
 	player->SetField(Field);
 	player->ChangePattern(new CPlayerPatternStop());
 	CManager::SetCamera(player->GetCamera());
@@ -239,6 +240,7 @@ void CModeGame::Update()
 			if (GameCount == 60)
 			{
 				player->ChangePattern(new CPlayerPatternNormal());
+				player->ChangeTutorial(new CTutorialCamera());
 			}
 
 			CCharacter::UpdateAll();

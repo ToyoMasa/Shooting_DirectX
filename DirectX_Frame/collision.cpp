@@ -289,6 +289,19 @@ bool isCollisionLine2D(D3DXVECTOR3 &r1, D3DXVECTOR3 &r2, D3DXVECTOR3 &p1, D3DXVE
 	}
 }
 
+//======================================================================
+//	ŽlŠpŒ`‚Æ“_‚Ì“–‚½‚è”»’è
+//======================================================================
+bool isCollisionSquareToPoint2D(D3DXVECTOR2 &sp1, D3DXVECTOR2 &sp2, D3DXVECTOR2 &p)
+{
+	if (p.x < sp1.x) { return false; }
+	if (p.x > sp2.x) { return false; }
+	if (p.y > sp1.y) { return false; }
+	if (p.y < sp2.y) { return false; }
+
+	return true;
+}
+
 bool onPolygon(D3DXVECTOR3 &target, D3DXVECTOR3 &p0, D3DXVECTOR3 &p1, D3DXVECTOR3 &p2)
 {
 	float cross1, cross2, cross3;

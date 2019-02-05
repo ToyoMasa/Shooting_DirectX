@@ -35,7 +35,7 @@
 #include "skinmeshShader.h"
 #include "skinmeshSpotlightShader.h"
 #include "enemyManager.h"
-#include "tutorialCamera.h"
+#include "tutorialNone.h"
 
 static const float DEFAULT_FOV = 90.0f;
 static const float ADS_FOV = 70.0f;
@@ -128,7 +128,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_AmmoNum->Set(AMMO_DISPLAY_POS);
 
 	CTutorialBase::LoadTexture();
-	ChangeTutorial(new CTutorialCamera());
+	ChangeTutorial(new CTutorialNone());
 }
 
 void CPlayer::Uninit()

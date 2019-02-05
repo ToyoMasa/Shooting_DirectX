@@ -5,6 +5,9 @@
 #ifndef _TUTORIAL_BASE_H_
 #define _TUTORIAL_BASE_H_
 
+static const int TUTORIAL_FADE_FRAME = 60;
+static const int TUTORIAL_DRAW_FRAME = 300;
+
 class CScene2D;
 class CPlayer;
 
