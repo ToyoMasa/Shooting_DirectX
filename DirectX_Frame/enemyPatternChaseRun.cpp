@@ -22,19 +22,19 @@
 #include "wall.h"
 #include "bullet.h"
 #include "EnemyAnim.h"
-#include "enemyPatternChase.h"
-#include "enemyPatternAttack.h"
+#include "enemyPatternChaseRun.h"
+#include "enemyPatternAttackRun.h"
 #include "enemyPatternWaypointsRun.h"
 
-void CEnemyPatternChase::Init(CEnemy* enemy)
+void CEnemyPatternChaseRun::Init(CEnemy* enemy)
 {
-	enemy->GetModel()->ChangeAnim(ENEMY_WALKING, 0.3f);
-	enemy->GetModel()->SetAnimPlaySpeed(2.5f);
+	enemy->GetModel()->ChangeAnim(ENEMY_RUNNING, 0.3f);
+	enemy->GetModel()->SetAnimPlaySpeed(2.0f);
 	enemy->SetTargetState(CEnemy::TARGET_FIND);
-	enemy->SetPatternType(ENEMY_PATTERN_CHASE);
+	enemy->SetPatternType(ENEMY_PATTERN_CHASE_RUN);
 }
 
-void CEnemyPatternChase::Update(CEnemy* enemy)
+void CEnemyPatternChaseRun::Update(CEnemy* enemy)
 {
 	D3DXVECTOR3 newPos = enemy->GetPos();
 	newPos.y = 0;
@@ -47,7 +47,7 @@ void CEnemyPatternChase::Update(CEnemy* enemy)
 	//	enemy->ChangePattern(new CEnemyPatternWaypointsRun());
 	//}
 	//else
-	if (enemy->GetCount() % 15 == 0)
+	if (enemy->GetCount() % 10 == 0)
 	{
 		if (CModeGame::GetField()->GetHeight(newPos, enemy) > 0.0f)
 		{
@@ -59,11 +59,11 @@ void CEnemyPatternChase::Update(CEnemy* enemy)
 	if (D3DXVec3Length(&vec) > 1.0f)
 	{
 		D3DXVec3Normalize(&vec, &vec);
-		newPos += enemy->GetSpeed() * vec;
+		newPos += enemy->GetSpeed() * 2.5f * vec;
 	}
 	else
 	{
-		enemy->ChangePattern(new CEnemyPatternAttack());
+		enemy->ChangePattern(new CEnemyPatternAttackRun());
 	}
 
 	D3DXVec3Normalize(&vec, &vec);

@@ -24,6 +24,13 @@ public:
 		TARGET_SEARCH,
 	} TARGET_STATE;
 
+	typedef enum
+	{
+		NONE,
+		PATTERN_STATE_NORMAL,
+		PATTERN_STATE_HORDE,
+	} PATTERN_STATE;
+
 	CEnemy::CEnemy() : CCharacter() 
 	{
 		m_Type = CHARACTER_ENEMY;
@@ -49,6 +56,8 @@ public:
 	void SetAttackHit(const bool& hit) { m_AttackHit = hit; }
 	void SetSpeed(float speed) { m_Speed = speed; }
 	void SetTargetState(TARGET_STATE state) { m_TargetState = state; }
+	void SetPatternType(CEnemyPatternBase::ENEMY_PATTERN_TYPE type) { m_PatternType = type; }
+	CEnemyPatternBase::ENEMY_PATTERN_TYPE GetPatternType() { return m_PatternType; }
 
 	void ChangePattern(CEnemyPatternBase* next);
 	virtual void Move(D3DXVECTOR3 newPos) {}
@@ -57,16 +66,23 @@ public:
 
 	virtual void Damaged(float damage)override {}
 
+	static void SetPatternState(PATTERN_STATE state) { m_PatternState = state; }
+	static PATTERN_STATE GetPatternState() { return m_PatternState; }
+	static void StartHorde();
+	static void StopHorde();
+
 protected:
-	CEnemyPatternBase*		m_Pattern;
-	Capsule					m_AttackingCollision;
-	Sphere					m_MoveCollision;
-	int						m_Count;
-	TARGET_STATE			m_TargetState;
-	float					m_AttackDamage;
-	float					m_Speed;
-	float					m_CapsuleRad;
-	bool					m_AttackHit;
+	CEnemyPatternBase*						m_Pattern;
+	CEnemyPatternBase::ENEMY_PATTERN_TYPE	m_PatternType;
+	static PATTERN_STATE					m_PatternState;
+	Capsule									m_AttackingCollision;
+	Sphere									m_MoveCollision;
+	int										m_Count;
+	TARGET_STATE							m_TargetState;
+	float									m_AttackDamage;
+	float									m_Speed;
+	float									m_CapsuleRad;
+	bool									m_AttackHit;
 };
 
 #endif // !_ENEMY_H_

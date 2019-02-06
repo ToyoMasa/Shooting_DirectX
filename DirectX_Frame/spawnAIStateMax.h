@@ -14,6 +14,7 @@ public:
 	{ 
 		m_Count = 0; 
 		manager->SetSpawnAIState(SPAWN_AI_MAX);
+		CEnemy::StartHorde();
 	}
 	~CSpawnAIStateMax() {}
 

@@ -22,8 +22,16 @@
 #include "field.h"
 #include "EnemyAnim.h"
 #include "Effekseer.h"
+#include "enemyPatternAttack.h"
+#include "enemyPatternAttackRun.h"
+#include "enemyPatternChase.h"
+#include "enemyPatternChaseRun.h"
+#include "enemyPatternWaypoints.h"
+#include "enemyPatternWaypointsRun.h"
 #include "enemyPatternDeath.h"
 #include "skinmeshShader.h"
+
+CEnemy::PATTERN_STATE CEnemy::m_PatternState = PATTERN_STATE_NORMAL;
 
 void CEnemy::ChangePattern(CEnemyPatternBase* next)
 {
@@ -34,4 +42,45 @@ void CEnemy::ChangePattern(CEnemyPatternBase* next)
 
 	m_Pattern = next;
 	next->Init(this);
+}
+
+void CEnemy::StartHorde()
+{
+	m_PatternState = PATTERN_STATE_HORDE;
+
+	for (int i = 0; i < CHARACTER_MAX; i++)
+	{
+		CCharacter* obj = CCharacter::GetCharacter(i);
+		if (obj == NULL)
+		{
+			continue;
+		}
+
+		if (obj->GetType() != CHARACTER_ENEMY)
+		{
+			continue;
+		}
+
+		CEnemy* enemy = (CEnemy*)obj;
+		
+		switch (enemy->GetPatternType())
+		{
+		case CEnemyPatternBase::ENEMY_PATTERN_ATTACK:
+			enemy->ChangePattern(new CEnemyPatternAttackRun());
+			continue;
+		case CEnemyPatternBase::ENEMY_PATTERN_CHASE:
+			enemy->ChangePattern(new CEnemyPatternChaseRun());
+			continue;
+		case CEnemyPatternBase::ENEMY_PATTERN_WAYPOINTS:
+			enemy->ChangePattern(new CEnemyPatternWaypointsRun());
+			continue;
+		default:
+			continue;
+		}
+	}
+}
+
+void CEnemy::StopHorde()
+{
+	m_PatternState = PATTERN_STATE_NORMAL;
 }

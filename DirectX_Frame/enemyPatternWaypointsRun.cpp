@@ -26,6 +26,7 @@
 #include "waypoint.h"
 #include "enemyPatternWaypointsRun.h"
 #include "enemyPatternChase.h"
+#include "enemyPatternChaseRun.h"
 #include "enemyPatternAttack.h"
 
 static float MOVE_SPEED = 0.015f;
@@ -42,6 +43,8 @@ void CEnemyPatternWaypointsRun::Init(CEnemy* enemy)
 	//m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
 	m_TargetPoint = m_NowPoint;
 	m_TargetPos = CWayPoint::GetWayPointPos(m_TargetPoint);
+
+	enemy->SetPatternType(ENEMY_PATTERN_WAYPOINTS_RUN);
 }
 
 void CEnemyPatternWaypointsRun::Update(CEnemy* enemy)
@@ -55,12 +58,12 @@ void CEnemyPatternWaypointsRun::Update(CEnemy* enemy)
 	if (D3DXVec3Length(&vec) < 7.0f)
 	{
 		// プレイヤーとの距離が近ければ追尾
-		enemy->ChangePattern(new CEnemyPatternChase());
+		enemy->ChangePattern(new CEnemyPatternChaseRun());
 	}
 	else if (m_TargetPoint == -1)
 	{
 		// プレイヤーと同じポイントにいれば
-		enemy->ChangePattern(new CEnemyPatternChase());
+		enemy->ChangePattern(new CEnemyPatternChaseRun());
 	}
 	else
 	{

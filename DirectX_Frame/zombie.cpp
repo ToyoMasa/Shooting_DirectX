@@ -26,6 +26,7 @@
 #include "Effekseer.h"
 #include "enemyPatternDeath.h"
 #include "enemyPatternChase.h"
+#include "enemyPatternChaseRun.h"
 #include "skinmeshShader.h"
 #include "skinmeshSpotlightShader.h"
 #include "enemyManager.h"
@@ -215,7 +216,14 @@ void CZombie::Damaged(float damage)
 
 	if (m_TargetState == CEnemy::TARGET_SEARCH)
 	{
-		ChangePattern(new CEnemyPatternChase());
+		if (CEnemy::GetPatternState() == CEnemy::PATTERN_STATE_NORMAL)
+		{
+			ChangePattern(new CEnemyPatternChase());
+		}
+		else
+		{
+			ChangePattern(new CEnemyPatternChaseRun());
+		}
 	}
 }
 

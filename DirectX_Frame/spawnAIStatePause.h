@@ -14,6 +14,7 @@ public:
 	{
 		m_Count = 0;
 		manager->SetSpawnAIState(SPAWN_AI_PAUSE);
+		CEnemy::StopHorde();
 	}
 	~CSpawnAIStatePause() {}
 

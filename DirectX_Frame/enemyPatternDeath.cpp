@@ -30,6 +30,7 @@ void CEnemyPatternDeath::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_DEATH, 0.3f);
 	enemy->SetType(CHARACTER_NONE);
+	enemy->SetPatternType(ENEMY_PATTERN_DEATH);
 }
 
 void CEnemyPatternDeath::Update(CEnemy* enemy)

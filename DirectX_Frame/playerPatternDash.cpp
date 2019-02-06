@@ -87,7 +87,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	}
 
 	// ‘–‚Á‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
-	CModeGame::GetEnemyManager()->AddPlayerTension(2.0f / 60.0f);
+	CModeGame::GetEnemyManager()->AddPlayerTension(5.0f / 60.0f);
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
 	D3DXVec2Normalize(&dir, &dir);

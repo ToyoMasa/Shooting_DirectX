@@ -30,6 +30,7 @@ CEnemyManager::CEnemyManager(CField* field)
 	//m_SpawnAI = new CSpawnAIStateStop(this);
 	m_SpawnAI = new CSpawnAIStateRise(this);
 
+	CEnemy::SetPatternState(CEnemy::PATTERN_STATE_NORMAL);
 	CZombie::ZombieInit();
 
 	for (int i = 0; i < ZOMBIE_NUM_MAX; i++)
@@ -86,6 +87,8 @@ void CEnemyManager::Update()
 
 void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 {
+	CEnemy::PATTERN_STATE state = CEnemy::GetPatternState();
+
 	switch (type)
 	{
 	case ENEMY_TYPE_ZOMBIE:
@@ -100,7 +103,7 @@ void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 			int numWayPoint = CWayPoint::GetWayPoints().size();
 			spawnPos = CWayPoint::GetWayPointPos(rand() % numWayPoint);
 
-			if (m_SpawnAIState == SPAWN_AI_MAX)
+			if (state == CEnemy::PATTERN_STATE_HORDE)
 			{
 				m_Zombies[i] = CZombie::Create(
 					(SKINMESH_MODEL_ID)(SM_ID_ZOMBIE_A + rand() % 2),
@@ -118,6 +121,7 @@ void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 					m_Field);
 				break;
 			}
+			break;
 		}
 		break;
 	default:

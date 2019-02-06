@@ -41,6 +41,8 @@ void CEnemyPatternWaypoints::Init(CEnemy* enemy)
 
 	m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
 	m_TargetPos = CWayPoint::GetWayPointPos(m_TargetPoint);
+
+	enemy->SetPatternType(ENEMY_PATTERN_WAYPOINTS);
 }
 
 void CEnemyPatternWaypoints::Update(CEnemy* enemy)

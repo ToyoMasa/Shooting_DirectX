@@ -167,6 +167,8 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="enemyPatternAttackRun.h" />
+    <ClInclude Include="enemyPatternChaseRun.h" />
     <ClInclude Include="enemyPatternWaypointsRun.h" />
     <ClInclude Include="eventStartEnemy.h" />
     <ClInclude Include="fieldShader.h" />
@@ -274,6 +276,8 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="enemyPatternAttackRun.cpp" />
+    <ClCompile Include="enemyPatternChaseRun.cpp" />
     <ClCompile Include="enemyPatternWaypointsRun.cpp" />
     <ClCompile Include="eventStartEnemy.cpp" />
     <ClCompile Include="fieldShader.cpp" />
@@ -338,7 +342,7 @@
     <ClCompile Include="skinmeshSpotlightShader.cpp" />
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sound.cpp" />
-    <ClCompile Include="spawnAIMax.cpp" />
+    <ClCompile Include="spawnAIStateMax.cpp" />
     <ClCompile Include="spawnAIStateFall.cpp" />
     <ClCompile Include="spawnAIStatePause.cpp" />
     <ClCompile Include="spawnAIStateRise.cpp" />
@@ -365,6 +369,11 @@
     <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
     <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
+    <FxCompile Include="data\shaders\shadow.fx" />
+    <FxCompile Include="data\shaders\shadowSkinmesh.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="data\shaders\skinmesh.fx">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>

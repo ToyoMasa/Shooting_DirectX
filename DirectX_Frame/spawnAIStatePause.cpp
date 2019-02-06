@@ -15,7 +15,7 @@ void CSpawnAIStatePause::Update()
 	m_Count++;
 	m_EnemyManager->SetPlayerTension(0.0f);
 
-	if (m_Count >= 300)
+	if (m_Count >= 420)
 	{
 		m_EnemyManager->ChangeSpawnAI(new CSpawnAIStateRise(m_EnemyManager));
 	}

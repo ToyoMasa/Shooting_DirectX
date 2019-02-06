@@ -1,5 +1,5 @@
 //======================================================================
-//	“GUŒ‚ƒpƒ^[ƒ“ [enemyPatternAttack.cpp]@i2018/10/31j
+//	“GUŒ‚(‘–‚è)ƒpƒ^[ƒ“ [enemyPatternAttack.cpp]@i2018/2/5j
 //	Author : –L‘º ¹r
 //======================================================================
 #include "common.h"
@@ -22,24 +22,24 @@
 #include "wall.h"
 #include "bullet.h"
 #include "EnemyAnim.h"
-#include "enemyPatternChase.h"
-#include "enemyPatternAttack.h"
+#include "enemyPatternChaseRun.h"
+#include "enemyPatternAttackRun.h"
 
 static float CHASE_SPEED = 0.05f;
 
-void CEnemyPatternAttack::Init(CEnemy* enemy)
+void CEnemyPatternAttackRun::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_ATTACK, 0.3f);
-	enemy->GetModel()->SetAnimPlaySpeed(1.5f);
+	enemy->GetModel()->SetAnimPlaySpeed(2.0f);
 	enemy->SetAttackHit(false);
 	enemy->Attack();
-	enemy->SetPatternType(ENEMY_PATTERN_ATTACK);
+	enemy->SetPatternType(ENEMY_PATTERN_ATTACK_RUN);
 }
 
-void CEnemyPatternAttack::Update(CEnemy* enemy)
+void CEnemyPatternAttackRun::Update(CEnemy* enemy)
 {
 	if (enemy->GetModel()->GetWeightTime() > 2.0f && enemy->GetModel()->GetWeightTime() < 3.0f)
-	{	
+	{
 		CPlayer* player = CModeGame::GetPlayer();
 		if (isCollisionCapsule(enemy->GetAttackCollision(), player->GetCapsule()) && !enemy->GetAttackHit())
 		{
@@ -50,7 +50,7 @@ void CEnemyPatternAttack::Update(CEnemy* enemy)
 
 	if (enemy->GetModel()->GetWeightTime() >= 3.0f)
 	{
-		enemy->ChangePattern(new CEnemyPatternChase());
+		enemy->ChangePattern(new CEnemyPatternChaseRun());
 	}
 }
 

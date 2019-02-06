@@ -29,6 +29,7 @@
 #include "playerPatternReload.h"
 #include "playerPatternJump.h"
 #include "playerPatternADS.h"
+#include "enemyManager.h"
 
 void CPlayerPatternADS::Init(CPlayer* player)
 {
@@ -88,6 +89,12 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	if (inputKeyboard->GetKeyPress(DIK_S))
 	{
 		moveZ = -1.0f;
+	}
+
+	// •à‚¢‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
+	if (moveX != 0.0f || moveZ != 0.0f)
+	{
+		CModeGame::GetEnemyManager()->AddPlayerTension(0.8f / 60.0f);
 	}
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
