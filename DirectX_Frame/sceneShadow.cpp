@@ -66,6 +66,8 @@ void CSceneShadow::Init()
 	D3DXMatrixIdentity(&m_Move);
 	D3DXMatrixIdentity(&m_Rotate);
 	D3DXMatrixIdentity(&m_Scale);
+
+	m_isUseShadow = false;
 }
 
 void CSceneShadow::Uninit()

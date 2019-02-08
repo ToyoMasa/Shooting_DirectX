@@ -63,6 +63,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawShadow();
 	void DrawWithShader()override;
 	void SetWorld(D3DXMATRIX move);
 	void SetNormalMapTexture(const std::string& texName);

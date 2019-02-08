@@ -20,6 +20,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawShadow() {}
 	void DrawWithShader()override {}
 	static CSceneShadow* Create();
 

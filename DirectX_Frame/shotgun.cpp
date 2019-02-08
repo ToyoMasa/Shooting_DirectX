@@ -34,6 +34,7 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 {
 	m_Parent = parent;
 	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_SHOTGUN]);
+	m_Model->SetUseShadow(false);
 	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
 	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
 	m_Crosshair->SetVisible(false);

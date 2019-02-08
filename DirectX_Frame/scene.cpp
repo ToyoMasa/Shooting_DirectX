@@ -1,6 +1,8 @@
 #include "common.h"
 #include "renderer.h"
 #include "billboard.h"
+#include "shadowShader.h"
+#include "skinmeshShadowShader.h"
 
 //======================================================================
 //	静的メンバ変数の初期化
@@ -107,6 +109,61 @@ void CScene::DrawAll()
 					else
 					{
 						m_Scene[j][i]->Draw();
+					}
+				}
+			}
+		}
+	}
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);		// αテストのON/OFF
+}
+
+void CScene::DrawShadowAll()
+{
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	for (int j = 0; j < PRIORITY_MAX; j++)
+	{
+		switch (j)
+		{
+		case LAYER_BACKGROUND:
+			// FVF(今から使用する頂点情報)の設定
+			pDevice->SetFVF(FVF_VERTEX_3D);
+			break;
+		case LAYER_OBJECT2D:
+			pDevice->SetFVF(FVF_VERTEX_2D);
+			break;
+		default:
+			// FVF(今から使用する頂点情報)の設定
+			pDevice->SetFVF(FVF_VERTEX_3D);
+
+			break;
+		}
+		for (int i = 0; i < OBJECT_MAX; i++)
+		{
+			if (m_Scene[j][i] != NULL)
+			{
+				if (m_Scene[j][i]->m_Visible)
+				{
+					if (m_Scene[j][i]->GetUseShadow())
+					{
+						CShader* save = m_Scene[j][i]->GetShader();
+						if (j == LAYER_SKINMESH)
+						{
+							m_Scene[j][i]->SetShader(CShaderSkinmeshShadow::GetShader());
+						}
+						else
+						{
+							m_Scene[j][i]->SetShader(CShaderShadow::GetShader());
+						}
+						m_Scene[j][i]->DrawShadow();
+						m_Scene[j][i]->SetShader(save);
 					}
 				}
 			}

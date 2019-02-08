@@ -429,6 +429,12 @@
     <ClInclude Include="enemyPatternAttackRun.h">
       <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
     </ClInclude>
+    <ClInclude Include="shadowShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="skinmeshShadowShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -712,6 +718,12 @@
     </ClCompile>
     <ClCompile Include="spawnAIStateMax.cpp">
       <Filter>ソース ファイル\enemy\spawnAI</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="skinmeshShadowShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -40,6 +40,7 @@ protected:
 	D3DXVECTOR3 m_Pos;
 	SCENE_TYPE m_Type;
 	bool m_Visible;
+	bool m_isUseShadow;
 	CShader *m_Shader;
 public:
 	CScene(int priority);
@@ -48,19 +49,24 @@ public:
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+	virtual void DrawShadow() {};
 	virtual void DrawWithShader() = 0;
 	virtual void SetWorld(D3DXMATRIX move) {}
 	virtual void Move(D3DXVECTOR3 pos) {}
 	virtual void Rotate(D3DXVECTOR3 rot) {}
 	virtual void Scale(D3DXVECTOR3 scale) {}
 	void Set(const D3DXVECTOR3& pos);
-	void SetVisible(bool visible) { m_Visible = visible; }
+	void SetVisible(bool value) { m_Visible = value; }
 	bool& GetVisible() { return m_Visible; }
+	void SetUseShadow(bool value) { m_isUseShadow = value; }
+	bool& GetUseShadow() { return m_isUseShadow; }
 	void SetShader(CShader* shader) { m_Shader = shader; }
+	CShader* GetShader() { return m_Shader; }
 	D3DXVECTOR3 GetPos() { return m_Pos; }
 	void Release();
 	static void UpdateAll();
 	static void DrawAll();
+	static void DrawShadowAll();
 	static void ReleaseAll();
 	static CScene* GetScene(int priority, int id) { return m_Scene[priority][id]; }
 	SCENE_TYPE& GetType() { return m_Type; }

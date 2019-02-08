@@ -21,6 +21,8 @@ void CScene2D::Init(int texId, float texW, float texH)
 	m_TexId = texId;
 	CTexture::Load(m_TexId);
 
+	m_isUseShadow = false;
+
 	m_TexSize = D3DXVECTOR2(texW, texH);
 }
 

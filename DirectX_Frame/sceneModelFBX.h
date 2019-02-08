@@ -92,6 +92,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawShadow() {}
 	void DrawWithShader()override {}
 	void SetWorld(D3DXMATRIX move);
 	void Move(D3DXVECTOR3 pos);

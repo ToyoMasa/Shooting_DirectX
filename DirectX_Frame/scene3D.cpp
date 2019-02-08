@@ -98,6 +98,8 @@ void CScene3D::Init(int texId, float meshSize, int sizeX, int sizeY, int numPrim
 	m_Mat.Ambient.a = 1.0f;
 
 	D3DXMatrixIdentity(&m_World);
+
+	m_isUseShadow = true;
 }
 
 void CScene3D::Init(int texId, VERTEX_3D* vertex, WORD* index, int numPrimitive, int numVertex, int numIndex)
@@ -173,6 +175,8 @@ void CScene3D::Init(int texId, VERTEX_3D* vertex, WORD* index, int numPrimitive,
 	m_Mat.Ambient.a = 1.0f;
 
 	D3DXMatrixIdentity(&m_World);
+
+	m_isUseShadow = true;
 }
 
 //======================================================================

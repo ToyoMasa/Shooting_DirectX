@@ -17,6 +17,8 @@ enum SHADER_ID
 	SH_ID_NORMALMAP_SPOTLIGHT,
 	SH_ID_SPOTLIGHT,
 	SH_ID_FIELD,
+	SH_ID_SHADOW,
+	SH_ID_SKINMESH_SHADOW,
 	SH_ID_MAX
 };
 
@@ -29,7 +31,9 @@ static const std::string SHADER_FILE[] =
 	"data/shaders/normalmap.fx",
 	"data/shaders/normalmapSpotlight.fx",
 	"data/shaders/spotlight.fx",
-	"data/shaders/shader.fx",
+	"data/shaders/field.fx",
+	"data/shaders/shadow.fx",
+	"data/shaders/shadowSkinmesh.fx",
 };
 
 class CShader

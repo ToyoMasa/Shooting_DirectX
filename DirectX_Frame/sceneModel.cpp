@@ -113,6 +113,8 @@ void CSceneModel::Init(const std::string& modelName)
 			}
 		}
 	}
+
+	m_isUseShadow = true;
 }
 
 //======================================================================
@@ -211,6 +213,47 @@ void CSceneModel::Draw()
 	}
 
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+//======================================================================
+//	影描画関数
+//======================================================================
+void CSceneModel::DrawShadow()
+{
+	if (m_Shader == NULL)
+	{
+		return;
+	}
+
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+	if (pDevice == NULL)
+	{
+		return;
+	}
+
+	m_Rotate = m_RotX * m_RotY * m_RotZ;
+	m_World = m_Scale * m_Rotate * m_Move * m_Target;
+	pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+	LPD3DXMATERIAL pMaterials = (LPD3DXMATERIAL)m_Material->GetBufferPointer();
+
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	m_Shader->ShaderSet(m_World);
+
+	// サブセットを描画する(マテリアル数分ループ)
+	for (int i = 0; i < (int)m_MaterialNum; i++)
+	{
+		pDevice->SetMaterial(&pMaterials[i].MatD3D);
+		m_Shader->SetMaterial(pMaterials[i].MatD3D);
+
+		m_Mesh->DrawSubset(i);					// サブセットの描画
+	}
+
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	// 頂点シェーダーとピクセルシェーダーをリセット
+	pDevice->SetVertexShader(NULL);
+	pDevice->SetPixelShader(NULL);
 }
 
 void CSceneModel::DrawWithShader()

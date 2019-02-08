@@ -196,7 +196,9 @@
     <ClInclude Include="normalmapSpotlightShader.h" />
     <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="playerPatternWeaponChange.h" />
+    <ClInclude Include="shadowShader.h" />
     <ClInclude Include="skinmeshShader.h" />
+    <ClInclude Include="skinmeshShadowShader.h" />
     <ClInclude Include="skinmeshSpotlightShader.h" />
     <ClInclude Include="spawnAIStateBase.h" />
     <ClInclude Include="spawnAIStateFall.h" />
@@ -335,10 +337,12 @@
     <ClCompile Include="sceneShadow.cpp" />
     <ClCompile Include="sceneSkinMesh.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shadowShader.cpp" />
     <ClCompile Include="shotgun.cpp" />
     <ClCompile Include="SkinMeshData.cpp" />
     <ClCompile Include="SkinMeshFile.cpp" />
     <ClCompile Include="skinmeshShader.cpp" />
+    <ClCompile Include="skinmeshShadowShader.cpp" />
     <ClCompile Include="skinmeshSpotlightShader.cpp" />
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sound.cpp" />

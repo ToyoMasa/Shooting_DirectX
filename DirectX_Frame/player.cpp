@@ -49,6 +49,7 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	m_Model = CSceneSkinMesh::Create(modelId);
 	m_Model->ChangeAnim(PLAYER_IDLE, 0.0f);
 	m_Model->SetIsAlwaysDraw(true);
+	m_Model->SetUseShadow(false);
 	m_Pos = spawnPos;
 	D3DXVECTOR3 pos = m_Pos;
 	m_LocalCameraPos.x = 0.0f;

@@ -29,6 +29,8 @@ void CSceneSkinMesh::Init(const SKINMESH_MODEL_ID& id)
 	m_Animation->Init();
 
 	m_ModelID = id;
+
+	m_isUseShadow = true;
 }
 
 void CSceneSkinMesh::Uninit()
@@ -92,6 +94,66 @@ void CSceneSkinMesh::Draw()
 				m_SkinMeshFiles[m_ModelID]->Draw(&m_World);
 			}
 		}
+	}
+}
+
+void CSceneSkinMesh::DrawShadow()
+{
+	if (m_SkinMeshFiles[m_ModelID] != NULL)
+	{
+		// 敵とプレイヤーの距離
+		D3DXVECTOR3 vec = (m_Pos - CManager::GetCamera()->GetPos());
+		float len = D3DXVec3Length(&vec);
+
+		if (!m_isAlwaysDraw)
+		{
+			if (len > CManager::GetSkinMeshDrawDist())
+			{
+				m_NotDrawCount++;
+				return;
+			}
+
+			D3DXVECTOR3 camFront = CManager::GetCamera()->GetFront();
+			camFront.y = 0;
+			vec.y = 0;
+
+			D3DXVec3Normalize(&camFront, &camFront);
+			D3DXVec3Normalize(&vec, &vec);
+
+			float dot = D3DXVec3Dot(&vec, &camFront);
+			float rad = acosf(dot);
+
+			float degree = D3DXToDegree(rad);
+
+			if (degree > 90.0f)
+			{
+				m_NotDrawCount++;
+				return;
+			}
+		}
+
+		LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
+		if (pDevice == NULL)
+		{
+			return;
+		}
+
+		m_Animation->UpdateAnim(m_AnimPlaySpeed * m_NotDrawCount);
+		m_NotDrawCount = 0;
+
+		D3DXVec3Normalize(&vec, &vec);
+
+		m_SkinMeshFiles[m_ModelID]->UpdateFrame(m_SkinMeshFiles[m_ModelID]->GetRootFrame(), &m_World);
+
+		pDevice->SetTransform(D3DTS_WORLD, &m_World);
+
+		m_Shader->ShaderSet(m_World);
+
+		m_SkinMeshFiles[m_ModelID]->DrawWithShader(&m_World, m_Shader);
+
+		// 頂点シェーダーとピクセルシェーダーをリセット
+		pDevice->SetVertexShader(NULL);
+		pDevice->SetPixelShader(NULL);
 	}
 }
 

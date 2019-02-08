@@ -17,6 +17,8 @@
 #include "normalmapSpotlightShader.h"
 #include "spotlightShader.h"
 #include "fieldShader.h"
+#include "shadowShader.h"
+#include "skinmeshShadowShader.h"
 
 bool CShader::ShaderCompile(
 	const char* filename,
@@ -140,4 +142,6 @@ void CShader::ReleaseAll()
 	CShaderNormalmapSpotlight::Destroy();
 	CShaderSpotlight::Destroy();
 	CShaderField::Destroy();
+	CShaderShadow::Destroy();
+	CShaderSkinmeshShadow::Destroy();
 }

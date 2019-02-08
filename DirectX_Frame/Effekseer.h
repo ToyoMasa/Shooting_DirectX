@@ -78,7 +78,8 @@ public:
 	void Init();
 	void Uninit() override;
 	void Update()override;
-	void Draw()override; 
+	void Draw()override;
+	void DrawShadow()override {}
 	void DrawWithShader()override {}
 
 	static CEffekseer *Create(Effect EffectType, int priority = LAYER_EFFEKSEER);

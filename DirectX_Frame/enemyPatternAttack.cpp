@@ -30,7 +30,7 @@ static float CHASE_SPEED = 0.05f;
 void CEnemyPatternAttack::Init(CEnemy* enemy)
 {
 	enemy->GetModel()->ChangeAnim(ENEMY_ATTACK, 0.3f);
-	enemy->GetModel()->SetAnimPlaySpeed(1.5f);
+	enemy->GetModel()->SetAnimPlaySpeed(1.2f);
 	enemy->SetAttackHit(false);
 	enemy->Attack();
 	enemy->SetPatternType(ENEMY_PATTERN_ATTACK);
@@ -38,7 +38,7 @@ void CEnemyPatternAttack::Init(CEnemy* enemy)
 
 void CEnemyPatternAttack::Update(CEnemy* enemy)
 {
-	if (enemy->GetModel()->GetWeightTime() > 2.0f && enemy->GetModel()->GetWeightTime() < 3.0f)
+	if (enemy->GetModel()->GetWeightTime() > 1.0f && enemy->GetModel()->GetWeightTime() < 3.0f)
 	{	
 		CPlayer* player = CModeGame::GetPlayer();
 		if (isCollisionCapsule(enemy->GetAttackCollision(), player->GetCapsule()) && !enemy->GetAttackHit())

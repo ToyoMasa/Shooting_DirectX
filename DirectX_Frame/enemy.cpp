@@ -67,15 +67,15 @@ void CEnemy::StartHorde()
 		{
 		case CEnemyPatternBase::ENEMY_PATTERN_ATTACK:
 			enemy->ChangePattern(new CEnemyPatternAttackRun());
-			continue;
+			break;
 		case CEnemyPatternBase::ENEMY_PATTERN_CHASE:
 			enemy->ChangePattern(new CEnemyPatternChaseRun());
-			continue;
+			break;
 		case CEnemyPatternBase::ENEMY_PATTERN_WAYPOINTS:
 			enemy->ChangePattern(new CEnemyPatternWaypointsRun());
-			continue;
+			break;
 		default:
-			continue;
+			break;
 		}
 	}
 }
