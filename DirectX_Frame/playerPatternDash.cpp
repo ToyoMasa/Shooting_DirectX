@@ -33,6 +33,8 @@
 #include "playerPatternWeaponChange.h"
 #include "enemyManager.h"
 
+static const float DASH_HEAT = 1.0f / 60.0f;
+
 void CPlayerPatternDash::Init(CPlayer* player)
 {
 	player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
@@ -87,7 +89,7 @@ void CPlayerPatternDash::Update(CPlayer* player)
 	}
 
 	// ‘–‚Á‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
-	CModeGame::GetEnemyManager()->AddPlayerTension(5.0f / 60.0f);
+	CModeGame::GetEnemyManager()->AddPlayerTension(DASH_HEAT);
 
 	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
 	D3DXVec2Normalize(&dir, &dir);

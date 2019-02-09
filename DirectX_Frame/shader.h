@@ -19,6 +19,7 @@ enum SHADER_ID
 	SH_ID_FIELD,
 	SH_ID_SHADOW,
 	SH_ID_SKINMESH_SHADOW,
+	SH_ID_FIELD_SHADOW,
 	SH_ID_MAX
 };
 
@@ -34,6 +35,7 @@ static const std::string SHADER_FILE[] =
 	"data/shaders/field.fx",
 	"data/shaders/shadow.fx",
 	"data/shaders/shadowSkinmesh.fx",
+	"data/shaders/shadowField.fx",
 };
 
 class CShader

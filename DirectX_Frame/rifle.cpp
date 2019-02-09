@@ -64,7 +64,7 @@ void CRifle::Init(CSceneSkinMesh *parent)
 
 	// マズルフラッシュの初期化
 	m_Flash = CBillBoard::Create(TEX_ID_FLASH);
-	m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, BILLBOARDTYPE_ADD, D3DCOLOR_RGBA(255, 255, 0, 255));
+	m_Flash->Set(TEX_ID_FLASH, m_MuzzlePos, 0.3f, BILLBOARDTYPE_ADD, D3DCOLOR_RGBA(192, 192, 32, 255));
 	m_FlashAlpha = 0;
 	m_isFlash = false;
 	m_Flash->SetVisible(m_isFlash);
@@ -184,7 +184,9 @@ void CRifle::Shoot()
 		// マズルフラッシュ
 		m_FlashEffect->SetMtxRotate(m_Parent->GetMtxRotate());
 		m_FlashEffect->SetLocation(m_MuzzlePos);
-
+		//m_FlashAlpha = 255;
+		//m_isFlash = true;
+		//m_Flash->SetVisible(m_isFlash);
 		m_FlashEffect->Play();
 
 		// 銃声

@@ -43,6 +43,7 @@ public:
 	void Update();
 	void Draw();
 	void DrawWithShader()override;
+	void DrawShadow()override;
 	void Change(VERTEX_3D* vertex, WORD* index);
 	VERTEX_3D* GetVertex() { return m_Vertex; }
 	void SetTexID(int id) { m_TexId = id; }

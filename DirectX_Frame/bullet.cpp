@@ -94,17 +94,17 @@ void CBullet::Update()
 
 					//CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
 					CParticleEmitter::Create(TEX_ID_CIRCLE,
-						5,
+						7,
 						1,
-						5,
-						0.4f,
+						10,
+						0.5f,
 						-0.05f,
 						getPoint1,
 						D3DXVECTOR3(-0.1f, 0.1f, -0.1f),
-						D3DXVECTOR3(0.1f, 0.15f, 0.1f),
+						D3DXVECTOR3(0.1f, 0.2f, 0.1f),
 						D3DXVECTOR3(0.0f, -0.035f, 0.0f),
 						false,
-						D3DCOLOR_RGBA(192, 16, 16, 255));
+						D3DCOLOR_RGBA(255, 16, 16, 255));
 
 					enemy->Damaged(m_Damage);
 				}

@@ -172,6 +172,7 @@
     <ClInclude Include="enemyPatternWaypointsRun.h" />
     <ClInclude Include="eventStartEnemy.h" />
     <ClInclude Include="fieldShader.h" />
+    <ClInclude Include="fieldShadowShader.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="common.h" />
@@ -283,6 +284,7 @@
     <ClCompile Include="enemyPatternWaypointsRun.cpp" />
     <ClCompile Include="eventStartEnemy.cpp" />
     <ClCompile Include="fieldShader.cpp" />
+    <ClCompile Include="fieldShadowShader.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="controller.cpp" />
@@ -374,6 +376,7 @@
     <FxCompile Include="data\shaders\normalmap.fx" />
     <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
     <FxCompile Include="data\shaders\shadow.fx" />
+    <FxCompile Include="data\shaders\shadowField.fx" />
     <FxCompile Include="data\shaders\shadowSkinmesh.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

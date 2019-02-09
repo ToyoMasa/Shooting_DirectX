@@ -19,6 +19,7 @@
 #include "fieldShader.h"
 #include "shadowShader.h"
 #include "skinmeshShadowShader.h"
+#include "fieldShadowShader.h"
 
 bool CShader::ShaderCompile(
 	const char* filename,
@@ -144,4 +145,5 @@ void CShader::ReleaseAll()
 	CShaderField::Destroy();
 	CShaderShadow::Destroy();
 	CShaderSkinmeshShadow::Destroy();
+	CShaderFieldShadow::Destroy();
 }

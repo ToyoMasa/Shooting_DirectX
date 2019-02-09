@@ -178,6 +178,6 @@ void PS(
 	float4 shadow_color;
 	if (ZValue < SM_Z + 0.005f)
 	{
-		out_color.rgb = /*in_color.rgb * */0.2f;
+		out_color.rgb = tex_color.rgb * diffuse.rgb * 0.15f;
 	}
 }

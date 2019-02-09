@@ -12,6 +12,7 @@ class CField;
 class CSceneShadow;
 
 static const int CHARACTER_MAX = 150;
+static const int ZOMBIE_DRAW_NUM = 25;
 
 enum CHARACTER_TYPE
 {
@@ -66,7 +67,6 @@ protected:
 	float			m_WalkSpeed;
 	float			m_CameraDist;
 	CHARACTER_TYPE	m_Type;
-	CSceneShadow	*m_Shadow;
 	int 			m_AreaID;
 
 	// ステータス

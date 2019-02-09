@@ -3,6 +3,7 @@
 #include "billboard.h"
 #include "shadowShader.h"
 #include "skinmeshShadowShader.h"
+#include "fieldShadowShader.h"
 
 //======================================================================
 //	Ã“Iƒƒ“ƒo•Ï”‚Ì‰Šú‰»
@@ -167,6 +168,30 @@ void CScene::DrawShadowAll()
 					}
 				}
 			}
+		}
+	}
+
+	for (int j = 0; j < PRIORITY_MAX; j++)
+	{
+		if (j == LAYER_BACKGROUND)
+		{
+			for (int i = 0; i < OBJECT_MAX; i++)
+			{
+				if (m_Scene[j][i] != NULL)
+				{
+					if (m_Scene[j][i]->m_Visible)
+					{
+						if (m_Scene[j][i]->GetUseShadow())
+						{
+							CShader* save = m_Scene[j][i]->GetShader();
+							m_Scene[j][i]->SetShader(CShaderFieldShadow::GetShader());
+							m_Scene[j][i]->DrawShadow();
+							m_Scene[j][i]->SetShader(save);
+						}
+					}
+				}
+			}
+			break;
 		}
 	}
 

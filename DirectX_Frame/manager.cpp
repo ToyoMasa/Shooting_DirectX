@@ -257,7 +257,15 @@ void CManager::Draw()
 		//描画
 		m_Mode->Draw();
 
-		DrawQuad(pDevice, 10, 10, 200, 200, m_ShadowTex);
+		// シャドウマップテクスチャ
+		//DrawQuad(pDevice, 10, 10, 200, 200, m_ShadowTex);
+
+		//if (CManager::GetDebug())
+		{
+			ImGui::Begin("Debug Window");
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::End();
+		}
 
 		CImGui::EndDraw();
 
@@ -452,7 +460,13 @@ void CManager::CreateShadow()
 	D3DXVECTOR3	lightPos = m_UsingCamera->GetPos();
 	D3DXVECTOR3 at = lightPos;
 	D3DXVECTOR3 front = m_UsingCamera->GetFront();
-	lightPos -= front * 10.0f;
+	lightPos -= front * 2.0f;
+	
+	if (lightPos.y < 0.1f)
+	{
+		lightPos.y = 0.1f;
+	}
+
 	front.y = 0;
 	D3DXVec3Normalize(&front, &front);
 	at += front * 30.0f;

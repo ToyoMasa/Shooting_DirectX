@@ -10,7 +10,6 @@
 #include "scene2D.h"
 #include "scene3D.h"
 #include "sceneModel.h"
-#include "sceneShadow.h"
 #include "texture.h"
 #include "billboard.h"
 #include "number.h"
@@ -463,7 +462,6 @@ void CPlayer::Move(const float& moveX, const float& moveZ)
 	SetPos(newPos);
 
 	m_Model->Move(m_Pos + m_LocalCameraPos);
-	m_Shadow->Move(m_Pos + m_LocalCameraPos);
 
 	// “–‚½‚è”»’è‚ÌˆÚ“®
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);
@@ -526,7 +524,6 @@ void CPlayer::MoveAir(const float& moveX, const float& moveY, const float& moveZ
 	SetPos(newPos);
 
 	m_Model->Move(m_Pos + m_LocalCameraPos);
-	m_Shadow->Move(m_Pos);
 
 	// “–‚½‚è”»’è‚ÌˆÚ“®
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + PLAYER_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), PLAYER_CUPSULE_RAD);

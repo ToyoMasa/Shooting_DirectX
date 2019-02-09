@@ -435,6 +435,9 @@
     <ClInclude Include="skinmeshShadowShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
+    <ClInclude Include="fieldShadowShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="light.cpp">
@@ -725,6 +728,9 @@
     <ClCompile Include="skinmeshShadowShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
+    <ClCompile Include="fieldShadowShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\metal.fx" />
@@ -736,5 +742,6 @@
     <FxCompile Include="data\shaders\skinmeshSpotlight.fx" />
     <FxCompile Include="data\shaders\shadow.fx" />
     <FxCompile Include="data\shaders\shadowSkinmesh.fx" />
+    <FxCompile Include="data\shaders\shadowField.fx" />
   </ItemGroup>
 </Project>

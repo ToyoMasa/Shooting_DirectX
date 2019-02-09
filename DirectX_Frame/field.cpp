@@ -29,6 +29,7 @@ void CField::Init(int texId, float meshSize, int sizeX, int sizeY)
 	m_NumIndex = m_NumPrimitive + 2;						// インデックス数の計算
 
 	m_Scene3D = CScene3D::Create(texId, meshSize, sizeX, sizeY, m_NumPrimitive, m_NumVertex, m_NumIndex, LAYER_BACKGROUND);
+	m_Scene3D->SetUseShadow(true);
 }
 
 void CField::Init(int texId, float meshSize, int sizeX, int sizeY, float** heights)

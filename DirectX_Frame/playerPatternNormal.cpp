@@ -33,6 +33,8 @@
 #include "playerPatternWeaponChange.h"
 #include "enemyManager.h"
 
+static const float WALK_HEAT = 0.4f / 60.0f;
+
 void CPlayerPatternNormal::Init(CPlayer* player)
 {
 	player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
@@ -82,7 +84,7 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	// •à‚¢‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
 	if (moveX != 0.0f || moveZ != 0.0f)
 	{
-		CModeGame::GetEnemyManager()->AddPlayerTension(0.8f / 60.0f);
+		CModeGame::GetEnemyManager()->AddPlayerTension(WALK_HEAT);
 	}
 
 	player->Move(dir.x, dir.y);
@@ -104,6 +106,7 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	{
 		if (player->GetUsingWeapon()->GetAmmo() <= 0)
 		{
+			player->GetUsingWeapon()->ReleaseTrigger();
 			player->ChangePattern(new CPlayerPatternReload());
 			return;
 		}

@@ -14,6 +14,7 @@ void CSkyBox::Init()
 {
 	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_SKYDOME], true, LAYER_BACKGROUND);
 	m_Model->Scale(D3DXVECTOR3(300.0f, 300.0f, 300.0f));
+	m_Model->SetUseShadow(false);
 }
 
 void CSkyBox::Uninit()

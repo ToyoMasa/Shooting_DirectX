@@ -11,7 +11,6 @@
 #include "scene3D.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
-#include "sceneShadow.h"
 #include "texture.h"
 #include "sound.h"
 #include "billboard.h"
@@ -173,7 +172,6 @@ void CZombie::Move(D3DXVECTOR3 newPos)
 		}
 	}
 	m_Model->Move(m_Pos);
-	m_Shadow->Move(m_Pos);
 
 	// “–‚½‚è”»’è‚ÌˆÚ“®
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + ZOMBIE_CUPSULE_RAD, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.50f, m_Pos.z), ZOMBIE_CUPSULE_RAD); 

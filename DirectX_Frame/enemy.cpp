@@ -11,7 +11,6 @@
 #include "scene3D.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
-#include "sceneShadow.h"
 #include "texture.h"
 #include "billboard.h"
 #include "player.h"

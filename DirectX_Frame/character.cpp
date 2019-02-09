@@ -46,10 +46,6 @@ CCharacter::CCharacter()
 	m_CapsuleCollision.Set(Point(m_Pos.x, m_Pos.y + 0.5f, m_Pos.z), Point(m_Pos.x, m_Pos.y + 1.0f, m_Pos.z), 0.5f);
 	D3DXMatrixIdentity(&m_Rotate);
 	m_AreaID = 0;
-
-	// ‰e‚Ìì¬
-	m_Shadow = CSceneShadow::Create();
-	m_Shadow->Scale(D3DXVECTOR3(1.5f, 1.5f, 1.5f));
 }
 
 void CCharacter::UpdateAll()
@@ -111,7 +107,7 @@ void CCharacter::UpdateAll()
 	}
 
 	sort(enemyDist.begin(), enemyDist.end());
-	CManager::SetSkinMeshDrawDist(enemyDist[30]);
+	CManager::SetSkinMeshDrawDist(enemyDist[ZOMBIE_DRAW_NUM]);
 
 	if (CManager::GetDebug())
 	{
@@ -129,7 +125,6 @@ void CCharacter::Release()
 		if (m_Characters[i] == this)
 		{
 			m_Characters[i]->m_Model->Release();
-			m_Characters[i]->m_Shadow->Release();
 			m_Characters[i]->Uninit();
 			delete this;
 			m_Characters[i] = NULL;
