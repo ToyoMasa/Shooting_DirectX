@@ -106,9 +106,35 @@ void CWayPoint::AddNearPoint(int id, int addid)
 	SetSelectDebugColor(id);
 }
 
+void CWayPoint::AddSpawnPoint(int id, int addid)
+{
+	// 追加するIDと追加先IDが同じなら戻る
+	if (id == addid)
+	{
+		return;
+	}
+	// すでに追加するIDを持っていたら戻る
+	for (int i = 0; i != m_WayPonits[id]->m_SpawnPoints.size(); i++)
+	{
+		if (m_WayPonits[id]->m_SpawnPoints[i] == addid)
+		{
+			return;
+		}
+	}
+
+	m_WayPonits[id]->SetEnemySpawnPoint(addid);
+
+	SetSelectDebugColor(id);
+}
+
 void CWayPoint::SetRecentPoint(int id)
 {
 	m_NearPoints.push_back(id);
+}
+
+void CWayPoint::SetEnemySpawnPoint(int id)
+{
+	m_SpawnPoints.push_back(id);
 }
 
 //グラフ生成.
@@ -219,6 +245,21 @@ D3DXVECTOR3 CWayPoint::GetWayPointPos(const int& index)
 	return m_WayPonits[index]->m_Pos;
 }
 
+// 敵のスポーン地点を取得
+D3DXVECTOR3 CWayPoint::GetSpawnPointPos(const int& index)
+{
+	if (index < 0 || index >= (int)m_WayPonits.size())
+	{
+		return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
+
+	int size = m_WayPonits[index]->m_SpawnPoints.size();
+	int id = m_WayPonits[index]->m_SpawnPoints[rand() % size];
+	D3DXVECTOR3 pos = m_WayPonits[id]->m_Pos;
+
+	return pos;
+}
+
 void CWayPoint::Debug()
 {
 	for (int i = 0; i != m_PointsDebug.size(); ++i)
@@ -250,12 +291,21 @@ void CWayPoint::Save(string textname)
 	{
 		outputFile.write((char*)&m_WayPonits[i]->m_ID, sizeof(int));
 		outputFile.write((char*)&m_WayPonits[i]->m_Pos, sizeof(D3DXVECTOR3));
-		int numnear = m_WayPonits[i]->m_NearPoints.size();
-		outputFile.write((char*)&numnear, sizeof(int));
+
+		int num = m_WayPonits[i]->m_NearPoints.size();
+		outputFile.write((char*)&num, sizeof(int));
 
 		for (int j = 0; j != m_WayPonits[i]->m_NearPoints.size(); j++)
 		{
 			outputFile.write((char*)&m_WayPonits[i]->m_NearPoints[j], sizeof(int));
+		}
+
+		num = m_WayPonits[i]->m_SpawnPoints.size();
+		outputFile.write((char*)&num, sizeof(int));
+
+		for (int j = 0; j != m_WayPonits[i]->m_SpawnPoints.size(); j++)
+		{
+			outputFile.write((char*)&m_WayPonits[i]->m_SpawnPoints[j], sizeof(int));
 		}
 	}
 
@@ -289,6 +339,14 @@ void CWayPoint::Load(string textname)
 			int point;
 			inputFile.read((char*)&point, sizeof(int));
 			waypoint->m_NearPoints.push_back(point);
+		}
+
+		inputFile.read((char*)&numnear, sizeof(int));
+		for (int j = 0; j < numnear; j++)
+		{
+			int point;
+			inputFile.read((char*)&point, sizeof(int));
+			waypoint->m_SpawnPoints.push_back(point);
 		}
 
 		m_WayPonits.push_back(waypoint);
@@ -344,6 +402,11 @@ void CWayPoint::SetSelectDebugColor(int id)
 		m_PointsDebug[nearId]->SetColor(D3DCOLOR_RGBA(16, 255, 16, 255));
 	}
 
+	for (int i = 0; i != m_WayPonits[id]->m_SpawnPoints.size(); i++)
+	{
+		int nearId = m_WayPonits[id]->m_SpawnPoints[i];
+		m_PointsDebug[nearId]->SetColor(D3DCOLOR_RGBA(16, 16, 255, 255));
+	}
 }
 
 void CWayPoint::ChangeDebugColor(int id, D3DCOLOR color)

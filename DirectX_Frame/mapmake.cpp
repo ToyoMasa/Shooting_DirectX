@@ -48,6 +48,7 @@ enum WAYPOINT_CURSOL_TYPE
 {
 	WAYPOINT_CURSOL_ADD_WAYPOINT,
 	WAYPOINT_CURSOL_ADD_NEARPOINT,
+	WAYPOINT_CURSOL_ADD_SPAWNPOINT,
 };
 
 CCamera	*CModeMapMake::m_Camera = NULL;
@@ -559,6 +560,18 @@ void CModeMapMake::WaypointMakeUpdate()
 			}
 			break;
 
+		case WAYPOINT_CURSOL_ADD_SPAWNPOINT:
+			// 選択中のウェイポイントが有効なら
+			if (m_SelectWayPoint != -1)
+			{
+				int addPoint = CWayPoint::GetIDonScreen(mouse);
+				if (addPoint != -1)
+				{
+					CWayPoint::AddSpawnPoint(m_SelectWayPoint, addPoint);
+				}
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -576,6 +589,7 @@ void CModeMapMake::WaypointMakeUpdate()
 	ImGui::Begin("WaypointConfig", 0);
 	ImGui::RadioButton("ADD WAYPOINT", &m_WaypointCursolType, WAYPOINT_CURSOL_ADD_WAYPOINT);
 	ImGui::RadioButton("ADD NEARPOINT", &m_WaypointCursolType, WAYPOINT_CURSOL_ADD_NEARPOINT);
+	ImGui::RadioButton("ADD SPAWNPOINT", &m_WaypointCursolType, WAYPOINT_CURSOL_ADD_SPAWNPOINT);
 	if (ImGui::Button("Save"))
 	{
 		char filename[256];

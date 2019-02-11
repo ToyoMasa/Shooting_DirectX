@@ -23,10 +23,12 @@ public:
 	static void Uninit();
 	static void Add(D3DXVECTOR3 pos);
 	static void AddNearPoint(int id, int addid);
+	static void AddSpawnPoint(int id, int addid);
 	static void CreateGraph();
 	static std::vector<CWayPoint*>& GetWayPoints() { return m_WayPonits; }
 	static int GetNextPoint(const int s, const int e);
 	static D3DXVECTOR3 GetWayPointPos(const int& index);
+	static D3DXVECTOR3 GetSpawnPointPos(const int& index);
 	static int SearchShortestPoint(const D3DXVECTOR3& pos);
 	static void Debug();
 	static void Debug(bool debug);
@@ -37,6 +39,7 @@ public:
 	static void SetSelectDebugColor(int id);
 	static void ChangeDebugColor(int id, D3DCOLOR color);
 	void SetRecentPoint(int id);
+	void SetEnemySpawnPoint(int id);
 
 private:
 	static std::vector<CWayPoint*>	m_WayPonits;
@@ -48,6 +51,7 @@ private:
 	int								m_ID;
 	D3DXVECTOR3						m_Pos;
 	std::vector<int>				m_NearPoints;
+	std::vector<int>				m_SpawnPoints;
 };
 
 #endif //! _WAYPOINT_H_

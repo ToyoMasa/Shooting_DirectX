@@ -100,8 +100,9 @@ void CEnemyManager::CreateEnemy(ENEMY_TYPE type)
 			}
 
 			D3DXVECTOR3 spawnPos;
-			int numWayPoint = CWayPoint::GetWayPoints().size();
-			spawnPos = CWayPoint::GetWayPointPos(rand() % numWayPoint);
+			//int numWayPoint = CWayPoint::GetWayPoints().size();
+			//spawnPos = CWayPoint::GetWayPointPos(rand() % numWayPoint);
+			spawnPos = CWayPoint::GetSpawnPointPos(CModeGame::GetPlayer()->GetShortestPoint());
 
 			if (state == CEnemy::PATTERN_STATE_HORDE)
 			{
