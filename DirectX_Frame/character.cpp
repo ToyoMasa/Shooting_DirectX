@@ -141,6 +141,7 @@ void CCharacter::ReleaseAll()
 		if (m_Characters[i] != NULL)
 		{
 			m_Characters[i]->Release();
+			m_Characters[i] = NULL;
 		}
 	}
 }

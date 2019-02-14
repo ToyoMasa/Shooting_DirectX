@@ -86,6 +86,9 @@ void CScene::DrawAll()
 		case LAYER_OBJECT2D:
 			pDevice->SetFVF(FVF_VERTEX_2D);
 			break;
+		case LAYER_OBJECT2D_AFTER:
+			pDevice->SetFVF(FVF_VERTEX_2D);
+			break;
 		case LAYER_OBJECT3D:
 			pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE); //フォグ：OFF
 			CBillBoard::DrawAll();
@@ -140,6 +143,9 @@ void CScene::DrawShadowAll()
 		case LAYER_OBJECT2D:
 			pDevice->SetFVF(FVF_VERTEX_2D);
 			break;
+		case LAYER_OBJECT2D_AFTER:
+			pDevice->SetFVF(FVF_VERTEX_2D);
+			break;
 		default:
 			// FVF(今から使用する頂点情報)の設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
@@ -159,6 +165,10 @@ void CScene::DrawShadowAll()
 						{
 							m_Scene[j][i]->SetShader(CShaderSkinmeshShadow::GetShader());
 						}
+						else if (j == LAYER_BACKGROUND)
+						{
+							m_Scene[j][i]->SetShader(CShaderFieldShadow::GetShader());
+						}
 						else
 						{
 							m_Scene[j][i]->SetShader(CShaderShadow::GetShader());
@@ -168,30 +178,6 @@ void CScene::DrawShadowAll()
 					}
 				}
 			}
-		}
-	}
-
-	for (int j = 0; j < PRIORITY_MAX; j++)
-	{
-		if (j == LAYER_BACKGROUND)
-		{
-			for (int i = 0; i < OBJECT_MAX; i++)
-			{
-				if (m_Scene[j][i] != NULL)
-				{
-					if (m_Scene[j][i]->m_Visible)
-					{
-						if (m_Scene[j][i]->GetUseShadow())
-						{
-							CShader* save = m_Scene[j][i]->GetShader();
-							m_Scene[j][i]->SetShader(CShaderFieldShadow::GetShader());
-							m_Scene[j][i]->DrawShadow();
-							m_Scene[j][i]->SetShader(save);
-						}
-					}
-				}
-			}
-			break;
 		}
 	}
 

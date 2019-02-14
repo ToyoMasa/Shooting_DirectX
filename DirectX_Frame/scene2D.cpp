@@ -94,9 +94,9 @@ void CScene2D::SetTexCoord(float texCoordx1, float texCoordx2, float texCoordy1,
 //======================================================================
 //	ファクトリ
 //======================================================================
-CScene2D* CScene2D::Create(int texid, float texW, float texH)
+CScene2D* CScene2D::Create(int texid, float texW, float texH, int priority)
 {
-	CScene2D *scene2D = new CScene2D(LAYER_OBJECT2D);
+	CScene2D *scene2D = new CScene2D(priority);
 	scene2D->Init(texid, texW, texH);
 
 	return scene2D;

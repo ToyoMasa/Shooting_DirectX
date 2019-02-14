@@ -45,7 +45,7 @@ public:
 	void SetTexCoord(float texCoordx1, float texCoordx2, float texCoordy1, float texCoordy2);
 	void SetSize(D3DXVECTOR2 size) { m_TexSize = size; }
 
-	static CScene2D* Create(int texid, float texW, float texH);
+	static CScene2D* Create(int texid, float texW, float texH, int priority = LAYER_OBJECT2D);
 private:
 	D3DXVECTOR2 m_TexSize;
 	D3DCOLOR m_Color;

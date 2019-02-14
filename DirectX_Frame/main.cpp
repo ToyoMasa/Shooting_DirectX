@@ -172,7 +172,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_ESCAPE:
-			CInput::ChangeShowCursol();
+			CInput::ChangeShowCursol(TRUE);
 
 			nID = MessageBox(hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_DEFBUTTON2);
 			if (nID == IDYES)
@@ -180,7 +180,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DestroyWindow(hWnd);
 			}
 
-			CInput::ChangeShowCursol();
+			CInput::ChangeShowCursol(FALSE);
 
 			break;
 

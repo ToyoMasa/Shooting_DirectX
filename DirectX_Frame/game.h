@@ -46,6 +46,7 @@ public:
 	static void IncrementKillCount();
 	static void GameEnd(GAME_RESULT result);
 	static void CallPause();
+	static void PauseUpdate();
 	static void AddEnemyCount() { EnemyCount++; }
 	static void RemoveEnemyCount() { EnemyCount--; }
 	static int GetEnemyCount() { return EnemyCount; }
@@ -56,7 +57,13 @@ private:
 	static CScene2D* ResultText;
 	static CScene2D* EndBackground;
 	static CScene2D* PauseWord;
+	static CScene2D* CameraSensi;
+	static CScene2D* SensiBar;
+	static CScene2D* SensiPos;
 	static CScene2D* Black;
+	static CScene2D* Plus;
+	static CScene2D* Minus;
+	static CScene2D* CameraReverse;
 	static GAME_RESULT Result;
 	static CSound* BGM;
 	static CSound* GameEnd_SE;
@@ -68,10 +75,12 @@ private:
 	static CEventStartEnemy* StartEnemy;
 	static bool Pause;
 	static bool GameFinish;
+	static bool isHoldSensiBar;
 	static int GameCount;
 	static int FrameCount;
 	static int EnemyCount;
 	static int KillCount;
+	static float SensiBarValue;
 };
 
 #endif // !_GAME_H_

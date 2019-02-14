@@ -66,6 +66,10 @@ typedef enum
 	TEX_ID_WASD_RED,				// チュートリアル操作「WASDキー」
 	TEX_ID_SHIFT,					// チュートリアル操作「Shiftキー」
 	TEX_ID_KEY_R,					// チュートリアル操作「Rキー」
+	TEX_ID_CAMERA_SENSI,			// ポーズ画面「カメラ感度」
+	TEX_ID_CAMERA_REVERSE,			// ポーズ画面「カメラ反転」
+	TEX_ID_PLUS,					// ポーズ画面「+」
+	TEX_ID_MINUS,					// ポーズ画面「-」
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -127,6 +131,10 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/wasd_red.png",
 	"data/textures/shift.png",
 	"data/textures/key_r.png",
+	"data/textures/camera_sensi.png",
+	"data/textures/camera_reverse.png",
+	"data/textures/plus.png",
+	"data/textures/minus.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

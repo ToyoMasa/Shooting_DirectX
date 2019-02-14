@@ -44,8 +44,8 @@ public:
 		LPDIRECT3DSURFACE9& currentzbuffer, 	// 現在のＺバッファを保存するためのサーフェス
 		D3DVIEWPORT9& currentvp);				// 現在のビューポートを保存するためのもの
 	static void SetRenderTarget(
-		LPDIRECT3DSURFACE9 rendersurface,	// レンダーターゲット
-		LPDIRECT3DSURFACE9 zbuffer,			// Ｚバッファ
+		LPDIRECT3DSURFACE9	rendersurface,	// レンダーターゲット
+		LPDIRECT3DSURFACE9	zbuffer,			// Ｚバッファ
 		D3DVIEWPORT9&		vp); 			// ビューポート
 	static void CreateShadow();
 	static D3DXMATRIX GetLightCamera() { return m_LightCamera; }

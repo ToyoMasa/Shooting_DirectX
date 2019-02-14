@@ -25,6 +25,7 @@ public:
 	virtual void Uninit(void);
 	virtual HRESULT Update(void) = 0;		// ---> 純粋仮想関数化
 	static	void ChangeShowCursol();
+	static	void ChangeShowCursol(BOOL value);
 
 protected:
 	LPDIRECTINPUTDEVICE8		m_pDIDevice;		// IDirectInputDevice8インターフェースへのポインタ

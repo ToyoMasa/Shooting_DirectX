@@ -59,7 +59,7 @@ void CEnemyPatternChaseRun::Update(CEnemy* enemy)
 	if (D3DXVec3Length(&vec) > 1.0f)
 	{
 		D3DXVec3Normalize(&vec, &vec);
-		newPos += enemy->GetSpeed() * 2.5f * vec;
+		newPos += enemy->GetSpeed() * 3.0f * vec;
 	}
 	else
 	{

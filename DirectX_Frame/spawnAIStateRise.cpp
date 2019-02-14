@@ -12,7 +12,7 @@
 
 void CSpawnAIStateRise::Update()
 {
-	if (m_Count % 120 == 0)
+	if (m_Count % 180 == 0)
 	{
 		m_EnemyManager->CreateEnemy(ENEMY_TYPE_ZOMBIE);
 	}

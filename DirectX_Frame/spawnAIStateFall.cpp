@@ -14,7 +14,7 @@ void CSpawnAIStateFall::Update()
 {
 	m_EnemyManager->SetPlayerTension(0.0f);
 
-	if (CModeGame::GetEnemyCount() <= 15)
+	if (CModeGame::GetEnemyCount() <= 0)
 	{
 		m_EnemyManager->ChangeSpawnAI(new CSpawnAIStatePause(m_EnemyManager));
 	}

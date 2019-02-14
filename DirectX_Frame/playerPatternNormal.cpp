@@ -117,7 +117,7 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	}
 
 	// ƒ_ƒbƒVƒ…
-	else if (inputKeyboard->GetKeyTrigger(DIK_LSHIFT) && moveZ > 0.8f)
+	else if (inputKeyboard->GetKeyPress(DIK_LSHIFT) && moveZ > 0.8f)
 	{
 		player->ChangePattern(new CPlayerPatternDash());
 		return;

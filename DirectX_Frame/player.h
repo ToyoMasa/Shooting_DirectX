@@ -11,7 +11,7 @@
 #include "sound.h"
 #include "tutorialBase.h"
 
-static const float PLAYER_MOVE_SPEED = 0.06f;
+static const float PLAYER_MOVE_SPEED = 0.05f;
 static const float PLAYER_JUMP_POWER = 1.8f;
 static const float PLAYER_AIR_MOVE_SPEED = 0.9f;
 static const float PLAYER_ADS_MOVE_SPEED = 0.75f;

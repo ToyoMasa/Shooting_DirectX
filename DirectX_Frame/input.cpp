@@ -75,10 +75,10 @@ HRESULT CInput::Init(HINSTANCE hInst, HWND hWnd)
 
 	// マウス移動範囲
 	RECT rc;
-	rc.left = WinX + 16;
-	rc.top = WinY + 39;
-	rc.right = WinX + (WinWidth) - 16;
-	rc.bottom = WinY + (WinHeight) - 39;
+	rc.left = WinX + WinWidth / 2 - 1;
+	rc.top = WinY + WinHeight / 2 - 1;
+	rc.right = WinX + WinWidth / 2 + 1;
+	rc.bottom = WinY + WinHeight / 2 + 1;
 
 	ClipCursor(&rc);
 
@@ -162,10 +162,80 @@ void CInput::ChangeShowCursol()
 
 		// マウス移動範囲
 		RECT rc;
-		rc.left = WinX + 16;
-		rc.top = WinY + 39;
-		rc.right = WinX + (WinWidth)-16;
-		rc.bottom = WinY + (WinHeight)-39;
+		rc.left = WinX + WinWidth / 2 - 1;
+		rc.top = WinY + WinHeight / 2 - 1;
+		rc.right = WinX + WinWidth / 2 + 1;
+		rc.bottom = WinY + WinHeight / 2 + 1;
+
+		ClipCursor(&rc);
+
+		ShowCursor(FALSE);
+		ShowCursor(FALSE);
+
+		m_isShowCursol = FALSE;
+	}
+	else
+	{
+		// マウス移動範囲の解除
+		ClipCursor(NULL);
+		ShowCursor(TRUE);
+		ShowCursor(TRUE);
+
+		m_isShowCursol = TRUE;
+	}
+}
+
+//=============================================================================
+// マウスカーソルの表示変更処理
+//=============================================================================
+void CInput::ChangeShowCursol(BOOL value)
+{
+	if (m_isShowCursol == value)
+	{
+		return;
+	}
+
+	m_isShowCursol = !value;
+
+	if (m_isShowCursol)
+	{
+		RECT wr = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+		DWORD Style;
+
+		int WinWidth = SCREEN_WIDTH + 16;
+		int WinHeight = SCREEN_HEIGHT + 39;
+
+		RECT dr;
+		GetWindowRect(GetDesktopWindow(), &dr);
+
+		int WinX;
+		int WinY;
+
+		if (((dr.bottom - WinHeight) > 0) && ((dr.right - WinWidth) > 0))
+		{
+			Style = WS_OVERLAPPEDWINDOW;
+			RECT wr = { 0, 0, WinWidth, WinHeight };
+			AdjustWindowRect(&wr, Style, false);
+			WinWidth -= wr.left;
+			WinHeight -= wr.top;
+			WinY = (dr.bottom - WinHeight) / 2;
+			WinX = (dr.right - WinWidth) / 2;
+		}
+		else
+		{
+			Style = WS_POPUPWINDOW;
+			WinX = dr.top;
+			WinX = dr.left;
+			WinHeight = dr.bottom;
+			WinWidth = dr.right;
+		}
+
+		// マウス移動範囲
+		RECT rc;
+		rc.left = WinX + WinWidth / 2 - 1;
+		rc.top = WinY + WinHeight / 2 - 1;
+		rc.right = WinX + WinWidth / 2 + 1;
+		rc.bottom = WinY + WinHeight / 2 + 1;
 
 		ClipCursor(&rc);
 

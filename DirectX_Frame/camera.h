@@ -9,6 +9,8 @@ static const float NEAR_CLIP = 0.01f;
 static const float FAR_CLIP = 1000.0f;
 static const float CAMERA_MOOVE_SPEED = 0.03f;	// 移動速度
 static const float CAMERA_AT_RAD = 0.3f;		// 回転速度
+static const float CAMERA_SENSI_MIN = 0.05f;
+static const float CAMERA_SENSI_MAX = 1.0f;
 
 class CCamera : public CGameObject
 {
@@ -40,6 +42,8 @@ public:
 	D3DXVECTOR3 GetFront() { return m_Front; }
 	D3DXVECTOR3 GetRight() { return m_Right; }
 	D3DXVECTOR3 GetUp() { return m_Up; }
+	void SetCameraSensi(float sensi) { m_Sensi = sensi; }
+	float GetCameraSensi() { return m_Sensi; }
 	static CCamera* Create();
 	static CCamera* Create(D3DXVECTOR3 pos, D3DXVECTOR3 at);
 
@@ -52,6 +56,7 @@ private:
 	float m_ArmLength2D;					// カメラの位置と注視点間の長さ(平面）
 	float m_Fov;							// FOV
 	float m_Dot;							// 内積の値
+	float m_Sensi;							// カメラ感度
 };
 
 #endif // !_CAMERA_H_

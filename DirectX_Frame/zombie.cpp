@@ -58,6 +58,11 @@ void CZombie::ZombieUninit()
 		}
 		m_ZombieVoice[i] = NULL;
 	}
+
+	if (m_ZombieDeath)
+	{
+		m_ZombieDeath->Release();
+	}
 }
 
 void CZombie::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos, CEnemyPatternBase* pattern, CField* field)
@@ -214,11 +219,11 @@ void CZombie::Damaged(float damage)
 
 	if (m_TargetState == CEnemy::TARGET_SEARCH)
 	{
-		if (CEnemy::GetPatternState() == CEnemy::PATTERN_STATE_NORMAL)
+		if (m_PatternType == CEnemyPatternBase::ENEMY_PATTERN_WAYPOINTS)
 		{
 			ChangePattern(new CEnemyPatternChase());
 		}
-		else
+		else if (m_PatternType == CEnemyPatternBase::ENEMY_PATTERN_WAYPOINTS_RUN)
 		{
 			ChangePattern(new CEnemyPatternChaseRun());
 		}

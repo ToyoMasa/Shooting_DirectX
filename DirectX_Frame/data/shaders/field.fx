@@ -40,8 +40,15 @@ sampler_state
 	MagFilter = LINEAR;		// リニアフィルタ（拡大時）
 };
 
-sampler ProjectionShadowSampler;
-
+sampler ProjectionShadowSampler =
+sampler_state
+{
+	MipFilter = POINT;
+	MinFilter = POINT;		// リニアフィルタ（縮小時）
+	MagFilter = POINT;		// リニアフィルタ（拡大時）
+	AddressU = CLAMP;
+	AddressV = CLAMP;
+};
 
 // main関数
 void main(

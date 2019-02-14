@@ -28,7 +28,7 @@
 #include "shader.h"
 #include "waypoint.h"
 
-static const int TEXMAP_SIZE = 1920;
+static const int TEXMAP_SIZE = 2048;
 static float CAMERA_SPEED = 0.1f;
 
 //======================================================================
@@ -260,7 +260,7 @@ void CManager::Draw()
 		// シャドウマップテクスチャ
 		//DrawQuad(pDevice, 10, 10, 200, 200, m_ShadowTex);
 
-		//if (CManager::GetDebug())
+		if (CManager::GetDebug())
 		{
 			ImGui::Begin("Debug Window");
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -460,7 +460,7 @@ void CManager::CreateShadow()
 	D3DXVECTOR3	lightPos = m_UsingCamera->GetPos();
 	D3DXVECTOR3 at = lightPos;
 	D3DXVECTOR3 front = m_UsingCamera->GetFront();
-	lightPos -= front * 2.0f;
+	lightPos -= front * 5.0f;
 	
 	if (lightPos.y < 0.1f)
 	{

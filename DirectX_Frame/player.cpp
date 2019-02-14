@@ -278,7 +278,7 @@ void CPlayer::Rotate(const float& horizontal, const float& vertical)
 		D3DXMATRIX mtxRotation;
 
 		// ‰ñ“]s—ñ(YŽ²‰ñ“])‚ðì‚é(‰ñ“]‘¬“x)
-		D3DXMatrixRotationY(&mtxRotation, CAMERA_AT_RAD * horizontal);
+		D3DXMatrixRotationY(&mtxRotation, m_Camera->GetCameraSensi() * horizontal);
 
 		D3DXVECTOR3 dir = m_Camera->GetFront();
 
@@ -302,7 +302,7 @@ void CPlayer::Rotate(const float& horizontal, const float& vertical)
 		D3DXMATRIX mtxRotation;
 
 		// ‰ñ“]s—ñ‚ðì‚é(‰ñ“]‘¬“x)
-		D3DXMatrixRotationAxis(&mtxRotation, &m_Right, CAMERA_AT_RAD * vertical);
+		D3DXMatrixRotationAxis(&mtxRotation, &m_Right, m_Camera->GetCameraSensi() * vertical);
 
 		D3DXVECTOR3 dir = m_Camera->GetFront();
 

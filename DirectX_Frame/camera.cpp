@@ -19,6 +19,7 @@ CCamera::CCamera()
 	m_View;
 	m_Fov = 90.0f;
 	m_Dot = 0;
+	m_Sensi = CAMERA_AT_RAD;
 
 	m_ArmLength = 0.0f;
 	m_ArmLength2D = 0.0f;
@@ -152,7 +153,7 @@ void CCamera::Rotation(float horizontal, float vertical)
 		D3DXMATRIX mtxRotation;
 
 		// âÒì]çsóÒ(Yé≤âÒì])ÇçÏÇÈ(âÒì]ë¨ìx)
-		D3DXMatrixRotationY(&mtxRotation, CAMERA_AT_RAD * horizontal);
+		D3DXMatrixRotationY(&mtxRotation, m_Sensi * horizontal);
 
 		D3DXVECTOR3 dir = m_At - m_Pos;
 
@@ -174,7 +175,7 @@ void CCamera::Rotation(float horizontal, float vertical)
 		D3DXMATRIX mtxRotation;
 
 		// âÒì]çsóÒÇçÏÇÈ(âÒì]ë¨ìx)
-		D3DXMatrixRotationAxis(&mtxRotation, &m_Right, CAMERA_AT_RAD * vertical);
+		D3DXMatrixRotationAxis(&mtxRotation, &m_Right, m_Sensi * vertical);
 
 		D3DXVECTOR3 dir = m_At - m_Pos;
 
