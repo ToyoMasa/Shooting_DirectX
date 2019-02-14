@@ -50,6 +50,7 @@ public:
 	static void AddEnemyCount() { EnemyCount++; }
 	static void RemoveEnemyCount() { EnemyCount--; }
 	static int GetEnemyCount() { return EnemyCount; }
+	static D3DXVECTOR3 GetTargetPos();
 
 private:
 	static CPlayer* player;
@@ -71,7 +72,7 @@ private:
 	static CFog*	Fog;
 	static CField* Field;
 	static CEnemyManager* EnemyManager;
-	static CTargetCapsule* Target[3];
+	static CTargetCapsule* Target;
 	static CEventStartEnemy* StartEnemy;
 	static bool Pause;
 	static bool GameFinish;

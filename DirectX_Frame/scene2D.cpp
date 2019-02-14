@@ -54,10 +54,20 @@ void CScene2D::Draw()
 	}
 
 	VERTEX_2D vertex[4];
-	vertex[0].pos = D3DXVECTOR4(m_Pos.x - m_TexSize.x / 2 - 0.5f, m_Pos.y - m_TexSize.y / 2, 0, 1);
-	vertex[1].pos = D3DXVECTOR4(m_Pos.x + m_TexSize.x / 2 - 0.5f, m_Pos.y - m_TexSize.y / 2, 0, 1);
-	vertex[2].pos = D3DXVECTOR4(m_Pos.x - m_TexSize.x / 2 - 0.5f, m_Pos.y + m_TexSize.y / 2, 0, 1);
-	vertex[3].pos = D3DXVECTOR4(m_Pos.x + m_TexSize.x / 2 - 0.5f, m_Pos.y + m_TexSize.y / 2, 0, 1);
+
+	float x = -m_TexSize.x / 2;
+	float y = -m_TexSize.y / 2;
+	float x_w = m_TexSize.x / 2;
+	float y_h = m_TexSize.y / 2;
+
+	vertex[0].pos = D3DXVECTOR4(x * cosf(m_RotationAngle) - y * sinf(m_RotationAngle) + (m_Pos.x) - 0.5f,
+		x * sinf(m_RotationAngle) + y * cosf(m_RotationAngle) + (m_Pos.y), 0, 1);
+	vertex[1].pos = D3DXVECTOR4(x_w * cosf(m_RotationAngle) - y * sinf(m_RotationAngle) + (m_Pos.x) - 0.5f,
+		x_w * sinf(m_RotationAngle) + y * cosf(m_RotationAngle) + (m_Pos.y), 0, 1);
+	vertex[2].pos = D3DXVECTOR4(x * cosf(m_RotationAngle) - y_h * sinf(m_RotationAngle) + (m_Pos.x) - 0.5f,
+		x * sinf(m_RotationAngle) + y_h * cosf(m_RotationAngle) + (m_Pos.y), 0, 1);
+	vertex[3].pos = D3DXVECTOR4(x_w * cosf(m_RotationAngle) - y_h * sinf(m_RotationAngle) + (m_Pos.x) - 0.5f,
+		x_w * sinf(m_RotationAngle) + y_h * cosf(m_RotationAngle) + (m_Pos.y), 0, 1);
 
 	vertex[0].texcoord = D3DXVECTOR2(m_TexCoordX1, m_TexCoordY1);
 	vertex[1].texcoord = D3DXVECTOR2(m_TexCoordX2, m_TexCoordY1);

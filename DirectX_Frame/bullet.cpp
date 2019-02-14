@@ -106,7 +106,14 @@ void CBullet::Update()
 						false,
 						D3DCOLOR_RGBA(255, 16, 16, 255));
 
-					enemy->Damaged(m_Damage);
+					if (getPoint1.y > 1.25f)
+					{
+						enemy->Damaged(m_Damage * HEADSHOT_BONUS);
+					}
+					else
+					{
+						enemy->Damaged(m_Damage);
+					}
 				}
 			}
 		}

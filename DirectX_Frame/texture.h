@@ -70,6 +70,11 @@ typedef enum
 	TEX_ID_CAMERA_REVERSE,			// ポーズ画面「カメラ反転」
 	TEX_ID_PLUS,					// ポーズ画面「+」
 	TEX_ID_MINUS,					// ポーズ画面「-」
+	TEX_ID_RADER_FRAME,				// レーダーの枠組み
+	TEX_ID_RADIO_WAVE,				// 電波テクスチャ
+	TEX_ID_RADIO_WAVE1,				// 電波テクスチャ１
+	TEX_ID_RADIO_WAVE2,				// 電波テクスチャ２
+	TEX_ID_RADIO_WAVE3,				// 電波テクスチャ３
 	TEX_ID_MAX,
 } TEXTURE_ID;
 
@@ -135,6 +140,11 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/camera_reverse.png",
 	"data/textures/plus.png",
 	"data/textures/minus.png",
+	"data/textures/rader_frame.png",
+	"data/textures/radio_wave.png",
+	"data/textures/radio_wave1.png",
+	"data/textures/radio_wave2.png",
+	"data/textures/radio_wave3.png",
 };
 
 // テクスチャがロードされているか検索するためのマップ

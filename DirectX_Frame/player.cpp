@@ -41,6 +41,7 @@ static const float ADS_FOV = 70.0f;
 static const float LOCAL_CAMERA_X = 0.0f;
 static const float LOCAL_CAMERA_Y = 1.715f;
 static const float LOCAL_CAMERA_Z = 0.375f;
+static const float RADER_SIZE = 100.0f;
 static const D3DXVECTOR3 AMMO_DISPLAY_POS = D3DXVECTOR3(SCREEN_WIDTH - 100.0f, SCREEN_HEIGHT - 60.0f, 0.0f);
 
 void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
@@ -85,6 +86,15 @@ void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
 	// ミッション目標
 	m_Mission = CScene2D::Create(TEX_ID_MISSION, 290.0f, 90.0f);
 	m_Mission->Set(D3DXVECTOR3(150.0f, 50.0f, 0.0f));
+
+	// 目標までのレーダー
+	m_Rader = CScene2D::Create(TEX_ID_RADER_FRAME, RADER_SIZE, RADER_SIZE);
+	m_Rader->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, 70.0f, 0.0f));
+	m_Rader->Rotate(D3DXToRadian(45.0f));
+
+	m_Radio_Wave = m_Rader = CScene2D::Create(TEX_ID_RADIO_WAVE, RADER_SIZE, RADER_SIZE);
+	m_Radio_Wave->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, 70.0f, 0.0f));
+	m_Radio_Wave->SetColor(D3DCOLOR_RGBA(64, 255, 0, 255));
 
 	// モデルの回転軸をカメラの位置にそろえる
 	D3DXMatrixTranslation(&m_LocalLocation, m_LocalCameraPos.x, -m_LocalCameraPos.y, m_LocalCameraPos.z);
@@ -173,6 +183,41 @@ void CPlayer::Update()
 		ADS();
 		m_Pattern->Update(this);
 		m_Tutorial->Update(this);
+
+		D3DXVECTOR3 vecfortarget = CModeGame::GetTargetPos() - m_Pos;
+		float lenfortarget = D3DXVec3Length(&vecfortarget);
+		D3DXVec3Normalize(&vecfortarget, &vecfortarget);
+		float dot = D3DXVec3Dot(&m_Forward, &vecfortarget);
+
+		float rad = acosf(dot);
+		float degree = D3DXToDegree(rad);
+
+		D3DXVECTOR3 cross; 
+		D3DXVec3Cross(&cross, &m_Forward, &vecfortarget);
+
+		if (cross.y <= 0.0f)
+		{
+			degree *= -1.0f;
+		}
+
+		m_Radio_Wave->Rotate(D3DXToRadian(degree));
+
+		if (lenfortarget < 40.0f)
+		{
+			m_Radio_Wave->SetTexCoord(0.0, 0.5f, 0.5f, 1.0f);
+		}
+		else if(lenfortarget < 120.0f)
+		{
+			m_Radio_Wave->SetTexCoord(0.5, 1.0f, 0.0f, 0.5f);
+		}
+		else
+		{
+			m_Radio_Wave->SetTexCoord(0.0, 0.5f, 0.0f, 0.5f);
+		}
+
+		ImGui::Begin("degree", 0);
+		ImGui::Text("%.2f", degree);
+		ImGui::End();
 
 		m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
 		m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);

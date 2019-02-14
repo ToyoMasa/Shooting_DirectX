@@ -6,6 +6,7 @@
 
 static const int BULLET_MAX = 50;
 static const float BULLET_RADIUS = 0.025f;
+static const float HEADSHOT_BONUS = 2.0f;
 
 class CEffekseer;
 

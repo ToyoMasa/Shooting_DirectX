@@ -77,7 +77,7 @@ float CModeGame::SensiBarValue = 0;
 CFog *CModeGame::Fog = NULL;
 CField *CModeGame::Field = NULL;
 CEnemyManager *CModeGame::EnemyManager = NULL;
-CTargetCapsule *CModeGame::Target[3] = { NULL };
+CTargetCapsule *CModeGame::Target = NULL;
 CEventStartEnemy *CModeGame::StartEnemy = NULL;
 
 float g_FogColor[4];
@@ -173,7 +173,7 @@ void CModeGame::Init()
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
 
-	CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
+	Target = CTargetCapsule::Create(D3DXVECTOR3(34.2f, 0.0f, 62.5f));
 
 	StartEnemy = CEventStartEnemy::Create();
 
@@ -433,4 +433,9 @@ void CModeGame::PauseUpdate()
 CCamera* CModeGame::GetCamera()
 {
 	return player->GetCamera(); 
+}
+
+D3DXVECTOR3 CModeGame::GetTargetPos()
+{
+	return Target->GetPos();
 }

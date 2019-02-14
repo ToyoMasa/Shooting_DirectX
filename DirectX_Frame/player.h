@@ -41,6 +41,8 @@ public:
 		m_Pattern = NULL;
 		m_DamagedEffect = NULL;
 		m_Tutorial = NULL;
+		m_Rader = NULL;
+		m_Radio_Wave = NULL;
 	}
 	~CPlayer(){}
 
@@ -93,6 +95,8 @@ private:
 	CScene2D*			m_AmmoBackScreen;
 	CScene2D*			m_BulletIcon;
 	CScene2D*			m_Mission;
+	CScene2D*			m_Rader;
+	CScene2D*			m_Radio_Wave;
 	CPlayerPatternBase* m_Pattern;
 	CTutorialBase*		m_Tutorial;
 	CNumber*			m_AmmoNum;

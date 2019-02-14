@@ -460,15 +460,16 @@ void CManager::CreateShadow()
 	D3DXVECTOR3	lightPos = m_UsingCamera->GetPos();
 	D3DXVECTOR3 at = lightPos;
 	D3DXVECTOR3 front = m_UsingCamera->GetFront();
-	lightPos -= front * 5.0f;
-	
+	//lightPos -= front * 5.0f;
+	/*
 	if (lightPos.y < 0.1f)
 	{
 		lightPos.y = 0.1f;
-	}
+	}*/
 
 	front.y = 0;
 	D3DXVec3Normalize(&front, &front);
+	lightPos -= front * 3.0f;
 	at += front * 30.0f;
 	at.y = 0;
 	D3DXVECTOR3 up(0, 1, 0);

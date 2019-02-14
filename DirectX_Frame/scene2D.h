@@ -25,6 +25,9 @@ public:
 		m_TexCoordX2 = 1.0f;
 		m_TexCoordY1 = 0.0f;
 		m_TexCoordY2 = 1.0f;
+		m_RotationAngle = 0.0f;
+		m_RotationOffsetX = 0.0f;
+		m_RotationOffsetY = 0.0f;
 		m_TexId = 0;
 		m_Color = 0xffffffff;
 	}
@@ -35,12 +38,12 @@ public:
 	~CScene2D() {}
 
 	void Init(int texid, float texW, float texH);
-	void Uninit();
-	void Update();
-	void Draw();
-	void DrawShadow() {}
+	void Uninit()override;
+	void Update()override;
+	void Draw()override;
 	void DrawWithShader()override {}
 
+	void Rotate(float rot) { m_RotationAngle = rot; }
 	void SetColor(D3DCOLOR color) { m_Color = color; }
 	void SetTexCoord(float texCoordx1, float texCoordx2, float texCoordy1, float texCoordy2);
 	void SetSize(D3DXVECTOR2 size) { m_TexSize = size; }
@@ -53,6 +56,9 @@ private:
 	float m_TexCoordX2;
 	float m_TexCoordY1;
 	float m_TexCoordY2;
+	float m_RotationAngle;
+	float m_RotationOffsetX;
+	float m_RotationOffsetY;
 	int m_TexId;
 };
 
