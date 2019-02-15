@@ -2,6 +2,8 @@
 //	プレイヤーアイドルパターン [playerPatternIdle.cpp]　（2018/10/8）
 //	Author : 豊村 昌俊
 //======================================================================
+#include <Windows.h>
+#include <Xinput.h>
 #include "common.h"
 #include "main.h"
 #include "manager.h"
@@ -16,6 +18,7 @@
 #include "character.h"
 #include "player.h"
 #include "input.h"
+#include "controller.h"
 #include "field.h"
 #include "enemy.h"
 #include "game.h"
@@ -49,6 +52,7 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
+	CController* Controller;
 	float mouseX, mouseY, mouseZ;
 
 	// キーボード取得
@@ -60,7 +64,14 @@ void CPlayerPatternNormal::Update(CPlayer* player)
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
 
+	// コントローラーの取得
+	Controller = CManager::GetController();
+
 	float moveX = 0.0f, moveZ = 0.0f;
+
+	moveX = Controller->GetStickLX();
+	moveZ = Controller->GetStickLY();
+
 	if (inputKeyboard->GetKeyPress(DIK_A))
 	{
 		moveX = -1.0f;

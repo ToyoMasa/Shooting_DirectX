@@ -2,6 +2,8 @@
 //	ゲーム管理
 //
 //======================================================================
+#include <Windows.h>
+#include <Xinput.h>
 #include "common.h"
 #include "main.h"
 #include "mode.h"
@@ -18,6 +20,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "input.h"
+#include "controller.h"
 #include "skybox.h"
 #include "number.h"
 #include "title.h"
@@ -36,6 +39,7 @@ static float CAMERA_SPEED = 0.1f;
 //======================================================================
 CInputKeyboard			*CManager::m_InputKeyboard = NULL;		// キーボードへのポインタ
 CInputMouse				*CManager::m_InputMouse = NULL;			// マウスへのポインタ
+CController				*CManager::m_Controller = NULL;
 CLight					*CManager::m_Light;
 CMode					*CManager::m_Mode = NULL;
 CCamera					*CManager::m_UsingCamera = NULL;
@@ -70,6 +74,9 @@ bool CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// マウス処理初期化
 	m_InputMouse = new CInputMouse;
 	m_InputMouse->Init(hInstance, hWnd);
+
+	m_Controller = new CController;
+	m_Controller->Init();
 
 	// スキンメッシュの一括ロード
 	CSceneSkinMesh::LoadAll();
@@ -159,6 +166,14 @@ void CManager::Uninit()
 		m_InputMouse = NULL;
 	}
 
+	// コントローラーの解放処理
+	if (m_Controller)
+	{
+		m_Controller->Uninit();
+		delete m_Controller;
+		m_Controller = NULL;
+	}
+
 	// サウンドを解放
 	CSound::Uninit();
 
@@ -204,6 +219,8 @@ void CManager::Update()
 	{
 		m_InputMouse->Update();
 	}
+
+	m_Controller->Update();
 
 	if (m_InputKeyboard->GetKeyTrigger(DIK_AT))
 	{

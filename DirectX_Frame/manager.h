@@ -10,6 +10,7 @@ class CInputMouse;
 class CCamera;
 class CLight;
 class CMode;
+class CController;
 
 static const float DRAW_DIST = 40.0f;
 
@@ -25,8 +26,9 @@ public:
 	static void Draw();
 	static void DrawShadow();
 
-	static CInputKeyboard *GetInputKeyboard(void) { return m_InputKeyboard; }
-	static CInputMouse *GetInputMouse(void) { return m_InputMouse; }
+	static CInputKeyboard* GetInputKeyboard(void) { return m_InputKeyboard; }
+	static CInputMouse* GetInputMouse(void) { return m_InputMouse; }
+	static CController* GetController(void) { return m_Controller; }
 	static void SetMode(CMode* mode);
 	static CMode* GetMode() { return m_Mode; }
 	static void SetCamera(CCamera* camera) { m_UsingCamera = camera; }
@@ -57,6 +59,7 @@ public:
 private:
 	static CInputKeyboard*	m_InputKeyboard;	// キーボードへのポインタ
 	static CInputMouse*		m_InputMouse;		// マウスへのポインタ
+	static CController*		m_Controller;		// Xinput対応コントローラーへのポインタ
 	static CLight*			m_Light;
 	static CMode*			m_Mode;
 	static CCamera*			m_UsingCamera;

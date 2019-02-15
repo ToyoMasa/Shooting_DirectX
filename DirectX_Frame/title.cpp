@@ -2,6 +2,8 @@
 //	タイトル[title.cpp]　（2018/8/25）
 //	Author : 豊村 昌俊
 //======================================================================
+#include <Windows.h>
+#include <Xinput.h>
 #include "common.h"
 #include "main.h"
 #include "mode.h"
@@ -19,6 +21,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "input.h"
+#include "controller.h"
 #include "skybox.h"
 #include "number.h"
 #include "field.h"
@@ -134,7 +137,9 @@ void CModeTitle::Update()
 	{
 		if (!CManager::GetDebug())
 		{
-			if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
+			if (inputMouse->GetLeftTrigger() ||
+				inputKeyboard->GetKeyTrigger(DIK_SPACE) ||
+				CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_START))
 			{
 				SE = CSound::Create(SOUND_LABEL_SE_TITLE);
 				SE->Play(0.1f);
