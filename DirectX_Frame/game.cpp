@@ -2,6 +2,8 @@
 //	ゲーム画面管理
 //
 //======================================================================
+#include <Windows.h>
+#include <Xinput.h>
 #include "common.h"
 #include "main.h"
 #include "mode.h"
@@ -20,6 +22,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "input.h"
+#include "controller.h"
 #include "skybox.h"
 #include "number.h"
 #include "game.h"
@@ -221,6 +224,7 @@ void CModeGame::Update()
 {
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
+	CController *controller;
 	float mouseX, mouseY, mouseZ;
 
 	// キーボード取得
@@ -231,6 +235,9 @@ void CModeGame::Update()
 	mouseX = (float)inputMouse->GetAxisX();
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
+
+	// コントローラーの取得
+	controller = CManager::GetController();
 
 	GameCount++;
 
@@ -253,7 +260,12 @@ void CModeGame::Update()
 			}
 			else
 			{
-				if (inputKeyboard->GetKeyTrigger(DIK_SPACE) || inputKeyboard->GetKeyTrigger(DIK_RETURN) || inputMouse->GetLeftTrigger())
+				if (inputKeyboard->GetKeyTrigger(DIK_SPACE) ||
+					inputKeyboard->GetKeyTrigger(DIK_RETURN) ||
+					inputMouse->GetLeftTrigger() ||
+					controller->ButtonTrigger(XINPUT_GAMEPAD_A) ||
+					controller->ButtonTrigger(XINPUT_GAMEPAD_B) ||
+					controller->ButtonTrigger(XINPUT_GAMEPAD_START))
 				{
 					CFade::FadeOut(new CModeResult(KillCount));
 				}
@@ -284,11 +296,12 @@ void CModeGame::Update()
 			CItem::UpdateAll();
 			CEvent::UpdateAll();
 
-			if (inputKeyboard->GetKeyTrigger(DIK_P) || inputKeyboard->GetKeyTrigger(DIK_TAB))
+			if (inputKeyboard->GetKeyTrigger(DIK_P) ||
+				inputKeyboard->GetKeyTrigger(DIK_TAB) ||
+				controller->ButtonTrigger(XINPUT_GAMEPAD_START))
 			{
 				CallPause();
 			}
-
 		}
 	}
 }
@@ -363,6 +376,7 @@ void CModeGame::PauseUpdate()
 {
 	CInputKeyboard *inputKeyboard;
 	CInputMouse *inputMouse;
+	CController *controller;
 	float mouseX, mouseY, mouseZ;
 
 	// キーボード取得
@@ -373,6 +387,9 @@ void CModeGame::PauseUpdate()
 	mouseX = (float)inputMouse->GetAxisX();
 	mouseY = (float)inputMouse->GetAxisY();
 	mouseZ = (float)inputMouse->GetAxisZ();
+
+	// コントローラーの取得
+	controller = CManager::GetController();
 
 	if (FrameCount / 256 % 2 == 0.0f)
 	{
@@ -423,7 +440,9 @@ void CModeGame::PauseUpdate()
 			(SensiBarValue - (SCREEN_WIDTH / 2 - BAR_LENGTH / 2)) / BAR_LENGTH);
 	}
 
-	if (inputKeyboard->GetKeyTrigger(DIK_P) || inputKeyboard->GetKeyTrigger(DIK_TAB))
+	if (inputKeyboard->GetKeyTrigger(DIK_P) ||
+		inputKeyboard->GetKeyTrigger(DIK_TAB) ||
+		controller->ButtonTrigger(XINPUT_GAMEPAD_START))
 	{
 		isHoldSensiBar = false;
 		CallPause();

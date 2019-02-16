@@ -37,103 +37,65 @@ static const float DASH_HEAT = 1.0f / 60.0f;
 
 void CPlayerPatternDash::Init(CPlayer* player)
 {
-	player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
+	m_Player = player;
+	m_Player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
 }
 
-void CPlayerPatternDash::Uninit(CPlayer* player)
-{
-
-}
-
-void CPlayerPatternDash::Update(CPlayer* player)
+void CPlayerPatternDash::Update()
 {
 	// アニメーションの整合性を取る
-	player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
+	m_Player->GetModel()->ChangeAnim(PLAYER_SPRINT, 0.3f);
+}
 
-	CInputKeyboard *inputKeyboard;
-	CInputMouse *inputMouse;
-	float mouseX, mouseY, mouseZ;
-
-	// キーボード取得
-	inputKeyboard = CManager::GetInputKeyboard();
-
-	// マウス取得
-	inputMouse = CManager::GetInputMouse();
-	mouseX = (float)inputMouse->GetAxisX();
-	mouseY = (float)inputMouse->GetAxisY();
-	mouseZ = (float)inputMouse->GetAxisZ();
-
-	float moveX = 0.0f, moveZ = 0.0f;
-	if (inputKeyboard->GetKeyPress(DIK_A))
+void CPlayerPatternDash::Move(D3DXVECTOR2 move)
+{
+	// 歩いている間緊張度上昇
+	if (move.x != 0.0f || move.y != 0.0f)
 	{
-		moveX = -1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_D))
-	{
-		moveX = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_W))
-	{
-		moveZ = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_S))
-	{
-		moveZ = -1.0f;
+		CModeGame::GetEnemyManager()->AddPlayerTension(WALK_HEAT);
 	}
 
 	// 前方へ移動していなければ通常状態へ
-	if (moveZ <= 0.8f)
+	if (move.y <= 0.4f)
 	{
-		player->ChangePattern(new CPlayerPatternNormal());
+		m_Player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
 
 	// 走っている間緊張度上昇
 	CModeGame::GetEnemyManager()->AddPlayerTension(DASH_HEAT);
 
-	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
+	D3DXVECTOR2 dir = move;
 	D3DXVec2Normalize(&dir, &dir);
+
 	dir.x *= PLAYER_DASH_MOVE_SPEED_X;
 	dir.y *= PLAYER_DASH_MOVE_SPEED_Z;
 
-	player->Move(dir.x, dir.y);
+	m_Player->Move(dir.x, dir.y);
 
-	// 回転
-	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
+}
 
-	// ADS
-	if (inputMouse->GetRightPress())
-	{
-		player->ChangePattern(new CPlayerPatternADS());
-		return;
-	}
+void CPlayerPatternDash::Rotate(D3DXVECTOR2 rot)
+{
+	m_Player->Rotate(rot.x, rot.y);
+}
 
-	// リロード
-	if (inputKeyboard->GetKeyTrigger(DIK_R))
-	{
-		if (player->GetUsingWeapon()->GetAmmo() < player->GetUsingWeapon()->GetMaxAmmo())
-		{
-			player->ChangePattern(new CPlayerPatternReload());
-			return;
-		}
-	}
+void CPlayerPatternDash::ADS()
+{
+	m_Player->ChangePattern(new CPlayerPatternADS());
+}
 
-	// 武器チェンジ
-	if (inputKeyboard->GetKeyTrigger(DIK_X) && moveZ > 0.8f)
-	{
-		player->ChangePattern(new CPlayerPatternWeaponChange());
-		return;
-	}
+void CPlayerPatternDash::Shoot()
+{
+	m_Player->ChangePattern(new CPlayerPatternNormal());
+}
 
-	// 攻撃したらダッシュ状態を解除
-	if (inputMouse->GetLeftPress())
-	{
-		player->ChangePattern(new CPlayerPatternNormal());
-		return;
-	}
+void CPlayerPatternDash::Reload()
+{
+	m_Player->ChangePattern(new CPlayerPatternReload());
+}
 
-	if (inputMouse->GetLeftRelease())
-	{
-		player->TriggerRelease();
-	}
+void CPlayerPatternDash::ChangeWeapon()
+{
+	m_Player->ChangePattern(new CPlayerPatternWeaponChange());
 }

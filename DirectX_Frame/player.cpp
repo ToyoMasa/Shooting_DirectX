@@ -2,6 +2,8 @@
 //	プレイヤー　（2018/05/23）
 //	Author : 豊村 昌俊
 //======================================================================
+#include <Windows.h>
+#include <Xinput.h>
 #include "common.h"
 #include "main.h"
 #include "manager.h"
@@ -16,6 +18,7 @@
 #include "character.h"
 #include "player.h"
 #include "input.h"
+#include "controller.h"
 #include "field.h"
 #include "enemy.h"
 #include "game.h"
@@ -181,9 +184,116 @@ void CPlayer::Update()
 	else
 	{
 		ADS();
-		m_Pattern->Update(this);
+
+		m_Pattern->Update();
+
+		CInputKeyboard *inputKeyboard;
+		CInputMouse *inputMouse;
+		CController *controller;
+		float mouseX, mouseY, mouseZ;
+
+		// キーボード取得
+		inputKeyboard = CManager::GetInputKeyboard();
+
+		// マウス取得
+		inputMouse = CManager::GetInputMouse();
+		mouseX = (float)inputMouse->GetAxisX();
+		mouseY = (float)inputMouse->GetAxisY();
+		mouseZ = (float)inputMouse->GetAxisZ();
+
+		// コントローラーの取得
+		controller = CManager::GetController();
+
+		float moveX = 0.0f, moveZ = 0.0f;
+
+		if (controller->GetIsAble())
+		{
+			moveX = controller->GetStickLX();
+			moveZ = controller->GetStickLY();
+		}
+
+		if (inputKeyboard->GetKeyPress(DIK_A))
+		{
+			moveX = -1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_D))
+		{
+			moveX = 1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_W))
+		{
+			moveZ = 1.0f;
+		}
+		if (inputKeyboard->GetKeyPress(DIK_S))
+		{
+			moveZ = -1.0f;
+		}
+
+		D3DXVECTOR2 move = D3DXVECTOR2(moveX, moveZ);
+
+		// ダッシュ
+		if (inputKeyboard->GetKeyPress(DIK_LSHIFT) ||
+			controller->ButtonTrigger(XINPUT_GAMEPAD_LEFT_THUMB))
+		{
+			m_Pattern->Dash(moveZ);
+		}
+
+		m_Pattern->Move(move);
+
+		// 回転
+		if (controller->GetIsAble())
+		{
+			D3DXVECTOR2 rot = D3DXVECTOR2(PI * controller->GetStickRX() * VALUE_ROTATE_MOUSE * CONTROLLER_MAG,
+				PI * -controller->GetStickRY() * VALUE_ROTATE_MOUSE * CONTROLLER_MAG);
+			m_Pattern->Rotate(rot);
+		}
+		else
+		{
+			D3DXVECTOR2 rot = D3DXVECTOR2(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
+			m_Pattern->Rotate(rot);
+		}
+
+		// ADS
+		if (inputMouse->GetRightPress() ||
+			controller->ButtonPress(XINPUT_GAMEPAD_LEFT_SHOULDER) ||
+			controller->LeftPress())
+		{
+			m_Pattern->ADS();
+		}
+
+		if (inputMouse->GetLeftRelease() ||
+			controller->ButtonRelease(XINPUT_GAMEPAD_RIGHT_SHOULDER) ||
+			controller->RightRelease())
+		{
+			TriggerRelease();
+		}
+
+		// 攻撃
+		if (inputMouse->GetLeftPress() ||
+			controller->ButtonPress(XINPUT_GAMEPAD_RIGHT_SHOULDER) ||
+			controller->RightPress())
+		{
+			m_Pattern->Shoot();
+		}
+
+		// リロード
+		if (inputKeyboard->GetKeyTrigger(DIK_R) ||
+			controller->ButtonTrigger(XINPUT_GAMEPAD_X))
+		{
+			m_Pattern->Reload();
+		}
+
+		// 武器チェンジ
+		if (inputKeyboard->GetKeyTrigger(DIK_X) ||
+			mouseZ != 0 ||
+			controller->ButtonTrigger(XINPUT_GAMEPAD_Y))
+		{
+			m_Pattern->ChangeWeapon();
+		}
+
 		m_Tutorial->Update(this);
 
+		// レーダーの描画
 		D3DXVECTOR3 vecfortarget = CModeGame::GetTargetPos() - m_Pos;
 		float lenfortarget = D3DXVec3Length(&vecfortarget);
 		D3DXVec3Normalize(&vecfortarget, &vecfortarget);
@@ -214,11 +324,11 @@ void CPlayer::Update()
 		{
 			m_Radio_Wave->SetTexCoord(0.0, 0.5f, 0.0f, 0.5f);
 		}
-
+/*
 		ImGui::Begin("degree", 0);
 		ImGui::Text("%.2f", degree);
 		ImGui::End();
-
+*/
 		m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
 		m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
 	}
@@ -625,7 +735,7 @@ void CPlayer::ChangePattern(CPlayerPatternBase* next)
 {
 	if (m_Pattern != NULL)
 	{
-		m_Pattern->Uninit(this);
+		m_Pattern->Uninit();
 		delete m_Pattern;
 	}
 

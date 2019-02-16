@@ -14,6 +14,12 @@ public:
 	bool ButtonPress(WORD button);
 	bool ButtonRelease(WORD button);
 	bool ButtonTrigger(WORD button);
+	bool RightPress();
+	bool LeftPress();
+	bool RightTrigger();
+	bool LeftTrigger();
+	bool RightRelease();
+	bool LeftRelease();
 	float GetStickRX() { return m_JoyStickRX; }
 	float GetStickRY() { return m_JoyStickRY; }
 	float GetStickLX() { return m_JoyStickLX; }

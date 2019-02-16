@@ -34,31 +34,34 @@
 #include "playerPatternADS.h"
 #include "enemyManager.h"
 
+static const float ADS_CAMERA_MAG = 0.65f;
+
 void CPlayerPatternADS::Init(CPlayer* player)
 {
-	player->GetModel()->StopMontage();
-	player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
+	m_Player = player;
+	m_Player->GetModel()->StopMontage();
+	m_Player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
 
 	// 照準の表示を遅延させるためのカウント
 	m_Time = timeGetTime();
 
-	player->SetADS(true);
+	m_Player->SetADS(true);
 }
 
-void CPlayerPatternADS::Uninit(CPlayer* player)
+void CPlayerPatternADS::Uninit()
 {
-	player->SetADS(false);
-	player->SetWeaponADS(false);
+	m_Player->SetADS(false);
+	m_Player->SetWeaponADS(false);
 }
 
-void CPlayerPatternADS::Update(CPlayer* player)
+void CPlayerPatternADS::Update()
 {
 	// アニメーションの整合性を取る
-	player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
+	m_Player->GetModel()->ChangeAnim(PLAYER_ADS, 0.3f);
 
 	CInputKeyboard* inputKeyboard;
 	CInputMouse* inputMouse;
-	CController* Controller;
+	CController* controller;
 	float mouseX, mouseY, mouseZ;
 
 	// キーボード取得
@@ -71,51 +74,16 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	mouseZ = (float)inputMouse->GetAxisZ();
 
 	// コントローラーの取得
-	Controller = CManager::GetController();
+	controller = CManager::GetController();
 
 	// ADS解除
-	if (!inputMouse->GetRightPress())
+	if (!inputMouse->GetRightPress() && 
+		!controller->ButtonPress(XINPUT_GAMEPAD_LEFT_SHOULDER) &&
+		!controller->LeftPress())
 	{
-		player->ChangePattern(new CPlayerPatternNormal());
+		m_Player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
-
-	float moveX = 0.0f, moveZ = 0.0f;
-
-	moveX = Controller->GetStickLX();
-	moveZ = Controller->GetStickLY();
-
-	if (inputKeyboard->GetKeyPress(DIK_A))
-	{
-		moveX = -1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_D))
-	{
-		moveX = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_W))
-	{
-		moveZ = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_S))
-	{
-		moveZ = -1.0f;
-	}
-
-	// 歩いている間緊張度上昇
-	if (moveX != 0.0f || moveZ != 0.0f)
-	{
-		CModeGame::GetEnemyManager()->AddPlayerTension(0.8f / 60.0f);
-	}
-
-	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
-	D3DXVec2Normalize(&dir, &dir);
-	dir *= PLAYER_ADS_MOVE_SPEED;
-
-	player->Move(dir.x, dir.y);
-
-	// 回転
-	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
 
 	// ADSが完了したら照準の表示
 	DWORD currentTime = timeGetTime();
@@ -123,23 +91,59 @@ void CPlayerPatternADS::Update(CPlayer* player)
 	{
 		return;
 	}
-	player->SetWeaponADS(true);
+	m_Player->SetWeaponADS(true);
+}
 
-	// 攻撃
-	if (inputMouse->GetLeftPress())
+void CPlayerPatternADS::Move(D3DXVECTOR2 move)
+{
+	// 歩いている間緊張度上昇
+	if (move.x != 0.0f || move.y != 0.0f)
 	{
-		if (player->GetUsingWeapon()->GetAmmo() <= 0)
-		{
-			player->ChangePattern(new CPlayerPatternReload());
-			return;
-		}
-		else
-		{
-			player->Shoot();
-		}
+		CModeGame::GetEnemyManager()->AddPlayerTension(WALK_HEAT);
 	}
-	if (inputMouse->GetLeftRelease())
+
+	D3DXVECTOR2 dir = move;
+	D3DXVec2Normalize(&dir, &dir);
+	dir *= PLAYER_ADS_MOVE_SPEED;
+
+	m_Player->Move(dir.x, dir.y);
+}
+
+void CPlayerPatternADS::Rotate(D3DXVECTOR2 rot)
+{
+	CController *controller;
+
+	// コントローラーの取得
+	controller = CManager::GetController();
+
+	if (controller->GetIsAble())
 	{
-		player->TriggerRelease();
+		m_Player->Rotate(rot.x * ADS_CAMERA_MAG, rot.y * ADS_CAMERA_MAG);
+	}
+	else
+	{
+		m_Player->Rotate(rot.x, rot.y);
+	}
+}
+
+void CPlayerPatternADS::Shoot()
+{
+	if (m_Player->GetUsingWeapon()->GetAmmo() <= 0)
+	{
+		m_Player->GetUsingWeapon()->ReleaseTrigger();
+		m_Player->ChangePattern(new CPlayerPatternReload());
+	}
+	else
+	{
+		m_Player->SetWeaponADS(true);
+		m_Player->Shoot();
+	}
+}
+
+void CPlayerPatternADS::Reload()
+{
+	if (m_Player->GetUsingWeapon()->GetAmmo() < m_Player->GetUsingWeapon()->GetMaxAmmo())
+	{
+		m_Player->ChangePattern(new CPlayerPatternReload());
 	}
 }

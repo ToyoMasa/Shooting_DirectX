@@ -731,6 +731,9 @@
     <ClCompile Include="fieldShadowShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
+    <ClCompile Include="playerPatternBase.cpp">
+      <Filter>ソース ファイル\player\playerPattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\metal.fx" />

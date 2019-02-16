@@ -36,121 +36,74 @@
 #include "playerPatternWeaponChange.h"
 #include "enemyManager.h"
 
-static const float WALK_HEAT = 0.4f / 60.0f;
-
 void CPlayerPatternNormal::Init(CPlayer* player)
 {
-	player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
-	player->SetADS(false);
-	player->SetWeaponADS(false);
+	m_Player = player;
+	m_Player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
+	m_Player->SetADS(false);
+	m_Player->SetWeaponADS(false);
 }
 
-void CPlayerPatternNormal::Update(CPlayer* player)
+void CPlayerPatternNormal::Update()
 {
 	// アニメーションの整合性を取る
-	player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
+	m_Player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.2f);
+}
 
-	CInputKeyboard *inputKeyboard;
-	CInputMouse *inputMouse;
-	CController* Controller;
-	float mouseX, mouseY, mouseZ;
-
-	// キーボード取得
-	inputKeyboard = CManager::GetInputKeyboard();
-
-	// マウス取得
-	inputMouse = CManager::GetInputMouse();
-	mouseX = (float)inputMouse->GetAxisX();
-	mouseY = (float)inputMouse->GetAxisY();
-	mouseZ = (float)inputMouse->GetAxisZ();
-
-	// コントローラーの取得
-	Controller = CManager::GetController();
-
-	float moveX = 0.0f, moveZ = 0.0f;
-
-	moveX = Controller->GetStickLX();
-	moveZ = Controller->GetStickLY();
-
-	if (inputKeyboard->GetKeyPress(DIK_A))
-	{
-		moveX = -1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_D))
-	{
-		moveX = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_W))
-	{
-		moveZ = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_S))
-	{
-		moveZ = -1.0f;
-	}
-
-	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
+void CPlayerPatternNormal::Move(D3DXVECTOR2 move)
+{
+	D3DXVECTOR2 dir = move;
 	D3DXVec2Normalize(&dir, &dir);
 
 	// 歩いている間緊張度上昇
-	if (moveX != 0.0f || moveZ != 0.0f)
+	if (move.x != 0.0f || move.y != 0.0f)
 	{
 		CModeGame::GetEnemyManager()->AddPlayerTension(WALK_HEAT);
 	}
 
-	player->Move(dir.x, dir.y);
+	m_Player->Move(dir.x, dir.y);
+}
 
-	// ADS
-	if (inputMouse->GetRightPress())
+void CPlayerPatternNormal::Rotate(D3DXVECTOR2 rot)
+{
+	m_Player->Rotate(rot.x, rot.y);
+}
+
+void CPlayerPatternNormal::Dash(float moveZ)
+{
+	if (moveZ >= 0.8f)
 	{
-		player->ChangePattern(new CPlayerPatternADS());
-		return;
+		m_Player->ChangePattern(new CPlayerPatternDash());
 	}
+}
 
-	if (inputMouse->GetLeftRelease())
+void CPlayerPatternNormal::ADS()
+{
+	m_Player->ChangePattern(new CPlayerPatternADS());
+}
+
+void CPlayerPatternNormal::Shoot()
+{
+	if (m_Player->GetUsingWeapon()->GetAmmo() <= 0)
 	{
-		player->TriggerRelease();
+		m_Player->GetUsingWeapon()->ReleaseTrigger();
+		m_Player->ChangePattern(new CPlayerPatternReload());
 	}
-
-	// 攻撃
-	if (inputMouse->GetLeftPress())
+	else
 	{
-		if (player->GetUsingWeapon()->GetAmmo() <= 0)
-		{
-			player->GetUsingWeapon()->ReleaseTrigger();
-			player->ChangePattern(new CPlayerPatternReload());
-			return;
-		}
-		else
-		{
-			player->Shoot();
-		}
+		m_Player->Shoot();
 	}
+}
 
-	// ダッシュ
-	else if (inputKeyboard->GetKeyPress(DIK_LSHIFT) && moveZ > 0.8f)
+void CPlayerPatternNormal::Reload()
+{
+	if (m_Player->GetUsingWeapon()->GetAmmo() < m_Player->GetUsingWeapon()->GetMaxAmmo())
 	{
-		player->ChangePattern(new CPlayerPatternDash());
-		return;
+		m_Player->ChangePattern(new CPlayerPatternReload());
 	}
+}
 
-	// リロード
-	if (inputKeyboard->GetKeyTrigger(DIK_R))
-	{
-		if (player->GetUsingWeapon()->GetAmmo() < player->GetUsingWeapon()->GetMaxAmmo())
-		{
-			player->ChangePattern(new CPlayerPatternReload());
-			return;
-		}
-	}
-
-	// 回転
-	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-
-	// 武器チェンジ
-	if (inputKeyboard->GetKeyTrigger(DIK_X) || mouseZ != 0)
-	{
-		player->ChangePattern(new CPlayerPatternWeaponChange());
-		return;
-	}
+void CPlayerPatternNormal::ChangeWeapon()
+{
+	m_Player->ChangePattern(new CPlayerPatternWeaponChange());
 }

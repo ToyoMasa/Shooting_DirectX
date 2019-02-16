@@ -14,8 +14,15 @@ public:
 	~CPlayerPatternDash() {}
 
 	void Init(CPlayer* player)override;
-	void Uninit(CPlayer* player)override;
-	void Update(CPlayer* player)override;
+	void Uninit()override {}
+	void Update()override;
+
+	virtual void Move(D3DXVECTOR2 move)override;
+	virtual void Rotate(D3DXVECTOR2 rot)override;
+	virtual void ADS()override;
+	virtual void Shoot()override;
+	virtual void Reload()override;
+	virtual void ChangeWeapon()override;
 };
 
 #endif // !_PLAYER_PATTERN_DASH_H_

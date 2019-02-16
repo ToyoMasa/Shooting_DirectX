@@ -98,7 +98,7 @@ bool CController::ButtonPress(WORD button)
 		return false;
 	}
 
-	return m_State.Gamepad.wButtons & button;
+	return (bool)(m_State.Gamepad.wButtons & button);
 }
 
 //	ボタンリリース
@@ -110,7 +110,7 @@ bool CController::ButtonRelease(WORD button)
 	}
 	WORD triKey = (m_State.Gamepad.wButtons ^ m_OldState.Gamepad.wButtons) & m_OldState.Gamepad.wButtons;
 
-	return triKey & button;
+	return (bool)(triKey & button);
 }
 
 // トリガー入力
@@ -123,5 +123,43 @@ bool CController::ButtonTrigger(WORD button)
 
 	WORD triKey = (m_State.Gamepad.wButtons ^ m_OldState.Gamepad.wButtons) & m_State.Gamepad.wButtons;
 
-	return (triKey & button);
+	return (bool)(triKey & button);
+}
+
+bool CController::RightPress()
+{
+	return (bool)(m_State.Gamepad.bRightTrigger);
+}
+
+bool CController::LeftPress()
+{
+	return (bool)(m_State.Gamepad.bLeftTrigger);
+}
+
+bool CController::RightTrigger()
+{
+	bool ret = ((bool)(m_State.Gamepad.bRightTrigger) ^ (bool)(m_OldState.Gamepad.bRightTrigger)) &&
+		(bool)(m_State.Gamepad.bRightTrigger);
+	return ret;
+}
+
+bool CController::LeftTrigger()
+{
+	bool ret = ((bool)(m_State.Gamepad.bLeftTrigger) ^ (bool)(m_OldState.Gamepad.bLeftTrigger)) &&
+		(bool)(m_State.Gamepad.bLeftTrigger);
+	return ret;
+}
+
+bool CController::RightRelease()
+{
+	bool ret = ((bool)(m_State.Gamepad.bRightTrigger) ^ (bool)(m_OldState.Gamepad.bRightTrigger)) &&
+		(bool)(m_OldState.Gamepad.bRightTrigger);
+	return ret;
+}
+
+bool CController::LeftRelease()
+{
+	bool ret = ((bool)(m_State.Gamepad.bLeftTrigger) ^ (bool)(m_OldState.Gamepad.bLeftTrigger)) &&
+		(bool)(m_OldState.Gamepad.bLeftTrigger);
+	return ret;
 }

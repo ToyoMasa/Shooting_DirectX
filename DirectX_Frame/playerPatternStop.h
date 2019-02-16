@@ -13,9 +13,9 @@ public:
 	CPlayerPatternStop() {}
 	~CPlayerPatternStop() {}
 
-	void Init(CPlayer* player)override;
-	void Uninit(CPlayer* player)override {}
-	void Update(CPlayer* player)override;
+	void Init(CPlayer* player)override {}
+	void Uninit()override {}
+	void Update()override {}
 };
 
 #endif // !_PLAYER_PATTERN_STOP_H_

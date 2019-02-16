@@ -277,7 +277,7 @@ void CManager::Draw()
 		// シャドウマップテクスチャ
 		//DrawQuad(pDevice, 10, 10, 200, 200, m_ShadowTex);
 
-		if (CManager::GetDebug())
+		//if (CManager::GetDebug())
 		{
 			ImGui::Begin("Debug Window");
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

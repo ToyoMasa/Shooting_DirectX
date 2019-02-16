@@ -14,8 +14,11 @@ public:
 	~CPlayerPatternWeaponChange() {}
 
 	void Init(CPlayer* player)override;
-	void Uninit(CPlayer* player)override {}
-	void Update(CPlayer* player)override;
+	void Uninit()override {}
+	void Update()override;
+
+	virtual void Move(D3DXVECTOR2 move)override;
+	virtual void Rotate(D3DXVECTOR2 rot)override;
 private:
 	int	m_CountFrame;
 };

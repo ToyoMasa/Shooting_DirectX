@@ -34,84 +34,59 @@
 
 void CPlayerPatternWeaponChange::Init(CPlayer* player)
 {
-	player->GetModel()->ChangeAnim(PLAYER_NONE, 0.2f);
-	player->SetADS(false);
-	player->SetWeaponADS(false);
+	m_Player = player;
+	m_Player->GetModel()->ChangeAnim(PLAYER_NONE, 0.2f);
+	m_Player->SetADS(false);
+	m_Player->SetWeaponADS(false);
 	m_CountFrame = 0;
 }
 
-void CPlayerPatternWeaponChange::Update(CPlayer* player)
+void CPlayerPatternWeaponChange::Update()
 {
-	CInputKeyboard *inputKeyboard;
-	CInputMouse *inputMouse;
-	float mouseX, mouseY, mouseZ;
-
-	// キーボード取得
-	inputKeyboard = CManager::GetInputKeyboard();
-
-	// マウス取得
-	inputMouse = CManager::GetInputMouse();
-	mouseX = (float)inputMouse->GetAxisX();
-	mouseY = (float)inputMouse->GetAxisY();
-	mouseZ = (float)inputMouse->GetAxisZ();
-
-	float moveX = 0.0f, moveZ = 0.0f;
-	if (inputKeyboard->GetKeyPress(DIK_A))
-	{
-		moveX = -1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_D))
-	{
-		moveX = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_W))
-	{
-		moveZ = 1.0f;
-	}
-	if (inputKeyboard->GetKeyPress(DIK_S))
-	{
-		moveZ = -1.0f;
-	}
-
-	D3DXVECTOR2 dir = D3DXVECTOR2(moveX, moveZ);
-	D3DXVec2Normalize(&dir, &dir);
-
-	// 歩いている間緊張度上昇
-	if (moveX != 0.0f || moveZ != 0.0f)
-	{
-		CModeGame::GetEnemyManager()->AddPlayerTension(0.8f / 60.0f);
-	}
-
-	player->Move(dir.x, dir.y);
-
-	// 回転
-	player->Rotate(PI * mouseX * VALUE_ROTATE_MOUSE, PI * mouseY * VALUE_ROTATE_MOUSE);
-
 	// フレームに応じた処理
 	if (m_CountFrame < 12)
 	{
-		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
+		m_Player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
 	}
 	else if (m_CountFrame < 60)
 	{
 		// アニメーションの整合性を取る
-		player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
+		m_Player->GetModel()->ChangeAnim(PLAYER_NONE, 0.0f);
 	}
 	else if (m_CountFrame == 60)
 	{
-		player->ChangeWeapon();
-		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
+		m_Player->ChangeWeapon();
+		m_Player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
 	}
 	else if (m_CountFrame < 90)
 	{
 		// アニメーションの整合性を取る
-		player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
+		m_Player->GetModel()->ChangeAnim(PLAYER_IDLE, 0.4f);
 	}
 	else if (m_CountFrame == 90)
 	{
-		player->ChangePattern(new CPlayerPatternNormal());
+		m_Player->ChangePattern(new CPlayerPatternNormal());
 		return;
 	}
 
 	m_CountFrame++;
+}
+
+void CPlayerPatternWeaponChange::Move(D3DXVECTOR2 move)
+{
+	D3DXVECTOR2 dir = move;
+	D3DXVec2Normalize(&dir, &dir);
+
+	// 歩いている間緊張度上昇
+	if (move.x != 0.0f || move.y != 0.0f)
+	{
+		CModeGame::GetEnemyManager()->AddPlayerTension(WALK_HEAT);
+	}
+
+	m_Player->Move(dir.x, dir.y);
+}
+
+void CPlayerPatternWeaponChange::Rotate(D3DXVECTOR2 rot)
+{
+	m_Player->Rotate(rot.x, rot.y);
 }

@@ -321,6 +321,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerPatternADS.cpp" />
     <ClCompile Include="playerPatternAir.cpp" />
+    <ClCompile Include="playerPatternBase.cpp" />
     <ClCompile Include="playerPatternDash.cpp" />
     <ClCompile Include="playerPatternNormal.cpp" />
     <ClCompile Include="playerPatternStop.cpp" />
