@@ -21,7 +21,6 @@ public:
 	void Shoot()override;
 	static CRifle* Create(CSceneSkinMesh *parent);
 	void SetADS(bool ads)override;
-	void ChangeCrosshair(int nextTex)override;
 	void Recoil(float recoilX, float recoilY)override;
 	void RecoilUpdate()override;
 	void ReleaseTrigger()override;
@@ -29,6 +28,7 @@ public:
 
 private:
 	CSound* m_ShotSE[RIFLE_SHOT_SE_NUM];
+	CScene2D* m_Reticle;
 };
 
 #endif // !_RIFLE_H_

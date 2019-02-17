@@ -38,10 +38,13 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Parent = parent;
 	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_RIFLE], LAYER_OBJECT3D);
 	m_Model->SetUseShadow(false);
-	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
-	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f)); 
-	m_Crosshair->SetVisible(false);
-	m_Crosshair->SetColor(D3DCOLOR_RGBA(255, 0, 0, 255));
+	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_RIFLE, CROSSHAIR_RIFLE_SIZE, CROSSHAIR_RIFLE_SIZE);
+	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+	m_Crosshair->SetVisible(true);
+	m_Reticle = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
+	m_Reticle->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f)); 
+	m_Reticle->SetVisible(false);
+	m_Reticle->SetColor(D3DCOLOR_RGBA(255, 0, 0, 255));
 	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(90.0f, 90.0f, 90.0f);
@@ -151,6 +154,22 @@ void CRifle::Update()
 			}
 		}
 	}
+
+	if (m_isActive)
+	{
+		if (m_isADS)
+		{
+			m_Crosshair->SetVisible(false);
+		}
+		else
+		{
+			m_Crosshair->SetVisible(true);
+		}
+	}
+	else
+	{
+		m_Crosshair->SetVisible(false);
+	}
 }
 
 void CRifle::Shoot()
@@ -206,17 +225,9 @@ CRifle* CRifle::Create(CSceneSkinMesh *parent)
 
 void CRifle::SetADS(bool ads)
 {
-	m_Crosshair->SetVisible(ads);
+	m_Reticle->SetVisible(ads);
+	m_Crosshair->SetVisible(!ads);
 	m_isADS = ads;
-}
-
-void CRifle::ChangeCrosshair(int nextTex)
-{
-	if (m_Crosshair != NULL)
-	{
-		m_Crosshair->Release();
-		m_Crosshair = CScene2D::Create(nextTex, 32, 32);
-	}
 }
 
 void CRifle::Recoil(float recoilX, float recoilY)

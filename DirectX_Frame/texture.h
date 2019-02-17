@@ -44,6 +44,8 @@ typedef enum
 	TEX_ID_TURORIAL_PAUSE,			// pauseのチュートリアル
 	TEX_ID_HOWTOUSE,				// 操作確認
 	TEX_ID_CROSSHAIR_CIRCLE,		// クロスヘア
+	TEX_ID_CROSSHAIR_RIFLE,			// ライフルのクロスヘア
+	TEX_ID_CROSSHAIR_SHOTGUN,		// ショットガンのクロスヘア
 	TEX_ID_SMOKE,					// 煙
 	TEX_ID_FLASH,					// マズルフラッシュ
 	TEX_ID_CIRCLE_2D,				// 2D画面用円
@@ -122,6 +124,8 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/tutorial_pause.png",
 	"data/textures/howtouse.png",
 	"data/textures/crosshair_circle.png",
+	"data/textures/rifle_crosshair.png",
+	"data/textures/shotgun_crosshair.png",
 	"data/textures/smoke.jpg",
 	"data/textures/flash.png",
 	"data/textures/debug_circle.png",

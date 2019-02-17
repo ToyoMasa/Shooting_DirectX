@@ -35,9 +35,9 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 	m_Parent = parent;
 	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_SHOTGUN]);
 	m_Model->SetUseShadow(false);
-	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_CIRCLE, 32, 32);
+	m_Crosshair = CScene2D::Create(TEX_ID_CROSSHAIR_SHOTGUN, CROSSHAIR_SHOTGUN_SIZE, CROSSHAIR_SHOTGUN_SIZE);
 	m_Crosshair->Set(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
-	m_Crosshair->SetVisible(false);
+	m_Crosshair->SetVisible(true);
 	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -143,6 +143,22 @@ void CShotgun::Update()
 			}
 		}
 	}
+
+	if (m_isActive)
+	{
+		if (m_isADS)
+		{
+			m_Crosshair->SetVisible(false);
+		}
+		else
+		{
+			m_Crosshair->SetVisible(true);
+		}
+	}
+	else
+	{
+		m_Crosshair->SetVisible(false);
+	}
 }
 
 void CShotgun::Shoot()
@@ -211,13 +227,8 @@ CShotgun* CShotgun::Create(CSceneSkinMesh *parent)
 
 void CShotgun::SetADS(bool ads)
 {
-	m_Crosshair->SetVisible(false);
+	m_Crosshair->SetVisible(!ads);
 	m_isADS = ads;
-}
-
-void CShotgun::ChangeCrosshair(int nextTex)
-{
-
 }
 
 void CShotgun::Recoil(float recoilX, float recoilY)

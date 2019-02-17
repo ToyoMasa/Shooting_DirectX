@@ -11,6 +11,9 @@ static const int FLASH_MAX = 1;
 class CDebug;
 class CBillBoard;
 
+static const float CROSSHAIR_RIFLE_SIZE = 64.0f;
+static const float CROSSHAIR_SHOTGUN_SIZE = 128.0f;
+
 class CWeapon
 {
 public:
@@ -60,7 +63,6 @@ public:
 	void SetActive(bool active);
 	void Reload() { m_Ammo = m_MaxAmmo; }
 	virtual void SetADS(bool ads) = 0;
-	virtual void ChangeCrosshair(int nextTex) = 0;
 	virtual void Recoil(float recoilX, float recoilY) = 0;
 	virtual void RecoilUpdate() = 0;
 	virtual void ReleaseTrigger() = 0;

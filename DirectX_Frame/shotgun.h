@@ -19,7 +19,6 @@ public:
 	void Shoot()override;
 	static CShotgun* Create(CSceneSkinMesh *parent);
 	void SetADS(bool ads)override;
-	void ChangeCrosshair(int nextTex)override;
 	void Recoil(float recoilX, float recoilY)override;
 	void RecoilUpdate()override;
 	void ReleaseTrigger()override;
