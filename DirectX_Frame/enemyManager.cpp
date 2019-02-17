@@ -78,11 +78,11 @@ void CEnemyManager::Update()
 		ImGui::Text("SPAWN_STATE:%d", m_SpawnAIState);
 		ImGui::End();
 	}
-	ImGui::SetNextWindowSize(ImVec2(80, 50), ImGuiSetCond_Once);
-	ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 120.0f, 20), ImGuiSetCond_Once);
-	ImGui::Begin("Heat");
-	ImGui::Text("%.2f", m_PlayerTension);
-	ImGui::End();
+	//ImGui::SetNextWindowSize(ImVec2(80, 50), ImGuiSetCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 120.0f, 20), ImGuiSetCond_Once);
+	//ImGui::Begin("Heat");
+	//ImGui::Text("%.2f", m_PlayerTension);
+	//ImGui::End();
 }
 
 void CEnemyManager::CreateEnemy(ENEMY_TYPE type)

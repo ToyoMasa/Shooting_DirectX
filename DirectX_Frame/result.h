@@ -28,6 +28,7 @@ private:
 	static CScene2D* ResultText;
 	static CScene2D* KillNumText;
 	static CScene2D* TextPressSpace;
+	static CScene2D* TextPressStart;
 	static CSound* BGM;
 	static CSound* SE;
 	static CNumber* ScreenKillCount;

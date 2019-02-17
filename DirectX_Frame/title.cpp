@@ -34,6 +34,7 @@
 
 CScene2D *CModeTitle::TitleLogo = NULL;
 CScene2D *CModeTitle::TextPressSpace = NULL;
+CScene2D *CModeTitle::TextPressStart = NULL;
 CSceneSkinMesh *CModeTitle::m_Mesh = NULL;
 CSound *CModeTitle::BGM = NULL;
 CSound *CModeTitle::SE = NULL;
@@ -61,6 +62,12 @@ void CModeTitle::Init()
 	TextPressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 420.0f, 90.0f);
 	TextPressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
 	TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
+	TextPressSpace->SetVisible(false);
+
+	TextPressStart = CScene2D::Create(TEX_ID_PRESS_START, 500.0f, 90.0f);
+	TextPressStart->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
+	TextPressStart->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
+	TextPressStart->SetVisible(false);
 
 	Camera = CCamera::Create();
 	Camera->SetPos(D3DXVECTOR3(-27.41f, 2.51f, -86.44f));
@@ -70,7 +77,7 @@ void CModeTitle::Init()
 	BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
 	//BGM->Play(0.1f);
 
-	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
+	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
 
 	// ビルボードの準備
 	CBillBoard::Init();
@@ -122,13 +129,26 @@ void CModeTitle::Update()
 
 	Count++;
 
+	if (CManager::GetController()->GetIsAble())
+	{
+		TextPressSpace->SetVisible(false);
+		TextPressStart->SetVisible(true);
+	}
+	else
+	{
+		TextPressSpace->SetVisible(true);
+		TextPressStart->SetVisible(false);
+	}
+
 	if (Count / 256 % 2 == 0.0f)
 	{
 		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, Count % 256));
+		TextPressStart->SetColor(D3DCOLOR_RGBA(186, 7, 7, Count % 256));
 	}
 	else
 	{
 		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255 - (Count % 256)));
+		TextPressStart->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255 - (Count % 256)));
 	}
 
 	CScene::UpdateAll();
@@ -139,6 +159,7 @@ void CModeTitle::Update()
 		{
 			if (inputMouse->GetLeftTrigger() ||
 				inputKeyboard->GetKeyTrigger(DIK_SPACE) ||
+				CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_A) ||
 				CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_START))
 			{
 				SE = CSound::Create(SOUND_LABEL_SE_TITLE);

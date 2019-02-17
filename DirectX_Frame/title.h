@@ -26,6 +26,7 @@ public:
 private:
 	static CScene2D* TitleLogo;
 	static CScene2D* TextPressSpace;
+	static CScene2D* TextPressStart;
 	static CSceneSkinMesh* m_Mesh;
 	static CSound* BGM;
 	static CSound* SE;

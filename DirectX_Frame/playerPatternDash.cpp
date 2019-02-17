@@ -92,7 +92,10 @@ void CPlayerPatternDash::Shoot()
 
 void CPlayerPatternDash::Reload()
 {
-	m_Player->ChangePattern(new CPlayerPatternReload());
+	if (m_Player->GetUsingWeapon()->GetAmmo() < m_Player->GetUsingWeapon()->GetMaxAmmo())
+	{
+		m_Player->ChangePattern(new CPlayerPatternReload());
+	}
 }
 
 void CPlayerPatternDash::ChangeWeapon()

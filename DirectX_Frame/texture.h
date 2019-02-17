@@ -29,6 +29,7 @@ typedef enum
 	TEX_ID_LOADFRAME,				// ロード画面ゲージフレーム
 	TEX_ID_LOADGAGE,				// ロード画面ゲージ中身
 	TEX_ID_PRESS_SPACE,				// スペースを押す
+	TEX_ID_PRESS_START,				// スタートを押す
 	TEX_ID_RANK_A,					// A
 	TEX_ID_RANK_B,					// B
 	TEX_ID_RANK_C,					// C
@@ -66,6 +67,13 @@ typedef enum
 	TEX_ID_WASD_RED,				// チュートリアル操作「WASDキー」
 	TEX_ID_SHIFT,					// チュートリアル操作「Shiftキー」
 	TEX_ID_KEY_R,					// チュートリアル操作「Rキー」
+	TEX_ID_PAD_BUTTONS,				// チュートリアル操作「パッドのABXYボタン」
+	TEX_ID_PAD_R,					// チュートリアル操作「パッドのRスティック」
+	TEX_ID_PAD_R3,					// チュートリアル操作「パッドのR3」
+	TEX_ID_PAD_RTRB,				// チュートリアル操作「パッドのRT or RB」
+	TEX_ID_PAD_L,					// チュートリアル操作「パッドのLスティック」
+	TEX_ID_PAD_L3,					// チュートリアル操作「パッドのL3」
+	TEX_ID_PAD_LTLB,				// チュートリアル操作「パッドのLT or LB」
 	TEX_ID_CAMERA_SENSI,			// ポーズ画面「カメラ感度」
 	TEX_ID_CAMERA_REVERSE,			// ポーズ画面「カメラ反転」
 	TEX_ID_PLUS,					// ポーズ画面「+」
@@ -99,6 +107,7 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/LoadFrame.png",
 	"data/textures/LoadGage.png",
 	"data/textures/press_space.png",
+	"data/textures/press_start.png",
 	"data/textures/rank_a.png",
 	"data/textures/rank_b.png",
 	"data/textures/rank_c.png",
@@ -136,6 +145,13 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/wasd_red.png",
 	"data/textures/shift.png",
 	"data/textures/key_r.png",
+	"data/textures/pad_buttons.png",
+	"data/textures/pad_r.png",
+	"data/textures/pad_r3.png",
+	"data/textures/pad_rt_or_rb.png",
+	"data/textures/pad_l.png",
+	"data/textures/pad_l3.png",
+	"data/textures/pad_lt_or_lb.png",
 	"data/textures/camera_sensi.png",
 	"data/textures/camera_reverse.png",
 	"data/textures/plus.png",

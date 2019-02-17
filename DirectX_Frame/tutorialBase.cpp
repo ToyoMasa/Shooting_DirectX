@@ -18,6 +18,13 @@ void CTutorialBase::LoadTexture()
 	CTexture::Load(TEX_ID_MOUSE_RIGHT);
 	CTexture::Load(TEX_ID_MOUSE_WHEEL);
 	CTexture::Load(TEX_ID_WASD_RED);
+	CTexture::Load(TEX_ID_PAD_BUTTONS);
+	CTexture::Load(TEX_ID_PAD_L);
+	CTexture::Load(TEX_ID_PAD_L3);
+	CTexture::Load(TEX_ID_PAD_LTLB);
+	CTexture::Load(TEX_ID_PAD_R);
+	CTexture::Load(TEX_ID_PAD_R3);
+	CTexture::Load(TEX_ID_PAD_RTRB);
 	CTexture::Load(TEX_ID_SHIFT);
 }
 

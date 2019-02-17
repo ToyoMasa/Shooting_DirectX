@@ -27,6 +27,7 @@ public:
 protected:
 	CScene2D*	m_Text;
 	CScene2D*	m_Controller;
+	CScene2D*	m_Pad;
 	int			m_Count;
 	int			m_Alpha;
 };

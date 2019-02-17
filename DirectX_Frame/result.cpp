@@ -2,6 +2,8 @@
 //	リザルト[result.cpp]　（2018/8/25）
 //	Author : 豊村 昌俊
 //======================================================================
+#include <Windows.h>
+#include <Xinput.h>
 #include "common.h"
 #include "main.h"
 #include "mode.h"
@@ -18,6 +20,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "input.h"
+#include "controller.h"
 #include "skybox.h"
 #include "number.h"
 #include "title.h"
@@ -30,6 +33,7 @@
 CScene2D* CModeResult::ResultText = NULL;
 CScene2D* CModeResult::KillNumText = NULL;
 CScene2D *CModeResult::TextPressSpace = NULL;
+CScene2D *CModeResult::TextPressStart = NULL;
 CSound *CModeResult::BGM = NULL;
 CSound *CModeResult::SE = NULL;
 CNumber *CModeResult::ScreenKillCount = NULL;
@@ -56,6 +60,12 @@ void CModeResult::Init()
 	TextPressSpace = CScene2D::Create(TEX_ID_PRESS_SPACE, 501.0f, 105.0f);
 	TextPressSpace->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
 	TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
+	TextPressSpace->SetVisible(false);
+
+	TextPressStart = CScene2D::Create(TEX_ID_PRESS_START, 500.0f, 90.0f);
+	TextPressStart->Set(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f));
+	TextPressStart->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
+	TextPressStart->SetVisible(false);
 
 	ScreenKillCount = CNumber::Create();
 	ScreenKillCount->SetNum(NumKillEnemy);
@@ -123,18 +133,34 @@ void CModeResult::Update()
 
 	CountFrame++;
 
+	if (CManager::GetController()->GetIsAble())
+	{
+		TextPressSpace->SetVisible(false);
+		TextPressStart->SetVisible(true);
+	}
+	else
+	{
+		TextPressSpace->SetVisible(true);
+		TextPressStart->SetVisible(false);
+	}
+
 	if (CountFrame / 256 % 2 == 0.0f)
 	{
 		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, CountFrame % 256));
+		TextPressStart->SetColor(D3DCOLOR_RGBA(186, 7, 7, CountFrame % 256));
 	}
 	else
 	{
 		TextPressSpace->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255 - (CountFrame % 256)));
+		TextPressStart->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255 - (CountFrame % 256)));
 	}
 
 	if (!CFade::GetFadeOut())
 	{
-		if (inputMouse->GetLeftTrigger() || inputKeyboard->GetKeyTrigger(DIK_SPACE))
+		if (inputMouse->GetLeftTrigger() ||
+			inputKeyboard->GetKeyTrigger(DIK_SPACE) ||
+			CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_A) ||
+			CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_START))
 		{
 			SE->Play(0.1f);
 			CFade::FadeOut(new CModeTitle());
