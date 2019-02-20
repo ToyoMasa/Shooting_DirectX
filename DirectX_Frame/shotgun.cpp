@@ -262,5 +262,5 @@ void CShotgun::ReleaseTrigger()
 
 void CShotgun::SoundShot()
 {
-	m_ShotSE->Play(0.1f);
+	m_ShotSE->Play(SHOT_SE_VOLUME);
 }

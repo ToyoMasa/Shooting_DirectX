@@ -728,7 +728,7 @@ void CPlayer::SetWeaponADS(bool ads)
 
 void CPlayer::PlayReload()
 { 
-	m_SoundReload->Play(0.05f); 
+	m_SoundReload->Play(SE_VOLUME);
 }
 
 void CPlayer::ChangePattern(CPlayerPatternBase* next)

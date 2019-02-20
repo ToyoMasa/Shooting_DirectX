@@ -38,7 +38,7 @@ void CEnemyPatternAttack::Init(CEnemy* enemy)
 
 void CEnemyPatternAttack::Update(CEnemy* enemy)
 {
-	if (enemy->GetModel()->GetWeightTime() > 1.0f && enemy->GetModel()->GetWeightTime() < 3.0f)
+	if (enemy->GetModel()->GetWeightTime() > 2.0f && enemy->GetModel()->GetWeightTime() < 3.0f)
 	{	
 		CPlayer* player = CModeGame::GetPlayer();
 		if (isCollisionCapsule(enemy->GetAttackCollision(), player->GetCapsule()) && !enemy->GetAttackHit())

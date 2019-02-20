@@ -74,6 +74,11 @@ static const SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 };
 
 static const int SOUND_MAX = 100;
+static const float BGM_VOLUME = 1.0f;
+static const float SHOT_SE_VOLUME = 0.5f;
+static const float SE_VOLUME = 1.0f; 
+static const float ZOMBIE_VOICE_VOLUME = 0.5f;
+
 
 class CSound
 {

@@ -75,7 +75,7 @@ void CModeTitle::Init()
 	CManager::SetCamera(Camera);
 
 	BGM = CSound::Create(SOUND_LABEL_BGM_TITLE);
-	//BGM->Play(0.1f);
+	BGM->Play(BGM_VOLUME);
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
 
@@ -163,7 +163,7 @@ void CModeTitle::Update()
 				CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_START))
 			{
 				SE = CSound::Create(SOUND_LABEL_SE_TITLE);
-				SE->Play(0.1f);
+				SE->Play(SE_VOLUME);
 				CFade::FadeOut(new CModeGame());
 			}
 		}

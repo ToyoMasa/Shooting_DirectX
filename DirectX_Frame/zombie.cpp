@@ -191,11 +191,11 @@ void CZombie::Death()
 	int random = rand() % 4;
 	if (random == 3)
 	{
-		m_ZombieDeath->Play(0.01f);
+		m_ZombieDeath->Play(ZOMBIE_VOICE_VOLUME);
 	}
 	else
 	{
-		m_ZombieVoice[random]->Play(0.08f);
+		m_ZombieVoice[random]->Play(ZOMBIE_VOICE_VOLUME);
 	}
 
 	CModeGame::RemoveEnemyCount();
@@ -206,7 +206,7 @@ void CZombie::Death()
 
 void CZombie::Attack()
 {
-	m_ZombieVoice[rand() % 3]->Play(0.08f);
+	m_ZombieVoice[rand() % 3]->Play(ZOMBIE_VOICE_VOLUME);
 }
 
 void CZombie::Damaged(float damage)

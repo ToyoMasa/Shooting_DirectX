@@ -159,9 +159,9 @@ void CModeGame::Init()
 
 	// サウンドの準備
 	ZombieVoice = CSound::Create(SOUND_LABEL_BGM_ZOMBIE_BREATH);
-	//ZombieVoice->Play(0.01f);
+	ZombieVoice->Play(0.05f);
 	BGM = CSound::Create(SOUND_LABEL_BGM_GAME);
-	//BGM->Play(0.1f);
+	BGM->Play(BGM_VOLUME);
 
 	// スコア等のリセット
 	Result = GAME_OVER;
@@ -341,7 +341,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
 
 		se = CSound::Create(SOUND_LABEL_SE_GAMECLEAR);
-		se->Play(0.1f);
+		se->Play(SE_VOLUME);
 	}
 	else
 	{
@@ -354,7 +354,7 @@ void CModeGame::GameEnd(GAME_RESULT result)
 		ResultText->SetColor(D3DCOLOR_RGBA(255, 255, 255, 0));
 
 		se = CSound::Create(SOUND_LABEL_SE_GAMEOVER);
-		se->Play(0.1f);
+		se->Play(SE_VOLUME);
 	}
 }
 

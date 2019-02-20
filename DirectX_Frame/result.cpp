@@ -73,7 +73,7 @@ void CModeResult::Init()
 	ScreenKillCount->SetColor(D3DCOLOR_RGBA(186, 7, 7, 255));
 
 	BGM = CSound::Create(SOUND_LABEL_BGM_RESULT);
-	BGM->Play(0.08f);
+	BGM->Play(BGM_VOLUME);
 	SE = CSound::Create(SOUND_LABEL_SE_TITLE);
 
 	Fog->Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.15f);
@@ -162,7 +162,7 @@ void CModeResult::Update()
 			CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_A) ||
 			CManager::GetController()->ButtonTrigger(XINPUT_GAMEPAD_START))
 		{
-			SE->Play(0.1f);
+			SE->Play(SE_VOLUME);
 			CFade::FadeOut(new CModeTitle());
 		}
 	}
