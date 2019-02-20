@@ -42,17 +42,13 @@ void CEnemyPatternChaseRun::Update(CEnemy* enemy)
 	targetPos.y = 0;
 	D3DXVECTOR3 vec = targetPos - newPos;
 
-	//if (D3DXVec3Length(&vec) > 4.0f)
-	//{
-	//	enemy->ChangePattern(new CEnemyPatternWaypointsRun());
-	//}
-	//else
-	if (enemy->GetCount() % 10 == 0)
+	//if (enemy->GetCount() % 2 == 0)
 	{
 		if (CModeGame::GetField()->GetHeight(newPos, enemy) > 0.0f)
 		{
 			enemy->SetTargetState(CEnemy::TARGET_SEARCH);
 			enemy->ChangePattern(new CEnemyPatternWaypointsRun());
+			return;
 		}
 	}
 

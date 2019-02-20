@@ -45,6 +45,7 @@ static const float LOCAL_CAMERA_X = 0.0f;
 static const float LOCAL_CAMERA_Y = 1.715f;
 static const float LOCAL_CAMERA_Z = 0.375f;
 static const float RADER_SIZE = 100.0f;
+static const float HEAL_VALUE = 0.05f;
 static const D3DXVECTOR3 AMMO_DISPLAY_POS = D3DXVECTOR3(SCREEN_WIDTH - 100.0f, SCREEN_HEIGHT - 60.0f, 0.0f);
 
 void CPlayer::Init(SKINMESH_MODEL_ID modelId, D3DXVECTOR3 spawnPos)
@@ -324,13 +325,19 @@ void CPlayer::Update()
 		{
 			m_Radio_Wave->SetTexCoord(0.0, 0.5f, 0.0f, 0.5f);
 		}
-/*
-		ImGui::Begin("degree", 0);
-		ImGui::Text("%.2f", degree);
-		ImGui::End();
-*/
+
 		m_DamagedEffect->SetColor(D3DCOLOR_RGBA(172, 15, 15, (int)(255 * (1 - (m_Life / m_MaxLife)))));
 		m_ShortestPoint = CWayPoint::SearchShortestPoint(m_Pos);
+
+		// Ž©“®‰ñ•œ
+		if (m_Life < m_MaxLife)
+		{
+			m_Life += HEAL_VALUE;
+			if (m_Life > m_MaxLife)
+			{
+				m_Life = m_MaxLife;
+			}
+		}
 	}
 }
 

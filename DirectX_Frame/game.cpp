@@ -58,6 +58,7 @@ CLight *CModeGame::Light;
 bool CModeGame::Pause = false;
 bool CModeGame::GameFinish = false;
 bool CModeGame::isHoldSensiBar = false;
+bool CModeGame::isDebugDraw = false;
 CScene2D *CModeGame::ResultText = NULL;
 CScene2D *CModeGame::EndBackground = NULL;
 CScene2D *CModeGame::Black = NULL;
@@ -169,6 +170,7 @@ void CModeGame::Init()
 	Pause = false;
 	GameFinish = false;
 	isHoldSensiBar = false;
+	isDebugDraw = false;
 	GameCount = 0;
 	KillCount = 0;
 	FrameCount = 0;
@@ -302,6 +304,11 @@ void CModeGame::Update()
 			{
 				CallPause();
 			}
+
+			if (inputKeyboard->GetKeyTrigger(DIK_COLON))
+			{
+				isDebugDraw = !isDebugDraw;
+			}
 		}
 	}
 }
@@ -315,6 +322,22 @@ void CModeGame::Draw()
 	}
 
 	CScene::DrawAll();
+
+	if (isDebugDraw)
+	{
+		ImGui::SetNextWindowSize(ImVec2(400, 80), ImGuiSetCond_Once);
+		ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 420.0f, 20), ImGuiSetCond_Once);
+		ImGui::Begin("Debug");
+		float framerate = ImGui::GetIO().Framerate;
+		if (framerate > 60.0f)
+		{
+			framerate = 60.0f;
+		}
+		ImGui::Text("Framerate:%.1f FPS", framerate);
+		ImGui::Text("Heat:%.2f", EnemyManager->GetPlayerTension());
+		ImGui::Text("EnemyNum:%d", EnemyCount);
+		ImGui::End();
+	}
 }
 
 void CModeGame::IncrementKillCount()

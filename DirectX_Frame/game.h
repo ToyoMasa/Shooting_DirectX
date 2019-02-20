@@ -77,6 +77,7 @@ private:
 	static bool Pause;
 	static bool GameFinish;
 	static bool isHoldSensiBar;
+	static bool isDebugDraw;
 	static int GameCount;
 	static int FrameCount;
 	static int EnemyCount;
