@@ -24,7 +24,9 @@
 #include "EnemyAnim.h"
 #include "enemyPatternChase.h"
 #include "enemyPatternAttack.h"
-#include "enemyPatternWaypointsRun.h"
+#include "enemyPatternWaypoints.h"
+#include "astar.h"
+#include "waypoint.h"
 
 void CEnemyPatternChase::Init(CEnemy* enemy)
 {
@@ -42,17 +44,12 @@ void CEnemyPatternChase::Update(CEnemy* enemy)
 	targetPos.y = 0;
 	D3DXVECTOR3 vec = targetPos - newPos;
 
-	//if (D3DXVec3Length(&vec) > 4.0f)
-	//{
-	//	enemy->ChangePattern(new CEnemyPatternWaypointsRun());
-	//}
-	//else
-	if (enemy->GetCount() % 15 == 0)
+	if (enemy->GetShortestPoint() != CModeGame::GetPlayer()->GetShortestPoint())
 	{
-		if (CModeGame::GetField()->GetHeight(newPos, enemy) > 0.0f)
+		//if (CModeGame::GetField()->GetHeight(newPos, enemy) > 0.0f)
 		{
 			enemy->SetTargetState(CEnemy::TARGET_SEARCH);
-			enemy->ChangePattern(new CEnemyPatternWaypointsRun());
+			enemy->ChangePattern(new CEnemyPatternWaypoints());
 		}
 	}
 

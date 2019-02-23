@@ -14,10 +14,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
-std::vector<CWayPoint*> CWayPoint::m_WayPonits; 
-std::vector<CBillBoard*> CWayPoint::m_PointsDebug;
+vector<CWayPoint*> CWayPoint::m_WayPonits; 
+vector<CBillBoard*> CWayPoint::m_PointsDebug;
 int **CWayPoint::m_EdgeCost;
 int **CWayPoint::m_ShortestPath;
 int	CWayPoint::m_EdgeCostSize = 0;
@@ -181,16 +182,22 @@ void CWayPoint::CreateGraph()
 	// 全点対最短経路を求める
 	{
 		// エッジの状態をまんまコピー
-		for (int i = 0; i != m_WayPonits.size(); ++i) {
-			for (int j = 0; j != m_WayPonits.size(); ++j) {
+		for (int i = 0; i != m_WayPonits.size(); ++i) 
+		{
+			for (int j = 0; j != m_WayPonits.size(); ++j) 
+			{
 				m_ShortestPath[i][j] = m_EdgeCost[i][j];
 			}
 		}
 
 		// ワーシャルフロイド
-		for (int k = 0; k != m_WayPonits.size(); k++) {
-			for (int i = 0; i != m_WayPonits.size(); i++) {
-				for (int j = 0; j != m_WayPonits.size(); j++) {
+		for (int k = 0; k != m_WayPonits.size(); k++) 
+		{
+
+			for (int i = 0; i != m_WayPonits.size(); i++) 
+			{
+				for (int j = 0; j != m_WayPonits.size(); j++) 
+				{
 					const int newValue = m_ShortestPath[i][k] + m_ShortestPath[k][j];
 					m_ShortestPath[i][j] = min(m_ShortestPath[i][j], newValue);
 				}
@@ -205,7 +212,8 @@ int CWayPoint::GetNextPoint(const int s, const int e)
 	for (int i = 0; i != m_WayPonits.size(); i++) 
 	{
 		if (i == s) { continue; }
-		if (m_EdgeCost[s][i] + m_ShortestPath[i][e] == m_ShortestPath[s][e]) {
+		if (m_EdgeCost[s][i] + m_ShortestPath[i][e] == m_ShortestPath[s][e]) 
+		{
 			return i;
 		}
 	}

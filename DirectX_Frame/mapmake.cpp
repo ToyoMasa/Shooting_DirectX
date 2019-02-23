@@ -105,6 +105,8 @@ void CModeMapMake::Init()
 	}
 
 	CBillBoard::Init();
+
+	// ウェイポイントの読み込み
 	CWayPoint::Init();
 
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
@@ -116,9 +118,8 @@ void CModeMapMake::Init()
 	CFog fog;
 	fog.Set(D3DCOLOR_RGBA(18, 18, 36, 255), 0.0f);
 
-	int i = CWayPoint::SearchShortestPoint(D3DXVECTOR3(88.0f, 0.0f, 22.0f));
-	i = 0;
 	CWayPoint::Debug(false);
+	CInput::ChangeShowCursol(TRUE);
 }
 
 void CModeMapMake::Uninit()
@@ -160,6 +161,8 @@ void CModeMapMake::Update()
 		break;
 	}
 
+	ImGui::SetNextWindowSize(ImVec2(120, 80), ImGuiSetCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(20.0f, 300), ImGuiSetCond_Once);
 	ImGui::Begin("MakingMode", 0);
 	ImGui::RadioButton("MAP", &m_SelectMode, MAP_MAKE);
 	ImGui::RadioButton("WAYPOINT", &m_SelectMode, WAYPOINT_MAKE);
@@ -398,6 +401,8 @@ void CModeMapMake::MapMakeUpdate()
 	m_Field->Change();
 
 	// マップ設定
+	ImGui::SetNextWindowSize(ImVec2(400, 200), ImGuiSetCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(20.0f, 20), ImGuiSetCond_Once);
 	ImGui::Begin("MapConfig", 0);
 	ImGui::Checkbox("isWireframe", &m_Wire);
 	ImGui::SliderInt("NumBlock", &m_NextNumBlock, 1, 1000);
@@ -424,6 +429,8 @@ void CModeMapMake::MapMakeUpdate()
 	}
 	ImGui::End();
 
+	ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiSetCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 320.0f, 20), ImGuiSetCond_Once);
 	// マップツールボックス
 	ImGui::Begin("BrushConfig", 0);
 	ImGui::Text("BrushType : %d", m_BrushType);
@@ -586,6 +593,8 @@ void CModeMapMake::WaypointMakeUpdate()
 	}
 
 	// ウェイポイントツールボックス
+	ImGui::SetNextWindowSize(ImVec2(200, 150), ImGuiSetCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(20.0f, 20), ImGuiSetCond_Once);
 	ImGui::Begin("WaypointConfig", 0);
 	ImGui::RadioButton("ADD WAYPOINT", &m_WaypointCursolType, WAYPOINT_CURSOL_ADD_WAYPOINT);
 	ImGui::RadioButton("ADD NEARPOINT", &m_WaypointCursolType, WAYPOINT_CURSOL_ADD_NEARPOINT);

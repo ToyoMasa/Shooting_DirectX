@@ -73,7 +73,6 @@ public:
 	void SetJumpPower(float power) { m_JumpPower = power; }
 	float GetUpValue() { return m_UpValue; }
 	void SetUpValue(float value) { m_UpValue = value; }
-	int GetShortestPoint() { return m_ShortestPoint; }
 	CWeapon* GetUsingWeapon() { return m_UsingWeapon; }
 
 	void Damaged(float damage)override;
@@ -100,7 +99,6 @@ private:
 	CPlayerPatternBase* m_Pattern;
 	CTutorialBase*		m_Tutorial;
 	CNumber*			m_AmmoNum;
-	int					m_ShortestPoint;
 };
 
 #endif // !_PLAYER_H_

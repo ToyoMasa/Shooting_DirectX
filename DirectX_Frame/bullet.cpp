@@ -97,127 +97,43 @@ void CBullet::Update()
 		auto it = enemyDist.begin();
 		CEnemy* enemy = (CEnemy*)CCharacter::GetCharacter(it->second);
 
-		D3DXVECTOR3 pos1, pos2;
-		float r;
-		enemy->GetCapsuleInfo(pos1, pos2, r);
-
-		D3DXVECTOR3 ray;
-		ray = m_Forward;
-		D3DXVec3Normalize(&ray, &ray);
-
-		D3DXVECTOR3 getPoint1, getPoint2;
-		calcRayCapsule(m_OldPos, ray, pos1, pos2, r, getPoint1, getPoint2);
-
-		//CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
-		CParticleEmitter::Create(TEX_ID_CIRCLE,
-			7,
-			1,
-			10,
-			0.5f,
-			-0.05f,
-			getPoint1,
-			D3DXVECTOR3(-0.1f, 0.1f, -0.1f),
-			D3DXVECTOR3(0.1f, 0.2f, 0.1f),
-			D3DXVECTOR3(0.0f, -0.035f, 0.0f),
-			false,
-			D3DCOLOR_RGBA(255, 16, 16, 255));
-
-		if (getPoint1.y > 1.25f)
+		if (enemy != NULL)
 		{
-			enemy->Damaged(m_Damage * HEADSHOT_BONUS);
-		}
-		else
-		{
-			enemy->Damaged(m_Damage);
+			D3DXVECTOR3 pos1, pos2;
+			float r;
+			enemy->GetCapsuleInfo(pos1, pos2, r);
+
+			D3DXVECTOR3 ray;
+			ray = m_Forward;
+			D3DXVec3Normalize(&ray, &ray);
+
+			D3DXVECTOR3 getPoint1, getPoint2;
+			calcRayCapsule(m_OldPos, ray, pos1, pos2, r, getPoint1, getPoint2);
+
+			//CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
+			CParticleEmitter::Create(TEX_ID_CIRCLE,
+				7,
+				1,
+				10,
+				0.5f,
+				-0.05f,
+				getPoint1,
+				D3DXVECTOR3(-0.1f, 0.1f, -0.1f),
+				D3DXVECTOR3(0.1f, 0.2f, 0.1f),
+				D3DXVECTOR3(0.0f, -0.035f, 0.0f),
+				false,
+				D3DCOLOR_RGBA(255, 16, 16, 255));
+
+			if (getPoint1.y > 1.25f)
+			{
+				enemy->Damaged(m_Damage * HEADSHOT_BONUS);
+			}
+			else
+			{
+				enemy->Damaged(m_Damage);
+			}
 		}
 	}
-	//if (enemyDist.size() < 3)
-	//{
-	//	for (auto it = enemyDist.begin(); it != enemyDist.end(); ++it)
-	//	{
-	//		CEnemy* enemy = (CEnemy*)CCharacter::GetCharacter(it->second);
-
-	//		D3DXVECTOR3 pos1, pos2;
-	//		float r;
-	//		enemy->GetCapsuleInfo(pos1, pos2, r);
-
-	//		D3DXVECTOR3 ray;
-	//		ray = m_Forward;
-	//		D3DXVec3Normalize(&ray, &ray);
-
-	//		D3DXVECTOR3 getPoint1, getPoint2;
-	//		calcRayCapsule(m_OldPos, ray, pos1, pos2, r, getPoint1, getPoint2);
-
-	//		//CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
-	//		CParticleEmitter::Create(TEX_ID_CIRCLE,
-	//			7,
-	//			1,
-	//			10,
-	//			0.5f,
-	//			-0.05f,
-	//			getPoint1,
-	//			D3DXVECTOR3(-0.1f, 0.1f, -0.1f),
-	//			D3DXVECTOR3(0.1f, 0.2f, 0.1f),
-	//			D3DXVECTOR3(0.0f, -0.035f, 0.0f),
-	//			false,
-	//			D3DCOLOR_RGBA(255, 16, 16, 255));
-
-	//		if (getPoint1.y > 1.25f)
-	//		{
-	//			enemy->Damaged(m_Damage * HEADSHOT_BONUS);
-	//		}
-	//		else
-	//		{
-	//			enemy->Damaged(m_Damage);
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	for (int i = 0; i < 3; i++)
-	//	{
-	//		auto it = enemyDist.begin();
-	//		for (int j = 0; j < 0; j++)
-	//		{
-	//			it++;
-	//		}
-	//		CEnemy* enemy = (CEnemy*)CCharacter::GetCharacter(it->second);
-
-	//		D3DXVECTOR3 pos1, pos2;
-	//		float r;
-	//		enemy->GetCapsuleInfo(pos1, pos2, r);
-
-	//		D3DXVECTOR3 ray;
-	//		ray = m_Forward;
-	//		D3DXVec3Normalize(&ray, &ray);
-
-	//		D3DXVECTOR3 getPoint1, getPoint2;
-	//		calcRayCapsule(m_OldPos, ray, pos1, pos2, r, getPoint1, getPoint2);
-
-	//		//CParticle::Create(TEX_ID_CIRCLE, 60, 0.5f, getPoint1);
-	//		CParticleEmitter::Create(TEX_ID_CIRCLE,
-	//			7,
-	//			1,
-	//			10,
-	//			0.5f,
-	//			-0.05f,
-	//			getPoint1,
-	//			D3DXVECTOR3(-0.1f, 0.1f, -0.1f),
-	//			D3DXVECTOR3(0.1f, 0.2f, 0.1f),
-	//			D3DXVECTOR3(0.0f, -0.035f, 0.0f),
-	//			false,
-	//			D3DCOLOR_RGBA(255, 16, 16, 255));
-
-	//		if (getPoint1.y > 1.25f)
-	//		{
-	//			enemy->Damaged(m_Damage * HEADSHOT_BONUS);
-	//		}
-	//		else
-	//		{
-	//			enemy->Damaged(m_Damage);
-	//		}
-	//	}
-	//}
 }
 
 void CBullet::Release()

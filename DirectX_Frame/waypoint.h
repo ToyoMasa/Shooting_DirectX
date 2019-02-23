@@ -42,16 +42,16 @@ public:
 	void SetEnemySpawnPoint(int id);
 
 private:
-	static std::vector<CWayPoint*>	m_WayPonits;
-	static std::vector<CBillBoard*>	m_PointsDebug;
-	static int**					m_EdgeCost;
-	static int**					m_ShortestPath;
-	static int						m_EdgeCostSize;
-	static int						m_ShortestPathSize;
-	int								m_ID;
-	D3DXVECTOR3						m_Pos;
-	std::vector<int>				m_NearPoints;
-	std::vector<int>				m_SpawnPoints;
+	static std::vector<CWayPoint*>					m_WayPonits;
+	static std::vector<CBillBoard*>					m_PointsDebug;
+	static int**									m_EdgeCost;
+	static int**									m_ShortestPath;
+	static int										m_EdgeCostSize;
+	static int										m_ShortestPathSize;
+	int												m_ID;
+	D3DXVECTOR3										m_Pos;
+	std::vector<int>								m_NearPoints;
+	std::vector<int>								m_SpawnPoints;
 };
 
 #endif //! _WAYPOINT_H_

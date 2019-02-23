@@ -45,6 +45,8 @@ public:
 	void Rotate(D3DXVECTOR3 vec);
 	void Release();
 	CSceneSkinMesh* GetModel() { return m_Model; }
+	int GetShortestPoint() { return m_ShortestPoint; }
+	void SetShortestPoint(int id) { m_ShortestPoint = id; }
 
 	virtual void Damaged(float damage);
 
@@ -68,6 +70,7 @@ protected:
 	float			m_CameraDist;
 	CHARACTER_TYPE	m_Type;
 	int 			m_AreaID;
+	int				m_ShortestPoint;
 
 	// ステータス
 	float			m_Life;

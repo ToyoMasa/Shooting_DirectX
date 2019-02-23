@@ -38,6 +38,7 @@ void CEnemyPatternWaypointsRun::Init(CEnemy* enemy)
 
 	// 一番近いウェイポイントを検索
 	m_NowPoint = CWayPoint::SearchShortestPoint(enemy->GetPos());
+	enemy->SetShortestPoint(m_NowPoint);
 	int playerPoint = CModeGame::GetPlayer()->GetShortestPoint();
 
 	//m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
@@ -79,6 +80,8 @@ void CEnemyPatternWaypointsRun::Update(CEnemy* enemy)
 		{
 			// 目的地に到達したら次の目的地を設定
 			m_NowPoint = m_TargetPoint;
+			enemy->SetShortestPoint(m_NowPoint);
+
 			int playerPoint = CModeGame::GetPlayer()->GetShortestPoint();
 
 			m_TargetPoint = CWayPoint::GetNextPoint(m_NowPoint, playerPoint);
