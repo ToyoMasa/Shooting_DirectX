@@ -7,12 +7,12 @@
 
 #include "enemyPatternBase.h"
 
+//*********************************************************
+//	プレイヤーに向かって、走って直線移動する
+//*********************************************************
 class CEnemyPatternChaseRun : public CEnemyPatternBase
 {
 public:
-	CEnemyPatternChaseRun() {}
-	~CEnemyPatternChaseRun() {}
-
 	void Init(CEnemy* enemy)override;
 	void Update(CEnemy* enemy)override;
 };

@@ -1,13 +1,7 @@
-//*****************************************************************************
-//!	@file	matuutil.cpp
-//!	@brief	
-//!	@note	数学系のユーティリティ関数群
-//!	@author	
-//*****************************************************************************
-
-//-----------------------------------------------------------------------------
-//	Include header files.
-//-----------------------------------------------------------------------------
+//======================================================================
+//	計算 [mathutil.cpp]　（2018/9/21）
+//	Author : 豊村 昌俊
+//======================================================================
 #include	<d3dx9.h>
 
 float FloatRandom()
@@ -15,15 +9,8 @@ float FloatRandom()
 	return rand() / 32767.0f;
 }
 
-//==============================================================================
-//!	@fn		MakeWorldMatrix
-//!	@brief	角度と平行移動量から行列を作る
-//!	@param　行列（出力）　　	
-//!	@param　	角度（入力）
-//!	@param　	平行移動量（入力）
-//!	@retval	なし
-//==============================================================================
-void MakeWorldMatrix(D3DXMATRIX& mat,const D3DXVECTOR3& angle,const D3DXVECTOR3& trans){
+void MakeWorldMatrix(D3DXMATRIX& mat,const D3DXVECTOR3& angle,const D3DXVECTOR3& trans)
+{
 	D3DXMATRIX matx, maty, matz, mattrans;;
 	D3DXMatrixRotationX(&matx, D3DX_PI*angle.x / 180.0f);
 	D3DXMatrixRotationY(&maty, D3DX_PI*angle.y / 180.0f);
@@ -34,16 +21,8 @@ void MakeWorldMatrix(D3DXMATRIX& mat,const D3DXVECTOR3& angle,const D3DXVECTOR3&
 	mat = mat*mattrans;
 }
 
-//==============================================================================
-//!	@fn		MakeWorldMatrix
-//!	@brief	角度と平行移動量から行列を作る(積算行列を計算)
-//!	@param　行列（出力）　　	
-//!	@param　積算行列（出力）　　	
-//!	@param　角度（入力）
-//!	@param　平行移動量（入力）
-//!	@retval	なし
-//==============================================================================
-void MakeWorldMatrix(D3DXMATRIX& mat, D3DXMATRIX& mattotal,const D3DXVECTOR3& angle, const D3DXVECTOR3& trans){
+void MakeWorldMatrix(D3DXMATRIX& mat, D3DXMATRIX& mattotal,const D3DXVECTOR3& angle, const D3DXVECTOR3& trans)
+{
 	D3DXMATRIX matx, maty, matz, mattrans;;
 
 	D3DXMatrixRotationX(&matx, D3DX_PI*angle.x / 180.0f);			// X軸回転行列を生成
@@ -57,16 +36,8 @@ void MakeWorldMatrix(D3DXMATRIX& mat, D3DXMATRIX& mattotal,const D3DXVECTOR3& an
 	mattotal = mat*mattotal;
 }
 
-//==============================================================================
-//!	@fn		IsCanIsee
-//!	@brief	画面内に存在しているかをチェック
-//!	@param　位置座標（ワールド）　　	
-//!	@param　カメラ行列　	
-//!	@param　プロジェクション変換行列
-//!	@param　スクリーン座標
-//!	@retval	true 画面内　false 画面外
-//==============================================================================
-bool IsCanIsee(const D3DXVECTOR3& pos,const D3DXMATRIX& matcamera,const D3DXMATRIX& matprojection,D3DXVECTOR3& ans){
+bool IsCanIsee(const D3DXVECTOR3& pos,const D3DXMATRIX& matcamera,const D3DXMATRIX& matprojection,D3DXVECTOR3& ans)
+{
 
 	D3DXMATRIX mat;
 
@@ -101,22 +72,13 @@ bool IsCanIsee(const D3DXVECTOR3& pos,const D3DXMATRIX& matcamera,const D3DXMATR
 	return true;
 }
 
-//==============================================================================
-//!	@fn		WorldToScreen
-//!	@brief	ワールド座標をスクリーン座標に変換する
-//!	@param　デバイスオブジェクト　　	
-//!	@param　カメラ行列　　	
-//!	@param　プロジェクション変換行列　	
-//!	@param　ワールド座標系での座標（返還前）
-//!	@param　スクリーン座標
-//!	@retval	なし
-//==============================================================================
 void WorldToScreen(
 	const LPDIRECT3DDEVICE9 lpdev,
 	const D3DXMATRIX& matCamera,
 	const D3DXMATRIX& matProjection,
 	const D3DXVECTOR3& wp,
-	D3DXVECTOR3& sp){
+	D3DXVECTOR3& sp)
+{
 
 	D3DXMATRIX		mat;
 	D3DXMATRIX		matViewPort;		// ビューポート行列
@@ -142,7 +104,3 @@ void WorldToScreen(
 	// 行列×ベクトル
 	D3DXVec3TransformCoord(&sp, &wp, &mat);
 }
-
-//******************************************************************************
-//	End of file.
-//******************************************************************************

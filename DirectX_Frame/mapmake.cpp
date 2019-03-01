@@ -11,7 +11,7 @@
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
 #include "billboard.h"
-#include "SkinMeshFile.h"
+#include "skinMeshFile.h"
 #include "camera.h"
 #include "light.h"
 #include "manager.h"
@@ -21,7 +21,6 @@
 #include "mapmake.h"
 #include "mathutil.h"
 #include "player.h"
-#include "box.h"
 #include "game.h"
 #include "fade.h"
 #include "metalShader.h"
@@ -107,7 +106,47 @@ void CModeMapMake::Init()
 	CBillBoard::Init();
 
 	// ウェイポイントの読み込み
-	CWayPoint::Init();
+	//CWayPoint::Init();
+	VERTEX_3D* vertex = m_Field->GetVertex();
+
+	for (int i = 0; i < m_NumBlock; i++)
+	{
+		if (i % 2 == 0)
+		{
+			continue;
+		}
+
+		for (int j = 0; j < m_NumBlock; j++)
+		{
+			if (j % 2 == 0)
+			{
+				continue;
+			}
+
+			D3DXVECTOR3 vtx = vertex[j + m_NumBlock * i].pos;
+
+			if (vtx.y == 0.0f)
+			{
+				CWayPoint::Add(vtx);
+			}
+		}
+	}
+
+	std::vector<CWayPoint*> waypoints = CWayPoint::GetWayPoints();
+	for (unsigned int i = 0; i < waypoints.size(); i++)
+	{
+		for (unsigned int j = 0; j < waypoints.size(); j++)
+		{
+			D3DXVECTOR3 vec = waypoints[i]->GetPos() - waypoints[j]->GetPos();
+			float len = D3DXVec3Length(&vec);
+			if (len > 3.0f)
+			{
+				continue;
+			}
+
+			CWayPoint::AddNearPoint(i, j);
+		}
+	}
 
 	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetDevice();
 	if (pDevice == NULL)

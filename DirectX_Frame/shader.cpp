@@ -14,7 +14,7 @@
 #include "skinmeshShader.h"
 #include "skinmeshSpotlightShader.h"
 #include "normalmapShader.h"
-#include "normalmapSpotlightShader.h"
+#include "modelSpotlightShader.h"
 #include "spotlightShader.h"
 #include "fieldShader.h"
 #include "shadowShader.h"
@@ -140,7 +140,7 @@ void CShader::ReleaseAll()
 	CShaderSkinmesh::Destroy();
 	CShaderSkinmeshSpotlight::Destroy();
 	CShaderNormalmap::Destroy();
-	CShaderNormalmapSpotlight::Destroy();
+	CShaderModelSpotlight::Destroy();
 	CShaderSpotlight::Destroy();
 	CShaderField::Destroy();
 	CShaderShadow::Destroy();

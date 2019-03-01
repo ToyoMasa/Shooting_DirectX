@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	武器変更のチュートリアル
+//*********************************************************
 class CTutorialChangeWeapon : public CTutorialBase
 {
 public:
-	CTutorialChangeWeapon() {}
-	~CTutorialChangeWeapon() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

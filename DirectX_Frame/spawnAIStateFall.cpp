@@ -12,7 +12,7 @@
 
 void CSpawnAIStateFall::Update()
 {
-	m_EnemyManager->SetPlayerTension(0.0f);
+	m_EnemyManager->SetHeat(0.0f);
 
 	if (CModeGame::GetEnemyCount() <= 0)
 	{

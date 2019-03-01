@@ -9,7 +9,7 @@
 
 class CCamera;
 
-static const int BILLBOARD_MAX = 10000;
+static const int BILLBOARD_MAX = 30000;
 
 enum DRAW_TYPE
 {

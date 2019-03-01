@@ -7,6 +7,9 @@
 
 #include "spawnAIStateBase.h"
 
+//*********************************************************
+//	Heat値のリセット
+//*********************************************************
 class CSpawnAIStateFall : public CSpawnAIStateBase
 {
 public:
@@ -14,7 +17,6 @@ public:
 	{
 		manager->SetSpawnAIState(SPAWN_AI_FALL);
 	}
-	~CSpawnAIStateFall() {}
 
 	void Update()override;
 };

@@ -1,6 +1,10 @@
+//======================================================================
+//	スキンメッシュデータ[skinMeshData.cpp]　（2018/8/21）
+//	Author : 豊村 昌俊
+//======================================================================
 #include "common.h"
 #include "main.h"
-#include "SkinMeshData.h"
+#include "skinMeshData.h"
 
 HRESULT SkinMeshData::CreateFrame(THIS_ LPCSTR name, LPD3DXFRAME *new_frame)
 {

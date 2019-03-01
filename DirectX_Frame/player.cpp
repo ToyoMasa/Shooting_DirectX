@@ -23,7 +23,6 @@
 #include "enemy.h"
 #include "game.h"
 #include "PlayerAnim.h"
-#include "wall.h"
 #include "bullet.h"
 #include "weapon.h"
 #include "rifle.h"
@@ -31,7 +30,6 @@
 #include "item.h"
 #include "targetCapsule.h"
 #include "playerPatternNormal.h"
-#include "playerPatternJump.h"
 #include "playerPatternReload.h"
 #include "waypoint.h"
 #include "skinmeshShader.h"
@@ -773,7 +771,7 @@ void CPlayer::Damaged(float damage)
 	if (m_Life <= 0.0f)
 	{
 		Death();
-		CModeGame::GetEnemyManager()->AddPlayerTension(DAMAGED_TENSION);
+		CModeGame::GetEnemyManager()->AddHeat(DAMAGED_TENSION);
 		CModeGame::GameEnd(GAME_OVER);
 	}
 }

@@ -23,7 +23,7 @@ CEnemyManager::CEnemyManager(CField* field)
 	m_CountFrame = 0;
 	m_Field = field;
 	m_ZombieSpawnRate = 100;
-	m_PlayerTension = 0.0f;
+	m_Heat = 0.0f;
 	m_SpawnAIState = 0;
 	m_isStart = false;
 
@@ -74,14 +74,14 @@ void CEnemyManager::Update()
 	{
 		ImGui::Begin("Debug");
 		ImGui::Text("ENEMY_NUM:%d", CModeGame::GetEnemyCount());
-		ImGui::Text("PLAYER_TENSION:%.2f", m_PlayerTension);
+		ImGui::Text("PLAYER_TENSION:%.2f", m_Heat);
 		ImGui::Text("SPAWN_STATE:%d", m_SpawnAIState);
 		ImGui::End();
 	}
 	//ImGui::SetNextWindowSize(ImVec2(80, 50), ImGuiSetCond_Once);
 	//ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - 120.0f, 20), ImGuiSetCond_Once);
 	//ImGui::Begin("Heat");
-	//ImGui::Text("%.2f", m_PlayerTension);
+	//ImGui::Text("%.2f", m_Heat);
 	//ImGui::End();
 }
 

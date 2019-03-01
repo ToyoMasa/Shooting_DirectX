@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	リロードチュートリアル
+//*********************************************************
 class CTutorialReload : public CTutorialBase
 {
 public:
-	CTutorialReload() {}
-	~CTutorialReload() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

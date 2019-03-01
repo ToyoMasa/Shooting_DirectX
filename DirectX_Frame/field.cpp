@@ -283,9 +283,6 @@ void CField::Load(string textname)
 		MessageBox(NULL, "マップファイルの読み込みに失敗しました", "エラー", MB_OK);
 	}
 	inputFile.read((char*)&m_TextureID, sizeof(int));
-	m_TextureID = TEX_ID_ROCK;
-	CTexture::Load(TEX_ID_GRASS);
-	CTexture::Load(TEX_ID_SOIL);
 	inputFile.read((char*)&m_MeshSize, sizeof(float));
 	inputFile.read((char*)&m_SizeX, sizeof(int));
 	inputFile.read((char*)&m_SizeY, sizeof(int));
@@ -336,7 +333,6 @@ void CField::Load(string textname)
 
 	CAStar::SetMapSize(m_SizeX, m_SizeY);
 
-	//m_Scene3D->SetShader(CShaderSpotlight::GetShader());
 	m_Scene3D->SetShader(CShaderField::GetShader());
 }
 

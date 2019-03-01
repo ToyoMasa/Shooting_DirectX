@@ -1,5 +1,5 @@
 //======================================================================
-//	敵パターンヘッダ[enemyPatternBase.h]
+//	敵パターンベースヘッダ[enemyPatternBase.h]
 //
 //======================================================================
 #ifndef _ENEMY_PATTERN_BASE_H_
@@ -21,9 +21,6 @@ public:
 		ENEMY_PATTERN_WAYPOINTS,
 		ENEMY_PATTERN_WAYPOINTS_RUN
 	};
-
-	CEnemyPatternBase() {}
-	~CEnemyPatternBase() {}
 
 	virtual void Init(CEnemy* enemy) = 0;
 	virtual void Update(CEnemy* enemy) = 0;

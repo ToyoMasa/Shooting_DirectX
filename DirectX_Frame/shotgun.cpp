@@ -19,7 +19,7 @@
 #include "PlayerAnim.h"
 #include "metalShader.h"
 #include "normalmapShader.h"
-#include "normalmapSpotlightShader.h"
+#include "modelSpotlightShader.h"
 #include "enemyManager.h"
 
 #define RECOILE_PATTERN_X ((0.1 * m_CountFire * (-350 + rand() % 1000) * 0.001))
@@ -67,7 +67,7 @@ void CShotgun::Init(CSceneSkinMesh *parent)
 
 	m_isReleaseTrigger = true;
 
-	m_Model->SetShader(CShaderNormalmapSpotlight::GetShader());
+	m_Model->SetShader(CShaderModelSpotlight::GetShader());
 	m_Model->SetNormalMapTexture("shotgun_normal.png");
 
 	if (m_FlashEffect == NULL)
@@ -213,7 +213,7 @@ void CShotgun::Shoot()
 		// eº
 		SoundShot();
 
-		CModeGame::GetEnemyManager()->AddPlayerTension(1.0f);
+		CModeGame::GetEnemyManager()->AddHeat(1.0f);
 	}
 }
 

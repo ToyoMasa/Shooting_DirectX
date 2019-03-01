@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	チュートリアル非表示
+//*********************************************************
 class CTutorialNone : public CTutorialBase
 {
 public:
-	CTutorialNone() {}
-	~CTutorialNone() {}
-
 	void Init()override {}
 	void Uninit()override {}
 	void Update(CPlayer* player)override {}

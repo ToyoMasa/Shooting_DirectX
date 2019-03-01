@@ -7,12 +7,12 @@
 
 #include "playerPatternBase.h"
 
+//*********************************************************
+//	s“®•s”\‚Ìˆ—
+//*********************************************************
 class CPlayerPatternStop : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternStop() {}
-	~CPlayerPatternStop() {}
-
 	void Init(CPlayer* player)override {}
 	void Uninit()override {}
 	void Update()override {}

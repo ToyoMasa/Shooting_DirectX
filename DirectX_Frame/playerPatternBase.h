@@ -11,9 +11,6 @@ static const float CONTROLLER_MAG = 10.0f;
 class CPlayerPatternBase
 {
 public:
-	CPlayerPatternBase() {}
-	~CPlayerPatternBase() {}
-
 	virtual void Init(CPlayer* player) = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;

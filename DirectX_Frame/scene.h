@@ -11,6 +11,9 @@ static const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1
 
 #include "shader.h"
 
+//*********************************************************
+//	シーンオブジェクトの種類
+//*********************************************************
 enum SCENE_TYPE
 {
 	SCENE_TYPE_NONE,
@@ -23,6 +26,9 @@ enum SCENE_TYPE
 	SCENE_TYPE_WALL,
 };
 
+//*********************************************************
+//	描画レイヤー
+//*********************************************************
 enum LAYER
 {
 	LAYER_BACKGROUND,

@@ -7,12 +7,12 @@
 
 #include "playerPatternBase.h"
 
+//*********************************************************
+//	’Êí‚Ìˆ—
+//*********************************************************
 class CPlayerPatternNormal : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternNormal() {}
-	~CPlayerPatternNormal() {}
-
 	void Init(CPlayer* player)override;
 	void Uninit()override{}
 	void Update()override;

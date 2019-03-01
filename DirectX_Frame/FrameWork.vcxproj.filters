@@ -198,23 +198,8 @@
     <ClInclude Include="sceneModel.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="sceneModelFBX.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="targetPoint.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="root.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Effekseer.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinMeshData.h">
-      <Filter>ヘッダー ファイル\SkinMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinMeshFile.h">
-      <Filter>ヘッダー ファイル\SkinMesh</Filter>
     </ClInclude>
     <ClInclude Include="sceneSkinMesh.h">
       <Filter>ヘッダー ファイル\scene</Filter>
@@ -225,17 +210,8 @@
     <ClInclude Include="EnemyAnim.h">
       <Filter>ヘッダー ファイル\SkinMesh\AnimationList</Filter>
     </ClInclude>
-    <ClInclude Include="box.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wall.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneShadow.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="weapon.h">
       <Filter>ヘッダー ファイル\weapon</Filter>
@@ -260,12 +236,6 @@
     </ClInclude>
     <ClInclude Include="ZombieAAnim.h">
       <Filter>ヘッダー ファイル\SkinMesh\AnimationList</Filter>
-    </ClInclude>
-    <ClInclude Include="playerPatternJump.h">
-      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
-    </ClInclude>
-    <ClInclude Include="playerPatternAir.h">
-      <Filter>ヘッダー ファイル\player\playerPattern</Filter>
     </ClInclude>
     <ClInclude Include="enemyPatternBase.h">
       <Filter>ヘッダー ファイル\enemy\enemyPattern</Filter>
@@ -381,9 +351,6 @@
     <ClInclude Include="fieldShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
-    <ClInclude Include="normalmapSpotlightShader.h">
-      <Filter>ヘッダー ファイル\shader</Filter>
-    </ClInclude>
     <ClInclude Include="skinmeshSpotlightShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
@@ -436,6 +403,18 @@
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
     <ClInclude Include="fieldShadowShader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="effekseer.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="skinMeshData.h">
+      <Filter>ヘッダー ファイル\SkinMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="skinMeshFile.h">
+      <Filter>ヘッダー ファイル\SkinMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="modelSpotlightShader.h">
       <Filter>ヘッダー ファイル\shader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -506,9 +485,6 @@
     <ClCompile Include="fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="sceneModelFBX.cpp">
-      <Filter>ソース ファイル\scene</Filter>
-    </ClCompile>
     <ClCompile Include="scene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
@@ -521,32 +497,17 @@
     <ClCompile Include="sceneModel.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="targetPoint.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="root.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Effekseer.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="SkinMeshData.cpp">
-      <Filter>ソース ファイル\SkinMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="SkinMeshFile.cpp">
-      <Filter>ソース ファイル\SkinMesh</Filter>
-    </ClCompile>
     <ClCompile Include="sceneSkinMesh.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="box.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="sceneShadow.cpp">
-      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>ソース ファイル\weapon</Filter>
@@ -562,12 +523,6 @@
     </ClCompile>
     <ClCompile Include="shotgun.cpp">
       <Filter>ソース ファイル\weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="playerPatternJump.cpp">
-      <Filter>ソース ファイル\player\playerPattern</Filter>
-    </ClCompile>
-    <ClCompile Include="playerPatternAir.cpp">
-      <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
     <ClCompile Include="enemyPatternChase.cpp">
       <Filter>ソース ファイル\enemy\enemyPattern</Filter>
@@ -604,9 +559,6 @@
     </ClCompile>
     <ClCompile Include="astar.cpp">
       <Filter>ソース ファイル\findRoot</Filter>
-    </ClCompile>
-    <ClCompile Include="wall.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="gameobject.cpp">
       <Filter>ソース ファイル</Filter>
@@ -674,9 +626,6 @@
     <ClCompile Include="fieldShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
-    <ClCompile Include="normalmapSpotlightShader.cpp">
-      <Filter>ソース ファイル\shader</Filter>
-    </ClCompile>
     <ClCompile Include="skinmeshSpotlightShader.cpp">
       <Filter>ソース ファイル\shader</Filter>
     </ClCompile>
@@ -734,6 +683,15 @@
     <ClCompile Include="playerPatternBase.cpp">
       <Filter>ソース ファイル\player\playerPattern</Filter>
     </ClCompile>
+    <ClCompile Include="skinMeshData.cpp">
+      <Filter>ソース ファイル\SkinMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="skinMeshFile.cpp">
+      <Filter>ソース ファイル\SkinMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="modelSpotlightShader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\metal.fx" />
@@ -741,10 +699,10 @@
     <FxCompile Include="data\shaders\normalmap.fx" />
     <FxCompile Include="data\shaders\field.fx" />
     <FxCompile Include="data\shaders\skinmesh.fx" />
-    <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
     <FxCompile Include="data\shaders\skinmeshSpotlight.fx" />
     <FxCompile Include="data\shaders\shadow.fx" />
     <FxCompile Include="data\shaders\shadowSkinmesh.fx" />
     <FxCompile Include="data\shaders\shadowField.fx" />
+    <FxCompile Include="data\shaders\modelSpotlight.fx" />
   </ItemGroup>
 </Project>

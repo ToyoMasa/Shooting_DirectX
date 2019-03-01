@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	走るチュートリアル
+//*********************************************************
 class CTutorialDash : public CTutorialBase
 {
 public:
-	CTutorialDash() {}
-	~CTutorialDash() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

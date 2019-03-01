@@ -6,8 +6,6 @@
 #define _SCENEMODEL_H_
 
 #include <string>
-#include <fbxsdk.h>
-#pragma comment (lib, "libfbxsdk-mt.lib")
 
 // モデル管理用ID
 typedef enum
@@ -28,12 +26,12 @@ static const std::string MODEL_SOURCE[] =
 	"data/models/scifi_capsule.x",
 };
 
+//*********************************************************
+//	xモデルオブジェクト
+//*********************************************************
 class CSceneModel : public CScene
 {
 public:
-	//======================================================================
-	//	コンストラクタ
-	//======================================================================
 	CSceneModel::CSceneModel(int priority) : CScene(priority)
 	{
 		D3DXMatrixIdentity(&m_Target);

@@ -22,7 +22,7 @@
 #include "input.h"
 #include "field.h"
 #include "EnemyAnim.h"
-#include "Effekseer.h"
+#include "effekseer.h"
 #include "enemyPatternDeath.h"
 #include "enemyPatternChase.h"
 #include "enemyPatternChaseRun.h"
@@ -201,7 +201,7 @@ void CZombie::Death()
 	CModeGame::RemoveEnemyCount();
 	CModeGame::IncrementKillCount();
 
-	CModeGame::GetEnemyManager()->AddPlayerTension((100.0f - m_CameraDist) / 20.0f);
+	CModeGame::GetEnemyManager()->AddHeat((100.0f - m_CameraDist) / 20.0f);
 }
 
 void CZombie::Attack()

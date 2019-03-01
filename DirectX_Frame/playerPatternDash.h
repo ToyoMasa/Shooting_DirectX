@@ -5,14 +5,15 @@
 #ifndef _PLAYER_PATTERN_DASH_H_
 #define _PLAYER_PATTERN_DASH_H_
 
+
+//*********************************************************
+//	‘–‚Á‚Ä‚¢‚é‚Ìˆ—
+//*********************************************************
 #include "playerPatternBase.h"
 
 class CPlayerPatternDash : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternDash() {}
-	~CPlayerPatternDash() {}
-
 	void Init(CPlayer* player)override;
 	void Uninit()override {}
 	void Update()override;

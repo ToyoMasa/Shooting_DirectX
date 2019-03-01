@@ -21,7 +21,6 @@ class CSpawnAIStateBase
 {
 public:
 	CSpawnAIStateBase(CEnemyManager* manager) : m_EnemyManager(manager) {}
-	~CSpawnAIStateBase() {}
 
 	virtual void Update() = 0;
 

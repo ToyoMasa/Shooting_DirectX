@@ -7,7 +7,7 @@
 #include "manager.h"
 #include "camera.h"
 #include "scene3D.h"
-#include "Effekseer.h"
+#include "effekseer.h"
 #include "texture.h"
 #include "billboard.h"
 #include "character.h"

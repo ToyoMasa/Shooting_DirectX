@@ -14,16 +14,16 @@
 #include "normalmapShader.h"
 #include "emitter.h"
 #include "bullet.h"
-#include "Effekseer.h"
+#include "effekseer.h"
 #include "game.h"
-#include "normalmapSpotlightShader.h"
+#include "modelSpotlightShader.h"
 
 static const float CAPSULE_LIFE_MAX = 300.0f;
 
 void CTargetCapsule::Init(D3DXVECTOR3 pos)
 {
 	m_Model = CSceneModel::Create(MODEL_SOURCE[MODEL_ID_CAPSULE], LAYER_BACKGROUND);
-	m_Model->SetShader(CShaderNormalmapSpotlight::GetShader());
+	m_Model->SetShader(CShaderModelSpotlight::GetShader());
 	m_Model->SetNormalMapTexture("Capsule_Normal.png");
 
 	m_Pos = pos;

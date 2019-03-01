@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	銃を覗き込むチュートリアル
+//*********************************************************
 class CTutorialADS : public CTutorialBase
 {
 public:
-	CTutorialADS() {}
-	~CTutorialADS() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

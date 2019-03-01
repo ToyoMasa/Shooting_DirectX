@@ -7,12 +7,12 @@
 
 #include "playerPatternBase.h"
 
+//*********************************************************
+//	ƒŠƒ[ƒh‚Ìˆ—
+//*********************************************************
 class CPlayerPatternReload : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternReload() {}
-	~CPlayerPatternReload() {}
-
 	void Init(CPlayer* player)override;
 	void Uninit()override {}
 	void Update()override;

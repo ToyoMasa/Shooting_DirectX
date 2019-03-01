@@ -7,6 +7,9 @@
 
 #include "spawnAIStateBase.h"
 
+//*********************************************************
+//	“G‚ðÅ‘å”‚Ü‚Å¶¬
+//*********************************************************
 class CSpawnAIStateMax : public CSpawnAIStateBase
 {
 public:
@@ -16,7 +19,6 @@ public:
 		manager->SetSpawnAIState(SPAWN_AI_MAX);
 		CEnemy::StartHorde();
 	}
-	~CSpawnAIStateMax() {}
 
 	void Update()override;
 private:

@@ -17,7 +17,7 @@ void CSpawnAIStateRise::Update()
 		m_EnemyManager->CreateEnemy(ENEMY_TYPE_ZOMBIE);
 	}
 
-	if (m_EnemyManager->GetPlayerTension() >= MAX_TENSION)
+	if (m_EnemyManager->GetHeat() >= MAX_HEAT)
 	{
 		m_EnemyManager->ChangeSpawnAI(new CSpawnAIStateMax(m_EnemyManager));
 	}

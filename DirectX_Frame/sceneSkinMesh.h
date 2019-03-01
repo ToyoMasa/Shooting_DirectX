@@ -6,7 +6,7 @@
 #define _SCENESKINMESH_H_
 
 #include <string>
-#include "SkinMeshFile.h"
+#include "skinMeshFile.h"
 
 // モデル管理用ID
 enum SKINMESH_MODEL_ID
@@ -24,6 +24,9 @@ static const std::string SKINMESH_SOURCE[] =
 	"data/models/zombieB.x",
 };
 
+//*********************************************************
+//	スキンメッシュモデルオブジェクト
+//*********************************************************
 class CSceneSkinMesh : public CScene
 {
 public:

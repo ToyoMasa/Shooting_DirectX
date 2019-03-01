@@ -7,12 +7,12 @@
 
 #include "playerPatternBase.h"
 
+//*********************************************************
+//	e‚ğ”`‚«‚ñ‚Å‚¢‚é‚Ìˆ—
+//*********************************************************
 class CPlayerPatternADS : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternADS() {}
-	~CPlayerPatternADS() {}
-
 	void Init(CPlayer* player)override;
 	void Uninit()override;
 	void Update()override;

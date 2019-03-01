@@ -12,7 +12,7 @@
 #include "scene3D.h"
 #include "sceneModel.h"
 #include "sceneSkinMesh.h"
-#include "SkinMeshFile.h"
+#include "skinMeshFile.h"
 #include "camera.h"
 #include "light.h"
 #include "manager.h"
@@ -31,8 +31,7 @@
 #include "particle.h"
 #include "emitter.h"
 #include "fade.h"
-#include "Effekseer.h"
-#include "wall.h"
+#include "effekseer.h"
 #include "bullet.h"
 #include "weapon.h"
 #include "debug.h"
@@ -334,7 +333,7 @@ void CModeGame::Draw()
 			framerate = 60.0f;
 		}
 		ImGui::Text("Framerate:%.1f FPS", framerate);
-		ImGui::Text("Heat:%.2f", EnemyManager->GetPlayerTension());
+		ImGui::Text("Heat:%.2f", EnemyManager->GetHeat());
 		ImGui::Text("EnemyNum:%d", EnemyCount);
 		ImGui::End();
 	}

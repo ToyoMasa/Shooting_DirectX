@@ -7,6 +7,9 @@
 
 #include "spawnAIStateBase.h"
 
+//*********************************************************
+//	“G‚Ì¶¬‚ð’âŽ~
+//*********************************************************
 class CSpawnAIStateStop : public CSpawnAIStateBase
 {
 public:
@@ -14,7 +17,6 @@ public:
 	{
 		manager->SetSpawnAIState(SPAWN_AI_STOP);
 	}
-	~CSpawnAIStateStop() {}
 
 	void Update()override {};
 };

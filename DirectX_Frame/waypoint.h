@@ -9,10 +9,16 @@
 #include <string>
 #include <d3dx9.h>
 
+//*********************************************************
+//	ポイント間のコスト
+//*********************************************************
 static const int INIT_COST = 50000;
 
 class CBillBoard;
 
+//*********************************************************
+//	敵の経路探索に使う移動地点
+//*********************************************************
 class CWayPoint
 {
 public:
@@ -40,6 +46,7 @@ public:
 	static void ChangeDebugColor(int id, D3DCOLOR color);
 	void SetRecentPoint(int id);
 	void SetEnemySpawnPoint(int id);
+	D3DXVECTOR3 GetPos() { return m_Pos; }
 
 private:
 	static std::vector<CWayPoint*>					m_WayPonits;

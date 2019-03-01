@@ -9,7 +9,6 @@
 #include "scene.h"
 #include "scene3D.h"
 #include "sceneModel.h"
-#include "sceneShadow.h"
 #include "texture.h"
 #include "billboard.h"
 #include "player.h"
@@ -18,7 +17,6 @@
 #include "character.h"
 #include "enemy.h"
 #include "game.h"
-#include "wall.h"
 #include <array>
 #include <algorithm>
 using namespace std;

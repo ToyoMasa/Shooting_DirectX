@@ -3,7 +3,7 @@
 #include "main.h"
 #include "manager.h"
 #include "camera.h"
-#include "Effekseer.h"
+#include "effekseer.h"
 
 CEffekseer* CEffekseer::Create(Effect EffectType, int priority)
 {

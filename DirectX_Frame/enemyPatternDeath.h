@@ -7,12 +7,12 @@
 
 #include "enemyPatternBase.h"
 
+//*********************************************************
+//	“G€–S‚Ìˆ—
+//*********************************************************
 class CEnemyPatternDeath : public CEnemyPatternBase
 {
 public:
-	CEnemyPatternDeath() {}
-	~CEnemyPatternDeath() {}
-
 	void Init(CEnemy* enemy)override;
 	void Update(CEnemy* enemy)override;
 };

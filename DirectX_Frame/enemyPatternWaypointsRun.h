@@ -7,12 +7,12 @@
 
 #include "enemyPatternBase.h"
 
+//*********************************************************
+//	走っている敵のウェイポイント間の移動処理
+//*********************************************************
 class CEnemyPatternWaypointsRun : public CEnemyPatternBase
 {
 public:
-	CEnemyPatternWaypointsRun() {}
-	~CEnemyPatternWaypointsRun() {}
-
 	void Init(CEnemy* enemy)override;
 	void Update(CEnemy* enemy)override;
 

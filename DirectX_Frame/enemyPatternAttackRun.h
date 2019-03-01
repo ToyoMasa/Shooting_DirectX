@@ -7,12 +7,12 @@
 
 #include "enemyPatternBase.h"
 
+//*********************************************************
+//	‘–‚Á‚Ä‚¢‚é“G‚ÌUŒ‚’†‚Ìˆ—
+//*********************************************************
 class CEnemyPatternAttackRun : public CEnemyPatternBase
 {
 public:
-	CEnemyPatternAttackRun() {}
-	~CEnemyPatternAttackRun() {}
-
 	void Init(CEnemy* enemy)override;
 	void Update(CEnemy* enemy)override;
 };

@@ -1,6 +1,10 @@
+//======================================================================
+//	スキンメッシュファイル[skinMeshFile.cpp]　（2018/8/21）
+//	Author : 豊村 昌俊
+//======================================================================
 #include "common.h"
 #include "main.h"
-#include "SkinMeshFile.h"
+#include "skinMeshFile.h"
 
 SkinMeshFile::~SkinMeshFile()
 {

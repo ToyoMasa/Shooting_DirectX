@@ -7,12 +7,12 @@
 
 #include "playerPatternBase.h"
 
+//*********************************************************
+//	•Ší•ÏX‚Ìˆ—
+//*********************************************************
 class CPlayerPatternWeaponChange : public CPlayerPatternBase
 {
 public:
-	CPlayerPatternWeaponChange() {}
-	~CPlayerPatternWeaponChange() {}
-
 	void Init(CPlayer* player)override;
 	void Uninit()override {}
 	void Update()override;

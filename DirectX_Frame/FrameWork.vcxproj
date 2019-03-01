@@ -162,7 +162,6 @@
   <ItemGroup>
     <ClInclude Include="astar.h" />
     <ClInclude Include="billboard.h" />
-    <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
@@ -178,7 +177,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="debug.h" />
-    <ClInclude Include="Effekseer.h" />
+    <ClInclude Include="effekseer.h" />
     <ClInclude Include="emitter.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="EnemyAnim.h" />
@@ -194,7 +193,7 @@
     <ClInclude Include="event.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="normalmapShader.h" />
-    <ClInclude Include="normalmapSpotlightShader.h" />
+    <ClInclude Include="modelSpotlightShader.h" />
     <ClInclude Include="playerPatternReload.h" />
     <ClInclude Include="playerPatternWeaponChange.h" />
     <ClInclude Include="shadowShader.h" />
@@ -235,14 +234,12 @@
     <ClInclude Include="number.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="playerPatternADS.h" />
-    <ClInclude Include="playerPatternAir.h" />
     <ClInclude Include="playerPatternBase.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerAnim.h" />
     <ClInclude Include="playerPatternDash.h" />
     <ClInclude Include="playerPatternNormal.h" />
     <ClInclude Include="playerPatternStop.h" />
-    <ClInclude Include="playerPatternJump.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="rifle.h" />
@@ -251,22 +248,18 @@
     <ClInclude Include="scene2D.h" />
     <ClInclude Include="scene3D.h" />
     <ClInclude Include="sceneModel.h" />
-    <ClInclude Include="sceneModelFBX.h" />
-    <ClInclude Include="sceneShadow.h" />
     <ClInclude Include="sceneSkinMesh.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shotgun.h" />
-    <ClInclude Include="SkinMeshData.h" />
-    <ClInclude Include="SkinMeshFile.h" />
+    <ClInclude Include="skinMeshData.h" />
+    <ClInclude Include="skinMeshFile.h" />
     <ClInclude Include="skybox.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="stb_rect_pack.h" />
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
-    <ClInclude Include="targetPoint.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
-    <ClInclude Include="wall.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="zombie.h" />
     <ClInclude Include="ZombieAAnim.h" />
@@ -274,7 +267,6 @@
   <ItemGroup>
     <ClCompile Include="astar.cpp" />
     <ClCompile Include="billboard.cpp" />
-    <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
@@ -315,17 +307,15 @@
     <ClCompile Include="mathutil.cpp" />
     <ClCompile Include="metalShader.cpp" />
     <ClCompile Include="normalmapShader.cpp" />
-    <ClCompile Include="normalmapSpotlightShader.cpp" />
+    <ClCompile Include="modelSpotlightShader.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerPatternADS.cpp" />
-    <ClCompile Include="playerPatternAir.cpp" />
     <ClCompile Include="playerPatternBase.cpp" />
     <ClCompile Include="playerPatternDash.cpp" />
     <ClCompile Include="playerPatternNormal.cpp" />
     <ClCompile Include="playerPatternStop.cpp" />
-    <ClCompile Include="playerPatternJump.cpp" />
     <ClCompile Include="playerPatternReload.cpp" />
     <ClCompile Include="playerPatternWeaponChange.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -336,14 +326,12 @@
     <ClCompile Include="scene2D.cpp" />
     <ClCompile Include="scene3D.cpp" />
     <ClCompile Include="sceneModel.cpp" />
-    <ClCompile Include="sceneModelFBX.cpp" />
-    <ClCompile Include="sceneShadow.cpp" />
     <ClCompile Include="sceneSkinMesh.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadowShader.cpp" />
     <ClCompile Include="shotgun.cpp" />
-    <ClCompile Include="SkinMeshData.cpp" />
-    <ClCompile Include="SkinMeshFile.cpp" />
+    <ClCompile Include="skinMeshData.cpp" />
+    <ClCompile Include="skinMeshFile.cpp" />
     <ClCompile Include="skinmeshShader.cpp" />
     <ClCompile Include="skinmeshShadowShader.cpp" />
     <ClCompile Include="skinmeshSpotlightShader.cpp" />
@@ -355,7 +343,6 @@
     <ClCompile Include="spawnAIStateRise.cpp" />
     <ClCompile Include="spotlightShader.cpp" />
     <ClCompile Include="targetCapsule.cpp" />
-    <ClCompile Include="targetPoint.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tutorialADS.cpp" />
@@ -366,7 +353,6 @@
     <ClCompile Include="tutorialMove.cpp" />
     <ClCompile Include="tutorialReload.cpp" />
     <ClCompile Include="tutorialShoot.cpp" />
-    <ClCompile Include="wall.cpp" />
     <ClCompile Include="waypoint.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="zombie.cpp" />
@@ -375,7 +361,7 @@
     <FxCompile Include="data\shaders\field.fx" />
     <FxCompile Include="data\shaders\metal.fx" />
     <FxCompile Include="data\shaders\normalmap.fx" />
-    <FxCompile Include="data\shaders\normalmapSpotlight.fx" />
+    <FxCompile Include="data\shaders\modelSpotlight.fx" />
     <FxCompile Include="data\shaders\shadow.fx" />
     <FxCompile Include="data\shaders\shadowField.fx" />
     <FxCompile Include="data\shaders\shadowSkinmesh.fx">

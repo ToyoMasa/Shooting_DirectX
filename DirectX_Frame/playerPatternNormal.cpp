@@ -12,7 +12,6 @@
 #include "scene2D.h"
 #include "scene3D.h"
 #include "sceneModel.h"
-#include "sceneShadow.h"
 #include "texture.h"
 #include "billboard.h"
 #include "character.h"
@@ -23,13 +22,11 @@
 #include "enemy.h"
 #include "game.h"
 #include "PlayerAnim.h"
-#include "wall.h"
 #include "bullet.h"
 #include "weapon.h"
 #include "rifle.h"
 #include "shotgun.h"
 #include "playerPatternNormal.h"
-#include "playerPatternJump.h"
 #include "playerPatternADS.h"
 #include "playerPatternDash.h"
 #include "playerPatternReload.h"
@@ -58,7 +55,7 @@ void CPlayerPatternNormal::Move(D3DXVECTOR2 move)
 	// •à‚¢‚Ä‚¢‚éŠÔ‹Ù’£“xã¸
 	if (move.x != 0.0f || move.y != 0.0f)
 	{
-		CModeGame::GetEnemyManager()->AddPlayerTension(WALK_HEAT);
+		CModeGame::GetEnemyManager()->AddHeat(WALK_HEAT);
 	}
 
 	m_Player->Move(dir.x, dir.y);

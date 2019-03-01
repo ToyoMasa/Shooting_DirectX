@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	移動チュートリアル
+//*********************************************************
 class CTutorialMove : public CTutorialBase
 {
 public:
-	CTutorialMove() {}
-	~CTutorialMove() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	射撃チュートリアル
+//*********************************************************
 class CTutorialShoot : public CTutorialBase
 {
 public:
-	CTutorialShoot() {}
-	~CTutorialShoot() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

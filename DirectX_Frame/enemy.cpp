@@ -20,7 +20,7 @@
 #include "input.h"
 #include "field.h"
 #include "EnemyAnim.h"
-#include "Effekseer.h"
+#include "effekseer.h"
 #include "enemyPatternAttack.h"
 #include "enemyPatternAttackRun.h"
 #include "enemyPatternChase.h"

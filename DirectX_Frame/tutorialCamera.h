@@ -7,12 +7,12 @@
 
 #include "tutorialBase.h"
 
+//*********************************************************
+//	カメラ操作チュートリアル
+//*********************************************************
 class CTutorialCamera : public CTutorialBase
 {
 public:
-	CTutorialCamera() {}
-	~CTutorialCamera() {}
-
 	void Init()override;
 	void Uninit()override;
 	void Update(CPlayer* player)override;

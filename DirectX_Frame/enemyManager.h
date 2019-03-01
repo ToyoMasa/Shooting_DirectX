@@ -8,9 +8,19 @@
 #include "enemy.h"
 #include "zombie.h"
 
+//*********************************************************
+//	同時に存在できるゾンビの最大数
+//*********************************************************
 static const int ZOMBIE_NUM_MAX = 50;
-static const float MAX_TENSION = 100.0f;
 
+//*********************************************************
+//	Heat値の最大値
+//*********************************************************
+static const float MAX_HEAT = 100.0f;
+
+//*********************************************************
+//	ダメージを受けた際のHeat値上昇量
+//*********************************************************
 static const float DAMAGED_TENSION = 15.0f;
 
 class CField;
@@ -25,9 +35,9 @@ public:
 	void Update();
 	void CreateEnemy(ENEMY_TYPE type);
 	int GetFrameCount() { return m_CountFrame; }
-	void AddPlayerTension(float add) { if (m_isStart) { m_PlayerTension += add; } }
-	void SetPlayerTension(float tension) {if (m_isStart) { m_PlayerTension = tension; } }
-	float GetPlayerTension() { return m_PlayerTension; }
+	void AddHeat(float add) { if (m_isStart) { m_Heat += add; } }
+	void SetHeat(float tension) {if (m_isStart) { m_Heat = tension; } }
+	float GetHeat() { return m_Heat; }
 	void ChangeSpawnAI(CSpawnAIStateBase* next);
 	void DeleteZombie(CZombie* zombie);
 	void SetSpawnAIState(int state) { m_SpawnAIState = state; }
@@ -37,7 +47,7 @@ private:
 	CZombie*			m_Zombies[ZOMBIE_NUM_MAX];
 	CField*				m_Field;
 	CSpawnAIStateBase*	m_SpawnAI;
-	float				m_PlayerTension;
+	float				m_Heat;
 	int					m_CountFrame;
 	int					m_ZombieSpawnRate;
 	int					m_SpawnAIState;

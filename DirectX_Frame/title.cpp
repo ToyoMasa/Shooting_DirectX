@@ -11,7 +11,7 @@
 #include "scene2D.h"
 #include "scene3D.h"
 #include "sceneModel.h"
-#include "SkinMeshFile.h"
+#include "skinMeshFile.h"
 #include "camera.h"
 #include "light.h"
 #include "manager.h"
@@ -29,7 +29,6 @@
 #include "game.h"
 #include "fade.h"
 #include "PlayerAnim.h"
-#include "wall.h"
 #include "fog.h"
 
 CScene2D *CModeTitle::TitleLogo = NULL;

@@ -22,7 +22,7 @@
 #include "PlayerAnim.h"
 #include "metalShader.h"
 #include "normalmapShader.h"
-#include "normalmapSpotlightShader.h"
+#include "modelSpotlightShader.h"
 #include "spotlightShader.h"
 #include "enemyManager.h"
 
@@ -80,7 +80,7 @@ void CRifle::Init(CSceneSkinMesh *parent)
 	m_Rot.y = 141.5f;
 	m_Rot.z = 33.75f;
 
-	m_Model->SetShader(CShaderNormalmapSpotlight::GetShader());
+	m_Model->SetShader(CShaderModelSpotlight::GetShader());
 	m_Model->SetNormalMapTexture("WPN_ASLc_Norm.png");
 
 	if (m_FlashEffect == NULL)
@@ -211,7 +211,7 @@ void CRifle::Shoot()
 		// eº
 		SoundShot(); 
 		
-		CModeGame::GetEnemyManager()->AddPlayerTension(0.5f);
+		CModeGame::GetEnemyManager()->AddHeat(0.5f);
 	}
 }
 

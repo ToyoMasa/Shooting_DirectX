@@ -7,6 +7,9 @@
 
 #include "spawnAIStateBase.h"
 
+//*********************************************************
+//	“G‚Ì¶¬’†’f
+//*********************************************************
 class CSpawnAIStatePause : public CSpawnAIStateBase
 {
 public:
@@ -16,7 +19,6 @@ public:
 		manager->SetSpawnAIState(SPAWN_AI_PAUSE);
 		CEnemy::StopHorde();
 	}
-	~CSpawnAIStatePause() {}
 
 	void Update()override;
 private:

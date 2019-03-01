@@ -7,6 +7,9 @@
 
 #include "spawnAIStateBase.h"
 
+//*********************************************************
+//	“G‚ðˆê’èŽžŠÔ’u‚«‚É¶¬
+//*********************************************************
 class CSpawnAIStateRise : public CSpawnAIStateBase
 {
 public:
@@ -15,7 +18,6 @@ public:
 		m_Count = 0;
 		manager->SetSpawnAIState(SPAWN_AI_RISE);
 	}
-	~CSpawnAIStateRise() {}
 
 	void Update()override;
 private:

@@ -29,7 +29,6 @@ typedef enum
 	SOUND_LABEL_BGM_RESULT,			// リザルト
 	SOUND_LABEL_BGM_ZOMBIE_BREATH,	// ゾンビの息遣い
 	SOUND_LABEL_SE_TITLE,			// タイトルのSE
-	SOUND_LABEL_SE_STAB,			// ナイフで刺した音
 	SOUND_LABEL_SE_GAMEOVER,		// ゲームオーバーのSE
 	SOUND_LABEL_SE_GAMECLEAR,		// ゲームクリアのSE
 	SOUND_LABEL_SE_ZOMBIE_DEATH,	// ゾンビの死亡時の音
@@ -56,7 +55,6 @@ static const SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ "data/sounds/result_BGM.wav",			-1 },			// リザルトBGM
 	{ "data/sounds/zombie_breath.wav",		-1 },			// ゾンビの息遣い
 	{ "data/sounds/title_SE.wav",			0 },			// タイトルSE
-	{ "data/sounds/stab.wav",				0 },			// ナイフで刺したSE
 	{ "data/sounds/gameover.wav",			0 },			// ゲームオーバーSE
 	{ "data/sounds/gameclear.wav",			0 },			// ゲームクリアSE
 	{ "data/sounds/zombie_death.wav",		0 },			// ゾンビの死亡時の音

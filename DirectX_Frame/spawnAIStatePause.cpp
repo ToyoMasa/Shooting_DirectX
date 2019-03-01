@@ -13,7 +13,7 @@
 void CSpawnAIStatePause::Update()
 {
 	m_Count++;
-	m_EnemyManager->SetPlayerTension(0.0f);
+	m_EnemyManager->SetHeat(0.0f);
 
 	if (m_Count >= 420)
 	{

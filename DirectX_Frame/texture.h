@@ -13,7 +13,6 @@ typedef enum
 {
 	TEX_ID_FIELD001 = 0,			// フィールド
 	TEX_ID_CURSOR,					// カーソル
-	TEX_ID_TREE,					// ツリー
 	TEX_ID_SKY,						// 空
 	TEX_ID_SKY002,					// 夜空
 	TEX_ID_NUMBER001,				// 数字
@@ -25,9 +24,6 @@ typedef enum
 	TEX_ID_ATTACK,					// 攻撃可能テキスト
 	TEX_ID_WHITE,					// 真っ白
 	TEX_ID_WALL01,					// 壁
-	TEX_ID_NOWLOADING,				// ロード画面文字
-	TEX_ID_LOADFRAME,				// ロード画面ゲージフレーム
-	TEX_ID_LOADGAGE,				// ロード画面ゲージ中身
 	TEX_ID_PRESS_SPACE,				// スペースを押す
 	TEX_ID_PRESS_START,				// スタートを押す
 	TEX_ID_RANK_A,					// A
@@ -36,24 +32,15 @@ typedef enum
 	TEX_ID_MISSION_COMPLETE,		// ゲームクリア
 	TEX_ID_MISSION_FAILED,			// ゲームオーバー
 	TEX_ID_MISSION,					// ミッション
-	TEX_ID_WANTED,					// 指名手配
 	TEX_ID_TUTORIAL,				// 操作説明
-	TEX_ID_EXCLAMATION,				// ビックリマーク
-	TEX_ID_CAUTION,					// 警告文
 	TEX_ID_PAUSE,					// pause
-	TEX_ID_TURORIAL_PAUSE,			// pauseのチュートリアル
-	TEX_ID_HOWTOUSE,				// 操作確認
 	TEX_ID_CROSSHAIR_CIRCLE,		// クロスヘア
 	TEX_ID_CROSSHAIR_RIFLE,			// ライフルのクロスヘア
 	TEX_ID_CROSSHAIR_SHOTGUN,		// ショットガンのクロスヘア
-	TEX_ID_SMOKE,					// 煙
 	TEX_ID_FLASH,					// マズルフラッシュ
 	TEX_ID_CIRCLE_2D,				// 2D画面用円
 	TEX_ID_DAMAGE_SCREEN,			// ダメージを受けた時の出血エフェクト
 	TEX_ID_KILL_ENEMY_NUM,			// 倒した敵の数
-	TEX_ID_GRASS,					// 草原
-	TEX_ID_SOIL,					// 土
-	TEX_ID_ROCK,					// 岩
 	TEX_ID_BULLETICON,				// 銃弾アイコン
 	TEX_ID_DASH_TEXT,				// チュートリアルテキスト「走る」
 	TEX_ID_GUNSHOT_TEXT,			// チュートリアルテキスト「銃で撃つ」
@@ -93,7 +80,6 @@ static const std::string TEXTURE_SOURCE[] =
 {
 	"data/textures/field000.png",
 	"data/textures/yajirusi.png",
-	"data/textures/tree.png",
 	"data/textures/sky001.jpg",
 	"data/textures/sky002.jpg",
 	"data/textures/number001.png",
@@ -105,9 +91,6 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/attack.png",
 	"data/textures/white.png",
 	"data/textures/wall001.png",
-	"data/textures/NowLoading.png",
-	"data/textures/LoadFrame.png",
-	"data/textures/LoadGage.png",
 	"data/textures/press_space.png",
 	"data/textures/press_start.png",
 	"data/textures/rank_a.png",
@@ -116,24 +99,15 @@ static const std::string TEXTURE_SOURCE[] =
 	"data/textures/mission_complete.png",
 	"data/textures/mission_failed.png",
 	"data/textures/mission.png",
-	"data/textures/wanted.png",
 	"data/textures/tutorial.png",
-	"data/textures/exclamation.png",
-	"data/textures/caution.png",
 	"data/textures/pause.png",
-	"data/textures/tutorial_pause.png",
-	"data/textures/howtouse.png",
 	"data/textures/crosshair_circle.png",
 	"data/textures/rifle_crosshair.png",
 	"data/textures/shotgun_crosshair.png",
-	"data/textures/smoke.jpg",
 	"data/textures/flash.png",
 	"data/textures/debug_circle.png",
 	"data/textures/damage_screen.png",
 	"data/textures/kill_enemy_num.png",
-	"data/textures/grass.jpg",
-	"data/textures/soil.jpg",
-	"data/textures/rock.jpg",
 	"data/textures/bulleticon.png",
 	"data/textures/dash.png",
 	"data/textures/gunshot.png",
@@ -181,7 +155,6 @@ public:
 		m_Height = 0;
 		m_Width = 0;
 	}
-	~CTexture();
 
 	static void Init();
 	static void Load(int id);
